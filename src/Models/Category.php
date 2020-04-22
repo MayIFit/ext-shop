@@ -1,11 +1,11 @@
 <?php
 
-namespace MayIFit\Ext\Shop\Models;
+namespace MayIFit\Extension\Shop\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-use MayIFit\Ext\Shop\Models\Product;
-use MayIFit\Ext\Shop\Traits\HasProducts;
+use MayIFit\Extension\Shop\Models\Product;
+use MayIFit\Extension\Shop\Traits\HasProducts;
 
 class Category extends Model
 {

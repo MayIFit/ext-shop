@@ -1,11 +1,11 @@
 <?php
 
-namespace MayIFit\Ext\Shop\Models;
+namespace MayIFit\Extension\Shop\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 use MayIFit\Core\Permission\Traits\HasUers;
-use MayIFit\Ext\Shop\Traits\HasCategories;
+use MayIFit\Extension\Shop\Traits\HasCategories;
 
 class Product extends Model
 {

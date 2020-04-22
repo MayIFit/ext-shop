@@ -4,8 +4,8 @@ namespace MayIFit\Extension\Shop\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-use MayIFit\Extension\Shop\Models\Product;
 use MayIFit\Core\Permission\Models\User;
+use MayIFit\Extension\Shop\Models\Product;
 
 class ProductPolicy
 {

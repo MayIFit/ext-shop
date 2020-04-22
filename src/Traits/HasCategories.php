@@ -1,15 +1,15 @@
 <?php
 
-namespace MayIFit\Ext\Shop\Traits;
+namespace MayIFit\Extension\Shop\Traits;
 
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-use MayIFit\Ext\Shop\Models\Category;
+use MayIFit\Extension\Shop\Models\Category;
 
 /**
  * Class HasCategories
  *
- * @package MayIFit\Ext\Shop\Traits
+ * @package MayIFit\Extension\Shop\Traits
  */
 trait HasCategories {
 
