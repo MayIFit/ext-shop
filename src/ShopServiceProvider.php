@@ -32,6 +32,7 @@
 
         public function boot() {
             $this->loadMigrationsFrom(__DIR__.$this->database_folder.'/migrations');
+            $this->app->make('Illuminate\Database\Eloquent\Factory')->load(__DIR__.$this->database_folder.'/factories');
             if ($this->app->runningInConsole()) {
                 if ($this->isConsoleCommandContains([ 'db:seed', '--seed' ], [ '--class', 'help', '-h' ])) {
                     $this->addSeedsAfterConsoleCommandFinished();
