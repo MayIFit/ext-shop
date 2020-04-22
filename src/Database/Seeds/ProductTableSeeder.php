@@ -1,5 +1,7 @@
 <?php
 
+namespace MayIFit\Extension\Shop\Database\Seeds;
+
 use Illuminate\Database\Seeder;
 
 use MayIFit\Extension\Shop\Models\Product;
