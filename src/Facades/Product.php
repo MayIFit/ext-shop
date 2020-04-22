@@ -1,10 +1,10 @@
 <?php
 
-namespace MayIFit\Core\Translation\Facades;
+namespace MayIFit\Extension\Shop\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class Translation extends Facade
+class Product extends Facade
 {
     /**
      * Get the registered name of the component.
@@ -13,6 +13,6 @@ class Translation extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'translation';
+        return 'product';
     }
 }
