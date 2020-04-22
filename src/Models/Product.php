@@ -4,12 +4,12 @@ namespace MayIFit\Extension\Shop\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-use MayIFit\Core\Permission\Traits\HasUers;
+use MayIFit\Core\Permission\Traits\HasUsers;
 use MayIFit\Extension\Shop\Traits\HasCategories;
 
 class Product extends Model
 {
-    use HasCategories, HasUers;
+    use HasCategories, HasUsers;
 
     protected $casts = [
         'technical_specs' => 'array',
