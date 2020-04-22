@@ -1,0 +1,67 @@
+extend type Query {
+    listProduct(
+        key: String @eq 
+        group: String @eq
+    ): [Product!]! 
+    @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\Product") 
+    @paginate(type: "paginator")
+
+    viewProduct(
+        id: ID! @eq
+    ): Product! @can(ability: "view" find: "id") @find
+
+}
+
+extend type Mutation @guard(with: ["sanctum"]) {
+    updateProduct(input: UpdateProductInput! @spread): Product 
+        @can(ability: "update" find: "id") 
+        @update
+
+    createProduct(input: CreateProductInput! @spread): Product 
+        @can(ability: "create" model: "MayIFit\\Extension\\Shop\\Models\\Product") 
+        @create
+
+    deleteProductn(id: ID! @rules(apply: ["required"])): Product 
+        @can(ability: "delete" find: "id") 
+        @delete
+}
+
+input UpdateProductInput {
+    id: ID!
+    catalog_id: String!
+    name: String!
+    description: String
+    price: Float
+    in_stock: Int
+    out_of_stock_text: String
+    sale: Boolean
+    sale_percentage: Float
+    technical_specs: ObjectScalar
+    __typename: String
+}
+
+input CreateProductInput {
+    catalog_id: String!
+    name: String!
+    description: String
+    price: Float
+    in_stock: Int
+    out_of_stock_text: String
+    sale: Boolean
+    sale_percentage: Float
+    technical_specs: ObjectScalar
+    __typename: String
+}
+
+type Product @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Product") {
+    id: ID!
+    catalog_id: String!
+    name: String!
+    description: String
+    price: Float
+    in_stock: Int
+    out_of_stock_text: String
+    sale: Boolean
+    sale_percentage: Float
+    technical_specs: ObjectScalar
+}
