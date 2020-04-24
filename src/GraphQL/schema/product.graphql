@@ -7,8 +7,8 @@ extend type Query {
     @paginate(type: "paginator")
 
     viewProduct(
-        id: ID! @eq
-    ): Product! @can(ability: "view" find: "id") @find
+        catalog_id: String! @eq
+    ): Product! @can(ability: "view" find: "catalog_id") @find
 
 }
 

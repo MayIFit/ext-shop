@@ -15,6 +15,8 @@ class Product extends Model
         'technical_specs' => 'array',
     ];
 
+    protected $primaryKey = 'catalog_id';
+
 
     public function parentProduct() {
         return $this->belongsTo(Product::class, 'parent_product_id', 'id');

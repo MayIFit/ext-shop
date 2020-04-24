@@ -8,7 +8,6 @@
     use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
     use Symfony\Component\Console\Output\ConsoleOutput;
 
-    use MayIFit\Extension\Shop\Migrator;
     use MayIFit\Extension\Shop\Models\Product; 
     use MayIFit\Extension\Shop\Policies\ProductPolicy; 
 
