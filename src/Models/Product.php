@@ -16,6 +16,8 @@ class Product extends Model
     ];
 
     protected $primaryKey = 'catalog_id';
+    protected $keyType = 'string';
+    public $incrementing = false;
 
 
     public function parentProduct() {
