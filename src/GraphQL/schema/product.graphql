@@ -1,7 +1,7 @@
 extend type Query {
     listProduct(
-        key: String @eq 
-        group: String @eq
+        name: String @eq 
+        in_stock: Boolean @neq(key: "0")
     ): [Product!]! 
     @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\Product") 
     @paginate(type: "paginator")

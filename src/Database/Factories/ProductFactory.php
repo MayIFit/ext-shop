@@ -15,7 +15,7 @@ $factory->define(Product::class, function (Faker $faker) {
     );
 
     return [
-        'catalog_id' => $faker->numerify('prdct_####'),
+        'catalog_id' => $faker->numerify('prdct_########'),
         'name' => $faker->text($maxNbChars = 20),
         'description' => $faker->text($maxNbChars = 200),
         'price' => $faker->numberBetween($min = 1000, $max = 40000),
