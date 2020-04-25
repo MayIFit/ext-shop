@@ -16,7 +16,7 @@ trait HasUser {
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function orderer(): BelongsTo {
+    public function user(): BelongsTo {
         return $this->belongsTo(User::class, 'orderer', 'id');
     }
 }

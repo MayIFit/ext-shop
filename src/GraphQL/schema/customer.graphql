@@ -1,14 +1,15 @@
 extend type Query {
-    viewOrderer(
-        orderer: ID! @eq
-        orderer: ID! @eq
-    ): Orderer! @can(ability: "view" find: "catalog_id") @find
+    viewCustomer(
+        id: ID @eq
+        first_name: String @eq
+        last_name: String @eq
+    ): Customer! @can(ability: "view" find: "id") @find
 
 }
 
-type Orderer @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Orderer") {
+type Customer @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Customer") {
     id: ID!
-    orderer: User @BelongsTo
+    user: User @BelongsTo
     first_name: String
     last_name: String
     country: String

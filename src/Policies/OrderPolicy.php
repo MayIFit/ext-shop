@@ -31,18 +31,19 @@ class OrderPolicy
      */
     public function view(User $user, Order $order)
     {
-        return $user->hasPermission('order.view');
+        return $user->hasPermission('order.view') ||
+            $user->id === $order->customer->user->id;
     }
 
     /**
-     * Determine whether the user can create translations.
+     * Determine whether the user can create orders.
      *
      * @param  \MayIFit\Core\Permission\Models\User  $user
      * @return mixed
      */
     public function create(User $user)
     {
-        return $user->hasPermission('order.create');
+        return true;
     }
 
     /**
@@ -54,7 +55,8 @@ class OrderPolicy
      */
     public function update(User $user, Order $order)
     {
-        return $user->hasPermission('order.update');
+        return $user->hasPermission('order.update') ||
+            $user->id === $order->customer->user->id;
     }
 
     /**
@@ -66,7 +68,8 @@ class OrderPolicy
      */
     public function delete(User $user, Order $order)
     {
-        return $user->hasPermission('order.delete');
+        return $user->hasPermission('order.delete')  ||
+            $user->id === $order->customer->user->id;
     }
 
     /**

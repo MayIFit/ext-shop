@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use MayIFit\Extension\Shop\Traits\HasOrders;
 use MayIFit\Extension\Shop\Traits\HasUser;
 
-class Orderer extends Model
+class Customer extends Model
 {
     use HasOrders, HasUser;
     
