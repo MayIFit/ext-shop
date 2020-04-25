@@ -5,9 +5,9 @@ namespace MayIFit\Extension\Shop\Policies;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 use MayIFit\Core\Permission\Models\User;
-use MayIFit\Extension\Shop\Models\Product;
+use MayIFit\Extension\Shop\Models\Order;
 
-class ProductPolicy
+class OrderPolicy
 {
     use HandlesAuthorization;
 
@@ -19,19 +19,19 @@ class ProductPolicy
      */
     public function viewAny(User $user)
     {
-        return true;
+        return $user->hasPermission('order.list');
     }
 
     /**
-     * Determine whether the user can view the product.
+     * Determine whether the user can view the order.
      *
      * @param  \MayIFit\Core\Permission\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Product  $product
+     * @param  \MayIFit\Extension\Shop\Models\Order  $order
      * @return mixed
      */
-    public function view(User $user, Product $product)
+    public function view(User $user, Order $order)
     {
-        return true;
+        return $user->hasPermission('order.view');
     }
 
     /**
@@ -42,53 +42,53 @@ class ProductPolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermission('product.create');
+        return $user->hasPermission('order.create');
     }
 
     /**
-     * Determine whether the user can update the product.
+     * Determine whether the user can update the order.
      *
      * @param  \MayIFit\Core\Permission\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Product  $product
+     * @param  \MayIFit\Extension\Shop\Models\Order  $order
      * @return mixed
      */
-    public function update(User $user, Product $product)
+    public function update(User $user, Order $order)
     {
-        return $user->hasPermission('product.update');
+        return $user->hasPermission('order.update');
     }
 
     /**
-     * Determine whether the user can delete the product.
+     * Determine whether the user can delete the order.
      *
      * @param  \MayIFit\Core\Permission\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Product  $product
+     * @param  \MayIFit\Extension\Shop\Models\Order  $order
      * @return mixed
      */
-    public function delete(User $user, Product $product)
+    public function delete(User $user, Order $order)
     {
-        return $user->hasPermission('product.delete');
+        return $user->hasPermission('order.delete');
     }
 
     /**
-     * Determine whether the user can restore the product.
+     * Determine whether the user can restore the order.
      *
      * @param  \MayIFit\Core\Permission\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Product  $product
+     * @param  \MayIFit\Extension\Shop\Models\Order  $order
      * @return mixed
      */
-    public function restore(User $user, Product $product)
+    public function restore(User $user, Order $order)
     {
         return false;
     }
 
     /**
-     * Determine whether the user can permanently delete the product.
+     * Determine whether the user can permanently delete the order.
      *
      * @param  \MayIFit\Core\Permission\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Product  $product
+     * @param  \MayIFit\Extension\Shop\Models\Order  $order
      * @return mixed
      */
-    public function forceDelete(User $user, Product $product)
+    public function forceDelete(User $user, Order $order)
     {
         return false;
     }

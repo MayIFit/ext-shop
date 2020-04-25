@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 use MayIFit\Core\Permission\Traits\HasUsers;
 use MayIFit\Extension\Shop\Traits\HasCategories;
+use MayIFit\Core\Permission\Traits\HasProducts;
 
 class Product extends Model
 {
-    use HasCategories, HasUsers;
+    use HasCategories, HasUsers, HasProducts;
 
     protected $casts = [
         'technical_specs' => 'array',

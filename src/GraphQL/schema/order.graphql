@@ -1,0 +1,58 @@
+extend type Query {
+    listOrder(
+        name: String @eq 
+        in_stock: Boolean @neq(key: "0")
+    ): [Order!]! 
+    @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\Order") 
+    @paginate(type: "paginator")
+
+    viewOrder(
+        catalog_id: String! @eq
+    ): Order! @can(ability: "view" find: "catalog_id") @find
+
+}
+
+extend type Mutation @guard(with: ["sanctum"]) {
+    updateOrder(input: UpdateOrderInput! @spread): Order 
+        @can(ability: "update" find: "id") 
+        @update
+
+    createOrder(input: CreateOrderInput! @spread): Order 
+        @can(ability: "create" model: "MayIFit\\Extension\\Shop\\Models\\Order") 
+        @create
+
+    deleteOrder(id: ID! @rules(apply: ["required"])): Order 
+        @can(ability: "delete" find: "id") 
+        @delete
+}
+
+input UpdateOrderInput {
+    id: ID!
+    products: UpdateProductRelation!
+    extra_information: String
+    __typename: String
+}
+
+input CreateOrderInput {
+    orderer: [User!]! @BelongsTo!
+    products: UpdateProductRelation!
+    extra_information: String
+    __typename: String
+}
+
+input UpdateProductRelation {
+    sync: [ID!]
+    __typename: String
+}
+
+type Order @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Order") {
+    id: ID!
+    orderer: [User!]! @BelongsTo!
+    products: [Product!]! @BelongsToMany!
+    order_volume: Int!
+    net_amount: Float!
+    amount: Float!
+    discount_percentage: Float
+    total_amount: Float!
+    extra_information: String
+}

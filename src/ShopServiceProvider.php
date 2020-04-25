@@ -8,8 +8,10 @@
     use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
     use Symfony\Component\Console\Output\ConsoleOutput;
 
-    use MayIFit\Extension\Shop\Models\Product; 
-    use MayIFit\Extension\Shop\Policies\ProductPolicy; 
+    use MayIFit\Extension\Shop\Models\Product;
+    use MayIFit\Extension\Shop\Models\Order;
+    use MayIFit\Extension\Shop\Policies\ProductPolicy;
+    use MayIFit\Extension\Shop\Policies\OrderPolicy;
 
     class ShopServiceProvider extends ServiceProvider {
 
@@ -20,6 +22,7 @@
          */
         protected $policies = [
             Product::class => ProductPolicy::class,
+            Order::class => OrderPolicy::class,
         ];
 
         /**
