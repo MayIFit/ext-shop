@@ -34,7 +34,7 @@ input UpdateOrderInput {
 }
 
 input CreateOrderInput {
-    orderer: [User!]! @BelongsTo!
+    orderer: [User!]! @BelongsTo
     products: UpdateProductRelation!
     extra_information: String
     __typename: String
@@ -47,8 +47,8 @@ input UpdateProductRelation {
 
 type Order @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Order") {
     id: ID!
-    orderer: [User!]! @BelongsTo!
-    products: [Product!]! @BelongsToMany!
+    orderer: [User!]! @BelongsTo
+    products: [Product!]! @BelongsToMany
     order_volume: Int!
     net_amount: Float!
     amount: Float!
