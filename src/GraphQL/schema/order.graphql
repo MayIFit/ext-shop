@@ -1,16 +1,9 @@
-directive @orderToken(
-    """
-    Generates a random token for the given order
-    """
-) on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
-
-
 extend type Query {
     listOrder: [Order!]! 
     @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\Order") 
     @paginate(type: "paginator")
 
-    getOrderFromToken(token: String!): Order @field(resolver: "OrderToken@resolve")
+    getOrderFromToken(token: String!): Order @field(resolver: "GetOrderFromToken@resolve")
 
     viewOrder(
         catalog_id: String! @eq
@@ -40,7 +33,7 @@ input UpdateOrderInput {
 }
 
 input CreateOrderInput {
-    orderer: Orderer @BelongsTo
+    customer: UpdateCustomerRelation @BelongsTo
     order_token: String @orderToken
     products: UpdateProductRelation!
     extra_information: String
@@ -52,9 +45,14 @@ input UpdateProductRelation {
     __typename: String
 }
 
+input UpdateCustomerRelation {
+    attach: ID
+    __typename: String
+}
+
 type Order @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Order") {
     id: ID!
-    orderer: Orderer @BelongsTo
+    customer: Customer @BelongsTo
     order_token: String!
     products: [Product!]! @BelongsToMany
     order_volume: Int!

@@ -10,17 +10,17 @@ extend type Query {
 type Customer @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Customer") {
     id: ID!
     user: User @BelongsTo
-    first_name: String
-    last_name: String
-    country: String
-    city: String
-    zip_code: String
-    address: String
-    house_nr: String
+    first_name: String!
+    last_name: String!
+    country: String!
+    city: String!
+    zip_code: String!
+    address: String!
+    house_nr: String!
     floor: String
     door: String
     phone_number: String
-    email: String
+    email: String!
     different_billing: Boolean
     company_billing: Boolean
     billing_first_name: String
