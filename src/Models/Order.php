@@ -4,7 +4,7 @@ namespace MayIFit\Extension\Shop\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-use MayIFit\Core\Permission\Traits\HasProducts;
+use MayIFit\Extension\Shop\Traits\HasProducts;
 
 class Order extends Model
 {
