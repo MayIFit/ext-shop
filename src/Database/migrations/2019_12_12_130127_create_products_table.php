@@ -17,9 +17,10 @@ class CreateProductsTable extends Migration
             $table->string('catalog_id')->primary();
             $table->string('name');
             $table->longText('description')->nullable();
-            $table->string('technical_specs');
-            $table->double('price');
-            $table->unsignedInteger('in_stock');
+            $table->string('technical_specs')->nullable();
+            $table->double('net_price')->default(1.0);
+            $table->double('vat')->default(0.0);
+            $table->unsignedInteger('in_stock')->default(0);
             $table->text('out_of_stock_text')->nullable();
             $table->unsignedBigInteger('parent_product_id')->references('id')->on('products')->nullable();
             $table->boolean('discount')->default(false);

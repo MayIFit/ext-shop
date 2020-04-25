@@ -1,0 +1,36 @@
+extend type Query {
+    viewOrderer(
+        orderer: ID! @eq
+        orderer: ID! @eq
+    ): Orderer! @can(ability: "view" find: "catalog_id") @find
+
+}
+
+type Orderer @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Orderer") {
+    id: ID!
+    orderer: User @BelongsTo
+    first_name: String
+    last_name: String
+    country: String
+    city: String
+    zip_code: String
+    address: String
+    house_nr: String
+    floor: String
+    door: String
+    phone_number: String
+    email: String
+    different_billing: Boolean
+    company_billing: Boolean
+    billing_first_name: String
+    billing_last_name: String
+    billing_company_name: String
+    billing_vat_number: String
+    billing_country: String
+    billing_city: String
+    billing_zip_code: String
+    billing_address: String
+    billing_house_nr: String
+    billing_floor: String
+    billing_door: String
+}

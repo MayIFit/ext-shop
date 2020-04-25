@@ -1,8 +1,5 @@
 extend type Query {
-    listOrder(
-        name: String @eq 
-        in_stock: Boolean @neq(key: "0")
-    ): [Order!]! 
+    listOrder: [Order!]! 
     @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\Order") 
     @paginate(type: "paginator")
 
@@ -34,7 +31,7 @@ input UpdateOrderInput {
 }
 
 input CreateOrderInput {
-    orderer: [User!]! @BelongsTo
+    orderer: Orderer @BelongsTo
     products: UpdateProductRelation!
     extra_information: String
     __typename: String
@@ -47,7 +44,7 @@ input UpdateProductRelation {
 
 type Order @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Order") {
     id: ID!
-    orderer: [User!]! @BelongsTo
+    orderer: Orderer @BelongsTo
     products: [Product!]! @BelongsToMany
     order_volume: Int!
     net_amount: Float!
