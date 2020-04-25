@@ -27,7 +27,7 @@ class CreateCustomersTable extends Migration
             $table->string('door')->nullable();
             $table->string('phone_number')->nullable();
             $table->string('email')->nullable();
-            $table->boolean('different_billing')->default(false);
+            $table->boolean('different_billing_address')->default(false);
             $table->boolean('company_billing')->default(false);
             $table->string('billing_first_name')->nullable();
             $table->string('billing_last_name')->nullable();
