@@ -16,11 +16,14 @@ $factory->define(Product::class, function (Faker $faker) {
 
     return [
         'catalog_id' => $faker->numerify('prdct_########'),
-        'name' => $faker->text($maxNbChars = 20),
+        'name' => $faker->text($maxNbChars = 30),
         'description' => $faker->text($maxNbChars = 200),
-        'price' => $faker->numberBetween($min = 1000, $max = 40000),
+        'net_price' => $faker->numberBetween($min = 1000, $max = 40000),
+        'vat' => $faker->numberBetween($min = 0, $max = 27),
         'in_stock' => $faker->numberBetween($min = 0, $max = 73),
         'technical_specs' => $technicalSpecs,
-        'parent_product_id' => $faker->numberBetween($min = 1, $max = 10)
+        'discount' => ($faker->numberBetween($min = 1, $max = 100)) > 50 ? true : false,
+        'discount_percentage' => $faker->numberBetween($min = 5, $max = 85),
+        'parent_product_id' => ($faker->numberBetween($min = 1, $max = 100)) > 50 ? $faker->numberBetween($min = 1, $max = 10) : null
     ];
 });
