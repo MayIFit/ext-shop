@@ -52,6 +52,9 @@
             $this->publishes([
                 __DIR__.'/GraphQL/Queries' => './App/GraphQL/Queries',
             ], '/');
+            $this->publishes([
+                __DIR__.'/GraphQL/Directives' => './App/GraphQL/Directives',
+            ], '/');
             $this->registerPolicies();
         }
 
