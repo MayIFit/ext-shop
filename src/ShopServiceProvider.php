@@ -41,7 +41,7 @@
                 }
             }
             $this->publishes([
-                __DIR__.'/GraphQL/schema' => './graphql',
+                __DIR__.'/GraphQL/schema' => './graphql/shop',
             ], '/');
             $this->publishes([
                 __DIR__.'/GraphQL/Scalars' => './App/GraphQL/Scalars',
