@@ -18,7 +18,7 @@ class Order extends Model
     {
         parent::boot();
 
-        self::creating(function($model) {
+        self::creating(function(Model $model) {
             $model->order_token = Str::random(40);
             return $model;
         });
