@@ -16,8 +16,12 @@ class OrderProductPivot extends MorphPivot
         parent::boot();
 
         self::created(function(Model $model) {
-            $parent = $model->pivotParent;
             $product = Product::find($model->product_catalog_id);
+            if (!$product) {
+                return $model;
+            }
+            $parent = $model->pivotParent;
+            
             $parent->net_value += $product->net_price;
             $parent->value += ($product->net_price * (1 + ($product->vat / 100))) * $model->quantity;;
             $parent->order_quantity = $model->quantity;
