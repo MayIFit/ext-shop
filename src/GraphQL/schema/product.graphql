@@ -69,4 +69,5 @@ type Product @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Product") {
     sale: Boolean
     sale_percentage: Float
     technical_specs: ObjectScalar
+    pivot: OrderProductPivot
 }

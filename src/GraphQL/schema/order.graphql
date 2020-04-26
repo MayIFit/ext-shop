@@ -63,9 +63,9 @@ input syncProductPivotRelationData {
 
 type Order @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Order") {
     id: ID!
-    customer: Customer @BelongsTo
+    customer: Customer @belongsTo
     order_token: String!
-    products: [Product!]! @BelongsToMany
+    products: [Product!]! @belongsToMany
     order_volume: Int!
     net_amount: Float!
     amount: Float!
