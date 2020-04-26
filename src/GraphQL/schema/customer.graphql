@@ -40,7 +40,7 @@ input CreateCustomerInput {
 }
 
 input UpdateUserRelation {
-    attach: ID
+    connect: ID
     __typename: String
 }
 
