@@ -12,14 +12,13 @@ class Order extends Model
 {
     use HasProducts, HasCustomer;
 
-    protected $fillable = ['sync'];
-
     public static function boot()
     {
         parent::boot();
 
         self::creating(function($model) {
             $model->order_token = Str::random(40);
+            return $model;
         });
     }
 
