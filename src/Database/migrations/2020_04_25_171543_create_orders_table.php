@@ -17,9 +17,9 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->unsignedBigInteger('customer_id')->references('id')->on('customers');
             $table->string('order_token');
-            $table->unsignedInteger('order_volume');
-            $table->double('net_amount');
-            $table->double('amount');
+            $table->unsignedInteger('order_quantity');
+            $table->double('net_value');
+            $table->double('value');
             $table->double('discount_percentage');
             $table->double('total_amount');
             $table->string('extra_information');
