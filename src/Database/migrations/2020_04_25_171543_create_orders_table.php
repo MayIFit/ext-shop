@@ -17,11 +17,11 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->unsignedBigInteger('customer_id')->references('id')->on('customers');
             $table->string('order_token');
-            $table->unsignedInteger('order_quantity');
-            $table->double('net_value');
-            $table->double('value');
-            $table->double('discount_percentage')->default(0.0);
-            $table->double('total_amount')->default(0.0);
+            $table->unsignedInteger('order_quantity')->default(0);
+            $table->double('net_value')->default(0);
+            $table->double('value')->default(0);
+            $table->double('discount_percentage')->default(0);
+            $table->double('total_amount')->default(0);
             $table->string('extra_information')->nullable();
             $table->boolean('paid')->default(false);
             $table->timestamps();

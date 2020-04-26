@@ -52,7 +52,7 @@ input syncProductsRelation {
 }
 
 input syncProductPivotRelationData {
-    id: ID!
+    product_catalog_id: ID!
     quantity: Int!
 }
 
