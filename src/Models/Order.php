@@ -19,7 +19,6 @@ class Order extends Model
         parent::boot();
 
         self::creating(function($model) {
-            $model->order_token = Str::random(40);
             $sum_net_value = 0;
             $sum_value = 0;
             $order_quantity = 0;
@@ -30,6 +29,8 @@ class Order extends Model
             }
             $model->net_value = $sum_net_value;
             $model->value = $sum_value;
+            $model->order_quantity = $order_quantity;
+            $model->order_token = Str::random(40);
             return $model;
         });
     }
