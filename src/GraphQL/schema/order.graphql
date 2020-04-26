@@ -34,21 +34,16 @@ input UpdateOrderInput {
 }
 
 input CreateOrderInput {
-    customer: UpdateCustomerRelation! @spread
-    products: syncProductsRelation! @spread
+    customer: UpdateCustomerRelation!
+    products: syncProductsRelation!
     extra_information: String
     __typename: String
 }
 
 input UpdateCustomerRelation {
     connect: ID
-    user: connectCustomerUserRelation @spread
-    create: CreateCustomerInput @spread
+    create: CreateCustomerInput
     __typename: String
-}
-
-input connectCustomerUserRelation {
-    connect: ID!
 }
 
 input syncProductsRelation {

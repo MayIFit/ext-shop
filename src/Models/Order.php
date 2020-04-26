@@ -12,6 +12,8 @@ class Order extends Model
 {
     use HasProducts, HasCustomer;
 
+    public $fillable = ["extra_information"];
+
     public static function boot()
     {
         parent::boot();
