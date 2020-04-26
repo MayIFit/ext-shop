@@ -44,7 +44,8 @@ input CreateProductInput {
     catalog_id: String!
     name: String!
     description: String
-    price: Float
+    net_price: Float
+    vat: Float
     in_stock: Int
     out_of_stock_text: String
     sale: Boolean
@@ -63,7 +64,8 @@ type Product @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Product") {
     catalog_id: String!
     name: String!
     description: String
-    price: Float
+    net_price: Float
+    vat: Float
     in_stock: Int
     out_of_stock_text: String
     sale: Boolean
