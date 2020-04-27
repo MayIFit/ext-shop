@@ -8,6 +8,7 @@ use Faker\Generator as Faker;
 $factory->define(Customer::class, function (Faker $faker) {
     $companyBilling = $faker->numberBetween(1, 100) > 70 ? TRUE : FALSE;
     $differentBillingAddress = $faker->numberBetween(1, 100) > 80 ? TRUE : FALSE;
+    $useFloorAndDoor = $faker->numberBetween(1, 100) > 56 ? TRUE : FALSE;
 
     $retData = [
         'title' => $faker->title($gender = null),
@@ -18,11 +19,14 @@ $factory->define(Customer::class, function (Faker $faker) {
         'zip_code' => $faker->postcode,
         'address' => $faker->streetName,
         'house_nr' => $faker->buildingNumber,
-        'floor' => $faker->numberBetween(1, 20),
-        'door' => $faker->numberBetween(1, 20),
         'phone_number' => $faker->e164PhoneNumber,
-        'email' => $faker->safeEmail,
+        'email' => $faker->safeEmail
     ];
+
+    if ($useFloorAndDoor) {
+        $retData['floor'] = $faker->numberBetween(1, 20);
+        $retData['door'] = $faker->numberBetween(1, 20);
+    }
 
     if ($differentBillingAddress) {
         $retData['different_billing_address'] = true;
