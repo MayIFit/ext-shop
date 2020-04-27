@@ -27,29 +27,29 @@ extend type Mutation @guard(with: ["sanctum"]) {
 }
 
 input UpdateProductInput {
-    id: ID!
-    catalog_id: String!
+    catalog_id: ID!
     name: String!
     description: String
-    price: Float
-    in_stock: Int
-    out_of_stock_text: String
-    discount_percentage: Float
     technical_specs: ObjectScalar
-    __typename: String
-}
-
-input CreateProductInput {
-    catalog_id: String!
-    name: String!
-    description: String
     net_price: Float
     vat: Float
     in_stock: Int
     out_of_stock_text: String
     discount_percentage: Float
+    active: Boolean
+}
+
+input CreateProductInput {
+    catalog_id: ID!
+    name: String!
+    description: String
     technical_specs: ObjectScalar
-    __typename: String
+    net_price: Float
+    vat: Float
+    in_stock: Int
+    out_of_stock_text: String
+    discount_percentage: Float
+    active: Boolean
 }
 
 type OrderProductPivot {
@@ -58,15 +58,15 @@ type OrderProductPivot {
 }
 
 type Product @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Product") {
-    id: ID!
-    catalog_id: String!
+    catalog_id: ID!
     name: String!
     description: String
+    technical_specs: ObjectScalar
     net_price: Float
     vat: Float
     in_stock: Int
     out_of_stock_text: String
     discount_percentage: Float
-    technical_specs: ObjectScalar
+    active: Boolean
     pivot: OrderProductPivot
 }
