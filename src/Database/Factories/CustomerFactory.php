@@ -5,8 +5,7 @@
 use MayIFit\Extension\Shop\Models\Customer;
 use Faker\Generator as Faker;
 
-$factory->define(Product::class, function (Faker $faker) {
-    $faker = new Faker\Generator();
+$factory->define(Customer::class, function (Faker $faker) {
     $companyBilling = $faker->numberBetween(1, 100) > 70 ? TRUE : FALSE;
     $differentBillingAddress = $faker->numberBetween(1, 100) > 80 ? TRUE : FALSE;
 
