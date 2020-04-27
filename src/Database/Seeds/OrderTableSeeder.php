@@ -32,9 +32,9 @@ class OrderTableSeeder extends Seeder
             foreach ($products as $product) {
                 $order->net_value += $product->net_price * $product->pivot->quantity;
                 $order->value += ($product->net_price * (1 + ($product->vat / 100))) * $product->pivot->quantity;
-                $order->order_quantity = $product->pivot->quantity;
-                $order->save();
+                $order->order_quantity += $product->pivot->quantity;
             }
+            $order->save();
         });
     }
 }
