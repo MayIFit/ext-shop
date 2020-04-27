@@ -22,7 +22,6 @@ $factory->define(Product::class, function (Faker $faker) {
         'vat' => $faker->numberBetween($min = 0, $max = 27),
         'in_stock' => $faker->numberBetween($min = 0, $max = 73),
         'technical_specs' => $technicalSpecs,
-        'discount' => ($faker->numberBetween($min = 1, $max = 100)) > 50 ? true : false,
         'discount_percentage' => $faker->numberBetween($min = 5, $max = 85),
         'parent_product_id' => ($faker->numberBetween($min = 1, $max = 100)) > 50 ? $faker->numberBetween($min = 1, $max = 10) : null
     ];
