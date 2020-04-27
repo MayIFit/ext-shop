@@ -22,7 +22,7 @@ class OrderProductPivot extends Pivot
             }
             $parent = $model->pivotParent;
             
-            $parent->net_value += $product->net_price;
+            $parent->net_value += $product->net_price * $model->quantity;
             $parent->value += ($product->net_price * (1 + ($product->vat / 100))) * $model->quantity;
             $parent->order_quantity = $model->quantity;
             $parent->save();
