@@ -3,12 +3,11 @@ extend type Query {
         name: String @eq 
         in_stock: Boolean @neq(key: "0")
     ): [Product!]! 
-    @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\Product") 
     @paginate(type: "paginator")
 
     viewProduct(
         catalog_id: String! @eq
-    ): Product! @can(ability: "view" find: "catalog_id") @find
+    ): Product! @find
 
 }
 
@@ -35,6 +34,7 @@ input UpdateProductInput {
     vat: Float
     in_stock: Int
     out_of_stock_text: String
+    parent_product_id: Int
     discount_percentage: Float
     active: Boolean
 }
@@ -48,6 +48,7 @@ input CreateProductInput {
     vat: Float
     in_stock: Int
     out_of_stock_text: String
+    parent_product_id: Int
     discount_percentage: Float
     active: Boolean
 }
@@ -66,6 +67,7 @@ type Product @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Product") {
     vat: Float
     in_stock: Int
     out_of_stock_text: String
+    parent_product_id: Int
     discount_percentage: Float
     active: Boolean
     pivot: OrderProductPivot
