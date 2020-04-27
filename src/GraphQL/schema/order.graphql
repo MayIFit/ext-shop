@@ -61,10 +61,11 @@ type Order @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Order") {
     customer: Customer @belongsTo
     order_token: String!
     products: [Product!]! @belongsToMany
-    order_volume: Int!
+    order_quantity: Int!
     net_value: Float!
     value: Float!
     discount_percentage: Float
     total_value: Float!
     extra_information: String
+    paid: Boolean
 }

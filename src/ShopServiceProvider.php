@@ -46,6 +46,9 @@
             $this->publishes([
                 __DIR__.'/GraphQL/schema' => './graphql/shop',
             ], '/');
+            $this->publishes([
+                __DIR__.'/GraphQL/Queries' => './App/GraphQL/Queries',
+            ], '/');
             $this->registerPolicies();
         }
 
