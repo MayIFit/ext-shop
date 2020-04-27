@@ -2,8 +2,9 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use MayIFit\Extension\Shop\Models\Customer;
 use Faker\Generator as Faker;
+
+use MayIFit\Extension\Shop\Models\Customer;
 
 $factory->define(Customer::class, function (Faker $faker) {
     $companyBilling = $faker->numberBetween(1, 100) > 70 ? TRUE : FALSE;

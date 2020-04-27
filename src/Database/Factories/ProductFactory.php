@@ -2,8 +2,9 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use MayIFit\Extension\Shop\Models\Product;
 use Faker\Generator as Faker;
+
+use MayIFit\Extension\Shop\Models\Product;
 
 $factory->define(Product::class, function (Faker $faker) {
 
