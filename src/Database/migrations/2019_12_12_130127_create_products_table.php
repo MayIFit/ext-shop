@@ -23,7 +23,6 @@ class CreateProductsTable extends Migration
             $table->unsignedInteger('in_stock')->default(0);
             $table->text('out_of_stock_text')->nullable();
             $table->unsignedBigInteger('parent_product_id')->references('id')->on('products')->nullable();
-            $table->boolean('discount')->default(false);
             $table->double('discount_percentage')->default(0.0)->nullable();
             $table->unsignedBigInteger('created_by')->references('id')->on('users');
             $table->unsignedBigInteger('updated_by')->references('id')->on('users')->nullable();
