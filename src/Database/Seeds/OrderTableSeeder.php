@@ -17,7 +17,7 @@ class OrderTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Order::class, 100)->make()
+        factory(Order::class, 20)->make()
         ->each(function($order) {
             $products = factory(Product::class, 10)->create();
             $randomCustomer = Customer::all()->random(1)->first();
@@ -33,9 +33,8 @@ class OrderTableSeeder extends Seeder
                 $order->net_value += $product->net_price * $product->pivot->quantity;
                 $order->value += ($product->net_price * (1 + ($product->vat / 100))) * $product->pivot->quantity;
                 $order->order_quantity = $product->pivot->quantity;
+                $order->save();
             }
-            
-            $order->save();
         });
     }
 }
