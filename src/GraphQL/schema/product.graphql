@@ -34,8 +34,7 @@ input UpdateProductInput {
     price: Float
     in_stock: Int
     out_of_stock_text: String
-    sale: Boolean
-    sale_percentage: Float
+    discount_percentage: Float
     technical_specs: ObjectScalar
     __typename: String
 }
@@ -48,8 +47,7 @@ input CreateProductInput {
     vat: Float
     in_stock: Int
     out_of_stock_text: String
-    sale: Boolean
-    sale_percentage: Float
+    discount_percentage: Float
     technical_specs: ObjectScalar
     __typename: String
 }
@@ -68,8 +66,7 @@ type Product @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Product") {
     vat: Float
     in_stock: Int
     out_of_stock_text: String
-    sale: Boolean
-    sale_percentage: Float
+    discount_percentage: Float
     technical_specs: ObjectScalar
     pivot: OrderProductPivot
 }

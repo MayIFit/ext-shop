@@ -24,6 +24,7 @@ $factory->define(Product::class, function (Faker $faker) {
         'in_stock' => $faker->numberBetween($min = 0, $max = 73),
         'technical_specs' => $technicalSpecs,
         'discount_percentage' => $faker->numberBetween($min = 5, $max = 85),
-        'parent_product_id' => ($faker->numberBetween($min = 1, $max = 100)) > 50 ? $faker->numberBetween($min = 1, $max = 10) : null
+        'parent_product_id' => ($faker->numberBetween($min = 1, $max = 100)) > 50 ? $faker->numberBetween($min = 1, $max = 10) : null,
+        'created_by' => 1
     ];
 });
