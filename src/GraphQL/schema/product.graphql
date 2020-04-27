@@ -20,8 +20,8 @@ extend type Mutation @guard(with: ["sanctum"]) {
         @can(ability: "create" model: "MayIFit\\Extension\\Shop\\Models\\Product") 
         @create
 
-    deleteProduct(id: ID! @rules(apply: ["required"])): Product 
-        @can(ability: "delete" find: "id") 
+    deleteProduct(catalog_id: ID! @rules(apply: ["required"])): Product 
+        @can(ability: "delete" find: "catalog_id") 
         @delete
 }
 
