@@ -39,7 +39,7 @@ $factory->define(Customer::class, function (Faker $faker) {
 
     if ($companyBilling) {
         $retData['company_billing'] = true;
-        $retData['billing_company_vat'] = 'HU-43643643-235';
+        $retData['billing_vat_number'] = 'HU-43643643-235';
         $retData['billing_company_name'] = $faker->company;
     }
 
