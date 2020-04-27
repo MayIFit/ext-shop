@@ -21,7 +21,7 @@ class CreateOrdersTable extends Migration
             $table->double('net_value')->default(0);
             $table->double('value')->default(0);
             $table->double('discount_percentage')->default(0);
-            $table->double('total_amount')->default(0);
+            $table->double('total_value')->default(0);
             $table->string('extra_information')->nullable();
             $table->boolean('paid')->default(false);
             $table->timestamps();

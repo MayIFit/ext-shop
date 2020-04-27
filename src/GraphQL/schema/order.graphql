@@ -52,7 +52,7 @@ input syncProductsRelation {
 }
 
 input syncProductPivotRelationData {
-    product_catalog_id: ID!
+    id: ID!
     quantity: Int!
 }
 
@@ -62,9 +62,9 @@ type Order @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Order") {
     order_token: String!
     products: [Product!]! @belongsToMany
     order_volume: Int!
-    net_amount: Float!
-    amount: Float!
+    net_value: Float!
+    value: Float!
     discount_percentage: Float
-    total_amount: Float!
+    total_value: Float!
     extra_information: String
 }
