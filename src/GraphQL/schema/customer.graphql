@@ -42,7 +42,6 @@ input CreateCustomerInput {
 
 input UpdateUserRelation {
     connect: ID
-    __typename: String
 }
 
 type Customer @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Customer") {

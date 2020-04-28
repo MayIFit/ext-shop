@@ -30,25 +30,21 @@ input UpdateOrderInput {
     customer: UpdateCustomerRelation! @spread
     products: syncProductsRelation! @spread
     extra_information: String
-    __typename: String
 }
 
 input CreateOrderInput {
     customer: UpdateCustomerRelation!
     products: syncProductsRelation!
     extra_information: String
-    __typename: String
 }
 
 input UpdateCustomerRelation {
     connect: ID
     create: CreateCustomerInput
-    __typename: String
 }
 
 input syncProductsRelation {
     sync: [syncProductPivotRelationData!]!
-    __typename: String
 }
 
 input syncProductPivotRelationData {
