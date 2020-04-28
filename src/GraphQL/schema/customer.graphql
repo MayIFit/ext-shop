@@ -13,6 +13,7 @@ extend type Mutation {
 
 input CreateCustomerInput {
     user: UpdateUserRelation @spread
+    title: String
     first_name: String!
     last_name: String!
     country: String!
@@ -47,6 +48,7 @@ input UpdateUserRelation {
 type Customer @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Customer") {
     id: ID!
     user: User @belongsTo
+    title: String
     first_name: String!
     last_name: String!
     country: String!

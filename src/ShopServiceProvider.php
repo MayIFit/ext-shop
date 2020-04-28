@@ -44,10 +44,10 @@
                 }
             }
             $this->publishes([
-                __DIR__.'/GraphQL/schema' => './graphql/shop',
+                __DIR__.'/GraphQL/schema' => './graphql/extensions',
             ], '/');
             $this->publishes([
-                __DIR__.'/GraphQL/Queries' => './App/GraphQL/Queries',
+                __DIR__.'/GraphQL/Queries' => './App/GraphQL/Queries/Extensions',
             ], '/');
             $this->registerPolicies();
         }
