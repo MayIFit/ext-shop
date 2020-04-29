@@ -36,8 +36,8 @@ input UpsertProductInput {
     out_of_stock_text: String
     parent_product_id: Int
     discount_percentage: Float
-    active: Boolean
-    documents: [SyncDocumentInput]
+    active: Boolean!
+    documents: SyncDocumentInput
 }
 
 type OrderProductPivot {
@@ -56,7 +56,7 @@ type Product @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Product") {
     out_of_stock_text: String
     parent_product_id: Int
     discount_percentage: Float
-    active: Boolean
+    active: Boolean!
     pivot: OrderProductPivot
     documents: [Document]! @morphMany
 }
