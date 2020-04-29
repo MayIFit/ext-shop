@@ -1,12 +1,15 @@
 <?php
 
-namespace MayIFit\Extensions\Shop\Models;
+namespace MayIFit\Extension\Shop\Models;
 
-use MayIFit\Core\Permission\Models\Document as BaseDocument;
-use MayIFit\Core\Permission\Models\Product;
+use Illuminate\Database\Eloquent\Model;
 
-class Document extends BaseDocument
+use MayIFit\Extension\Shop\Models\Product;
+
+class Document extends Model
 {
+    protected $table = 'uploaded_documents';
+
     /**
      * Get all of the products that have this document.
      */
