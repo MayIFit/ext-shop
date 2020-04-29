@@ -38,6 +38,7 @@ input UpsertProductInput {
     discount_percentage: Float
     active: Boolean!
     documents: SyncDocumentInput
+    __typename: String
 }
 
 type OrderProductPivot {

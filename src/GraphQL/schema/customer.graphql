@@ -38,6 +38,7 @@ input CreateCustomerInput {
     billing_house_nr: String
     billing_floor: String
     billing_door: String
+    __typename: String
 }
 
 input UpdateUserRelation {
