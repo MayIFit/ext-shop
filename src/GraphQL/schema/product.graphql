@@ -71,4 +71,5 @@ type Product @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Product") {
     discount_percentage: Float
     active: Boolean
     pivot: OrderProductPivot
+    documents: [Document]! @morphMany
 }
