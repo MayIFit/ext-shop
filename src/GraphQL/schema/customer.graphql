@@ -3,7 +3,7 @@ extend type Query {
         id: ID @eq
         first_name: String @eq
         last_name: String @eq
-    ): Customer! @can(ability: "view" find: "id") @find
+    ): Customer @can(ability: "view" find: "id") @find
 }
 
 extend type Mutation {

@@ -2,12 +2,12 @@ extend type Query {
     listProduct(
         name: String @eq 
         in_stock: Boolean @neq(key: "0")
-    ): [Product!]! 
+    ): [Product]
     @paginate(type: "paginator")
 
     viewProduct(
         catalog_id: String! @eq
-    ): Product! @find
+    ): Product @find
 
 }
 

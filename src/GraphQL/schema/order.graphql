@@ -1,13 +1,15 @@
 extend type Query {
-    listOrder: [Order!]! 
-    @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\Order") 
-    @paginate(type: "paginator")
+    listOrder: [Order]
+        @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\Order") 
+        @paginate(type: "paginator")
 
     getOrderFromToken(token: String!): Order @field(resolver: "GetOrderFromToken@resolve")
 
     viewOrder(
-        catalog_id: String! @eq
-    ): Order! @can(ability: "view" find: "catalog_id") @find
+        id: ID! @eq
+    ): Order! 
+        @can(ability: "view" find: "id") 
+        @find
 
 }
 
