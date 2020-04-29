@@ -12,11 +12,11 @@ extend type Query {
 }
 
 extend type Mutation @guard(with: ["sanctum"]) {
-    updateProduct(input: UpdateProductInput! @spread): Product 
+    updateProduct(input: UpsertProductInput! @spread): Product 
         @can(ability: "update" find: "id") 
         @update
 
-    createProduct(input: CreateProductInput! @spread): Product 
+    createProduct(input: UpsertProductInput! @spread): Product 
         @can(ability: "create" model: "MayIFit\\Extension\\Shop\\Models\\Product") 
         @create
 
@@ -25,7 +25,7 @@ extend type Mutation @guard(with: ["sanctum"]) {
         @delete
 }
 
-input UpdateProductInput {
+input UpsertProductInput {
     catalog_id: ID!
     name: String!
     description: String
@@ -37,20 +37,7 @@ input UpdateProductInput {
     parent_product_id: Int
     discount_percentage: Float
     active: Boolean
-}
-
-input CreateProductInput {
-    catalog_id: ID!
-    name: String!
-    description: String
-    technical_specs: ObjectScalar
-    net_price: Float
-    vat: Float
-    in_stock: Int
-    out_of_stock_text: String
-    parent_product_id: Int
-    discount_percentage: Float
-    active: Boolean
+    documents: [SyncDocumentInput]
 }
 
 type OrderProductPivot {
