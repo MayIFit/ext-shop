@@ -5,9 +5,9 @@ namespace MayIFit\Extension\Shop\Models;
 use Illuminate\Database\Eloquent\Model;
 
 use MayIFit\Core\Permission\Traits\HasUsers;
+use MayIFit\Core\Permission\Traits\HasDocuments;
 use MayIFit\Extension\Shop\Traits\HasCategories;
 use MayIFit\Extension\Shop\Traits\HasOrders;
-use MayIFit\Extension\Shop\Traits\HasDocuments;
 
 class Product extends Model
 {
