@@ -13,9 +13,7 @@ class Product extends Model
 {
     use HasCategories, HasUsers, HasOrders, HasDocuments;
 
-    protected $fillable = [
-        'catalog_id'
-    ];
+    protected $guarded = [];
 
     protected $casts = [
         'technical_specs' => 'array',
