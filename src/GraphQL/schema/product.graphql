@@ -13,7 +13,7 @@ extend type Query {
 
 extend type Mutation @guard(with: ["sanctum"]) {
     updateProduct(input: UpsertProductInput! @spread): Product 
-        @can(ability: "update" find: "id") 
+        @can(ability: "update" find: "catalog_id") 
         @update
 
     createProduct(input: UpsertProductInput! @spread): Product 
@@ -30,8 +30,8 @@ input UpsertProductInput {
     name: String!
     description: String
     technical_specs: ObjectScalar
-    net_price: Float
-    vat: Float
+    net_price: Float!
+    vat: Float!
     in_stock: Int
     out_of_stock_text: String
     parent_product_id: Int
