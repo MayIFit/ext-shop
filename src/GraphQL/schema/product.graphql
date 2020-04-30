@@ -27,16 +27,16 @@ extend type Mutation @guard(with: ["sanctum"]) {
 
 input UpsertProductInput {
     catalog_id: ID!
-    name: String!
+    name: String
     description: String
     technical_specs: ObjectScalar
-    net_price: Float!
-    vat: Float!
+    net_price: Float
+    vat: Float
     in_stock: Int
     out_of_stock_text: String
     parent_product_id: Int
     discount_percentage: Float
-    active: Boolean!
+    active: Boolean
     documents: SyncDocumentInput
     __typename: String
 }
