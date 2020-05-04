@@ -37,7 +37,7 @@ input UpsertProductInput {
     parent_product_id: Int
     discount_percentage: Float
     active: Boolean
-    documents: SyncDocumentInput
+    documents: UpdateDocumentHasOne
     __typename: String
 }
 
