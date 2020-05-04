@@ -7,6 +7,8 @@
     use Illuminate\Support\Facades\Request;
     use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
     use Symfony\Component\Console\Output\ConsoleOutput;
+    use Illuminate\Database\Eloquent\Relations\Relation;
+
 
     use MayIFit\Extension\Shop\Models\Product;
     use MayIFit\Extension\Shop\Models\Orderer;
@@ -36,6 +38,10 @@
         protected $database_folder = '/database';
 
         public function boot() {
+            Relation::morphMap([
+                'product' => 'MayIFit\Extension\Shop\Models\Product',
+            ]);
+
             $this->loadMigrationsFrom(__DIR__.$this->database_folder.'/migrations');
             $this->app->make('Illuminate\Database\Eloquent\Factory')->load(__DIR__.$this->database_folder.'/factories');
             if ($this->app->runningInConsole()) {
