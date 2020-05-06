@@ -60,7 +60,7 @@ type Customer @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Customer")
     door: String
     phone_number: String
     email: String!
-    different_billing: Boolean
+    different_billing_address: Boolean
     company_billing: Boolean
     billing_first_name: String
     billing_last_name: String
