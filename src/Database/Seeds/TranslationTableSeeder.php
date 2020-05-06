@@ -56,6 +56,11 @@ class TranslationTableSeeder extends Seeder
         ]);
         Translation::create([
             'group' => 'product',
+            'key' => 'gross_price',
+            'text' => ['en' => 'Gross Price', 'hu' => 'Bruttó Ár'],
+        ]);
+        Translation::create([
+            'group' => 'product',
             'key' => 'vat',
             'text' => ['en' => 'Vat', 'hu' => 'ÁFA'],
         ]);
@@ -81,6 +86,16 @@ class TranslationTableSeeder extends Seeder
             'group' => 'order',
             'key' => 'order',
             'text' => ['en' => 'Order', 'hu' => 'Rendelés'],
+        ]);
+        Translation::create([
+            'group' => 'order',
+            'key' => 'total_net_price',
+            'text' => ['en' => 'Total Net Price', 'hu' => 'Teljes Nettó Összeg'],
+        ]);
+        Translation::create([
+            'group' => 'order',
+            'key' => 'total_gross_price',
+            'text' => ['en' => 'Total Gross Price', 'hu' => 'Teljes Bruttó Összeg'],
         ]);
         Translation::create([
             'group' => 'order',
