@@ -8,7 +8,7 @@ use MayIFit\Core\Translation\Models\Translation;
 /**
  * Class TranslationsTableSeeder
  *
- * @package MayIFit\Core\Translation
+ * @package MayIFit\Extension\Shop
  */
 class TranslationTableSeeder extends Seeder
 {

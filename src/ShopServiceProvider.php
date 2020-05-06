@@ -11,10 +11,10 @@
 
 
     use MayIFit\Extension\Shop\Models\Product;
-    use MayIFit\Extension\Shop\Models\Orderer;
+    use MayIFit\Extension\Shop\Models\Customer;
     use MayIFit\Extension\Shop\Models\Order;
     use MayIFit\Extension\Shop\Policies\ProductPolicy;
-    use MayIFit\Extension\Shop\Policies\OrdererPolicy;
+    use MayIFit\Extension\Shop\Policies\CustomerPolicy;
     use MayIFit\Extension\Shop\Policies\OrderPolicy;
 
     class ShopServiceProvider extends ServiceProvider {
@@ -26,7 +26,7 @@
          */
         protected $policies = [
             Product::class => ProductPolicy::class,
-            Orderer::class => OrdererPolicy::class,
+            Customer::class => CustomerPolicy::class,
             Order::class => OrderPolicy::class,
         ];
 
@@ -35,7 +35,7 @@
          *
          * @var array
          */
-        protected $database_folder = '/database';
+        protected $database_folder = '/Database';
 
         public function boot() {
             Relation::morphMap([
@@ -92,7 +92,7 @@
                 // Accept command in console only,
                 // exclude all commands from Artisan::call() method.
                 if ($event->output instanceof ConsoleOutput) {
-                    $this->addSeedsFrom(__DIR__ . $this->database_folder.'/seeds');
+                    $this->addSeedsFrom(__DIR__ . $this->database_folder.'/Seeds');
                 }
             });
         }
