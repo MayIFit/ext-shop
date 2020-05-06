@@ -22,6 +22,7 @@ class TranslationTableSeeder extends Seeder
         $this->addUnitTranslations();
         $this->addProductRelatedTranslations();
         $this->addShopRelatedTranslations();
+        $this->addOrderRelatedTranslations();
     }
 
     protected function addUnitTranslations() {
