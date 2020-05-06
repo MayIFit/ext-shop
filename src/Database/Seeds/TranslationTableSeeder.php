@@ -65,11 +65,6 @@ class TranslationTableSeeder extends Seeder
         ]);
         Translation::create([
             'group' => 'product',
-            'key' => 'quantity',
-            'text' => ['en' => 'Quantity', 'hu' => 'Mennyiség'],
-        ]);
-        Translation::create([
-            'group' => 'product',
             'key' => 'category',
             'text' => ['en' => 'Product Category', 'hu' => 'Termék Kategória'],
         ]);
