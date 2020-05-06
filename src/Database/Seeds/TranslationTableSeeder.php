@@ -1,0 +1,185 @@
+<?php
+
+namespace MayIFit\Extension\Shop\Database\Seeds;
+
+use Illuminate\Database\Seeder;
+use MayIFit\Core\Translation\Models\Translation;
+
+/**
+ * Class TranslationsTableSeeder
+ *
+ * @package MayIFit\Core\Translation
+ */
+class TranslationTableSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        $this->addUnitTranslations();
+        $this->addProductRelatedTranslations();
+        $this->addShopRelatedTranslations();
+    }
+
+    protected function addUnitTranslations() {
+        Translation::create([
+            'group' => 'unit',
+            'key' => 'pack',
+            'text' => ['en' => 'Pack', 'hu' => 'Kiszerelés'],
+        ]);
+        Translation::create([
+            'group' => 'unit',
+            'key' => 'piece',
+            'text' => ['en' => 'Piece', 'hu' => 'Darab'],
+        ]);
+        Translation::create([
+            'group' => 'unit',
+            'key' => 'pallet',
+            'text' => ['en' => 'Pallet', 'hu' => 'Raklap'],
+        ]);
+        Translation::create([
+            'group' => 'unit',
+            'key' => 'package',
+            'text' => ['en' => 'Package', 'hu' => 'Csomag'],
+        ]);
+    }
+
+    protected function addProductRelatedTranslations() {
+        Translation::create([
+            'group' => 'product',
+            'key' => 'net_price',
+            'text' => ['en' => 'Net Price', 'hu' => 'Nettó Ár'],
+        ]);
+        Translation::create([
+            'group' => 'product',
+            'key' => 'vat',
+            'text' => ['en' => 'Vat', 'hu' => 'ÁFA'],
+        ]);
+        Translation::create([
+            'group' => 'product',
+            'key' => 'quantity',
+            'text' => ['en' => 'Quantity', 'hu' => 'Mennyiség'],
+        ]);
+        Translation::create([
+            'group' => 'product',
+            'key' => 'quantity',
+            'text' => ['en' => 'Quantity', 'hu' => 'Mennyiség'],
+        ]);
+        Translation::create([
+            'group' => 'product',
+            'key' => 'category',
+            'text' => ['en' => 'Product Category', 'hu' => 'Termék Kategória'],
+        ]);
+        Translation::create([
+            'group' => 'product',
+            'key' => 'documents',
+            'text' => ['en' => 'Product Documents', 'hu' => 'Termék Dokumentumok'],
+        ]);
+    }
+
+    protected function addShopRelatedTranslations() {
+        Translation::create([
+            'group' => 'actions',
+            'key' => 'add_to_cart',
+            'text' => ['en' => 'Add To Cart', 'hu' => 'Kosárba Rakás'],
+        ]);
+        Translation::create([
+            'group' => 'shop',
+            'key' => 'shop',
+            'text' => ['en' => 'Shop', 'hu' => 'Üzlet'],
+        ]);
+        Translation::create([
+            'group' => 'shop',
+            'key' => 'order',
+            'text' => ['en' => 'Order', 'hu' => 'Rendelés'],
+        ]);
+        Translation::create([
+            'group' => 'shop',
+            'key' => 'products',
+            'text' => ['en' => 'Products', 'hu' => 'Termékek'],
+        ]);
+        Translation::create([
+            'group' => 'shop',
+            'key' => 'categories',
+            'text' => ['en' => 'Categories', 'hu' => 'Kategóriák'],
+        ]);
+        Translation::create([
+            'group' => 'shop',
+            'key' => 'track_order_status',
+            'text' => ['en' => 'Track Order Status', 'hu' => 'Rendelés Követés'],
+        ]);
+        Translation::create([
+            'group' => 'shop',
+            'key' => 'order_token',
+            'text' => ['en' => 'Order Token', 'hu' => 'Rendelési Azonosító'],
+        ]);
+        Translation::create([
+            'group' => 'shop',
+            'key' => 'customer',
+            'text' => ['en' => 'Customer', 'hu' => 'Ügyfél'],
+        ]);
+        Translation::create([
+            'group' => 'shop',
+            'key' => 'title',
+            'text' => ['en' => 'Title', 'hu' => 'Titulus'],
+        ]);
+        Translation::create([
+            'group' => 'shop',
+            'key' => 'first_name',
+            'text' => ['en' => 'First Name', 'hu' => 'Vezetéknév'],
+        ]);
+        Translation::create([
+            'group' => 'shop',
+            'key' => 'last_name',
+            'text' => ['en' => 'Last Name', 'hu' => 'Utónév'],
+        ]);
+        Translation::create([
+            'group' => 'shop',
+            'key' => 'country',
+            'text' => ['en' => 'Country', 'hu' => 'Ország'],
+        ]);
+        Translation::create([
+            'group' => 'shop',
+            'key' => 'city',
+            'text' => ['en' => 'City', 'hu' => 'Város'],
+        ]);
+        Translation::create([
+            'group' => 'shop',
+            'key' => 'zip_code',
+            'text' => ['en' => 'Zip Code', 'hu' => 'Irányítószám'],
+        ]);
+        Translation::create([
+            'group' => 'shop',
+            'key' => 'address',
+            'text' => ['en' => 'Address', 'hu' => 'Közterület neve'],
+        ]);
+        Translation::create([
+            'group' => 'shop',
+            'key' => 'house_nr',
+            'text' => ['en' => 'House Number', 'hu' => 'Házszám'],
+        ]);
+        Translation::create([
+            'group' => 'shop',
+            'key' => 'floor',
+            'text' => ['en' => 'Floor', 'hu' => 'Emelet'],
+        ]);
+        Translation::create([
+            'group' => 'shop',
+            'key' => 'door',
+            'text' => ['en' => 'Door', 'hu' => 'Ajtó'],
+        ]);
+        Translation::create([
+            'group' => 'shop',
+            'key' => 'billing_vat_number',
+            'text' => ['en' => 'Billing Vat Number', 'hu' => 'Adószám'],
+        ]);
+        Translation::create([
+            'group' => 'shop',
+            'key' => 'different_billing',
+            'text' => ['en' => 'Different Billing Address', 'hu' => 'Eltérő Számlázási Adatok'],
+        ]);
+    }
+}
