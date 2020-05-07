@@ -51,6 +51,11 @@ class TranslationTableSeeder extends Seeder
     protected function addProductRelatedTranslations() {
         Translation::create([
             'group' => 'product',
+            'key' => 'catalog_id',
+            'text' => ['en' => 'Catalog ID', 'hu' => 'Katalógusszám'],
+        ]);
+        Translation::create([
+            'group' => 'product',
             'key' => 'net_price',
             'text' => ['en' => 'Net Price', 'hu' => 'Nettó Ár'],
         ]);
@@ -79,6 +84,11 @@ class TranslationTableSeeder extends Seeder
             'key' => 'documents',
             'text' => ['en' => 'Product Documents', 'hu' => 'Termék Dokumentumok'],
         ]);
+        Translation::create([
+            'group' => 'product',
+            'key' => 'discount',
+            'text' => ['en' => 'Discount', 'hu' => 'Kedvezmény'],
+        ]);
     }
 
     protected function addOrderRelatedTranslations() {
@@ -87,6 +97,17 @@ class TranslationTableSeeder extends Seeder
             'key' => 'order',
             'text' => ['en' => 'Order', 'hu' => 'Rendelés'],
         ]);
+        Translation::create([
+            'group' => 'order',
+            'key' => 'final_net_price',
+            'text' => ['en' => 'Total Net Price', 'hu' => 'Teljes Nettó Végösszeg'],
+        ]);
+        Translation::create([
+            'group' => 'order',
+            'key' => 'final_gross_price',
+            'text' => ['en' => 'Total Gross Price', 'hu' => 'Teljes Bruttó Végösszeg'],
+        ]);
+
         Translation::create([
             'group' => 'order',
             'key' => 'total_net_price',
@@ -101,6 +122,11 @@ class TranslationTableSeeder extends Seeder
             'group' => 'order',
             'key' => 'shipping_address',
             'text' => ['en' => 'Shipping Address', 'hu' => 'Szállítási Adatok'],
+        ]);
+        Translation::create([
+            'group' => 'order',
+            'key' => 'billing_address',
+            'text' => ['en' => 'Billing Address', 'hu' => 'Számlázási adatok'],
         ]);
         Translation::create([
             'group' => 'order',
