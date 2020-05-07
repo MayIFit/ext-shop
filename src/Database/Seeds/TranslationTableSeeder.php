@@ -26,22 +26,22 @@ class TranslationTableSeeder extends Seeder
     }
 
     protected function addUnitTranslations() {
-        Translation::firstOrCreate([
+        Translation::updateOrCreate([
             'group' => 'unit',
             'key' => 'pack',
             'text' => ['en' => 'Pack', 'hu' => 'Kiszerelés'],
         ]);
-        Translation::firstOrCreate([
+        Translation::updateOrCreate([
             'group' => 'unit',
             'key' => 'piece',
             'text' => ['en' => 'Piece', 'hu' => 'Darab'],
         ]);
-        Translation::firstOrCreate([
+        Translation::updateOrCreate([
             'group' => 'unit',
             'key' => 'pallet',
             'text' => ['en' => 'Pallet', 'hu' => 'Raklap'],
         ]);
-        Translation::firstOrCreate([
+        Translation::updateOrCreate([
             'group' => 'unit',
             'key' => 'package',
             'text' => ['en' => 'Package', 'hu' => 'Csomag'],
@@ -49,42 +49,42 @@ class TranslationTableSeeder extends Seeder
     }
 
     protected function addProductRelatedTranslations() {
-        Translation::firstOrCreate([
+        Translation::updateOrCreate([
             'group' => 'product',
             'key' => 'catalog_id',
             'text' => ['en' => 'Catalog ID', 'hu' => 'Katalógusszám'],
         ]);
-        Translation::firstOrCreate([
+        Translation::updateOrCreate([
             'group' => 'product',
             'key' => 'net_price',
             'text' => ['en' => 'Net Price', 'hu' => 'Nettó Ár'],
         ]);
-        Translation::firstOrCreate([
+        Translation::updateOrCreate([
             'group' => 'product',
             'key' => 'gross_price',
             'text' => ['en' => 'Gross Price', 'hu' => 'Bruttó Ár'],
         ]);
-        Translation::firstOrCreate([
+        Translation::updateOrCreate([
             'group' => 'product',
             'key' => 'vat',
             'text' => ['en' => 'Vat', 'hu' => 'ÁFA'],
         ]);
-        Translation::firstOrCreate([
+        Translation::updateOrCreate([
             'group' => 'product',
             'key' => 'quantity',
             'text' => ['en' => 'Quantity', 'hu' => 'Mennyiség'],
         ]);
-        Translation::firstOrCreate([
+        Translation::updateOrCreate([
             'group' => 'product',
             'key' => 'category',
             'text' => ['en' => 'Product Category', 'hu' => 'Termék Kategória'],
         ]);
-        Translation::firstOrCreate([
+        Translation::updateOrCreate([
             'group' => 'product',
             'key' => 'documents',
             'text' => ['en' => 'Product Documents', 'hu' => 'Termék Dokumentumok'],
         ]);
-        Translation::firstOrCreate([
+        Translation::updateOrCreate([
             'group' => 'product',
             'key' => 'discount',
             'text' => ['en' => 'Discount', 'hu' => 'Kedvezmény'],
@@ -92,113 +92,113 @@ class TranslationTableSeeder extends Seeder
     }
 
     protected function addOrderRelatedTranslations() {
-        Translation::firstOrCreate([
+        Translation::updateOrCreate([
             'group' => 'order',
             'key' => 'order',
             'text' => ['en' => 'Order', 'hu' => 'Rendelés'],
         ]);
-        Translation::firstOrCreate([
+        Translation::updateOrCreate([
             'group' => 'order',
             'key' => 'final_net_price',
             'text' => ['en' => 'Total Net Price', 'hu' => 'Teljes Nettó Végösszeg'],
         ]);
-        Translation::firstOrCreate([
+        Translation::updateOrCreate([
             'group' => 'order',
             'key' => 'final_gross_price',
             'text' => ['en' => 'Total Gross Price', 'hu' => 'Teljes Bruttó Végösszeg'],
         ]);
 
-        Translation::firstOrCreate([
+        Translation::updateOrCreate([
             'group' => 'order',
             'key' => 'total_net_price',
             'text' => ['en' => 'Total Net Price', 'hu' => 'Teljes Nettó Összeg'],
         ]);
-        Translation::firstOrCreate([
+        Translation::updateOrCreate([
             'group' => 'order',
             'key' => 'total_gross_price',
             'text' => ['en' => 'Total Gross Price', 'hu' => 'Teljes Bruttó Összeg'],
         ]);
-        Translation::firstOrCreate([
+        Translation::updateOrCreate([
             'group' => 'order',
             'key' => 'shipping_address',
             'text' => ['en' => 'Shipping Address', 'hu' => 'Szállítási Adatok'],
         ]);
-        Translation::firstOrCreate([
+        Translation::updateOrCreate([
             'group' => 'order',
             'key' => 'billing_address',
             'text' => ['en' => 'Billing Address', 'hu' => 'Számlázási adatok'],
         ]);
-        Translation::firstOrCreate([
+        Translation::updateOrCreate([
             'group' => 'order',
             'key' => 'track_order_status',
             'text' => ['en' => 'Track Order Status', 'hu' => 'Rendelés Követés'],
         ]);
-        Translation::firstOrCreate([
+        Translation::updateOrCreate([
             'group' => 'order',
             'key' => 'order_token',
             'text' => ['en' => 'Order Token', 'hu' => 'Rendelési Azonosító'],
         ]);
-        Translation::firstOrCreate([
+        Translation::updateOrCreate([
             'group' => 'order',
             'key' => 'customer',
             'text' => ['en' => 'Customer', 'hu' => 'Ügyfél'],
         ]);
-        Translation::firstOrCreate([
+        Translation::updateOrCreate([
             'group' => 'order',
             'key' => 'title',
             'text' => ['en' => 'Title', 'hu' => 'Titulus'],
         ]);
-        Translation::firstOrCreate([
+        Translation::updateOrCreate([
             'group' => 'order',
             'key' => 'first_name',
             'text' => ['en' => 'First Name', 'hu' => 'Vezetéknév'],
         ]);
-        Translation::firstOrCreate([
+        Translation::updateOrCreate([
             'group' => 'order',
             'key' => 'last_name',
             'text' => ['en' => 'Last Name', 'hu' => 'Utónév'],
         ]);
-        Translation::firstOrCreate([
+        Translation::updateOrCreate([
             'group' => 'order',
             'key' => 'country',
             'text' => ['en' => 'Country', 'hu' => 'Ország'],
         ]);
-        Translation::firstOrCreate([
+        Translation::updateOrCreate([
             'group' => 'order',
             'key' => 'city',
             'text' => ['en' => 'City', 'hu' => 'Város'],
         ]);
-        Translation::firstOrCreate([
+        Translation::updateOrCreate([
             'group' => 'order',
             'key' => 'zip_code',
             'text' => ['en' => 'Zip Code', 'hu' => 'Irányítószám'],
         ]);
-        Translation::firstOrCreate([
+        Translation::updateOrCreate([
             'group' => 'order',
             'key' => 'address',
             'text' => ['en' => 'Address', 'hu' => 'Közterület neve'],
         ]);
-        Translation::firstOrCreate([
+        Translation::updateOrCreate([
             'group' => 'order',
             'key' => 'house_nr',
             'text' => ['en' => 'House Number', 'hu' => 'Házszám'],
         ]);
-        Translation::firstOrCreate([
+        Translation::updateOrCreate([
             'group' => 'order',
             'key' => 'floor',
             'text' => ['en' => 'Floor', 'hu' => 'Emelet'],
         ]);
-        Translation::firstOrCreate([
+        Translation::updateOrCreate([
             'group' => 'order',
             'key' => 'door',
             'text' => ['en' => 'Door', 'hu' => 'Ajtó'],
         ]);
-        Translation::firstOrCreate([
+        Translation::updateOrCreate([
             'group' => 'order',
             'key' => 'billing_vat_number',
             'text' => ['en' => 'Billing Vat Number', 'hu' => 'Adószám'],
         ]);
-        Translation::firstOrCreate([
+        Translation::updateOrCreate([
             'group' => 'order',
             'key' => 'different_billing',
             'text' => ['en' => 'Different Billing Address', 'hu' => 'Eltérő Számlázási Adatok'],
@@ -207,23 +207,23 @@ class TranslationTableSeeder extends Seeder
     }
 
     protected function addShopRelatedTranslations() {
-        Translation::firstOrCreate([
+        Translation::updateOrCreate([
             'group' => 'actions',
             'key' => 'add_to_cart',
             'text' => ['en' => 'Add To Cart', 'hu' => 'Kosárba Rakás'],
         ]);
-        Translation::firstOrCreate([
+        Translation::updateOrCreate([
             'group' => 'shop',
             'key' => 'shop',
             'text' => ['en' => 'Shop', 'hu' => 'Üzlet'],
         ]);
        
-        Translation::firstOrCreate([
+        Translation::updateOrCreate([
             'group' => 'shop',
             'key' => 'products',
             'text' => ['en' => 'Products', 'hu' => 'Termékek'],
         ]);
-        Translation::firstOrCreate([
+        Translation::updateOrCreate([
             'group' => 'shop',
             'key' => 'categories',
             'text' => ['en' => 'Categories', 'hu' => 'Kategóriák'],
