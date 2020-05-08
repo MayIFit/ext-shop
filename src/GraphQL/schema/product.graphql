@@ -5,6 +5,8 @@ extend type Query {
     ): [Product]
     @paginate(type: "paginator")
 
+    cartProducts(catalog_id: [String!] @in(key: "catalog_id")): [Product!]! @all
+
     viewProduct(
         catalog_id: String! @eq
     ): Product @find

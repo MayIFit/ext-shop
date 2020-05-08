@@ -18,12 +18,14 @@ extend type Mutation @guard(with: ["sanctum"]) {
         @can(ability: "update" find: "id") 
         @update
 
-    createOrder(input: CreateOrderInput! @spread): Order 
-        @create
-
     deleteOrder(id: ID! @rules(apply: ["required"])): Order 
         @can(ability: "delete" find: "id") 
         @delete
+}
+
+extend type Mutation {
+    createOrder(input: CreateOrderInput! @spread): Order 
+        @create
 }
 
 input UpdateOrderInput {
