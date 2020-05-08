@@ -35,4 +35,10 @@ class Product extends Model
     protected function asJson($value) {
         return json_encode($value, JSON_UNESCAPED_UNICODE);
     }
+
+    public function save(array $options = array()) {
+        $this->created_by = auth()->id();
+        $this->updated_by = auth()->id();
+        parent::save($options);
+    }
 }
