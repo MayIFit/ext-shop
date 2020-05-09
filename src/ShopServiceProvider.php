@@ -59,8 +59,14 @@
         }
 
         public function register() {
-            $this->app->bind('translation', function () {
-                return new Translation();
+            $this->app->bind('product', function () {
+                return new Product();
+            });
+            $this->app->bind('customer', function () {
+                return new Customer();
+            });
+            $this->app->bind('order', function () {
+                return new Order();
             });
         }
 
