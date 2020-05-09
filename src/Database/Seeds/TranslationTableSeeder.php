@@ -133,7 +133,7 @@ class TranslationTableSeeder extends Seeder
 		);
 		Translation::updateOrCreate([
 				'group' => 'product',
-				'key' => 'paprent_product_id'
+				'key' => 'parent_product_id'
 			],
 			['text' => ['en' => 'Parent Product', 'hu' => 'Szülő Termék']],
 		);
