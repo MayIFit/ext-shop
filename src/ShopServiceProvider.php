@@ -43,7 +43,7 @@
             ]);
 
             $this->loadMigrationsFrom(__DIR__.$this->database_folder.'/migrations');
-            $$this->loadFactoriesFrom(__DIR__.$this->database_folder.'/Factories');
+            $this->loadFactoriesFrom(__DIR__.$this->database_folder.'/Factories');
             if ($this->app->runningInConsole()) {
                 if ($this->isConsoleCommandContains([ 'db:seed', '--seed' ], [ '--class', 'help', '-h' ])) {
                     $this->addSeedsAfterConsoleCommandFinished();
