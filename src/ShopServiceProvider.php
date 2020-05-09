@@ -51,10 +51,10 @@
             }
             $this->publishes([
                 __DIR__.'/GraphQL/schema' => './graphql/extensions',
-            ], '/');
+            ]);
             $this->publishes([
                 __DIR__.'/GraphQL/Queries' => './app/GraphQL/Queries/Extensions',
-            ], '/');
+            ]);
             $this->registerPolicies();
         }
 
