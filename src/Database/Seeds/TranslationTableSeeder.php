@@ -59,6 +59,24 @@ class TranslationTableSeeder extends Seeder
 			],
             ['text' => ['en' => 'Catalog ID', 'hu' => 'Katalógusszám']],
 		);
+		Translation::updateOrCreate([
+				'group' => 'product',
+				'key' => 'name'
+			],
+			['text' => ['en' => 'Product Name', 'hu' => 'Termék Neve']],
+		);
+		Translation::updateOrCreate([
+				'group' => 'product',
+				'key' => 'description'
+			],
+			['text' => ['en' => 'Product Description', 'hu' => 'Termék Leírása']],
+		);
+		Translation::updateOrCreate([
+				'group' => 'product',
+				'key' => 'technical_specs'
+			],
+			['text' => ['en' => 'Tehcnical Specifications', 'hu' => 'Műszaki Adatok']],
+		);
         Translation::updateOrCreate([
 	            'group' => 'product',
 	            'key' => 'net_price'
@@ -100,6 +118,30 @@ class TranslationTableSeeder extends Seeder
 	            'key' => 'discount'
 			],
             ['text' => ['en' => 'Discount', 'hu' => 'Kedvezmény']],
+		);
+		Translation::updateOrCreate([
+				'group' => 'product',
+				'key' => 'in_stock'
+			],
+			['text' => ['en' => 'In Stock', 'hu' => 'Raktáron']],
+		);
+		Translation::updateOrCreate([
+				'group' => 'product',
+				'key' => 'discount_percentage'
+			],
+			['text' => ['en' => 'Discount Percentage', 'hu' => 'Kedvezmény Százalék']],
+		);
+		Translation::updateOrCreate([
+				'group' => 'product',
+				'key' => 'paprent_product_id'
+			],
+			['text' => ['en' => 'Parent Product', 'hu' => 'Szülő Termék']],
+		);
+		Translation::updateOrCreate([
+				'group' => 'product',
+				'key' => 'out_of_stock_text'
+			],
+			['text' => ['en' => 'Out of Stock Text', 'hu' => 'Kifogyott szöveg']],
 		);
     }
 
