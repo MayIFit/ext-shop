@@ -25,8 +25,8 @@ class CreateProductsTable extends Migration
             $table->text('quantity_unit_text')->nullable();
             $table->unsignedBigInteger('parent_product_id')->references('id')->on('products')->nullable();
             $table->double('discount_percentage')->default(0.0)->nullable();
-            $table->unsignedBigInteger('created_by')->references('id')->on('users');
-            $table->unsignedBigInteger('updated_by')->references('id')->on('users')->nullable();
+            $table->unsignedBigInteger('created_by')->nullable()->references('id')->on('users');
+            $table->unsignedBigInteger('updated_by')->nullable()->references('id')->on('users');
             $table->boolean('active')->default(true);
             $table->timestamps();
             $table->softDeletes();
