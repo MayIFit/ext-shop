@@ -295,7 +295,6 @@ class TranslationTableSeeder extends Seeder
 			],
             ['text' => ['en' => 'Shop', 'hu' => 'Üzlet']],
 		);
-       
         Translation::updateOrCreate([
 	            'group' => 'shop',
 	            'key' => 'products'
@@ -307,6 +306,12 @@ class TranslationTableSeeder extends Seeder
 	            'key' => 'categories'
 			],
             ['text' => ['en' => 'Categories', 'hu' => 'Kategóriák']],
+		);
+		Translation::updateOrCreate([
+				'group' => 'shop',
+				'key' => 'cart'
+			],
+			['text' => ['en' => 'Shopping Cart', 'hu' => 'Bevásárló Kosár']],
 		);
     }
 }
