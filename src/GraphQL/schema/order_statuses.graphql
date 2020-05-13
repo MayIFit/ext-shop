@@ -1,0 +1,51 @@
+extend type Query {
+    listOrderStatus: [OrderStatus]
+        @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\OrderStatus") 
+        @paginate(type: "paginator")
+
+    viewOrderStatus(
+        id: ID! @eq
+    ): OrderStatus! 
+        @can(ability: "view" find: "id") 
+        @find
+}
+
+extend type Mutation @guard(with: ["sanctum"]) {
+    createOrderStatus(input: CreateOrderStatusInput! @spread): OrderStatus 
+        @create
+
+    updateOrderStatus(input: UpdateOrderStatusInput! @spread): OrderStatus 
+        @can(ability: "update" find: "id") 
+        @update
+
+    deleteOrderStatus(id: ID! @rules(apply: ["required"])): OrderStatus 
+        @can(ability: "delete" find: "id") 
+        @delete
+}
+
+extend type Mutation {
+    
+}
+
+input UpdateOrderStatusInput {
+    id: ID
+    status: String!
+    icon: String!
+    __typename: String
+}
+
+input CreateOrderStatusInput {
+    status: String!
+    icon: String!
+    __typename: String
+}
+
+input connectOrderStatusRelation {
+    connect: ID!
+}
+
+type OrderStatus @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\OrderStatus") {
+    id: ID!
+    status: String!
+    icon: String!
+}
