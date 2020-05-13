@@ -33,6 +33,7 @@ input UpdateOrderInput {
     order_token: String!
     customer: UpdateCustomerRelation! @spread
     products: syncProductsRelation! @spread
+    order_status: String
     extra_information: String
     __typename: String
 }
