@@ -19,6 +19,6 @@ $factory->define(Order::class, function (Faker $faker) {
 
     return [
         'order_token' =>  Str::random(40),
-        'order_status' => $statuses[$faker->numberBetween(0, count($statuses))]
+        'order_status' => $statuses[$faker->numberBetween(0, count($statuses) - 1)]
     ];
 });
