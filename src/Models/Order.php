@@ -7,10 +7,11 @@ use Illuminate\Support\Str;
 
 use MayIFit\Extension\Shop\Traits\HasProducts;
 use MayIFit\Extension\Shop\Traits\HasCustomer;
+use MayIFit\Extension\Shop\Traits\HasStatus;
 
 class Order extends Model
 {
-    use HasProducts, HasCustomer;
+    use HasProducts, HasCustomer, HasStatus;
 
     public $fillable = ["extra_information"];
 

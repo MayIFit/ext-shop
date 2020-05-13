@@ -17,7 +17,7 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->unsignedBigInteger('customer_id')->nullable()->references('id')->on('customers');
             $table->string('order_token');
-            $table->string('order_status')->default('placed');
+            $table->string('order_status_id')->references('id')->on('order_statuses')->default(1);
             $table->timestamp('order_placed')->useCurrent();
             $table->unsignedInteger('order_quantity')->default(0);
             $table->double('net_value')->default(0);

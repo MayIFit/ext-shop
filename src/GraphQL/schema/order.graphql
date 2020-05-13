@@ -62,6 +62,7 @@ input syncProductPivotRelationData {
 type Order @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Order") {
     id: ID!
     customer: Customer @belongsTo
+    order_status_id: OrderStatus @belongsTo
     order_token: String!
     order_placed: DateTime!
     order_status: String!
