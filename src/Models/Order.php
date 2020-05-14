@@ -23,6 +23,12 @@ class Order extends Model
             $model->order_token = Str::random(40);
             return $model;
         });
+
+        self::updating(function(Model $model) {
+            if ($model->discount_percentage > 0) {
+                $model->total_value *= round($model->total_value * (1 - ($model->discount_percentage / 100)));
+            }
+        });
     }
 
 }

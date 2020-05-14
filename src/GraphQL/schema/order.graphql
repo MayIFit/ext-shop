@@ -69,7 +69,7 @@ type Order @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Order") {
     products: [Product!]! @belongsToMany
     order_quantity: Int!
     net_value: Float!
-    value: Float!
+    gross_value: Float!
     discount_percentage: Float
     total_value: Float!
     extra_information: String

@@ -21,7 +21,7 @@ class CreateOrdersTable extends Migration
             $table->timestamp('order_placed')->useCurrent();
             $table->unsignedInteger('order_quantity')->default(0);
             $table->double('net_value')->default(0);
-            $table->double('value')->default(0);
+            $table->double('gross_value')->default(0);
             $table->double('discount_percentage')->default(0);
             $table->double('total_value')->default(0);
             $table->string('extra_information')->nullable();
