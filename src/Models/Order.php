@@ -13,7 +13,7 @@ class Order extends Model
 {
     use HasProducts, HasCustomer, HasOrderStatus;
 
-    public $fillable = ["extra_information"];
+    public $fillable = ['extra_information', 'discount_percentage'];
 
     public static function boot()
     {
@@ -24,7 +24,7 @@ class Order extends Model
             return $model;
         });
 
-        self::updating(function(Model $model) {
+        self::saving(function(Model $model) {
             if ($model->discount_percentage > 0) {
                 $model->total_value *= round($model->total_value * (1 - ($model->discount_percentage / 100)));
             }
