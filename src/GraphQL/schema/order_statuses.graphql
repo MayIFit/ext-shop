@@ -1,5 +1,5 @@
-extend type Query {
-    listOrderStatus: [OrderStatus]
+extend type Query @guard(with: ["sanctum"]) {
+    listOrderStatus: [OrderStatus!]!
         @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\OrderStatus") 
         @paginate(type: "paginator")
 
@@ -8,6 +8,10 @@ extend type Query {
     ): OrderStatus! 
         @can(ability: "view" find: "id") 
         @find
+}
+
+extend type Query {
+    allOrderStatus: [OrderStatus!]!
 }
 
 extend type Mutation @guard(with: ["sanctum"]) {
