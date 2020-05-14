@@ -20,32 +20,32 @@ class OrderStatusTableSeeder extends Seeder
     public function run()
     {
         OrderStatus::updateOrCreate([
-			'status' => 'placed',
+			'name' => 'placed',
 			'icon' => ''
 		]);
 
 		OrderStatus::updateOrCreate([
-			'status' => 'approved',
+			'name' => 'approved',
 			'icon' => ''
 		]);
 
 		OrderStatus::updateOrCreate([
-			'status' => 'handed_over_for_shipping',
+			'name' => 'handed_over_for_shipping',
 			'icon' => ''
 		]);
 
 		OrderStatus::updateOrCreate([
-			'status' => 'declined',
+			'name' => 'declined',
 			'icon' => ''
 		]);
 
 		OrderStatus::updateOrCreate([
-			'status' => 'in_delivery',
+			'name' => 'in_delivery',
 			'icon' => ''
 		]);
 
 		OrderStatus::updateOrCreate([
-			'status' => 'delivered',
+			'name' => 'delivered',
 			'icon' => ''
 		]);
     }
