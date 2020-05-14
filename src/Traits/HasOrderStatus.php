@@ -7,16 +7,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use MayIFit\Extension\Shop\Models\OrderStatus;
 
 /**
- * Class HasStatus
+ * Class HasOrderStatus
  *
  * @package MayIFit\Extension\Shop\Traits
  */
-trait HasStatus {
+trait HasOrderStatus {
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\belongsTo
      */
-    public function status(): belongsTo {
+    public function orderStatus(): belongsTo {
         return $this->belongsTo(OrderStatus::class);
     }
 }
