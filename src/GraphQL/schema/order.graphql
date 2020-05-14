@@ -34,6 +34,7 @@ input UpdateOrderInput {
     customer: UpdateCustomerRelation @spread
     products: syncProductsRelation @spread
     orderStatus: connectOrderStatusRelation
+    discount_percentage: Float
     extra_information: String
     __typename: String
 }
