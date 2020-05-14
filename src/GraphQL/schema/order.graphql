@@ -29,11 +29,11 @@ extend type Mutation {
 }
 
 input UpdateOrderInput {
-    id: ID
+    id: ID!
     order_token: String!
-    customer: UpdateCustomerRelation! @spread
-    products: syncProductsRelation! @spread
-    order_status: String
+    customer: UpdateCustomerRelation @spread
+    products: syncProductsRelation @spread
+    orderStatus: connectOrderStatusRelation
     extra_information: String
     __typename: String
 }
