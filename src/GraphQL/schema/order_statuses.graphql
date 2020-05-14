@@ -23,10 +23,6 @@ extend type Mutation @guard(with: ["sanctum"]) {
         @delete
 }
 
-extend type Mutation {
-    
-}
-
 input UpdateOrderStatusInput {
     id: ID
     status: String!
