@@ -11,7 +11,7 @@ extend type Query @guard(with: ["sanctum"]) {
 }
 
 extend type Query {
-    allOrderStatus: [OrderStatus!]!
+    allOrderStatus: [OrderStatus!]! @all
 }
 
 extend type Mutation @guard(with: ["sanctum"]) {
