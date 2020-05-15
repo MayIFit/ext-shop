@@ -8,7 +8,12 @@ use MayIFit\Extension\Shop\Models\Product;
 use MayIFit\Extension\Shop\Models\Customer;
 use MayIFit\Extension\Shop\Models\Order;
 
-class OrderTableSeeder extends Seeder
+/**
+ * Class OrdersTableSeeder
+ *
+ * @package MayIFit\Extension\Shop
+ */
+class OrdersTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.

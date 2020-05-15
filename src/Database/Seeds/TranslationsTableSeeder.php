@@ -10,7 +10,7 @@ use MayIFit\Core\Translation\Models\Translation;
  *
  * @package MayIFit\Extension\Shop
  */
-class TranslationTableSeeder extends Seeder
+class TranslationsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.

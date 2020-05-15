@@ -6,11 +6,11 @@ use Illuminate\Database\Seeder;
 use MayIFit\Extension\Shop\Models\OrderStatus;
 
 /**
- * Class OrderStatusTableSeeder
+ * Class OrderStatusesTableSeeder
  *
  * @package MayIFit\Extension\Shop
  */
-class OrderStatusTableSeeder extends Seeder
+class OrderStatusesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.

@@ -6,7 +6,12 @@ use Illuminate\Database\Seeder;
 
 use MayIFit\Extension\Shop\Models\Product;
 
-class ProductTableSeeder extends Seeder
+/**
+ * Class ProductsTableSeeder
+ *
+ * @package MayIFit\Extension\Shop
+ */
+class ProductsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
