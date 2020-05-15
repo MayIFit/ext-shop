@@ -17,9 +17,9 @@ class OrderTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Order::class, 20)->make()
+        factory(Order::class, 2)->make()
         ->each(function($order) {
-            $products = factory(Product::class, 10)->create();
+            $products = factory(Product::class, 5)->create();
             $randomCustomer = Customer::all()->random(1)->first();
             $order->customer()->associate($randomCustomer->id);
             $order->save();
