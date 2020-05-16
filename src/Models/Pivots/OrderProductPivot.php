@@ -20,13 +20,14 @@ class OrderProductPivot extends Pivot
             if (!$product) {
                 return $model;
             }
-            $parent = $model->pivotParent;
             
-            $parent->net_value += round($product->net_price * (1 - ($product->discount_percentage / 100)) * $model->quantity);
-            $parent->gross_value += round(($product->net_price * (1 + (($product->vat - $product->discount_percentage) / 100)))) * $model->quantity;
-            $parent->order_quantity += $model->quantity;
-            $parent->total_value = $parent->gross_value;
-            $parent->save();
+            $order = $model->pivotParent;
+            $order->net_value += $product->net_price * $model->quantity;
+            $order->gross_value += $product->total_price * $model->quantity;
+
+            $order->order_quantity += $model->quantity;
+            $order->total_value = $order->gross_value;
+            $order->save();
             return $model;
         });
     }

@@ -39,6 +39,12 @@ class Product extends Model
     public function save(array $options = array()) {
         $this->created_by = auth()->id() ?? 1;
         $this->updated_by = auth()->id();
+
+        $this->gross_price = round($this->net_price * (1 + ($this->vat / 100)));
+        $this->total_price = $this->discount_percentage > 0 ? 
+            round($this->gross_price * (1 - ($this->discount_percentage / 100))) : 
+            $this->gross_price;
+
         parent::save($options);
     }
 }

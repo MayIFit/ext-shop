@@ -55,6 +55,8 @@ type Product @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Product") {
     description: String
     technical_specs: ObjectScalar
     net_price: Float!
+    gross_price: Float
+    total_price: Float
     vat: Float!
     in_stock: Int
     out_of_stock_text: String
