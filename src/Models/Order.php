@@ -26,7 +26,7 @@ class Order extends Model
 
         self::saving(function(Model $model) {
             if ($model->discount_percentage > 0) {
-                $model->total_value *= round($model->total_value * (1 - ($model->discount_percentage / 100)));
+                $model->total_value = round($model->total_value * (1 - ($model->discount_percentage / 100)));
             }
         });
     }
