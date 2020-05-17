@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-use MayIFit\Core\Permission\Models\ProductPricing;
-use MayIFit\Core\Permission\Models\ProductDiscount;
-use MayIFit\Core\Permission\Models\ProductCategory;
+use MayIFit\Extension\Shop\Models\ProductPricing;
+use MayIFit\Extension\Shop\Models\ProductDiscount;
+use MayIFit\Extension\Shop\Models\ProductCategory;
 
 use MayIFit\Core\Permission\Traits\HasUsers;
 use MayIFit\Core\Permission\Traits\HasDocuments;
