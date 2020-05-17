@@ -9,7 +9,7 @@ use MayIFit\Extension\Shop\Models\Product;
 $factory->define(Product::class, function (Faker $faker) {
 
     $technicalSpecs = array(
-        'weight' => $faker->numberBetween($min = 0, $max = 820).'kg',
+        'weight' => $faker->numberBetween($min = 0, $max = 500).' kg',
         'width' => $faker->numberBetween($min = 0, $max = 1870),
         'height' => $faker->numberBetween($min = 0, $max = 920),
         'length' => $faker->numberBetween($min = 0, $max = 1230),
@@ -19,12 +19,9 @@ $factory->define(Product::class, function (Faker $faker) {
         'catalog_id' => $faker->numerify('prdct_########'),
         'name' => $faker->text($maxNbChars = 30),
         'description' => $faker->text($maxNbChars = 2000),
-        'net_price' => $faker->numberBetween($min = 1000, $max = 40000),
-        'vat' => $faker->numberBetween($min = 0, $max = 27),
         'in_stock' => $faker->numberBetween($min = 0, $max = 73),
         'technical_specs' => $technicalSpecs,
-        'discount_percentage' => $faker->numberBetween($min = 5, $max = 85),
-        'parent_product_id' => ($faker->numberBetween($min = 1, $max = 100)) > 50 ? $faker->numberBetween($min = 1, $max = 10) : null,
+        'parent_id' => ($faker->numberBetween($min = 1, $max = 100)) > 50 ? $faker->numberBetween($min = 1, $max = 10) : null,
         'created_by' => 1
     ];
 });

@@ -16,19 +16,15 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->string('catalog_id')->primary();
             $table->string('name');
+            $table->foreignId('category_id')->nullable()->references('id')->on('product_categories');
+            $table->foreignId('parent_id')->nullable()->references('id')->on('products');
             $table->longText('description')->nullable();
             $table->string('technical_specs')->nullable();
-            $table->double('net_price')->default(1.0);
-            $table->double('vat')->default(0.0);
-            $table->double('gross_price')->default(1.0);
-            $table->double('discount_percentage')->default(0.0)->nullable();
-            $table->double('total_price')->default(1.0);
             $table->unsignedInteger('in_stock')->default(0);
             $table->text('out_of_stock_text')->nullable();
             $table->text('quantity_unit_text')->nullable();
-            $table->unsignedBigInteger('parent_product_id')->references('id')->on('products')->nullable();
-            $table->unsignedBigInteger('created_by')->nullable()->references('id')->on('users');
-            $table->unsignedBigInteger('updated_by')->nullable()->references('id')->on('users');
+            $table->foreignId('created_by')->nullable()->references('id')->on('users');
+            $table->foreignId('updated_by')->nullable()->references('id')->on('users');
             $table->boolean('active')->default(true);
             $table->timestamps();
             $table->softDeletes();

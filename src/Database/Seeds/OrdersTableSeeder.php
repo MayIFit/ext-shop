@@ -22,7 +22,7 @@ class OrdersTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Order::class, 2)->make()
+        factory(Order::class, 20)->make()
         ->each(function($order) {
             $products = factory(Product::class, 5)->create();
             $randomCustomer = Customer::all()->random(1)->first();

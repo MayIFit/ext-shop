@@ -18,8 +18,6 @@ trait HasProducts {
      * @return \Illuminate\Database\Eloquent\Relations\BelongstoMany
      */
     public function products(): BelongsToMany {
-        return $this->belongstoMany(Product::class)
-        ->using(OrderProductPivot::class)
-        ->withPivot('quantity');
+        return $this->belongstoMany(Product::class);
     }
 }
