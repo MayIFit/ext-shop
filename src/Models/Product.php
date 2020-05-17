@@ -31,7 +31,9 @@ class Product extends Model
 
     protected static function booted() {
         static::created(function ($model) {
-            $model->pricing()->create();
+            $model->pricing()->create([
+                'currency' => 'HUF'
+            ]);
             $model->discount()->create();
         });
     }
