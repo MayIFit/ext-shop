@@ -20,7 +20,7 @@ class CreateProductsTable extends Migration
             $table->foreignId('parent_id')->nullable()->references('catalog_id')->on('products');
             $table->longText('description')->nullable();
             $table->string('technical_specs')->nullable();
-            $table->unsignedInteger('in_stock')->default(0);
+            $table->unsignedInteger('in_stock');
             $table->text('out_of_stock_text')->nullable();
             $table->text('quantity_unit_text')->nullable();
             $table->foreignId('created_by')->nullable()->references('id')->on('users');

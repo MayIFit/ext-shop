@@ -5,6 +5,7 @@ namespace MayIFit\Extension\Shop\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
+use MayIFit\Extension\Shop\Models\OrderStatus;
 use MayIFit\Extension\Shop\Traits\HasCustomer;
 use MayIFit\Extension\Shop\Traits\HasOrderStatus;
 
@@ -14,12 +15,14 @@ class Order extends Model
 
     public $fillable = ['extra_information', 'discount_percentage'];
 
-    public static function boot()
-    {
-        parent::boot();
-
+    public static function booted() {
         self::creating(function(Model $model) {
             $model->order_token = Str::random(40);
+            $model->net_value = 0;
+            $model->gross_value = 0;
+            $model->discount_percentage = 0;
+            $model->orderStatus()->attach(OrderStatus::first());
+            $model->paid = false;
             return $model;
         });
     }

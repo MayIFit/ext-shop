@@ -17,14 +17,14 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->unsignedBigInteger('customer_id')->nullable()->references('id')->on('customers');
             $table->string('order_token')->unique();
-            $table->foreignId('order_status_id')->references('id')->on('order_statuses')->default(1);
+            $table->foreignId('order_status_id')->references('id')->on('order_statuses');
             $table->timestamp('order_placed')->useCurrent();
-            $table->unsignedInteger('order_quantity')->default(0);
-            $table->double('net_value')->default(0);
-            $table->double('gross_value')->default(0);
-            $table->double('discount_percentage')->default(0);
+            $table->unsignedInteger('order_quantity');
+            $table->double('net_value');
+            $table->double('gross_value');
+            $table->double('discount_percentage');
             $table->string('extra_information')->nullable();
-            $table->boolean('paid')->default(false);
+            $table->boolean('paid');
             $table->timestamps();
         });
     }

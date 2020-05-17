@@ -17,7 +17,7 @@ class CreateOrderStatusesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('icon');
-            $table->boolean('active')->default(true);
+            $table->boolean('active');
             $table->timestamps();
         });
     }

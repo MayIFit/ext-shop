@@ -33,6 +33,7 @@
         "php": "^7.2",
         "laravel/framework": "^7.0",
         "laravel/helpers": "^1.2",
+        "nesbot/carbon": "^2.34.0",
         "mayifit/core-permission": "^1.0",
         "mayifit/core-translation": "^1.0"
     },

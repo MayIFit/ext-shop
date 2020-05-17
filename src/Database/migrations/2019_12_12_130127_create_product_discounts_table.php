@@ -16,8 +16,8 @@ class CreateProductDiscountsTable extends Migration
         Schema::create('product_discounts', function (Blueprint $table) {
             $table->id();
             $table->string('product_catalog_id')->references('catalog_id')->in('products');
-            $table->double('discount_percentage')->default(0.0);
-            $table->timestampTz('available_from')->useCurrent();
+            $table->double('discount_percentage');
+            $table->timestampTz('available_from');
             $table->timestampTz('available_to')->nullable();
             $table->softDeletes();
             $table->index(['product_catalog_id', 'available_from', 'available_to']);

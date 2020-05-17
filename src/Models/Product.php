@@ -30,11 +30,13 @@ class Product extends Model
     public $incrementing = false;
 
     protected static function booted() {
-        static::created(function ($model) {
+        static::creating(function ($model) {
             $model->pricing()->create(ProductPricing::create([
                 'currency' => 'HUF'
             ]));
+            $model->in_stock = 0;
             $model->discount()->create();
+            return $model;
         });
     }
 
