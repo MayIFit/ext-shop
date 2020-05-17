@@ -8,7 +8,7 @@ use MayIFit\Extension\Shop\Models\ProductDiscount;
 use MayIFit\Extension\Shop\Models\Product;
 
 $factory->define(ProductDiscount::class, function (Faker $faker) {
-    $product = Product::random();
+    $product = Product::all()->random();
     return [
         'product_id' => $product->catalog_id,
         'discount_percentage' => $faker->numberBetween(0, 80),

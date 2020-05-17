@@ -8,7 +8,7 @@ use MayIFit\Extension\Shop\Models\ProductPricing;
 use MayIFit\Extension\Shop\Models\Product;
 
 $factory->define(ProductPricing::class, function (Faker $faker) {
-    $product = Product::random();
+    $product = Product::all()->random();
     $netPrice = $faker->numberBetween(100, 1000000);
     $vat = $faker->numberBetween(1, 27);
     return [
