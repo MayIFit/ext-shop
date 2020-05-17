@@ -39,7 +39,6 @@ class OrdersTableSeeder extends Seeder
                 $order->gross_value += ($product->net_price * (1 + ($product->vat / 100))) * $product->pivot->quantity;
                 $order->quantity += $product->pivot->quantity;
             }
-            $order->total_value = $order->gross_value;
             $order->save();
         });
     }
