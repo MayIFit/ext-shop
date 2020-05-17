@@ -11,7 +11,7 @@ use MayIFit\Extension\Shop\Models\ProductCategory;
  *
  * @package MayIFit\Extension\Shop
  */
-class ProductCategoriessTableSeeder extends Seeder
+class ProductCategoriesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
