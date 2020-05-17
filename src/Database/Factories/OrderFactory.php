@@ -9,7 +9,6 @@ use MayIFit\Extension\Shop\Models\Order;
 
 $factory->define(Order::class, function (Faker $faker) {
     return [
-        'token' =>  Str::random(40),
         'order_status_id' => $faker->numberBetween(1, 6)
     ];
 });

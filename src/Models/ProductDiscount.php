@@ -25,6 +25,7 @@ class ProductDiscount extends Model
     protected static function booted() {
         static::creating(function ($model) {
             $model->available_from = Carbon::now();
+            return $model;
         });
     }
 }

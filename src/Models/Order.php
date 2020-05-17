@@ -17,15 +17,18 @@ class Order extends Model
 
     public $fillable = ['extra_information', 'discount_percentage'];
 
+    protected $attriutes = [
+        'net_value' => 0.00,
+        'gross_value' => 0.00,
+        'discount_percentage' => 0.00,
+        'quantity' => 0,
+        'paid' => false,
+    ];
+
     public static function booted() {
         self::creating(function(Model $model) {
             $model->token = Str::random(40);
-            $model->net_value = 0;
-            $model->gross_value = 0;
-            $model->discount_percentage = 0;
-            $model->quantity = 0;
             $model->orderStatus()->associate(OrderStatus::first());
-            $model->paid = false;
             return $model;
         });
     }
