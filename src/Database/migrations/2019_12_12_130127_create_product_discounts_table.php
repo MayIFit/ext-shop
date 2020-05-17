@@ -19,6 +19,7 @@ class CreateProductDiscountsTable extends Migration
             $table->double('discount_percentage');
             $table->timestampTz('available_from');
             $table->timestampTz('available_to')->nullable();
+            $table->timestamps();
             $table->softDeletes();
             $table->index(['product_catalog_id', 'available_from', 'available_to']);
         });
