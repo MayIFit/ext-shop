@@ -32,17 +32,20 @@ input UpsertProductInput {
     name: String
     description: String
     technical_specs: ObjectScalar
-    net_price: Float
-    vat: Float
     in_stock: Int
     out_of_stock_text: String
     quantity_unit_text: String
-    parent_product_id: Int
     discount_percentage: Float
     active: Boolean
     documents: UpdateDocumentHasOne
+    pricing: ProductPricingRelation
+    category: ProductCategoryRelation
+    discount: ProductDiscountRelation
+
     __typename: String
 }
+
+
 
 type OrderProductPivot {
     "Ordered quantity of a product"
@@ -54,16 +57,27 @@ type Product @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Product") {
     name: String!
     description: String
     technical_specs: ObjectScalar
-    net_price: Float!
-    gross_price: Float
-    total_price: Float
-    vat: Float!
     in_stock: Int
     out_of_stock_text: String
     quantity_unit_text: String
-    parent_product_id: Int
     discount_percentage: Float
     active: Boolean!
+
     pivot: OrderProductPivot
+    pricing: ProductPricing @hasOne
+    discount: ProductDiscount @hasOne
+    category: ProductCategory @belongsTo
+    accessories: [Product]! @hasMany
+    parentProduct: Product @belongsTo
     documents: [Document]! @morphMany
 }
+
+
+
+type ProductCategory @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\ProductCategory") {
+    id: ID!
+    name: String!
+    description: String
+    parentCategory: ProductCategory @belongsTo
+}
+

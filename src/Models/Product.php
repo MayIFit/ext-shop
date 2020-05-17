@@ -3,6 +3,9 @@
 namespace MayIFit\Extension\Shop\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 use MayIFit\Core\Permission\Models\ProductPricing;
 use MayIFit\Core\Permission\Models\ProductDiscount;
@@ -10,12 +13,11 @@ use MayIFit\Core\Permission\Models\ProductCategory;
 
 use MayIFit\Core\Permission\Traits\HasUsers;
 use MayIFit\Core\Permission\Traits\HasDocuments;
-use MayIFit\Extension\Shop\Traits\HasCategories;
 use MayIFit\Extension\Shop\Traits\HasOrders;
 
 class Product extends Model
 {
-    use HasCategories, HasUsers, HasOrders, HasDocuments;
+    use HasUsers, HasOrders, HasDocuments;
 
     protected $guarded = [];
     protected $with = ['pricing', 'category', 'discount'];
@@ -48,24 +50,23 @@ class Product extends Model
         return json_encode($value, JSON_UNESCAPED_UNICODE);
     }
 
-    public function parentProduct() {
+    public function parentProduct(): BelongsTo {
         return $this->belongsTo(Product::class, 'parent_product_id', 'id');
     }
 
-    public function accessories() {
+    public function accessories(): HasMany {
         return $this->hasMany(Product::class, 'parent_product_id', 'id');
     }
 
-    public function pricing() {
-        return $this->belongsTo(ProductPricing::class);
+    public function category(): BelongsTo {
+        return $this->belongsTo(ProductCategory::class);
     }
 
-    public function category() {
-        return $this->hasMany(ProductCategory::class);
+    public function pricing(): HasOne {
+        return $this->hasOne(ProductPricing::class);
     }
 
-    public function discount() {
-        return $this->belongsTo(ProductPricing::class);
+    public function discount(): HasOne {
+        return $this->hasOne(ProductPricing::class);
     }
-    
 }

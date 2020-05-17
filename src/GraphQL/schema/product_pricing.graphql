@@ -1,0 +1,26 @@
+input ProductPricingRelation {
+    create: [CreateProductPricingInput!]
+    update: [UpdateProductPricingInput!]
+    connect: ID
+}
+
+input CreateProductPricingInput {
+    net_price: Float!
+    vat: Float!
+    currency: String!
+}
+
+input UpdateProductPricingInput {
+    id: ID!
+    net_price: Float!
+    vat: Float!
+    currency: String!
+}
+
+type ProductPricing @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\ProductPricing") {
+    id: ID!
+    product: Product! @belongsTo
+    net_price: Float!
+    vat: Float!
+    currency: String!
+}

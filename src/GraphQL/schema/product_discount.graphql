@@ -1,0 +1,26 @@
+input ProductDiscountRelation {
+    create: [CreateProductDiscountInput!]
+    update: [UpdateProductDiscountInput!]
+    connect: ID
+}
+
+input CreateProductDiscountInput {
+    discount_percentage: Float!
+    available_from: DateTime!
+    available_to: DateTime
+}
+
+input UpdateProductDiscountInput {
+    id: ID!
+    discount_percentage: Float!
+    available_from: DateTime!
+    available_to: DateTime
+}
+
+type ProductDiscount @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\ProductDiscount") {
+    id: ID!
+    product: Product @belongsTo
+    discount_percentage: Float!
+    available_from: DateTime!,
+    available_to: DateTime
+}

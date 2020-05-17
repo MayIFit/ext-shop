@@ -17,7 +17,7 @@ class CreateProductsTable extends Migration
             $table->string('catalog_id')->primary();
             $table->string('name');
             $table->foreignId('category_id')->nullable()->references('id')->on('product_categories');
-            $table->foreignId('parent_id')->nullable()->references('id')->on('products');
+            $table->foreignId('parent_id')->nullable()->references('catalog_id')->on('products');
             $table->longText('description')->nullable();
             $table->string('technical_specs')->nullable();
             $table->unsignedInteger('in_stock')->default(0);
