@@ -17,7 +17,7 @@ class Order extends Model
 
     public $fillable = ['extra_information', 'discount_percentage'];
 
-    protected $attriutes = [
+    protected $attributes = [
         'net_value' => 0.00,
         'gross_value' => 0.00,
         'discount_percentage' => 0.00,
