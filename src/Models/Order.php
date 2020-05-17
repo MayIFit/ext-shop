@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 
-use MayIFit\Extension\Shop\Models\Pivot\OrderProductPivot;
+use MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot;
 use MayIFit\Extension\Shop\Models\OrderStatus;
 use MayIFit\Extension\Shop\Traits\HasCustomer;
 use MayIFit\Extension\Shop\Traits\HasOrderStatus;
