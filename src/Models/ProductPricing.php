@@ -18,7 +18,7 @@ class ProductPricing extends Model
     ];
 
     protected static function booted() {
-        static::created(function ($model) {
+        static::creating(function ($model) {
             $model->net_price = 1.0;
             $model->vat = 0.0;
             $model->currency = 'HUF';
