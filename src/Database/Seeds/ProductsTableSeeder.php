@@ -5,7 +5,7 @@ namespace MayIFit\Extension\Shop\Database\Seeds;
 use Illuminate\Database\Seeder;
 
 use MayIFit\Extension\Shop\Models\Product;
-use MayIFit\Extension\Shop\Models\ProductCategories;
+use MayIFit\Extension\Shop\Models\ProductCategory;
 use MayIFit\Extension\Shop\Models\ProductPricing;
 
 /**
@@ -25,7 +25,7 @@ class ProductsTableSeeder extends Seeder
         factory(Product::class, 10)->make()
         ->each(function($product) {
             $product->createdBy()->associate(1);
-            $product->category()->associate(ProductCategories::all()->random());
+            $product->category()->associate(ProductCategory::all()->random());
             $product->pricing()->create(factory(ProductPricing::class)->create([
                 'product_id' => $product->catalog_id
             ]));
