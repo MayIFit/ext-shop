@@ -3,6 +3,7 @@
 namespace MayIFit\Extension\Shop\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 
 use MayIFit\Extension\Shop\Models\OrderStatus;
