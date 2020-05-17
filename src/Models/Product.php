@@ -47,8 +47,8 @@ class Product extends Model
         parent::save($options);
     }
 
-    public function getGrossPrice() {
-        return $this->pricing->net_price * (1 + ($this->pricing->vat / 100));
+    public function getGrossPriceAttribute(): float {
+        return $this->pricing()->net_price * (1 + ($this->pricing()->vat / 100));
     }
 
     protected function asJson($value) {
