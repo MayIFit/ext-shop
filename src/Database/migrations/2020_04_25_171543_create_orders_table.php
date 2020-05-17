@@ -16,10 +16,10 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('customer_id')->nullable()->references('id')->on('customers');
-            $table->string('order_token')->unique();
+            $table->string('token')->unique();
             $table->foreignId('order_status_id')->references('id')->on('order_statuses');
-            $table->timestamp('order_placed')->useCurrent();
-            $table->unsignedInteger('order_quantity');
+            $table->timestamp('placed')->useCurrent();
+            $table->unsignedInteger('quantity');
             $table->double('net_value');
             $table->double('gross_value');
             $table->double('discount_percentage');

@@ -31,9 +31,10 @@ class Product extends Model
 
     protected static function booted() {
         static::creating(function ($model) {
-            $model->pricing()->create(ProductPricing::create([
-                'currency' => 'HUF'
-            ]));
+            $model->pricing()->create([
+                'currency' => 'HUF',
+                'product_catalog_id' => $model->catalog_id
+            ]);
             $model->in_stock = 0;
             $model->discount()->create();
             return $model;

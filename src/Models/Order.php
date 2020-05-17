@@ -17,11 +17,12 @@ class Order extends Model
 
     public static function booted() {
         self::creating(function(Model $model) {
-            $model->order_token = Str::random(40);
+            $model->token = Str::random(40);
             $model->net_value = 0;
             $model->gross_value = 0;
             $model->discount_percentage = 0;
-            $model->orderStatus()->attach(OrderStatus::first());
+            $model->quantity = 0;
+            $model->orderStatus()->associate(OrderStatus::first());
             $model->paid = false;
             return $model;
         });
@@ -32,5 +33,4 @@ class Order extends Model
         ->using(OrderProductPivot::class)
         ->withPivot('quantity');
     }
-
 }
