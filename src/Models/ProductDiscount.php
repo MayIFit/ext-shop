@@ -18,11 +18,12 @@ class ProductDiscount extends Model
         'available_to'
     ];
 
+    protected $attributes = [
+        'discount_percentage' => 0.00,
+    ];
+
     protected static function booted() {
-        static::created(function ($model) {
-            $model->discount_percentage = 0.0;
-            $model->vat = 0.0;
-            $model->currency = 'HUF';
+        static::creating(function ($model) {
             $model->available_from = Carbon::now();
         });
     }
