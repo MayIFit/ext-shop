@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             CustomersTableSeeder::class,
             OrderStatusesTableSeeder::class,
             OrdersTableSeeder::class,
+            ProductCategoriesTableSeeder::class,
             ProductsTableSeeder::class,
             TranslationsTableSeeder::class,
         ]);
