@@ -12,7 +12,6 @@ $factory->define(ProductPricing::class, function (Faker $faker) {
     return [
         'net_price' => $net_price,
         'vat' => $vat,
-        'gross_price' => $net_price * (1 + ($vat / 100)),
         'currency' => 'HUF'
     ];
 });
