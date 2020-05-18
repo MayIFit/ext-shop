@@ -21,7 +21,7 @@ class CreateProductPricingsTable extends Migration
             $table->string('currency');
             $table->timestamps();
             $table->softDeletes();
-            $table->index(['product_catalog_id', 'currency']);
+            $table->unique(['product_catalog_id', 'currency']);
         });
     }
 

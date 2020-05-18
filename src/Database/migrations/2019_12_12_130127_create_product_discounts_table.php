@@ -21,7 +21,7 @@ class CreateProductDiscountsTable extends Migration
             $table->timestampTz('available_to')->nullable();
             $table->timestamps();
             $table->softDeletes();
-            $table->index(['product_catalog_id', 'available_from', 'available_to']);
+            $table->unique(['product_catalog_id', 'available_from', 'available_to']);
         });
     }
 

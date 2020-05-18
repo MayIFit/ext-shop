@@ -72,6 +72,6 @@ class Product extends Model
     }
 
     public function discount(): HasOne {
-        return $this->hasOne(ProductPricing::class);
+        return $this->hasOne(ProductDiscount::class);
     }
 }
