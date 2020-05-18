@@ -34,7 +34,7 @@ class Product extends Model
     public $incrementing = false;
 
     public function getGrossPriceAttribute(): float {
-        return $this->pricing()->net_price * (1 + ($this->pricing()->vat / 100));
+        return $this->pricing->net_price * (1 + ($this->pricing->vat / 100));
     }
 
     protected function asJson($value) {
