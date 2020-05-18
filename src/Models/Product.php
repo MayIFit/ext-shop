@@ -33,8 +33,13 @@ class Product extends Model
     protected $keyType = 'string';
     public $incrementing = false;
 
+
+    public function getNetPriceAttribute(): float {
+        return $this->pricing->net_price * (1 - ($this->discount->discount_percentage / 100));
+    }
+
     public function getGrossPriceAttribute(): float {
-        return $this->pricing->net_price * (1 + ($this->pricing->vat / 100));
+        return $this->pricing->net_price * (1 + ($this->pricing->vat / 100)) * (1 - ($this->discount->discount_percentage / 100));
     }
 
     protected function asJson($value) {

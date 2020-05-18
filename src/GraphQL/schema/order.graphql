@@ -65,13 +65,12 @@ type Order @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Order") {
     customer: Customer @belongsTo
     orderStatus: OrderStatus @belongsTo
     token: String!
-    order_placed: DateTime!
+    placed: DateTime!
     products: [Product!]! @belongsToMany
     quantity: Int!
     net_value: Float!
     gross_value: Float!
     discount_percentage: Float
-    total_value: Float!
     extra_information: String
     paid: Boolean
 }

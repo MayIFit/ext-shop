@@ -12,13 +12,13 @@ class ProductPricing extends Model
 
     public $fillable = [
         'product_catalog_id',
-        'net_price',
+        'base_price',
         'vat',
         'currency'
     ];
 
     protected $attributes = [
-        'net_price' => 0.00,
+        'base_price' => 0.00,
         'vat' => 0.00,
         'currency' => 'HUF'
     ];

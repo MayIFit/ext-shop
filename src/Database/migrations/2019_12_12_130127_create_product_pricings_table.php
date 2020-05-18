@@ -16,7 +16,7 @@ class CreateProductPricingsTable extends Migration
         Schema::create('product_pricings', function (Blueprint $table) {
             $table->id();
             $table->string('product_catalog_id')->references('catalog_id')->in('products');
-            $table->double('net_price');
+            $table->double('base_price');
             $table->double('vat');
             $table->string('currency');
             $table->timestamps();

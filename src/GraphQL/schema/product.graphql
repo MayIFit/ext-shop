@@ -60,7 +60,6 @@ type Product @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Product") {
     in_stock: Int
     out_of_stock_text: String
     quantity_unit_text: String
-    discount_percentage: Float
     active: Boolean!
 
     pivot: OrderProductPivot
