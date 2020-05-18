@@ -15,7 +15,7 @@ class GetOrderFromToken
      * @return void
      */
     public static function resolve($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) {
-        $order = Order::with(['customer.user', 'products'])->where('order_token', $args['token'])->first();
+        $order = Order::with(['customer.user', 'products'])->where('token', $args['token'])->first();
         return $order;
     }
 }
