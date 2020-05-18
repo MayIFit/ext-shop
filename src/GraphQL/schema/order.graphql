@@ -66,7 +66,6 @@ type Order @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Order") {
     orderStatus: OrderStatus @belongsTo
     token: String!
     order_placed: DateTime!
-    order_status: String!
     products: [Product!]! @belongsToMany
     quantity: Int!
     net_value: Float!
