@@ -24,7 +24,7 @@ class OrdersTableSeeder extends Seeder
     {
         factory(Order::class, 20)->make()
         ->each(function($order) {
-            $products = factory(Product::class, 5)->create();
+            $products = Product::all()->random(5);
             $randomCustomer = Customer::all()->random(1)->first();
             $order->customer()->associate($randomCustomer->id);
             $order->save();

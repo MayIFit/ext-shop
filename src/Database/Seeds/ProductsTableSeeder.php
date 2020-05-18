@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use MayIFit\Extension\Shop\Models\Product;
 use MayIFit\Extension\Shop\Models\ProductCategory;
 use MayIFit\Extension\Shop\Models\ProductPricing;
+use MayIFit\Extension\Shop\Models\ProductDiscount;
 
 /**
  * Class ProductsTableSeeder
@@ -22,17 +23,21 @@ class ProductsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Product::class, 10)->make()
-        ->each(function($product) {
-            $product->createdBy()->associate(1);
-            $product->category()->associate(ProductCategory::all()->random());
-            $product->pricing()->create(factory(ProductPricing::class)->create([
-                'product_catalog_id' => $product->catalog_id
-            ]));
-            if (rand(1, 100) > 85) {
-                $product->parentProduct()->associate(Product::all()->random());
-            }
-            $product->save();
-        });
+        factory(Product::class, 100)->create()
+            ->each(function($product) {
+                $product->createdBy()->associate(1);
+                $product->category()->associate(ProductCategory::all()->random());
+                if (rand(1, 100) > 85) {
+                    $product->parentProduct()->associate(Product::all()->random());
+                }
+                $pricing = factory(ProductPricing::class)->create([
+                    'product_catalog_id' => $product->catalog_id
+                ]);
+                $discount = factory(ProductDiscount::class)->create([
+                    'product_catalog_id' => $product->catalog_id
+                ]);
+                $discount->product()->associate($product);
+                $pricing->product()->associate($product);
+            });
     }
 }
