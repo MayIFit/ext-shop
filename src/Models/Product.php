@@ -25,27 +25,13 @@ class Product extends Model
         'technical_specs' => 'array',
     ];
 
+    protected $attributes = [
+        'in_stock' => 0
+    ];
+
     protected $primaryKey = 'catalog_id';
     protected $keyType = 'string';
     public $incrementing = false;
-
-    protected static function booted() {
-        static::creating(function ($model) {
-            $model->pricing()->create([
-                'currency' => 'HUF',
-                'product_catalog_id' => $model->catalog_id
-            ]);
-            $model->in_stock = 0;
-            $model->discount()->create();
-            return $model;
-        });
-    }
-
-    public function save(array $options = array()) {
-        $this->created_by = auth()->id() ?? 1;
-        $this->updated_by = auth()->id();
-        parent::save($options);
-    }
 
     public function getGrossPriceAttribute(): float {
         return $this->pricing()->net_price * (1 + ($this->pricing()->vat / 100));
