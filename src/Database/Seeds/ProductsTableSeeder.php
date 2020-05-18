@@ -27,7 +27,7 @@ class ProductsTableSeeder extends Seeder
             $product->createdBy()->associate(1);
             $product->category()->associate(ProductCategory::all()->random());
             $product->pricing()->create(factory(ProductPricing::class)->create([
-                'product_id' => $product->catalog_id
+                'product_catalog_id' => $product->catalog_id
             ]));
             if (rand(1, 100) > 85) {
                 $product->parentProduct()->associate(Product::all()->random());
