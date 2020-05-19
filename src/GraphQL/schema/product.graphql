@@ -69,4 +69,6 @@ type Product @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Product") {
     documents: [Document]! @morphMany
     getPricingForCurrency(currency: String!): ProductPricing
         @method(passordered: true)
+    getDiscountForDate(date: DateTime!): ProductDiscount
+        @method(passordered: true)
 }
