@@ -31,13 +31,11 @@ input UpdateOrderStatusInput {
     id: ID
     name: String!
     icon: String!
-    __typename: String
 }
 
 input CreateOrderStatusInput {
     name: String!
     icon: String!
-    __typename: String
 }
 
 input connectOrderStatusRelation {
