@@ -23,6 +23,7 @@ class Order extends Model
         'discount_percentage' => 0.00,
         'quantity' => 0,
         'paid' => false,
+        'currency' => 'HUF'
     ];
 
     public static function booted() {

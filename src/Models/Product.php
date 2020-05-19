@@ -19,7 +19,7 @@ class Product extends Model
     use HasUsers, HasOrders, HasDocuments;
 
     protected $guarded = [];
-    protected $with = ['pricing', 'category', 'discount'];
+    protected $with = ['pricings', 'category', 'discounts'];
     protected $casts = [
         'technical_specs' => 'array',
     ];
@@ -31,15 +31,6 @@ class Product extends Model
     protected $primaryKey = 'catalog_id';
     protected $keyType = 'string';
     public $incrementing = false;
-
-
-    public function getNetPriceAttribute(): float {
-        return $this->pricing->base_price * (1 - ($this->discount->discount_percentage / 100));
-    }
-
-    public function getGrossPriceAttribute(): float {
-        return $this->pricing->base_price * (1 + ($this->pricing->vat / 100)) * (1 - ($this->discount->discount_percentage / 100));
-    }
 
     protected function asJson($value) {
         return json_encode($value, JSON_UNESCAPED_UNICODE);
@@ -57,11 +48,11 @@ class Product extends Model
         return $this->belongsTo(ProductCategory::class);
     }
 
-    public function pricing(): hasMany {
+    public function pricings(): hasMany {
         return $this->hasMany(ProductPricing::class);
     }
 
-    public function discount(): hasMany {
+    public function discounts(): hasMany {
         return $this->hasMany(ProductDiscount::class);
     }
 }

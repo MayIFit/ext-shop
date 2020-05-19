@@ -22,8 +22,9 @@ class OrderProductPivot extends Pivot
             }
             
             $order = $model->pivotParent;
-            $order->net_value += $product->net_price * $model->quantity;
-            $order->gross_value += $product->gross_price * $model->quantity;
+            $productPricingForCurrency = $product->pricings()->where('currency', $order->currency)->first();
+            $order->net_value += $productPricingForCurrency->base_price * $model->quantity;
+            $order->gross_value += $productPricingForCurrency->gross_price * $model->quantity;
             $order->quantity += $model->quantity;
 
             $order->save();

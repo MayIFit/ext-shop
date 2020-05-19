@@ -22,4 +22,8 @@ class ProductPricing extends Model
         'vat' => 0.00,
         'currency' => 'HUF'
     ];
+
+    public function getGrossPriceAttribute(): float {
+        return $this->base_price * (1 + ($this->vat / 100));
+    }
 }
