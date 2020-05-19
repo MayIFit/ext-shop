@@ -5,6 +5,9 @@ namespace MayIFit\Extension\Shop\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Nuwave\Lighthouse\Schema\Context as GraphQLContext;
+use GraphQL\Type\Definition\ResolveInfo;
 
 use MayIFit\Extension\Shop\Models\ProductPricing;
 use MayIFit\Extension\Shop\Models\ProductDiscount;
@@ -48,11 +51,15 @@ class Product extends Model
         return $this->belongsTo(ProductCategory::class);
     }
 
-    public function pricings(): hasMany {
+    public function pricings(): HasMany {
         return $this->hasMany(ProductPricing::class);
     }
 
-    public function discounts(): hasMany {
+    public function discounts(): HasMany {
         return $this->hasMany(ProductDiscount::class);
+    }
+
+    public function getPricingForCurrency($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): ?ProductPricing {
+        return $this->hasOne(ProductPricing::class)->where('currency', $args['currency'])->first();
     }
 }

@@ -63,10 +63,12 @@ type Product @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Product") {
     active: Boolean!
 
     pivot: OrderProductPivot
-    pricings: ProductPricing @hasMany
-    discounts: ProductDiscount @hasMany
+    pricings: [ProductPricing]! @hasMany
+    discounts: [ProductDiscount]! @hasMany
     category: ProductCategory @belongsTo
     accessories: [Product]! @hasMany
     parentProduct: Product @belongsTo
     documents: [Document]! @morphMany
+    getPricingForCurrency(currency: String!): ProductPricing
+        @method(passordered: true)
 }
