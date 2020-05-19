@@ -36,14 +36,12 @@ input UpdateOrderInput {
     orderStatus: connectOrderStatusRelation
     discount_percentage: Float
     extra_information: String
-    __typename: String
 }
 
 input CreateOrderInput {
     customer: UpdateCustomerRelation!
     products: syncProductsRelation!
     extra_information: String
-    __typename: String
 }
 
 input UpdateCustomerRelation {

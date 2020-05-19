@@ -4,7 +4,6 @@ namespace MayIFit\Extension\Shop\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 use MayIFit\Extension\Shop\Models\ProductPricing;
@@ -58,11 +57,11 @@ class Product extends Model
         return $this->belongsTo(ProductCategory::class);
     }
 
-    public function pricing(): HasOne {
-        return $this->hasOne(ProductPricing::class);
+    public function pricing(): hasMany {
+        return $this->hasMany(ProductPricing::class);
     }
 
-    public function discount(): HasOne {
-        return $this->hasOne(ProductDiscount::class);
+    public function discount(): hasMany {
+        return $this->hasMany(ProductDiscount::class);
     }
 }

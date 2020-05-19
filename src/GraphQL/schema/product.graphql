@@ -63,8 +63,8 @@ type Product @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Product") {
     active: Boolean!
 
     pivot: OrderProductPivot
-    pricing: ProductPricing @hasOne
-    discount: ProductDiscount @hasOne
+    pricing: ProductPricing @hasMany
+    discount: ProductDiscount @hasMany
     category: ProductCategory @belongsTo
     accessories: [Product]! @hasMany
     parentProduct: Product @belongsTo
