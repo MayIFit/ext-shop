@@ -1,22 +1,31 @@
 extend type Query {
-    listProduct(
-        name: String @eq 
-        in_stock: Boolean @neq(key: "0")
-    ): [Product]
-    @paginate(type: "paginator")
-
     listProductWithPricing(
         currency: String!
         dateTime: DateTime!
     ): [Product]
     @paginate(type: "paginator")
 
+    viewProductWithPricing(
+        catalog_id: String! @eq
+        date: DateTime!
+        currency: String!
+    ): Product @find
+
     cartProducts(catalog_id: [String!] @in(key: "catalog_id")): [Product!]! @all
+}
+
+extend type Query  @guard(with: ["sanctum"]) {
+    listProduct(
+        name: String @eq 
+        in_stock: Boolean @neq(key: "0")
+    ): [Product]
+    @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\Product") 
+    @paginate(type: "paginator")
 
     viewProduct(
         catalog_id: String! @eq
     ): Product @find
-
+    @can(ability: "view" find: "catalog_id") 
 }
 
 extend type Mutation @guard(with: ["sanctum"]) {
