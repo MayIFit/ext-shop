@@ -11,7 +11,11 @@ extend type Query {
         currency: String!
     ): Product @find
 
-    cartProducts(catalog_id: [String!] @in(key: "catalog_id")): [Product!]! @all
+    cartProducts(
+        catalog_id: [String!] @in(key: "catalog_id")
+        currency: String!
+        date: DateTime!
+    ): [Product!]! @all
 }
 
 extend type Query  @guard(with: ["sanctum"]) {
