@@ -66,11 +66,11 @@ class Product extends Model
     public function getDiscountForDate($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): ?ProductDiscount {
         return $this->hasOne(ProductDiscount::class)
             ->where(function ($query) use ($args) {
-                $query->where('available_from', '<=', $args['date']);
-                $query->where('available_to', '>=', $args['date']);
+                $query->where('available_from', '<=', $args['dateTime']);
+                $query->where('available_to', '>=', $args['dateTime']);
             })
             ->orWhere(function ($query) use ($args) {
-                $query->where('available_from', '<=', $args['date']);
+                $query->where('available_from', '<=', $args['dateTime']);
                 $query->whereNull('available_to');
             })
             ->first();

@@ -7,14 +7,14 @@ extend type Query {
 
     viewProductWithPricing(
         catalog_id: String! @eq
-        date: DateTime!
+        dateTime: DateTime!
         currency: String!
     ): Product @find
 
     cartProducts(
         catalog_id: [String!] @in(key: "catalog_id")
         currency: String!
-        date: DateTime!
+        dateTime: DateTime!
     ): [Product!]! @all
 }
 
@@ -88,6 +88,6 @@ type Product @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Product") {
     documents: [Document]! @morphMany
     getPricingForCurrency(currency: String!): ProductPricing
         @method(passordered: true)
-    getDiscountForDate(date: DateTime!): ProductDiscount
+    getDiscountForDate(dateTime: DateTime!): ProductDiscount
         @method(passordered: true)
 }
