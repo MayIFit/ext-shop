@@ -40,6 +40,7 @@
         public function boot() {
             Relation::morphMap([
                 'product' => 'MayIFit\Extension\Shop\Models\Product',
+                'product_category' => 'MayIFit\Extension\Shop\Models\ProductCategory',
             ]);
 
             $this->loadMigrationsFrom(__DIR__.$this->database_folder.'/migrations');

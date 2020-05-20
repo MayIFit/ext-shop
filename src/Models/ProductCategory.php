@@ -5,10 +5,13 @@ namespace MayIFit\Extension\Shop\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+use MayIFit\Core\Permission\Traits\HasDocuments;
 use MayIFit\Extension\Shop\Models\Product;
 
 class ProductCategory extends Model
 {
+    use HasDocuments;
+    
     public $fillable = [
         'name',
         'description',
