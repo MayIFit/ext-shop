@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             ProductsTableSeeder::class,
             OrderStatusesTableSeeder::class,
             OrdersTableSeeder::class,
+            CurrenciesTableSeeder::class,
         ]);
     }
 }
