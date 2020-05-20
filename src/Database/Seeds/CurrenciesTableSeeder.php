@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\DB;
  */
 class CurrenciesTableSeeder extends Seeder
 {
-
     private $currencyArray = [
         "HUF", "EUR"
     ];
