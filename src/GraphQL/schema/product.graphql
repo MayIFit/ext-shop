@@ -5,6 +5,12 @@ extend type Query {
     ): [Product]
     @paginate(type: "paginator")
 
+    listProductWithPricing(
+        currency: String!
+        dateTime: DateTime!
+    ): [Product]
+    @paginate(type: "paginator")
+
     cartProducts(catalog_id: [String!] @in(key: "catalog_id")): [Product!]! @all
 
     viewProduct(
