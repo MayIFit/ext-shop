@@ -38,6 +38,7 @@ class ProductsTableSeeder extends Seeder
                 ]);
                 $discount->product()->associate($product);
                 $pricing->product()->associate($product);
+                $product->save();
             });
     }
 }

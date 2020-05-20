@@ -8,6 +8,7 @@ input CreateProductCategoryInput {
     name: String!
     description: String
     parentCategory: ProductCategoryRelation
+    document: UpdateDocumentHasOne
 }
 
 input UpdateProductCategoryInput {
@@ -15,6 +16,7 @@ input UpdateProductCategoryInput {
     name: String!
     description: String
     parentCategory: ProductCategoryRelation
+    document: UpdateDocumentHasOne
 }
 
 type ProductCategory @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\ProductCategory") {
