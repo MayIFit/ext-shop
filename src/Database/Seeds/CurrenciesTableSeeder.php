@@ -32,7 +32,8 @@ class CurrenciesTableSeeder extends Seeder
             DB::table('currencies')->insert([
                 'iso_code' => $currency['iso_code'],
                 'symbol' => $currency['symbol'] ?? null,
-                'currency' => $currency['currency']
+                'currency' => $currency['currency'],
+                'active' => true
             ]);
         }
     }
