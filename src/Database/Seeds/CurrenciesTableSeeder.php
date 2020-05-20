@@ -14,7 +14,8 @@ class CurrenciesTableSeeder extends Seeder
 {
     private $currencyArray = [[
         'iso_code' => "HUF",
-        'currency' => 'forint'
+        'currency' => 'forint',
+        'symbol' => 'Ft'
     ], [
         'iso_code' => "EUR",
         'currency' => 'euro',
