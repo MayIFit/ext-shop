@@ -36,12 +36,14 @@ input UpdateOrderInput {
     orderStatus: connectOrderStatusRelation
     discount_percentage: Float
     extra_information: String
+    paid: Boolean
 }
 
 input CreateOrderInput {
     customer: UpdateCustomerRelation!
     products: syncProductsRelation!
     extra_information: String
+    paid: Boolean
 }
 
 input UpdateCustomerRelation {
