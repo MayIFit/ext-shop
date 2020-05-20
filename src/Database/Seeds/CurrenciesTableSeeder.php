@@ -12,9 +12,14 @@ use Illuminate\Support\Facades\DB;
  */
 class CurrenciesTableSeeder extends Seeder
 {
-    private $currencyArray = [
-        "HUF", "EUR"
-    ];
+    private $currencyArray = [[
+        'iso_code' => "HUF",
+        'currency' => 'forint'
+    ], [
+        'iso_code' => "EUR",
+        'currency' => 'euro',
+        'symbol' => '€'
+    ]];
 
     /**
      * Run the database seeds.
@@ -23,9 +28,11 @@ class CurrenciesTableSeeder extends Seeder
      */
     public function run()
     {
-        foreach($this->currencyArray as $name) {
+        foreach($this->currencyArray as $currency) {
             DB::table('currencies')->insert([
-                'name' => $name
+                'iso_code' => $currency['iso_code'],
+                'symbol' => $currency['symbol'] ?? null,
+                'currency' => $currency['currency']
             ]);
         }
     }
