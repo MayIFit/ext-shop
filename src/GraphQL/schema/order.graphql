@@ -3,7 +3,11 @@ extend type Query {
         @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\Order") 
         @paginate(type: "paginator")
 
-    getOrderFromToken(token: String!): Order @field(resolver: "GetOrderFromToken@resolve")
+    getOrderFromToken(
+        token: String!
+        currency: String!
+        dateTime: DateTime!
+    ): Order @field(resolver: "GetOrderFromToken@resolve")
 
     viewOrder(
         id: ID! @eq

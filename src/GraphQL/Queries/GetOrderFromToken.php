@@ -8,9 +8,10 @@ use MayIFit\Extension\Shop\Models\Order;
 
 class GetOrderFromToken
 {
+    // TODO: fix product pricing saving
     /**
      * Try to get Order from token
-     * If non was found generate one
+     * 
      * 
      * @return void
      */
