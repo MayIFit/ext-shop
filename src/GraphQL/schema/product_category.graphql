@@ -1,6 +1,36 @@
+
+extend type Query {
+    allProductCategories: [ProductCategory] @all
+}
+
+extend type Query @guard(with: ["sanctum"]) {
+    listProductCategory(
+        name: String @eq 
+    ): [ProductCategory]
+    @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\ProductCategory") 
+    @paginate(type: "paginator")
+
+    viewProductCategory(
+        id: ID! @eq
+    ): ProductCategory @find
+    @can(ability: "view" find: "id") 
+}
+
+extend type Mutation @guard(with: ["sanctum"]) {
+    updateProductCategory(input: UpdateProductCategoryInput! @spread): ProductCategory 
+        @can(ability: "update" find: "catalog_id") 
+        @update
+
+    createProductCategory(input: CreateProductCategoryInput! @spread): ProductCategory 
+        @can(ability: "create" model: "MayIFit\\Extension\\Shop\\Models\\ProductCategory") 
+        @create
+
+    deleteProductCategory(catalog_id: ID! @rules(apply: ["required"])): ProductCategory 
+        @can(ability: "delete" find: "id") 
+        @delete
+}
+
 input ProductCategoryRelation {
-    create: [CreateProductCategoryInput!]
-    update: [UpdateProductCategoryInput!]
     connect: ID
 }
 
