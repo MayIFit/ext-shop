@@ -7,7 +7,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 use MayIFit\Core\Permission\Models\User;
 use MayIFit\Extension\Shop\Models\ProductCategory;
 
-class ProductCategory
+class ProductCategoryPolicy
 {
     use HandlesAuthorization;
 
