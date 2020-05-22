@@ -1,7 +1,8 @@
 input ProductPricingRelation {
     create: [CreateProductPricingInput!]
     update: [UpdateProductPricingInput!]
-    connect: ID
+    connect: [ID!]
+    sync: [ID!]
 }
 
 input CreateProductPricingInput {

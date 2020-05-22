@@ -57,12 +57,15 @@ input UpsertProductInput {
     discount_percentage: Float
     active: Boolean
     documents: UpdateDocumentHasOne
-    pricing: ProductPricingRelation
+    pricings: ProductPricingRelation
     category: ProductCategoryRelation
-    discount: ProductDiscountRelation
+    discounts: ProductDiscountRelation
+    parentProduct: UpdateParentProductRelation
 }
 
-
+input UpdateParentProductRelation {
+    connect: ID
+}
 
 type OrderProductPivot {
     "Ordered quantity of a product"

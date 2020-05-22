@@ -1,7 +1,8 @@
 input ProductDiscountRelation {
     create: [CreateProductDiscountInput!]
     update: [UpdateProductDiscountInput!]
-    connect: ID
+    connect: [ID!]
+    sync: [ID!]
 }
 
 input CreateProductDiscountInput {
