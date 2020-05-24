@@ -10,7 +10,6 @@ $factory->define(ProductCategory::class, function (Faker $faker) {
     $hasParent = $faker->boolean;
     return [
         'name' => $faker->text($maxNbChars = 30),
-        'description' => $faker->bs,
-        'parent_id' => $hasParent ? $faker->numberBetween(1, 6) : null
+        'description' => $faker->bs
     ];
 });

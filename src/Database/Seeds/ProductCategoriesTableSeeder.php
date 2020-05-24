@@ -20,6 +20,9 @@ class ProductCategoriesTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(ProductCategory::class, 60)->create();
+        factory(ProductCategory::class, 60)->create()
+            ->each(function($model) {
+                $model->parentCategory()->associate(ProductCategory::all()->random());
+            });
     }
 }
