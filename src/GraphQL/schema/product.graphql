@@ -2,6 +2,8 @@ extend type Query {
     listProductWithPricing(
         currency: String!
         dateTime: DateTime!
+        category: ID @eq(key: "category_id")
+        name: String @eq
     ): [Product]
     @paginate(type: "paginator")
 
