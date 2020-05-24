@@ -14,7 +14,6 @@ extend type Query {
     ): Order! 
         @can(ability: "view" find: "id") 
         @find
-
 }
 
 extend type Mutation @guard(with: ["sanctum"]) {
