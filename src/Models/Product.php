@@ -31,10 +31,6 @@ class Product extends Model
         'in_stock' => 0
     ];
 
-    protected $primaryKey = 'catalog_id';
-    protected $keyType = 'string';
-    public $incrementing = false;
-
     protected function asJson($value) {
         return json_encode($value, JSON_UNESCAPED_UNICODE);
     }

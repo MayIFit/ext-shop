@@ -15,13 +15,13 @@ class CreateProductDiscountsTable extends Migration
     {
         Schema::create('product_discounts', function (Blueprint $table) {
             $table->id();
-            $table->string('product_catalog_id')->references('catalog_id')->in('products');
+            $table->unsignedBigInteger('product_id')->references('id')->in('products');
             $table->double('discount_percentage');
             $table->timestamp('available_from');
             $table->timestamp('available_to')->nullable();
             $table->timestamps();
             $table->softDeletes();
-            $table->unique(['product_catalog_id', 'available_from', 'available_to']);
+            $table->unique(['product_id', 'available_from', 'available_to']);
         });
     }
 

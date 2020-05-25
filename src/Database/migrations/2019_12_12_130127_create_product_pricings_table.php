@@ -15,13 +15,13 @@ class CreateProductPricingsTable extends Migration
     {
         Schema::create('product_pricings', function (Blueprint $table) {
             $table->id();
-            $table->string('product_catalog_id')->references('catalog_id')->in('products');
+            $table->unsignedBigInteger('product_id')->references('id')->in('products');
             $table->double('base_price');
             $table->double('vat');
             $table->string('currency');
             $table->timestamps();
             $table->softDeletes();
-            $table->unique(['product_catalog_id', 'currency']);
+            $table->unique(['product_id', 'currency']);
         });
     }
 
