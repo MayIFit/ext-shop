@@ -18,14 +18,14 @@ extend type Query @guard(with: ["sanctum"]) {
 
 extend type Mutation @guard(with: ["sanctum"]) {
     updateProductCategory(input: UpdateProductCategoryInput! @spread): ProductCategory 
-        @can(ability: "update" find: "catalog_id") 
+        @can(ability: "update" find: "id") 
         @update
 
     createProductCategory(input: CreateProductCategoryInput! @spread): ProductCategory 
         @can(ability: "create" model: "MayIFit\\Extension\\Shop\\Models\\ProductCategory") 
         @create
 
-    deleteProductCategory(catalog_id: ID! @rules(apply: ["required"])): ProductCategory 
+    deleteProductCategory(id: ID! @rules(apply: ["required"])): ProductCategory 
         @can(ability: "delete" find: "id") 
         @delete
 }
