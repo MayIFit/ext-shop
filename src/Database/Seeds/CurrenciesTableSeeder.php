@@ -30,12 +30,14 @@ class CurrenciesTableSeeder extends Seeder
     public function run()
     {
         foreach($this->currencyArray as $currency) {
-            DB::table('currencies')->insert([
-                'iso_code' => $currency['iso_code'],
-                'symbol' => $currency['symbol'] ?? null,
-                'currency' => $currency['currency'],
-                'active' => true
-            ]);
+            if (!DB::table('currencies')->where('iso_code', $currency['iso_code'])->first()) {
+                DB::table('currencies')->insert([
+                    'iso_code' => $currency['iso_code'],
+                    'symbol' => $currency['symbol'] ?? null,
+                    'currency' => $currency['currency'],
+                    'active' => true
+                ]);
+            }
         }
     }
 }
