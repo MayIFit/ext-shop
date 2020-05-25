@@ -31,14 +31,14 @@ class ProductsTableSeeder extends Seeder
                     $product->parentProduct()->associate(Product::all()->random());
                 }
                 $pricing = factory(ProductPricing::class)->create([
-                    'product_id' => $product->catalog_id
+                    'product_id' => $product->id
                 ]);
                 $eurPricing = factory(ProductPricing::class)->create([
-                    'product_id' => $product->catalog_id,
+                    'product_id' => $product->id,
                     'currency' => 'EUR'
                 ]);
                 $discount = factory(ProductDiscount::class)->create([
-                    'product_id' => $product->catalog_id
+                    'product_id' => $product->id
                 ]);
                 $discount->product()->associate($product);
                 $pricing->product()->associate($product);

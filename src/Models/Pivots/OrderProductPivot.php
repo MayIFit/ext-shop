@@ -18,7 +18,7 @@ class OrderProductPivot extends Pivot
         parent::boot();
 
         self::creating(function(Model $model) {
-            $product = Product::find($model->product_catalog_id);
+            $product = Product::find($model->product_id);
             if (!$product) {
                 return $model;
             }

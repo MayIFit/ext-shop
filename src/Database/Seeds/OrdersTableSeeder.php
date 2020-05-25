@@ -30,7 +30,7 @@ class OrdersTableSeeder extends Seeder
             $order->save();
             foreach ($products as $product) {
                 $data = array('quantity' => rand(1, 100));
-                $order->products()->attach($product->catalog_id, $data);
+                $order->products()->attach($product->id, $data);
             }
             $order->save();
         });
