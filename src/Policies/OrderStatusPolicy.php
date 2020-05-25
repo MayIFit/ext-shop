@@ -19,7 +19,7 @@ class OrderStatusPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasPermission('orderStatus.list');
+        return $user->hasPermission('order-status.list');
     }
 
     /**
@@ -31,7 +31,7 @@ class OrderStatusPolicy
      */
     public function view(User $user, OrderStatus $orderStatus)
     {
-        return $user->hasPermission('orderStatus.view');
+        return $user->hasPermission('order-status.view');
     }
 
     /**
@@ -42,7 +42,7 @@ class OrderStatusPolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermission('orderStatus.create');
+        return $user->hasPermission('order-status.create');
     }
 
     /**
@@ -54,7 +54,7 @@ class OrderStatusPolicy
      */
     public function update(User $user, OrderStatus $orderStatus)
     {
-        return $user->hasPermission('orderStatus.update');
+        return $user->hasPermission('order-status.update');
     }
 
     /**
@@ -66,7 +66,7 @@ class OrderStatusPolicy
      */
     public function delete(User $user, OrderStatus $orderStatus)
     {
-        return $user->hasPermission('orderStatus.delete');
+        return $user->hasPermission('order-status.delete');
     }
 
     /**

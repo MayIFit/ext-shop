@@ -19,7 +19,7 @@ class ProductCategoryPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasPermission('productCategory.list');
+        return $user->hasPermission('product-category.list');
     }
 
     /**
@@ -31,7 +31,7 @@ class ProductCategoryPolicy
      */
     public function view(User $user, ProductCategory $productCategory)
     {
-        return $user->hasPermission('productCategory.view');
+        return $user->hasPermission('product-category.view');
     }
 
     /**
@@ -42,7 +42,7 @@ class ProductCategoryPolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermission('productCategory.create');
+        return $user->hasPermission('product-category.create');
     }
 
     /**
@@ -54,7 +54,7 @@ class ProductCategoryPolicy
      */
     public function update(User $user, ProductCategory $productCategory)
     {
-        return $user->hasPermission('productCategory.update');
+        return $user->hasPermission('product-category.update');
     }
 
     /**
@@ -66,7 +66,7 @@ class ProductCategoryPolicy
      */
     public function delete(User $user, ProductCategory $productCategory)
     {
-        return $user->hasPermission('productCategory.delete');
+        return $user->hasPermission('product-category.delete');
     }
 
     /**
