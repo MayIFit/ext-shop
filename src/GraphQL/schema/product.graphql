@@ -29,27 +29,45 @@ extend type Query @guard(with: ["sanctum"]) {
     @paginate(type: "paginator")
 
     viewProduct(
-        catalog_id: String! @eq
+        id: ID! @eq
     ): Product @find
-    @can(ability: "view" find: "catalog_id") 
+    @can(ability: "view" find: "id") 
 }
 
 extend type Mutation @guard(with: ["sanctum"]) {
-    updateProduct(input: UpsertProductInput! @spread): Product 
-        @can(ability: "update" find: "catalog_id") 
+    updateProduct(input: UpdateProductInput! @spread): Product 
+        @can(ability: "update" find: "id") 
         @update
 
-    createProduct(input: UpsertProductInput! @spread): Product 
+    createProduct(input: CreateProductInput! @spread): Product 
         @can(ability: "create" model: "MayIFit\\Extension\\Shop\\Models\\Product") 
         @create
 
-    deleteProduct(catalog_id: ID! @rules(apply: ["required"])): Product 
-        @can(ability: "delete" find: "catalog_id") 
+    deleteProduct(id: ID! @rules(apply: ["required"])): Product 
+        @can(ability: "delete" find: "id") 
         @delete
 }
 
-input UpsertProductInput {
-    catalog_id: ID!
+input CreateProductInput {
+    catalog_id: String!
+    name: String
+    description: String
+    technical_specs: ObjectScalar
+    in_stock: Int
+    out_of_stock_text: String
+    quantity_unit_text: String
+    discount_percentage: Float
+    active: Boolean
+    documents: UpdateDocumentHasOne
+    pricings: ProductPricingRelation
+    category: ProductCategoryRelation
+    discounts: ProductDiscountRelation
+    parentProduct: UpdateParentProductRelation
+}
+
+input UpdateProductInput {
+    id: ID!
+    catalog_id: String!
     name: String
     description: String
     technical_specs: ObjectScalar
@@ -75,7 +93,8 @@ type OrderProductPivot {
 }
 
 type Product @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Product") {
-    catalog_id: ID!
+    id: ID!
+    catalog_id: String!
     name: String!
     description: String
     technical_specs: ObjectScalar
