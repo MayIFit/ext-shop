@@ -76,7 +76,7 @@ input UpdateProductInput {
     quantity_unit_text: String
     discount_percentage: Float
     active: Boolean
-    documents: UpdateDocumentHasOne
+    documents: UpdateDocumentHasMany
     pricings: ProductPricingRelation
     category: ProductCategoryRelation
     discounts: ProductDiscountRelation
