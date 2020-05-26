@@ -21,6 +21,7 @@ class CreateProductsTable extends Migration
             $table->string('parent_id')->nullable()->references('id')->on('products');
             $table->longText('description')->nullable();
             $table->string('technical_specs')->nullable();
+            $table->string('supplied')->nullable();
             $table->unsignedInteger('in_stock');
             $table->text('out_of_stock_text')->nullable();
             $table->text('quantity_unit_text')->nullable();

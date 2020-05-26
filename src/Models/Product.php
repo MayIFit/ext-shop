@@ -25,6 +25,7 @@ class Product extends Model
     protected $with = ['pricings', 'category', 'discounts'];
     protected $casts = [
         'technical_specs' => 'array',
+        'supplied' => 'array'
     ];
 
     protected $attributes = [

@@ -53,12 +53,13 @@ input CreateProductInput {
     name: String
     description: String
     technical_specs: ObjectScalar
+    supplied: ObjectScalar
     in_stock: Int
     out_of_stock_text: String
     quantity_unit_text: String
     discount_percentage: Float
     active: Boolean
-    documents: UpdateDocumentHasOne
+    documents: UpdateDocumentHasMany
     pricings: ProductPricingRelation
     category: ProductCategoryRelation
     discounts: ProductDiscountRelation
@@ -71,6 +72,7 @@ input UpdateProductInput {
     name: String
     description: String
     technical_specs: ObjectScalar
+    supplied: ObjectScalar
     in_stock: Int
     out_of_stock_text: String
     quantity_unit_text: String
@@ -98,6 +100,7 @@ type Product @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Product") {
     name: String!
     description: String
     technical_specs: ObjectScalar
+    supplied: ObjectScalar
     in_stock: Int
     out_of_stock_text: String
     quantity_unit_text: String
