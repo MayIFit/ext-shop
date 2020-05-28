@@ -35,7 +35,6 @@ class CurrenciesTableSeeder extends Seeder
                     'iso_code' => $currency['iso_code'],
                     'symbol' => $currency['symbol'] ?? null,
                     'currency' => $currency['currency'],
-                    'active' => true
                 ]);
             }
         }
