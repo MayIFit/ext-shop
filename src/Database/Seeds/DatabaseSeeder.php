@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             OrderStatusesTableSeeder::class,
             OrdersTableSeeder::class,
             CurrenciesTableSeeder::class,
+            SystemSettingsTableSeeder::class,
         ]);
     }
 }

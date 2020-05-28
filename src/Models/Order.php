@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 
+use MayIFit\Extension\Shop\Notifications\OrderStatusUpdate;
 use MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot;
 use MayIFit\Extension\Shop\Models\OrderStatus;
 use MayIFit\Extension\Shop\Traits\HasCustomer;
@@ -31,6 +32,10 @@ class Order extends Model
             $model->token = Str::random(40);
             $model->orderStatus()->associate(OrderStatus::first());
             return $model;
+        });
+
+        self::saved(function(Model $model) {
+            $model->customer->notify(new OrderStatusUpdate($model));
         });
     }
 

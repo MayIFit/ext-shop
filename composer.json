@@ -26,7 +26,8 @@
             "MayIFit\\Extension\\Shop\\Facades\\": "src/Facades/",
             "MayIFit\\Extension\\Shop\\Models\\": "src/Models/",
             "MayIFit\\Extension\\Shop\\Models\\Pivots\\": "src/Models/Pivots/",
-            "MayIFit\\Extension\\Shop\\Policies\\": "src/Policies/"
+            "MayIFit\\Extension\\Shop\\Policies\\": "src/Policies/",
+            "MayIFit\\Extension\\Shop\\Notifications\\": "src/Notifications/"
         }
     },
     "require": {
