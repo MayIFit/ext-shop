@@ -24,14 +24,14 @@ class SystemSettingsTableSeeder extends Seeder
 
 	protected function addMailingRelatedSettings() {
         SystemSetting::updateOrCreate([
-			'name' => 'shop.emailFrom',
-			'description' => 'shop.email_from',
-			'value' => 'info@mayifit.net'
+			'setting_name' => 'shop.emailFrom',
+			'setting_description' => 'shop.email_from',
+			'setting_value' => 'info@mayifit.net'
 		]);
 		SystemSetting::updateOrCreate([
-			'name' => 'shop.emailFromName',
-			'description' => 'shop.email_from_name',
-			'value' => 'info@mayifit.net'
+			'setting_name' => 'shop.emailFromName',
+			'setting_description' => 'shop.email_from_name',
+			'setting_value' => 'info@mayifit.net'
 		]);
     }
 }
