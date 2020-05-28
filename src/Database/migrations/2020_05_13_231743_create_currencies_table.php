@@ -18,8 +18,8 @@ class CreateCurrenciesTable extends Migration
             $table->string('iso_code');
             $table->string('symbol')->nullable();
             $table->string('currency');
-            $table->boolean('active');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

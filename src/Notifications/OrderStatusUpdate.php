@@ -22,8 +22,8 @@ class OrderStatusUpdate extends Notification
      * @return void
      */
     public function __construct() {
-        $this->senderEmail = SystemSetting::where('name', 'shop.emailFrom')->first()->value;
-        $this->senderName = SystemSetting::where('name', 'shop.emailFromName')->first()->value;
+        $this->senderEmail = (SystemSetting::where('setting_name', 'shop.emailFrom')->first())->setting_value;
+        $this->senderName = (SystemSetting::where('setting_name', 'shop.emailFromName')->first())->setting_value;
     }
 
     /**

@@ -19,6 +19,7 @@ class CreateOrderStatusesTable extends Migration
             $table->string('icon');
             $table->boolean('active');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
