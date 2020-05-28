@@ -23,11 +23,12 @@ class CreateProductsTable extends Migration
             $table->string('technical_specs')->nullable();
             $table->string('supplied')->nullable();
             $table->unsignedInteger('in_stock');
-            $table->text('out_of_stock_text')->nullable();
-            $table->text('quantity_unit_text')->nullable();
+            $table->string('varranty');
+            $table->string('out_of_stock_text')->nullable();
+            $table->string('quantity_unit_text')->nullable();
             $table->foreignId('created_by')->nullable()->references('id')->on('users');
             $table->foreignId('updated_by')->nullable()->references('id')->on('users');
-            $table->boolean('active')->default(true);
+            $table->boolean('refurbished');
             $table->timestamps();
             $table->softDeletes();
         });

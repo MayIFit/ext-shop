@@ -58,7 +58,8 @@ input CreateProductInput {
     out_of_stock_text: String
     quantity_unit_text: String
     discount_percentage: Float
-    active: Boolean
+    refurbished: Boolean!
+    varranty: Int!
     documents: UpdateDocumentHasMany
     pricings: ProductPricingRelation
     category: ProductCategoryRelation
@@ -77,7 +78,8 @@ input UpdateProductInput {
     out_of_stock_text: String
     quantity_unit_text: String
     discount_percentage: Float
-    active: Boolean
+    refurbished: Boolean!
+    varranty: Int!
     documents: UpdateDocumentHasMany
     pricings: ProductPricingRelation
     category: ProductCategoryRelation
@@ -104,7 +106,8 @@ type Product @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Product") {
     in_stock: Int
     out_of_stock_text: String
     quantity_unit_text: String
-    active: Boolean!
+    refurbished: Boolean!
+    varranty: Int!
 
     pivot: OrderProductPivot
     pricings: [ProductPricing]! @hasMany

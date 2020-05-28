@@ -22,7 +22,9 @@ class TranslationsTableSeeder extends Seeder
         $this->addUnitTranslations();
         $this->addProductRelatedTranslations();
         $this->addShopRelatedTranslations();
-        $this->addOrderRelatedTranslations();
+		$this->addOrderRelatedTranslations();
+		$this->addPricingRelatedTranslations();
+		$this->addDiscountRelatedTranslations();
     }
 
     protected function addUnitTranslations() {
@@ -142,6 +144,24 @@ class TranslationsTableSeeder extends Seeder
 				'key' => 'out_of_stock_text'
 			],
 			['text' => ['en' => 'Out of Stock Text', 'hu' => 'Kifogyott szöveg']],
+		);
+		Translation::updateOrCreate([
+			'group' => 'product',
+				'key' => 'quantity_unit_text'
+			],
+			['text' => ['en' => 'Quantity Unit', 'hu' => 'Csomag']],
+		);
+		Translation::updateOrCreate([
+				'group' => 'product',
+				'key' => 'discounts'
+			],
+			['text' => ['en' => 'Discounts', 'hu' => 'Kedvezmények']],
+		);
+		Translation::updateOrCreate([
+				'group' => 'product',
+				'key' => 'varranty'
+			],
+			['text' => ['en' => 'Varranty', 'hu' => 'Garancia']],
 		);
     }
 
@@ -312,6 +332,48 @@ class TranslationsTableSeeder extends Seeder
 				'key' => 'cart'
 			],
 			['text' => ['en' => 'Shopping Cart', 'hu' => 'Bevásárló Kosár']],
+		);
+	}
+	
+	protected function addPricingRelatedTranslations() {
+        Translation::updateOrCreate([
+	            'group' => 'pricings',
+	            'key' => 'base_price'
+			],
+            ['text' => ['en' => 'Net Price', 'hu' => 'Nettó Érték']],
+		);
+        Translation::updateOrCreate([
+	            'group' => 'pricings',
+	            'key' => 'vat'
+			],
+            ['text' => ['en' => 'Vat', 'hu' => 'ÁFA']],
+		);
+        Translation::updateOrCreate([
+	            'group' => 'pricings',
+	            'key' => 'currency'
+			],
+            ['text' => ['en' => 'Currency', 'hu' => 'Pénznem']],
+		);
+	}
+	
+	protected function addDiscountRelatedTranslations() {
+        Translation::updateOrCreate([
+	            'group' => 'discounts',
+	            'key' => 'discount_percentage'
+			],
+            ['text' => ['en' => 'Discount Percentage', 'hu' => 'Kedvezmény Százalék']],
+		);
+        Translation::updateOrCreate([
+	            'group' => 'discounts',
+	            'key' => 'available_from'
+			],
+            ['text' => ['en' => 'Available From', 'hu' => 'Tól']],
+		);
+        Translation::updateOrCreate([
+	            'group' => 'discounts',
+	            'key' => 'available_to'
+			],
+            ['text' => ['en' => 'Available To', 'hu' => 'Ig']],
 		);
     }
 }

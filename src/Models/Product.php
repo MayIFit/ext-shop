@@ -31,7 +31,9 @@ class Product extends Model
     protected $attributes = [
         'in_stock' => 0,
         'technical_specs' => '{}',
-        'supplied' => '{}'
+        'supplied' => '{}',
+        'varranty' => '1 year',
+        'refurbished' => false
     ];
 
     protected function asJson($value) {
