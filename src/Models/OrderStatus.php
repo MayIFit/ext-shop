@@ -3,13 +3,9 @@
 namespace MayIFit\Extension\Shop\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class OrderStatus extends Model
 {
-    public static function booted() {
-        self::creating(function(Model $model) {
-            $model->active = true;
-            return $model;
-        });
-    }
+    use SoftDeletes;
 }

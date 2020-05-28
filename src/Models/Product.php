@@ -3,6 +3,7 @@
 namespace MayIFit\Extension\Shop\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -19,7 +20,7 @@ use MayIFit\Extension\Shop\Traits\HasOrders;
 
 class Product extends Model
 {
-    use HasUsers, HasOrders, HasDocuments;
+    use SoftDeletes, HasUsers, HasOrders, HasDocuments;
 
     protected $guarded = [];
     protected $with = ['pricings', 'category', 'discounts'];

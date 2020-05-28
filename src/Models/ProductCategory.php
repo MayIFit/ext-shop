@@ -3,6 +3,7 @@
 namespace MayIFit\Extension\Shop\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 use MayIFit\Core\Permission\Traits\HasDocuments;
@@ -10,7 +11,7 @@ use MayIFit\Extension\Shop\Models\Product;
 
 class ProductCategory extends Model
 {
-    use HasDocuments;
+    use SoftDeletes, HasDocuments;
     
     public $fillable = [
         'name',

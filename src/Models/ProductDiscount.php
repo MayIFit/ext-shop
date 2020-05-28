@@ -4,12 +4,13 @@ namespace MayIFit\Extension\Shop\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 use MayIFit\Extension\Shop\Traits\HasProduct;
 
 class ProductDiscount extends Model
 {
-    use HasProduct;
+    use SoftDeletes, HasProduct;
 
     public $fillable = [
         'product_catalog_id',
