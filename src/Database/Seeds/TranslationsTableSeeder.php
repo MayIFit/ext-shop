@@ -163,6 +163,12 @@ class TranslationsTableSeeder extends Seeder
 			],
 			['text' => ['en' => 'Varranty', 'hu' => 'Garancia']],
 		);
+		Translation::updateOrCreate([
+				'group' => 'product',
+				'key' => 'supplied'
+			],
+			['text' => ['en' => 'Supplied', 'hu' => 'Csomag tartalma']],
+		);
     }
 
     protected function addOrderRelatedTranslations() {
