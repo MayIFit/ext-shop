@@ -21,5 +21,10 @@ $factory->define(Product::class, function (Faker $faker) {
         'description' => $faker->text($maxNbChars = 500),
         'in_stock' => $faker->numberBetween($min = 0, $max = 73),
         'technical_specs' => $technicalSpecs,
+        'supplied' => [
+            'product.accumulator' => '24v/2A',
+            'product.manual' => '',
+            'product.bag' => '25l',
+        ]
     ];
 });
