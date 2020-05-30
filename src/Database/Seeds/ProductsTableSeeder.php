@@ -23,7 +23,7 @@ class ProductsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Product::class, 1000)->create()
+        factory(Product::class, 1000)->make()
             ->each(function($product) {
                 $product->createdBy()->associate(1);
                 $product->category()->associate(ProductCategory::all()->random());

@@ -20,7 +20,7 @@ class ProductCategoriesTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(ProductCategory::class, 60)->create()
+        factory(ProductCategory::class, 60)->make()
             ->each(function($model) {
                 if (rand(1, 100) > 25) {
                     $model->parentCategory()->associate(ProductCategory::all()->random());
