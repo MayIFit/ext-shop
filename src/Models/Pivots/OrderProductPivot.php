@@ -18,10 +18,11 @@ class OrderProductPivot extends Pivot
         parent::boot();
 
         self::creating(function(Model $model) {
-            $product = Product::find($model->product_id);
+            $product = Product::where('catalog_id', $model->product_id)->first();
             if (!$product) {
                 return $model;
             }
+            $model->product_id = $product->id;
             
             $order = $model->pivotParent;
             $productPricingForCurrency = $product->pricings()->where('currency', $order->currency)->first();
