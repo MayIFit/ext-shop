@@ -13,7 +13,7 @@ class ProductDiscount extends Model
     use SoftDeletes, HasProduct;
 
     public $fillable = [
-        'product_catalog_id',
+        'product_id',
         'discount_percentage',
         'available_from',
         'available_to'

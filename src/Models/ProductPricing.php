@@ -12,7 +12,7 @@ class ProductPricing extends Model
     use SoftDeletes, HasProduct;
 
     public $fillable = [
-        'product_catalog_id',
+        'product_id',
         'base_price',
         'vat',
         'currency'
