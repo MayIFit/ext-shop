@@ -14,14 +14,16 @@ class OrderStatusUpdate extends Notification
     use Queueable;
 
     protected $senderEmail;
-    protected $senderName; 
+    protected $senderName;
+    protected $order;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct() {
+    public function __construct($order) {
+        $this->order = $order;
         $this->senderEmail = (SystemSetting::where('setting_name', 'shop.emailFrom')->first())->setting_value;
         $this->senderName = (SystemSetting::where('setting_name', 'shop.emailFromName')->first())->setting_value;
     }
@@ -45,7 +47,7 @@ class OrderStatusUpdate extends Notification
      */
     public function toMail($notifiable)
     {
-        $url = url('/orders/'.$this->token);
+        $url = url('/orders/'.$this->order->token);
         return (new MailMessage)
             ->from($this->senderEmail, $this->senderName)
             ->greeting(trans('global.hello')) 
