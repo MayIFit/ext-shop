@@ -1,8 +1,8 @@
 extend type Query {
     viewCustomer(
         id: ID @eq
-        first_name: String @eq
-        last_name: String @eq
+        first_name: String @where(operator: "like")
+        last_name: String @where(operator: "like")
     ): Customer @can(ability: "view" find: "id") @find
 }
 

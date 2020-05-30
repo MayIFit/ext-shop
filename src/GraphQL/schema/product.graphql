@@ -22,7 +22,8 @@ extend type Query {
 
 extend type Query @guard(with: ["sanctum"]) {
     listProduct(
-        name: String @eq 
+        name: String @where(operator: "like")
+        catalog_id: String @where(operator: "like")
         in_stock: Boolean @neq(key: "0")
     ): [Product]
     @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\Product") 

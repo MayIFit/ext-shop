@@ -5,7 +5,7 @@ extend type Query {
 
 extend type Query @guard(with: ["sanctum"]) {
     listProductCategory(
-        name: String @eq 
+        name: String @where(operator: "like")
     ): [ProductCategory]
     @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\ProductCategory") 
     @paginate(type: "paginator")
