@@ -45,12 +45,13 @@ class OrderStatusUpdate extends Notification
      */
     public function toMail($notifiable)
     {
+        $url = url('/orders/'.$this->token);
         return (new MailMessage)
             ->from($this->senderEmail, $this->senderName)
-            ->greeting('Hello!') 
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
+            ->greeting(trans('global.hello')) 
+            ->line(trans('global.we_got_your_order'))
+            ->action(trans('action.check_here'), $url)
+            ->line(trans('global.thank_you_for_ordering'));
     }
 
     /**
