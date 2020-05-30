@@ -26,7 +26,7 @@ class SystemSettingsTableSeeder extends Seeder
         SystemSetting::updateOrCreate([
 			'setting_name' => 'shop.emailFrom',
 			'setting_description' => 'shop.email_from',
-			'setting_value' => 'info@mayifit.net'
+			'setting_value' => 'tischler.kristof@gmail.com'
 		]);
 		SystemSetting::updateOrCreate([
 			'setting_name' => 'shop.emailFromName',
