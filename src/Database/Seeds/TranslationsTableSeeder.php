@@ -310,7 +310,7 @@ class TranslationsTableSeeder extends Seeder
 
     protected function addShopRelatedTranslations() {
         Translation::updateOrCreate([
-	            'group' => 'actions',
+	            'group' => 'action',
 	            'key' => 'add_to_cart'
 			],
             ['text' => ['en' => 'Add To Cart', 'hu' => 'Kosárba Rakás']],
@@ -338,6 +338,12 @@ class TranslationsTableSeeder extends Seeder
 				'key' => 'cart'
 			],
 			['text' => ['en' => 'Shopping Cart', 'hu' => 'Bevásárló Kosár']],
+		);
+		Translation::updateOrCreate([
+				'group' => 'shop',
+				'key' => 'order'
+			],
+			['text' => ['en' => 'Order', 'hu' => 'Rendelés']],
 		);
 	}
 	
