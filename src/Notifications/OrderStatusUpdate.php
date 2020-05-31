@@ -47,7 +47,7 @@ class OrderStatusUpdate extends Notification
      */
     public function toMail($notifiable)
     {
-        $url = url('/orders/'.$this->order->token);
+        $url = url(rtrim(config('app.url')).'/orders/'.$this->order->token);
         return (new MailMessage)
             ->from($this->senderEmail, $this->senderName)
             ->greeting(trans('global.hello')) 
