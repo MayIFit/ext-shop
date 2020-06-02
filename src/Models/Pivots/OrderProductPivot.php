@@ -37,8 +37,8 @@ class OrderProductPivot extends Pivot
                     $query->whereNull('available_to');
                 })
                 ->first();
-            $order->net_value += ($productPricingForCurrency->base_price * (1 - ($productDiscount->discount_percentage / 100))) * $model->quantity;
-            $order->gross_value += ($productPricingForCurrency->gross_price * (1 - ($productDiscount->discount_percentage / 100))) * $model->quantity;
+            $order->net_value += ($productPricingForCurrency->base_price * (1 - ($productDiscount->discount_percentage ?? 0 / 100))) * $model->quantity;
+            $order->gross_value += ($productPricingForCurrency->gross_price * (1 - ($productDiscount->discount_percentage ?? 0 / 100))) * $model->quantity;
             $order->quantity += $model->quantity;
 
             $order->save();
