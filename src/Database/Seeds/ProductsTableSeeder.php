@@ -25,17 +25,19 @@ class ProductsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Product::class, 1000)->make()
+        factory(Product::class, 200)->make()
             ->each(function($product) {
                 $product->createdBy()->associate(1);
                 $product->category()->associate(ProductCategory::all()->random());
 
-                $product->reviews()->sync(factory(ProductReview::class, 10)->create()->each(function($review) {
-                    $review->createdBy()->associate(User::all()->random());
-                    $review->product()->associate($product);
-                }));
-
                 $product->save();
+
+                $product->reviews()->saveMany(
+                    factory(ProductReview::class, rand(1,10))->make()->each(function($review) use ($product) {
+                        $review->createdBy()->associate(User::all()->random());
+                    })
+                );
+
                 if (rand(1, 100) > 85 && Product::count() > 50) {
                     $product->parentProduct()->associate(Product::all()->random());
                 }

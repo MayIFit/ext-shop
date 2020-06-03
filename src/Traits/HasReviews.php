@@ -2,7 +2,7 @@
 
 namespace MayIFit\Extension\Shop\Traits;
 
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 use MayIFit\Extension\Shop\Models\ProductReview;
 
@@ -14,9 +14,9 @@ use MayIFit\Extension\Shop\Models\ProductReview;
 trait HasReviews {
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongstoMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function reviews(): BelongsToMany {
-        return $this->belongstoMany(ProductReview::class);
+    public function reviews(): HasMany {
+        return $this->hasMany(ProductReview::class);
     }
 }
