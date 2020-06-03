@@ -16,6 +16,7 @@ class CreateProductReviewsTable extends Migration
         Schema::create('product_reviews', function (Blueprint $table) {
             $table->id();
             $table->integer('rating');
+            $table->string('title');
             $table->text('message');
             $table->unsignedBigInteger('product_id')->references('id')->in('products');
             $table->foreignId('created_by')->references('id')->on('users');

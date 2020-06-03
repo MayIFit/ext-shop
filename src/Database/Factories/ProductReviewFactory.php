@@ -9,6 +9,7 @@ use MayIFit\Extension\Shop\Models\ProductReview;
 $factory->define(ProductReview::class, function (Faker $faker) {
     return [
         'rating' => rand(1, 5),
+        'title' => $faker->bs,
         'message' => $faker->text,
     ];
 });
