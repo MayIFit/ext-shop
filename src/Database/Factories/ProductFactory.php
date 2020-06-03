@@ -22,9 +22,9 @@ $factory->define(Product::class, function (Faker $faker) {
         'in_stock' => $faker->numberBetween($min = 0, $max = 73),
         'technical_specs' => $technicalSpecs,
         'supplied' => [
-            'product.accumulator' => '24v/2A',
-            'product.manual' => '',
-            'product.bag' => '25l',
+            'accumulator' => '24v/2A',
+            'manual' => '',
+            'bag' => '25l',
         ]
     ];
 });
