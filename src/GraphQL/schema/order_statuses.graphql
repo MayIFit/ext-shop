@@ -31,11 +31,13 @@ input UpdateOrderStatusInput {
     id: ID
     name: String!
     icon: String!
+    send_notification: Boolean!
 }
 
 input CreateOrderStatusInput {
     name: String!
     icon: String!
+    send_notification: Boolean!
 }
 
 input connectOrderStatusRelation {
@@ -46,4 +48,5 @@ type OrderStatus @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\OrderSt
     id: ID!
     name: String!
     icon: String!
+    send_notification: Boolean!
 }

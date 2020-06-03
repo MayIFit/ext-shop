@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class OrderStatus extends Model
 {
     use SoftDeletes;
+
+    protected $attributes = [
+        'send_notification' => false
+    ];
 }

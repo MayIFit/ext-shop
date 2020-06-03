@@ -17,6 +17,7 @@ class CreateOrderStatusesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('icon');
+            $table->boolean('send_notification');
             $table->timestamps();
             $table->softDeletes();
         });
