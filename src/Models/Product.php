@@ -17,13 +17,14 @@ use MayIFit\Extension\Shop\Models\ProductCategory;
 use MayIFit\Core\Permission\Traits\HasUsers;
 use MayIFit\Core\Permission\Traits\HasDocuments;
 use MayIFit\Extension\Shop\Traits\HasOrders;
+use MayIFit\Extension\Shop\Traits\HasReviews;
 
 class Product extends Model
 {
-    use SoftDeletes, HasUsers, HasOrders, HasDocuments;
+    use SoftDeletes, HasUsers, HasOrders, HasReviews, HasDocuments;
 
     protected $guarded = [];
-    protected $with = ['pricings', 'category', 'discounts'];
+    protected $with = ['pricings', 'category', 'discounts', 'reviews'];
     protected $casts = [
         'technical_specs' => 'array',
         'supplied' => 'array'

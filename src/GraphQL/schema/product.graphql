@@ -92,6 +92,10 @@ input UpdateParentProductRelation {
     connect: ID
 }
 
+input UpdateProductRelation {
+    connect: ID
+}
+
 type OrderProductPivot {
     "Ordered quantity of a product"
     quantity: Int!
@@ -109,7 +113,7 @@ type Product @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Product") {
     quantity_unit_text: String
     refurbished: Boolean!
     varranty: Int!
-
+    reviews: [ProductReview]! @hasMany
     pivot: OrderProductPivot
     pricings: [ProductPricing]! @hasMany
     discounts: [ProductDiscount]! @hasMany

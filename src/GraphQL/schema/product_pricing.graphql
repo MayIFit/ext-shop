@@ -20,9 +20,9 @@ input UpdateProductPricingInput {
 
 type ProductPricing @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\ProductPricing") {
     id: ID!
-    product: Product @belongsTo
-    base_price: Float
-    vat: Float
+    product: Product! @belongsTo
+    base_price: Float!
+    vat: Float!
     grossPrice: Float @method(name: "getGrossPriceAttribute")
-    currency: String
+    currency: String!
 }

@@ -1,0 +1,25 @@
+input ProductReviewRelation {
+    create: [CreateProductReviewInput!]
+    update: [UpdateProductReviewInput!]
+}
+
+input CreateProductReviewInput {
+    product: UpdateProductRelation!
+    message: String!
+    rating: Int!
+    createdBy: UpdateUserRelation!
+}
+
+input UpdateProductReviewInput {
+    id: ID!
+    message: String!
+    rating: Int!
+}
+
+type ProductReview @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\ProductReview") {
+    id: ID!
+    product: Product! @belongsTo
+    message: String!
+    rating: Int!
+    createdBy: User! @belongsTo
+}
