@@ -25,7 +25,35 @@ class TranslationsTableSeeder extends Seeder
 		$this->addOrderRelatedTranslations();
 		$this->addPricingRelatedTranslations();
 		$this->addDiscountRelatedTranslations();
-    }
+		$this->globalTranslations();
+	}
+	
+	protected function globalTranslations() {
+        Translation::updateOrCreate([
+				'group' => 'global',
+				'key' => 'store'
+			],
+			['text' => ['en' => 'Store', 'hu' => 'Üzlet']],
+		);
+		Translation::updateOrCreate([
+				'group' => 'product',
+				'key' => 'list'
+			],
+			['text' => ['en' => 'Product List', 'hu' => 'Termék Lista']],
+		);
+		Translation::updateOrCreate([
+				'group' => 'product-category',
+				'key' => 'list'
+			],
+			['text' => ['en' => 'Product Category List', 'hu' => 'Termék Kategória Lista']],
+		);
+		Translation::updateOrCreate([
+				'group' => 'order',
+				'key' => 'list'
+			],
+			['text' => ['en' => 'Order List', 'hu' => 'Rendelés Lista']],
+		);
+	}
 
     protected function addUnitTranslations() {
         Translation::updateOrCreate([
