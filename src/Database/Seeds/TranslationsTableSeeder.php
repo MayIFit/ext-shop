@@ -53,6 +53,12 @@ class TranslationsTableSeeder extends Seeder
 			],
 			['text' => ['en' => 'Order List', 'hu' => 'Rendelés Lista']],
 		);
+		Translation::updateOrCreate([
+				'group' => 'global',
+				'key' => 'reviews'
+			],
+			['text' => ['en' => 'Reviews', 'hu' => 'Értékelések']],
+		);
 	}
 
     protected function addUnitTranslations() {
@@ -88,6 +94,12 @@ class TranslationsTableSeeder extends Seeder
 	            'key' => 'catalog_id'
 			],
             ['text' => ['en' => 'Catalog ID', 'hu' => 'Katalógusszám']],
+		);
+        Translation::updateOrCreate([
+				'group' => 'product',
+				'key' => 'quality'
+			],
+			['text' => ['en' => 'Quality', 'hu' => 'Minőség']],
 		);
 		Translation::updateOrCreate([
 				'group' => 'product',
