@@ -32,6 +32,7 @@ class ProductsTableSeeder extends Seeder
 
                 $product->reviews()->sync(factory(ProductReview::class, 10)->create()->each(function($review) {
                     $review->createdBy()->associate(User::all()->random());
+                    $review->product()->associate($product);
                 }));
 
                 $product->save();
