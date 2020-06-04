@@ -1,11 +1,11 @@
 extend type Query {
     allCurrencies: [Currency!]! @cache
-}
+} 
 
 type Currency {
     id: ID!
     currency: String!
-    symbol: String!,
+    symbol: String!
     iso_code: String!
     active: Boolean
 }
