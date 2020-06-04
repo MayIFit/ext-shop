@@ -53,12 +53,8 @@
                     $this->addSeedsAfterConsoleCommandFinished();
                 }
             }
-            $this->publishes([
-                __DIR__.'/GraphQL/schema' => './graphql/extensions',
-            ]);
-            $this->publishes([
-                __DIR__.'/GraphQL/Queries' => './app/GraphQL/Queries/Extensions',
-            ]);
+            
+            $this->publishResources();
             $this->registerPolicies();
         }
 
@@ -72,6 +68,20 @@
             $this->app->bind('order', function () {
                 return new Order();
             });
+        }
+
+        /**
+         * Publish resources
+         *
+         * @return void
+         */
+        protected function publishResources() {
+            $this->publishes([
+                __DIR__.'/GraphQL/schema' => './graphql/extensions',
+            ]);
+            $this->publishes([
+                __DIR__.'/GraphQL/Queries' => './app/GraphQL/Queries/Extensions',
+            ]);
         }
 
         /**
