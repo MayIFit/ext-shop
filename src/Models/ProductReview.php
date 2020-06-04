@@ -20,4 +20,8 @@ class ProductReview extends Model
     protected $fillable = [
         'title', 'message', 'rating'
     ];
+
+    protected $attributes = [
+        'rating' => 0
+    ];
 }

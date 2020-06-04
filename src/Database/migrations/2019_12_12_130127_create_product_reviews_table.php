@@ -17,7 +17,7 @@ class CreateProductReviewsTable extends Migration
             $table->id();
             $table->integer('rating');
             $table->string('title');
-            $table->text('message');
+            $table->text('message')->nullable();
             $table->unsignedBigInteger('product_id')->references('id')->in('products');
             $table->foreignId('created_by')->references('id')->on('users');
             $table->foreignId('updated_by')->nullable()->references('id')->on('users');
