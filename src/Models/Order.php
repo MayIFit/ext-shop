@@ -34,8 +34,8 @@ class Order extends Model
             return $model;
         });
 
-        self::saving(function(Model $model){
-            if ($model->status->send_notification) {
+        self::saved(function(Model $model) {
+            if ($model->orderStatus->send_notification) {
                 $model->customer->notify(new OrderStatusUpdate($model));
             }
         });
