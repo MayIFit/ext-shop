@@ -19,7 +19,7 @@ input ProductReviewRelation {
 input CreateProductReviewInput {
     product: UpdateProductRelation!
     title: String!
-    message: String!
+    message: String
     rating: Int!
     createdBy: UpdateUserRelation!
 }
@@ -27,7 +27,7 @@ input CreateProductReviewInput {
 input UpdateProductReviewInput {
     id: ID!
     title: String!
-    message: String!
+    message: String
     rating: Int!
 }
 
@@ -35,7 +35,7 @@ type ProductReview @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Produ
     id: ID!
     product: Product! @belongsTo
     title: String!
-    message: String!
+    message: String
     rating: Int!
     createdBy: User! @belongsTo
 }
