@@ -12,7 +12,7 @@ class ProductPolicy
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can view any translations.
+     * Determine whether the user can view any products.
      *
      * @param  \MayIFit\Core\Permission\Models\User  $user
      * @return mixed
@@ -35,7 +35,7 @@ class ProductPolicy
     }
 
     /**
-     * Determine whether the user can create translations.
+     * Determine whether the user can create products.
      *
      * @param  \MayIFit\Core\Permission\Models\User  $user
      * @return mixed

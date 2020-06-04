@@ -1,3 +1,17 @@
+extend type Mutation @guard(with: ["sanctum"]) {
+    createProductReview(input: CreateProductReviewInput! @spread): ProductReview
+        @can(ability: "create" find: "id")
+        @create
+
+    updateProductReview(input: UpdateProductReviewInput! @spread): ProductReview
+        @can(ability: "update" find: "id")
+        @update
+
+    deleteProductReview(id: ID! @rules(apply: ["required"])): ProductReview 
+        @can(ability: "delete" find: "id") 
+        @delete
+}
+
 input ProductReviewRelation {
     create: [CreateProductReviewInput!]
     update: [UpdateProductReviewInput!]

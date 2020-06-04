@@ -12,7 +12,7 @@ class ProductCategoryPolicy
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can view any translations.
+     * Determine whether the user can view any product categories.
      *
      * @param  \MayIFit\Core\Permission\Models\User  $user
      * @return mixed
@@ -23,7 +23,7 @@ class ProductCategoryPolicy
     }
 
     /**
-     * Determine whether the user can view the productCategory.
+     * Determine whether the user can view the product category.
      *
      * @param  \MayIFit\Core\Permission\Models\User  $user
      * @param  \MayIFit\Extension\Shop\Models\ProductCategory  $productCategory
@@ -35,7 +35,7 @@ class ProductCategoryPolicy
     }
 
     /**
-     * Determine whether the user can create translations.
+     * Determine whether the user can create product categories.
      *
      * @param  \MayIFit\Core\Permission\Models\User  $user
      * @return mixed
@@ -46,7 +46,7 @@ class ProductCategoryPolicy
     }
 
     /**
-     * Determine whether the user can update the productCategory.
+     * Determine whether the user can update the product category.
      *
      * @param  \MayIFit\Core\Permission\Models\User  $user
      * @param  \MayIFit\Extension\Shop\Models\ProductCategory  $productCategory
@@ -58,7 +58,7 @@ class ProductCategoryPolicy
     }
 
     /**
-     * Determine whether the user can delete the productCategory.
+     * Determine whether the user can delete the product category.
      *
      * @param  \MayIFit\Core\Permission\Models\User  $user
      * @param  \MayIFit\Extension\Shop\Models\ProductCategory  $productCategory
@@ -70,7 +70,7 @@ class ProductCategoryPolicy
     }
 
     /**
-     * Determine whether the user can restore the productCategory.
+     * Determine whether the user can restore the product category.
      *
      * @param  \MayIFit\Core\Permission\Models\User  $user
      * @param  \MayIFit\Extension\Shop\Models\ProductCategory  $productCategory
@@ -82,7 +82,7 @@ class ProductCategoryPolicy
     }
 
     /**
-     * Determine whether the user can permanently delete the productCategory.
+     * Determine whether the user can permanently delete the product category.
      *
      * @param  \MayIFit\Core\Permission\Models\User  $user
      * @param  \MayIFit\Extension\Shop\Models\ProductCategory  $productCategory
