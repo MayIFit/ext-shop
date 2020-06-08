@@ -355,6 +355,12 @@ class TranslationsTableSeeder extends Seeder
 			],
             ['text' => ['en' => 'Add To Cart', 'hu' => 'Kosárba Rakás']],
 		);
+		Translation::updateOrCreate([
+				'group' => 'action',
+				'key' => 'upload'
+			],
+			['text' => ['en' => 'Upload', 'hu' => 'Feltöltés']],
+		);
         Translation::updateOrCreate([
 	            'group' => 'shop',
 	            'key' => 'shop'
