@@ -1,13 +1,17 @@
 extend type Query {
-    listOrder: [Order]
-        @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\Order") 
-        @paginate(type: "paginator")
-
     getOrderFromToken(
         token: String!
         currency: String!
         dateTime: DateTime!
     ): Order @field(resolver: "GetOrderFromToken@resolve")
+}
+
+extend type Query @guard(with: ["sanctum"]) {
+    listOrder(
+        token: String! @eq
+    ): [Order]
+        @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\Order") 
+        @paginate(type: "paginator")
 
     viewOrder(
         id: ID! @eq
