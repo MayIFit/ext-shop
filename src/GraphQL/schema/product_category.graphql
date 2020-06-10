@@ -1,6 +1,6 @@
 
 extend type Query {
-    allProductCategories: [ProductCategory] @all
+    allProductCategory: [ProductCategory] @all
 }
 
 extend type Query @guard(with: ["sanctum"]) {
