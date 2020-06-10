@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
 use MayIFit\Extension\Shop\Traits\HasOrders;
-use MayIFit\Core\Permission\Traits\HasUsers;
 
 class Customer extends Model
 {
