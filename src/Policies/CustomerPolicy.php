@@ -4,7 +4,7 @@ namespace MayIFit\Extension\Shop\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-use MayIFit\Core\Permission\Models\User;
+use App\Models\User;
 use MayIFit\Extension\Shop\Models\Customer;
 
 class CustomerPolicy
@@ -14,7 +14,7 @@ class CustomerPolicy
     /**
      * Determine whether the user can view any translations.
      *
-     * @param  \MayIFit\Core\Permission\Models\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function viewAny(User $user)
@@ -25,7 +25,7 @@ class CustomerPolicy
     /**
      * Determine whether the user can view the customer.
      *
-     * @param  \MayIFit\Core\Permission\Models\User  $user
+     * @param  \App\Models\User  $user
      * @param  \MayIFit\Extension\Shop\Models\Customer  $customer
      * @return mixed
      */
@@ -38,7 +38,7 @@ class CustomerPolicy
     /**
      * Determine whether the user can create customers.
      *
-     * @param  \MayIFit\Core\Permission\Models\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -49,7 +49,7 @@ class CustomerPolicy
     /**
      * Determine whether the user can update the customer.
      *
-     * @param  \MayIFit\Core\Permission\Models\User  $user
+     * @param  \App\Models\User  $user
      * @param  \MayIFit\Extension\Shop\Models\Customer  $customer
      * @return mixed
      */
@@ -62,7 +62,7 @@ class CustomerPolicy
     /**
      * Determine whether the user can delete the customer.
      *
-     * @param  \MayIFit\Core\Permission\Models\User  $user
+     * @param  \App\Models\User  $user
      * @param  \MayIFit\Extension\Shop\Models\Customer  $customer
      * @return mixed
      */
@@ -75,7 +75,7 @@ class CustomerPolicy
     /**
      * Determine whether the user can restore the customer.
      *
-     * @param  \MayIFit\Core\Permission\Models\User  $user
+     * @param  \App\Models\User  $user
      * @param  \MayIFit\Extension\Shop\Models\Customer  $customer
      * @return mixed
      */
@@ -87,7 +87,7 @@ class CustomerPolicy
     /**
      * Determine whether the user can permanently delete the customer.
      *
-     * @param  \MayIFit\Core\Permission\Models\User  $user
+     * @param  \App\Models\User  $user
      * @param  \MayIFit\Extension\Shop\Models\Customer  $customer
      * @return mixed
      */

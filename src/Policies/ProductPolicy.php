@@ -4,7 +4,7 @@ namespace MayIFit\Extension\Shop\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-use MayIFit\Core\Permission\Models\User;
+use App\Models\User;
 use MayIFit\Extension\Shop\Models\Product;
 
 class ProductPolicy
@@ -14,7 +14,7 @@ class ProductPolicy
     /**
      * Determine whether the user can view any products.
      *
-     * @param  \MayIFit\Core\Permission\Models\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function viewAny(User $user)
@@ -25,7 +25,7 @@ class ProductPolicy
     /**
      * Determine whether the user can view the product.
      *
-     * @param  \MayIFit\Core\Permission\Models\User  $user
+     * @param  \App\Models\User  $user
      * @param  \MayIFit\Extension\Shop\Models\Product  $product
      * @return mixed
      */
@@ -37,7 +37,7 @@ class ProductPolicy
     /**
      * Determine whether the user can create products.
      *
-     * @param  \MayIFit\Core\Permission\Models\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -48,7 +48,7 @@ class ProductPolicy
     /**
      * Determine whether the user can update the product.
      *
-     * @param  \MayIFit\Core\Permission\Models\User  $user
+     * @param  \App\Models\User  $user
      * @param  \MayIFit\Extension\Shop\Models\Product  $product
      * @return mixed
      */
@@ -60,7 +60,7 @@ class ProductPolicy
     /**
      * Determine whether the user can delete the product.
      *
-     * @param  \MayIFit\Core\Permission\Models\User  $user
+     * @param  \App\Models\User  $user
      * @param  \MayIFit\Extension\Shop\Models\Product  $product
      * @return mixed
      */
@@ -72,7 +72,7 @@ class ProductPolicy
     /**
      * Determine whether the user can restore the product.
      *
-     * @param  \MayIFit\Core\Permission\Models\User  $user
+     * @param  \App\Models\User  $user
      * @param  \MayIFit\Extension\Shop\Models\Product  $product
      * @return mixed
      */
@@ -84,7 +84,7 @@ class ProductPolicy
     /**
      * Determine whether the user can permanently delete the product.
      *
-     * @param  \MayIFit\Core\Permission\Models\User  $user
+     * @param  \App\Models\User  $user
      * @param  \MayIFit\Extension\Shop\Models\Product  $product
      * @return mixed
      */

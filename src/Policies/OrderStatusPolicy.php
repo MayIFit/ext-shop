@@ -4,7 +4,7 @@ namespace MayIFit\Extension\Shop\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-use MayIFit\Core\Permission\Models\User;
+use App\Models\User;
 use MayIFit\Extension\Shop\Models\OrderStatus;
 
 class OrderStatusPolicy
@@ -14,7 +14,7 @@ class OrderStatusPolicy
     /**
      * Determine whether the user can view any order statuses.
      *
-     * @param  \MayIFit\Core\Permission\Models\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function viewAny(User $user)
@@ -25,7 +25,7 @@ class OrderStatusPolicy
     /**
      * Determine whether the user can view the order status.
      *
-     * @param  \MayIFit\Core\Permission\Models\User  $user
+     * @param  \App\Models\User  $user
      * @param  \MayIFit\Extension\Shop\Models\OrderStatus  $orderStatus
      * @return mixed
      */
@@ -37,7 +37,7 @@ class OrderStatusPolicy
     /**
      * Determine whether the user can create order statuses.
      *
-     * @param  \MayIFit\Core\Permission\Models\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -48,7 +48,7 @@ class OrderStatusPolicy
     /**
      * Determine whether the user can update the order status.
      *
-     * @param  \MayIFit\Core\Permission\Models\User  $user
+     * @param  \App\Models\User  $user
      * @param  \MayIFit\Extension\Shop\Models\OrderStatus  $orderStatus
      * @return mixed
      */
@@ -60,7 +60,7 @@ class OrderStatusPolicy
     /**
      * Determine whether the user can delete the order status.
      *
-     * @param  \MayIFit\Core\Permission\Models\User  $user
+     * @param  \App\Models\User  $user
      * @param  \MayIFit\Extension\Shop\Models\OrderStatus  $orderStatus
      * @return mixed
      */
@@ -72,7 +72,7 @@ class OrderStatusPolicy
     /**
      * Determine whether the user can restore the order status.
      *
-     * @param  \MayIFit\Core\Permission\Models\User  $user
+     * @param  \App\Models\User  $user
      * @param  \MayIFit\Extension\Shop\Models\OrderStatus  $orderStatus
      * @return mixed
      */
@@ -84,7 +84,7 @@ class OrderStatusPolicy
     /**
      * Determine whether the user can permanently delete the order status.
      *
-     * @param  \MayIFit\Core\Permission\Models\User  $user
+     * @param  \App\Models\User  $user
      * @param  \MayIFit\Extension\Shop\Models\OrderStatus  $orderStatus
      * @return mixed
      */

@@ -4,7 +4,7 @@ namespace MayIFit\Extension\Shop\Database\Seeds;
 
 use Illuminate\Database\Seeder;
 
-use MayIFit\Core\Permission\Models\User;
+use App\Models\User;
 use MayIFit\Extension\Shop\Models\Product;
 use MayIFit\Extension\Shop\Models\ProductReview;
 use MayIFit\Extension\Shop\Models\ProductCategory;
