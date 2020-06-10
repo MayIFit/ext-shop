@@ -5,13 +5,13 @@ namespace MayIFit\Extension\Shop\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use MayIFit\Core\Permission\Traits\HasUsers;
 use MayIFit\Extension\Shop\Traits\HasProduct;
-use MayIFit\Extension\Shop\Traits\HasUser;
 
 
 class ProductPricing extends Model
 {
-    use SoftDeletes, HasProduct, HasUser;
+    use SoftDeletes, HasProduct, HasUsers;
 
     protected $with = ['user'];
 

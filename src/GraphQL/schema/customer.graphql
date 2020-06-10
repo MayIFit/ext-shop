@@ -79,3 +79,7 @@ type Customer @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Customer")
     billing_door: String
     productPricing: [ProductPricing]!
 }
+
+extend type User {
+    customer: Customer @hasOne
+}

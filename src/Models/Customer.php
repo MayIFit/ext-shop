@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
 use MayIFit\Extension\Shop\Traits\HasOrders;
-use MayIFit\Extension\Shop\Traits\HasUser;
+use MayIFit\Core\Permission\Traits\HasUsers;
 
 class Customer extends Model
 {
-    use HasOrders, HasUser, Notifiable;
+    use HasOrders, HasUsers, Notifiable;
 
     protected $fillable = [
         'first_name',
