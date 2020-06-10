@@ -121,7 +121,7 @@ type Product @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Product") {
     accessories: [Product]! @hasMany
     parentProduct: Product @belongsTo
     documents: [Document]! @morphMany
-    getPricingForCurrency(currency: String!): ProductPricing
+    getPricing(currency: String! dateTime: DateTime user_id: ID): ProductPricing
         @method(passordered: true)
     getDiscountForDate(dateTime: DateTime!): ProductDiscount
         @method(passordered: true)

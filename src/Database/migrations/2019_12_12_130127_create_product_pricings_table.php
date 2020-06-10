@@ -16,14 +16,14 @@ class CreateProductPricingsTable extends Migration
         Schema::create('product_pricings', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('product_id')->references('id')->on('products');
-            $table->unsignedBigInteger('customer_id')->nullable()->references('id')->on('customers');
+            $table->unsignedBigInteger('user_id')->nullable()->references('id')->on('users');
             $table->double('base_price');
             $table->double('vat');
             $table->string('currency');
             $table->timestamp('available_to')->nullable();
             $table->timestamps();
             $table->softDeletes();
-            $table->unique(['product_id', 'currency', 'customer_id']);
+            $table->unique(['product_id', 'currency', 'user_id']);
         });
     }
 
