@@ -9,6 +9,7 @@ input CreateProductPricingInput {
     base_price: Float!
     vat: Float!
     currency: String!
+    customer: UpdateCustomerRelation
 }
 
 input UpdateProductPricingInput {
@@ -16,6 +17,7 @@ input UpdateProductPricingInput {
     base_price: Float!
     vat: Float!
     currency: String!
+    customer: UpdateCustomerRelation
 }
 
 type ProductPricing @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\ProductPricing") {
@@ -25,4 +27,5 @@ type ProductPricing @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Prod
     vat: Float!
     grossPrice: Float @method(name: "getGrossPriceAttribute")
     currency: String!
+    customer: Customer
 }

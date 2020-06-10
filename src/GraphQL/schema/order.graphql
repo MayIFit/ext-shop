@@ -53,11 +53,6 @@ input CreateOrderInput {
     paid: Boolean
 }
 
-input UpdateCustomerRelation {
-    connect: ID
-    create: CreateCustomerInput
-}
-
 input syncProductsRelation {
     sync: [syncProductPivotRelationData!]!
 }

@@ -6,10 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 use MayIFit\Extension\Shop\Traits\HasProduct;
+use MayIFit\Extension\Shop\Traits\HasCustomer;
+
 
 class ProductPricing extends Model
 {
-    use SoftDeletes, HasProduct;
+    use SoftDeletes, HasProduct, HasCustomer;
+
+    protected $with = ['customer'];
 
     public $fillable = [
         'product_id',

@@ -20,6 +20,7 @@ class CreateProductPricingsTable extends Migration
             $table->double('base_price');
             $table->double('vat');
             $table->string('currency');
+            $table->timestamp('available_to')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->unique(['product_id', 'currency', 'customer_id']);

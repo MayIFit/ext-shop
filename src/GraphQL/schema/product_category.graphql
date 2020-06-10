@@ -39,6 +39,7 @@ input CreateProductCategoryInput {
     description: String
     parentCategory: ProductCategoryRelation
     document: UpdateDocumentHasOne
+    discounts: UpdateProductCategoryDiscountRelation
 }
 
 input UpdateProductCategoryInput {
@@ -47,6 +48,7 @@ input UpdateProductCategoryInput {
     description: String
     parentCategory: ProductCategoryRelation
     document: UpdateDocumentHasOne
+    discounts: UpdateProductCategoryDiscountRelation
 }
 
 type ProductCategory @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\ProductCategory") {
@@ -55,4 +57,7 @@ type ProductCategory @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Pro
     description: String
     parentCategory: ProductCategory
     document: Document @morphOne
+    discounts: [ProductCategoryDiscount]! @hasMany
+    getDiscountForDate(dateTime: DateTime!): ProductCategoryDiscount
+        @method(passordered: true)
 }

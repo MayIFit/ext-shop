@@ -9,7 +9,12 @@ extend type Query {
 extend type Mutation {
     createCustomer(input: CreateCustomerInput! @spread): Order 
         @create
-} 
+}
+
+input UpdateCustomerRelation {
+    connect: ID
+    create: CreateCustomerInput
+}
 
 input CreateCustomerInput {
     user: UpdateUserRelation @spread
@@ -72,4 +77,5 @@ type Customer @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Customer")
     billing_house_nr: String
     billing_floor: String
     billing_door: String
+    productPricing: [ProductPricing]!
 }

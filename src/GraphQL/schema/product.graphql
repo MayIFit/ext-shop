@@ -64,7 +64,7 @@ input CreateProductInput {
     documents: UpdateDocumentHasMany
     pricings: ProductPricingRelation
     category: ProductCategoryRelation
-    discounts: ProductDiscountRelation
+    discounts: UpdateProductDiscountRelation
     parentProduct: UpdateParentProductRelation
 }
 
@@ -84,7 +84,7 @@ input UpdateProductInput {
     documents: UpdateDocumentHasMany
     pricings: ProductPricingRelation
     category: ProductCategoryRelation
-    discounts: ProductDiscountRelation
+    discounts: UpdateProductDiscountRelation
     parentProduct: UpdateParentProductRelation
 }
 

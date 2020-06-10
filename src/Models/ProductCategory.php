@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 use MayIFit\Core\Permission\Traits\HasDocuments;
 use MayIFit\Extension\Shop\Models\Product;
+use MayIFit\Extension\Shop\Models\ProductCategoryDiscount;
 
 class ProductCategory extends Model
 {
@@ -25,5 +26,18 @@ class ProductCategory extends Model
 
     public function products(): HasMany {
         return $this->hasMany(Product::class);
+    }
+
+    public function getDiscountForDate($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): ?ProductCategoryDiscount {
+        return $this->hasOne(ProductCategoryDiscount::class)
+            ->where(function ($query) use ($args) {
+                $query->where('available_from', '<=', $args['dateTime']);
+                $query->where('available_to', '>=', $args['dateTime']);
+            })
+            ->orWhere(function ($query) use ($args) {
+                $query->where('available_from', '<=', $args['dateTime']);
+                $query->whereNull('available_to');
+            })
+            ->first();
     }
 }
