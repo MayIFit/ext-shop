@@ -21,6 +21,7 @@ $factory->define(Product::class, function (Faker $faker) {
         'description' => $faker->text($maxNbChars = 500),
         'in_stock' => $faker->numberBetween($min = 0, $max = 73),
         'technical_specs' => $technicalSpecs,
+        'varranty' => '1 year',
         'supplied' => [
             'accumulator' => '24v/2A',
             'manual' => '',
