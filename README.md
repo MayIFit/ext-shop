@@ -1,17 +1,18 @@
 # ![MayIFit](https://mayifit.net/uploads/1/3/1/4/131406101/published/mif-1.png)
 
-> ### The Core translation system of any [Laravel](https://laravel.com) based MayIFit system.
+> ### E-commerce extension for any [Laravel](https://laravel.com) based MayIFit system.
 
 
-# Code overview
-The purpose of this package is to have an identical translation system accross all MayIFit products.
 
 ## Folders
 
+- `src/Database/Factories` - Contains all Model Factories for the database seeding
 - `src/Database/migrations` - Contains all the required migration files for this package
-- `src/Database/seeds` - Contains all the seeder files for this package
-- `src/Http/Controllers` - Contains all the controllers
-- `src/Http/Resources` - Contains all the API response resources
+- `src/Database/Seeds` - Contains all the seeder files for this package
+- `src/Facades` - Contains all the Eloquent model facades
+- `src/GraphQL/Queries` - Custom Query resolvers for GraphQL requests
+- `src/GraphQL/schema` - Schema descritpions for GraphQL server
 - `src/Models` - Contains all the Eloquent models
+- `src/Notifications` - Contains all event based notification classes
 - `src/Policies` - Contains all the Eloquent model policies
-- `src/Facedes` - Contains all the Eloquent model facades
+- `src/Tratis` - Contains all the Eloquent model related traits like relationships
