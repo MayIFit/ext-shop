@@ -10,7 +10,7 @@ use MayIFit\Core\Permission\Traits\HasUsers;
 
 class Customer extends Model
 {
-    use HasOrders, HasUsers, Notifiable;
+    use HasOrders, Notifiable;
 
     protected $fillable = [
         'first_name',
@@ -41,8 +41,6 @@ class Customer extends Model
 
     public static function boot()
     {
-        parent::boot();
-
         self::creating(function($model) {
             if (!$model->different_billing) {
                 $model->billing_first_name = $model->first_name;

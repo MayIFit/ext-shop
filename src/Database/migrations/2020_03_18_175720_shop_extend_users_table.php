@@ -15,6 +15,7 @@ class ShopExtendUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->boolean('reseller')->nullable();
+            $table->foreignId('customer_id')->nullable()->references('id')->on('customers');
         });
     }
 
@@ -26,7 +27,7 @@ class ShopExtendUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['reseller']);
+            $table->dropColumn(['reseller', 'customer_id']);
         });
     }
 }
