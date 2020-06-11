@@ -65,10 +65,12 @@ class Product extends Model
     public function getPricing($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): ?ProductPricing {
         return $this->hasOne(ProductPricing::class)->where([
             ['currency', '=', $args['currency']],
-            ['available_to', '<=', $args['dateTime']]
         ])
-        ->when($args['user_id'], function($query) use($args) {
+        ->when(isset($args['user_id']), function($query) use($args) {
             return $query->where('user_id', $args['user_id']);
+        })
+        ->when(isset($args['dateTime']), function($query) use($args) {
+            return $query->where('dateTime', '<=', $args['dateTime']);
         })
         ->first();
     }

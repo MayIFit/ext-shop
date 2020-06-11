@@ -3,13 +3,16 @@
 namespace MayIFit\Extension\Shop\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Notifications\Notifiable;
 
+use App\Models\User;
+use MayIFit\Core\Permission\Traits\HasUsers;
 use MayIFit\Extension\Shop\Traits\HasOrders;
 
 class Customer extends Model
 {
-    use HasOrders, Notifiable;
+    use HasOrders, HasUsers, Notifiable;
 
     protected $fillable = [
         'first_name',

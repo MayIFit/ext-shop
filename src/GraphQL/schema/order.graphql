@@ -8,7 +8,7 @@ extend type Query {
 
 extend type Query @guard(with: ["sanctum"]) {
     listOrder(
-        token: String! @eq
+        token: String @eq
     ): [Order]
         @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\Order") 
         @paginate(type: "paginator")
