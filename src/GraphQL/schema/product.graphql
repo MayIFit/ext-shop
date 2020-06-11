@@ -3,7 +3,7 @@ extend type Query {
         currency: String!
         dateTime: DateTime!
         category: ID @eq(key: "category_id")
-        name: String @eq
+        name: String @where(operator: "like")
     ): [Product]
     @paginate(type: "paginator")
 
