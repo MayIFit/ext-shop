@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+
 use Nuwave\Lighthouse\Schema\Context as GraphQLContext;
 use GraphQL\Type\Definition\ResolveInfo;
 
 use MayIFit\Extension\Shop\Models\ProductPricing;
+
 use MayIFit\Extension\Shop\Models\ProductDiscount;
 use MayIFit\Extension\Shop\Models\ProductCategory;
 
