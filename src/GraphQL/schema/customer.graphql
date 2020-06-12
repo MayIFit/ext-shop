@@ -114,3 +114,7 @@ type Customer @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Customer")
 extend type User {
     customer: Customer @hasOne
 }
+
+extend input UpdateUserInput {
+    customer: UpdateCustomerRelation
+}
