@@ -117,6 +117,7 @@ type Customer @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Customer")
     billing_house_nr: String
     billing_floor: String
     billing_door: String
+    orders: [Order]! @hasMany
 }
 
 extend type User {
