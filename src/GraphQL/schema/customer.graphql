@@ -1,4 +1,4 @@
-extend type Query {
+extend type Query @guard(with: ["sanctum"]) {
     viewCustomer(
         id: ID @eq
         first_name: String @where(operator: "like")
@@ -9,8 +9,11 @@ extend type Query {
 extend type Mutation {
     createCustomer(input: CreateCustomerInput! @spread): Customer 
         @create
+}
 
+extend type Mutation @guard(with: ["sanctum"]) {
     updateCustomer(input: UpdateCustomerInput! @spread): Customer 
+        @can(ability: "update" find: "id")
         @update
 }
 
