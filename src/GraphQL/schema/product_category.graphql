@@ -1,12 +1,12 @@
 
 extend type Query {
-    allProductCategory: [ProductCategory] @all
+    allProductCategory: [ProductCategory]! @all
 }
 
 extend type Query @guard(with: ["sanctum"]) {
     listProductCategory(
         name: String @where(operator: "like")
-    ): [ProductCategory]
+    ): [ProductCategory]!
     @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\ProductCategory") 
     @paginate(type: "paginator")
 

@@ -1,8 +1,13 @@
 extend type Query @guard(with: ["sanctum"]) {
-    viewCustomer(
-        id: ID @eq
+    listCustomer(
         first_name: String @where(operator: "like")
         last_name: String @where(operator: "like")
+    ): [Customer]!
+        @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\Customer") 
+        @paginate(type: "paginator")
+
+    viewCustomer(
+        id: ID @eq
     ): Customer @can(ability: "view" find: "id") @find
 }
 

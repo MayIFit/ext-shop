@@ -4,7 +4,7 @@ extend type Query {
         dateTime: DateTime!
         category: ID @eq(key: "category_id")
         name: String @where(operator: "like")
-    ): [Product]
+    ): [Product]!
     @paginate(type: "paginator")
 
     viewProductWithPricing(
@@ -25,7 +25,7 @@ extend type Query @guard(with: ["sanctum"]) {
         name: String @where(operator: "like")
         catalog_id: String @where(operator: "like")
         in_stock: Boolean @neq(key: "0")
-    ): [Product]
+    ): [Product]!
     @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\Product") 
     @paginate(type: "paginator")
 
