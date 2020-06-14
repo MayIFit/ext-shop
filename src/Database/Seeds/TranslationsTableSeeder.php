@@ -209,6 +209,18 @@ class TranslationsTableSeeder extends Seeder
 			],
 			['text' => ['en' => 'Supplied', 'hu' => 'Csomag tartalma']],
 		);
+		Translation::updateOrCreate([
+				'group' => 'product',
+				'key' => 'pricings'
+			],
+			['text' => ['en' => 'Pricings', 'hu' => 'Árazás']],
+		);
+		Translation::updateOrCreate([
+				'group' => 'product',
+				'key' => 'refurbished'
+			],
+			['text' => ['en' => 'Refurbished', 'hu' => 'Felújított']],
+		);
     }
 
     protected function addOrderRelatedTranslations() {
@@ -411,6 +423,33 @@ class TranslationsTableSeeder extends Seeder
 	            'key' => 'currency'
 			],
             ['text' => ['en' => 'Currency', 'hu' => 'Pénznem']],
+		);
+        Translation::updateOrCreate([
+	            'group' => 'pricings',
+	            'key' => 'available_to'
+			],
+            ['text' => ['en' => 'Available to', 'hu' => 'Érvényes']],
+		);
+	}
+
+	protected function addCategoryRelatedTranslations() {
+		Translation::updateOrCreate([
+				'group' => 'product-category',
+				'key' => 'name'
+			],
+			['text' => ['en' => 'Category Name', 'hu' => 'Kategória Név']],
+		);
+		Translation::updateOrCreate([
+				'group' => 'product-category',
+				'key' => 'description'
+			],
+			['text' => ['en' => 'Category Description', 'hu' => 'Kategória Leírás']],
+		);
+		Translation::updateOrCreate([
+				'group' => 'product-category',
+				'key' => 'parentcategory'
+			],
+			['text' => ['en' => 'Parent Category', 'hu' => 'Szülő Kategória']],
 		);
 	}
 	
