@@ -23,10 +23,15 @@ class OrderProductPivot extends Pivot
                 return $model;
             }
             $model->product_id = $product->id;
-            
-            $order = $model->pivotParent;
-            $productPricingForCurrency = $product->pricings()->where('currency', $order->currency)->first();
             $now = Carbon::now();
+            $order = $model->pivotParent;
+            $productPricingForCurrency = $product->pricings()->where('currency', $order->currency)
+            ->orWhere(function ($query) use ($now) {
+                $query->where('available_to', '>=', $now);
+                $query->orWhereNull('available_to');
+            })->first();
+
+            
             $productDiscount = $product->discounts()
                 ->where(function ($query) use ($now) {
                     $query->where('available_from', '<=', $now);

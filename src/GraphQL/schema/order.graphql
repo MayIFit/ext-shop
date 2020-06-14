@@ -44,6 +44,7 @@ input UpdateOrderInput {
     discount_percentage: Float
     extra_information: String
     paid: Boolean
+    currency: String!
 }
 
 input CreateOrderInput {
@@ -51,6 +52,7 @@ input CreateOrderInput {
     products: syncProductsRelation!
     extra_information: String
     paid: Boolean
+    currency: String!
 }
 
 input syncProductsRelation {
@@ -72,6 +74,7 @@ type Order @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Order") {
     quantity: Int!
     net_value: Float!
     gross_value: Float!
+    currency: String!
     discount_percentage: Float
     extra_information: String
     paid: Boolean
