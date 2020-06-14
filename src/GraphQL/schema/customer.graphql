@@ -126,6 +126,7 @@ type Customer @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Customer")
 
 extend type User {
     customer: Customer @hasOne
+    reseller: Boolean
 }
 
 extend input UpdateUserInput {

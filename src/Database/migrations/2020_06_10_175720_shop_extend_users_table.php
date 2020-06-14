@@ -14,7 +14,7 @@ class ShopExtendUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->boolean('reseller')->nullable();
+            $table->boolean('reseller')->default(false);
             $table->foreignId('customer_id')->nullable()->references('id')->on('customers');
         });
     }
