@@ -9,6 +9,10 @@ extend type Query @guard(with: ["sanctum"]) {
     viewCustomer(
         id: ID @eq
     ): Customer @can(ability: "view" find: "id") @find
+
+    listRetailUser: [User]! 
+        @field(resolver: "AllRetailUser@resolve")
+
 }
 
 extend type Mutation {
