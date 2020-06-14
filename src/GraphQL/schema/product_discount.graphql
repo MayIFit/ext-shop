@@ -22,5 +22,5 @@ type ProductDiscount @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Pro
     product: Product! @belongsTo
     discount_percentage: Float!
     available_from: DateTime!
-    available_to: DateTime!
+    available_to: DateTime
 }
