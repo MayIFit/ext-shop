@@ -14,6 +14,6 @@ class AllRetailUser
      * @return void
      */
     public static function resolve($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) {
-        return User::where('reseller')->get();
+        return User::where('reseller', TRUE)->get();
     }
 }
