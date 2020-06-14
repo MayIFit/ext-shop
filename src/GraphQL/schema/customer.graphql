@@ -131,4 +131,5 @@ extend type User {
 
 extend input UpdateUserInput {
     customer: UpdateCustomerRelation
+    reseller: Boolean
 }
