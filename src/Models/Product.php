@@ -4,6 +4,7 @@ namespace MayIFit\Extension\Shop\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -62,6 +63,14 @@ class Product extends Model
 
     public function discounts(): HasMany {
         return $this->hasMany(ProductDiscount::class);
+    }
+
+    public function getPricingsForUser($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): ?Collection {
+        return $this->hasMany(ProductPricing::class)
+        ->when(isset($args['user_id']), function($query) use($args) {
+            return $query->where('user_id', $args['user_id']);
+        })
+        ->get();
     }
 
     public function getPricing($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): ?ProductPricing {

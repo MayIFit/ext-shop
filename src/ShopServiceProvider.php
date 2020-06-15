@@ -13,11 +13,13 @@
     use MayIFit\Extension\Shop\Models\Product;
     use MayIFit\Extension\Shop\Models\ProductCategory;
     use MayIFit\Extension\Shop\Models\ProductReview;
+    use MayIFit\Extension\Shop\Models\ProductPricing;
     use MayIFit\Extension\Shop\Models\Customer;
     use MayIFit\Extension\Shop\Models\Order;
     use MayIFit\Extension\Shop\Policies\ProductPolicy;
     use MayIFit\Extension\Shop\Policies\ProductCategoryPolicy;
     use MayIFit\Extension\Shop\Policies\ProductReviewPolicy;
+    use MayIFit\Extension\Shop\Policies\ProductPricingPolicy;
     use MayIFit\Extension\Shop\Policies\CustomerPolicy;
     use MayIFit\Extension\Shop\Policies\OrderPolicy;
 
@@ -34,6 +36,7 @@
             Order::class => OrderPolicy::class,
             ProductCategory::class => ProductCategoryPolicy::class,
             ProductReview::class => ProductReviewPolicy::class,
+            ProductPricing::class => ProductPricingPolicy::class
         ];
 
         /**
