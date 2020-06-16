@@ -29,24 +29,8 @@ extend type Query @guard(with: ["sanctum"]) {
     @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\Product") 
     @paginate(type: "paginator")
 
-    listUniqueProductPricing(
-        name: String @where(operator: "like")
-        catalog_id: String @where(operator: "like")
-        in_stock: Boolean @neq(key: "0")
-        user_id: ID
-    ): [Product]!
-    @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\Product") 
-    @paginate(type: "paginator")
-
     viewProduct(
         id: ID! @eq
-    ): Product @find
-    @can(ability: "view" find: "id") 
-
-    viewUniqueProductPricing(
-        id: ID! @eq
-        user_id: ID
-        currency: String
     ): Product @find
     @can(ability: "view" find: "id") 
 }

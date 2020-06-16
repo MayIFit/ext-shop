@@ -1,3 +1,21 @@
+extend type Query @guard(with: ["sanctum"]) {
+    listProductPricing(
+        name: String @where(operator: "like")
+        catalog_id: String @where(operator: "like")
+        in_stock: Boolean @neq(key: "0")
+        user_id: ID
+    ): [ProductPricing]!
+    @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\ProductPricing") 
+    @paginate(type: "paginator")
+
+    viewProductPricing(
+        id: ID! @eq
+        user_id: ID
+        currency: String
+    ): ProductPricing @find
+    @can(ability: "view" find: "id") 
+}
+
 input ProductPricingRelation {
     create: [CreateProductPricingInput!]
     update: [UpdateProductPricingInput!]
