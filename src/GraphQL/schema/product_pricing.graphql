@@ -1,8 +1,20 @@
+extend type Mutation @guard(with: ["sanctum"]) {
+     updateProductPricing(input: UpdateProductPricingInput! @spread): ProductPricing
+        @can(ability: "update" find: "id") 
+        @update
+
+    createProductPricing(input: CreateProductPricingInput! @spread): ProductPricing 
+        @can(ability: "create" model: "MayIFit\\Extension\\Shop\\Models\\ProductPricing") 
+        @create
+
+    deleteProducPricingt(id: ID! @rules(apply: ["required"])): ProductPricing 
+        @can(ability: "delete" find: "id") 
+        @delete
+}
+
 extend type Query @guard(with: ["sanctum"]) {
     listProductPricing(
-        name: String @where(operator: "like")
-        catalog_id: String @where(operator: "like")
-        in_stock: Boolean @neq(key: "0")
+        hasProduct: _ @whereHasConditions(columns: ["catalog_id", "name"])
         user_id: ID
     ): [ProductPricing]!
     @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\ProductPricing") 
@@ -49,4 +61,9 @@ type ProductPricing @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Prod
     grossPrice: Float @method(name: "getGrossPriceAttribute")
     currency: String!
     user: User
+}
+
+enum ListProductPricingHasProductWhereConditions {
+  CATALOG_ID @enum(value: "catalog_id")
+  NAME @enum(value: "name")
 }
