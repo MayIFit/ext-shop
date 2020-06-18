@@ -36,20 +36,26 @@ class TranslationsTableSeeder extends Seeder
 			['text' => ['en' => 'Store', 'hu' => 'Üzlet']],
 		);
 		Translation::updateOrCreate([
-				'group' => 'product',
-				'key' => 'list'
+				'group' => 'list',
+				'key' => 'product'
 			],
 			['text' => ['en' => 'Product List', 'hu' => 'Termék Lista']],
 		);
 		Translation::updateOrCreate([
-				'group' => 'product-category',
-				'key' => 'list'
+				'group' => 'list',
+				'key' => 'product-category'
 			],
 			['text' => ['en' => 'Product Category List', 'hu' => 'Termék Kategória Lista']],
 		);
 		Translation::updateOrCreate([
-				'group' => 'order',
-				'key' => 'list'
+				'group' => 'list',
+				'key' => 'product-pricing'
+			],
+			['text' => ['en' => 'Product Pricing List', 'hu' => 'Termék Árazás Lista']],
+		);
+		Translation::updateOrCreate([
+				'group' => 'list',
+				'key' => 'order'
 			],
 			['text' => ['en' => 'Order List', 'hu' => 'Rendelés Lista']],
 		);
