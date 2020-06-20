@@ -17,7 +17,7 @@ input ProductReviewRelation {
 }
 
 input CreateProductReviewInput {
-    product: UpdateProductRelation!
+    product: SyncProductRelation!
     title: String!
     message: String
     rating: Int!

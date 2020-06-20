@@ -27,7 +27,7 @@ extend type Query @guard(with: ["sanctum"]) {
     @can(ability: "view" find: "id") 
 }
 
-input UpdateProductDiscountRelation {
+input SyncProductDiscountRelation {
     create: [CreateProductDiscountInput!]
     update: [UpdateProductDiscountInput!]
     connect: [ID!]

@@ -30,7 +30,7 @@ extend type Mutation @guard(with: ["sanctum"]) {
         @delete
 }
 
-input ProductCategoryRelation {
+input UpsertProductCategoryRelation {
     connect: ID
 }
 

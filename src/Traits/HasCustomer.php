@@ -3,7 +3,7 @@
 namespace MayIFit\Extension\Shop\Traits;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 use MayIFit\Extension\Shop\Models\Customer;
 
@@ -22,9 +22,11 @@ trait HasCustomer {
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function customers(): HasMany {
-        return $this->hasMany(Customer::class);
+    public function customers(): BelongsToMany {
+        return $this->belongsToMany(Customer::class);
     }
+
+
 }

@@ -15,7 +15,8 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('customer_id')->nullable()->references('id')->on('customers');
+            $table->unsignedBigInteger('customer_id')->references('id')->on('customers');
+            $table->unsignedBigInteger('shipping_customer_id')->references('id')->on('customers');
             $table->string('token')->unique();
             $table->foreignId('order_status_id')->references('id')->on('order_statuses');
             $table->timestamp('placed')->useCurrent();
