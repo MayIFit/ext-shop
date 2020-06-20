@@ -47,7 +47,7 @@ input CreateCustomerInput {
     company_name: String
     vat_id: String
     billing_address: Boolean
-    user: UpdateUserRelation
+    user: UpdateUserRelation 
 }
 
 input UpdateCustomerInput {
@@ -76,7 +76,6 @@ input UpdateUserRelation {
 
 type Customer @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Customer") {
     id: ID!
-    user: User @belongsTo
     title: String
     first_name: String!
     last_name: String!
@@ -93,6 +92,7 @@ type Customer @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Customer")
     vat_id: String
     billing_address: Boolean
     orders: [Order]! @hasMany
+    user: User @belongsTo
 }
 
 extend type User {
