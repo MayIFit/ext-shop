@@ -1,5 +1,5 @@
 extend type Mutation @guard(with: ["sanctum"]) {
-     updateProductPricing(input: UpdateProductPricingInput! @spread): ProductPricing
+    updateProductPricing(input: UpdateProductPricingInput! @spread): ProductPricing
         @can(ability: "update" find: "id") 
         @update
 
@@ -7,7 +7,7 @@ extend type Mutation @guard(with: ["sanctum"]) {
         @can(ability: "create" model: "MayIFit\\Extension\\Shop\\Models\\ProductPricing") 
         @create
 
-    deleteProducPricingt(id: ID! @rules(apply: ["required"])): ProductPricing 
+    deleteProducPricing(id: ID! @rules(apply: ["required"])): ProductPricing 
         @can(ability: "delete" find: "id") 
         @delete
 }
