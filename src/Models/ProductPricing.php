@@ -7,17 +7,19 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 
 use MayIFit\Core\Permission\Traits\HasUsers;
+use MayIFit\Extension\Shop\Traits\HasCustomer;
 use MayIFit\Extension\Shop\Traits\HasProduct;
 
 
 class ProductPricing extends Model
 {
-    use SoftDeletes, HasProduct, HasUsers;
+    use SoftDeletes, HasUsers, HasProduct, HasCustomer;
 
     protected $with = ['user'];
 
     public $fillable = [
         'product_id',
+        'customer_id',
         'user_id',
         'base_price',
         'vat',
@@ -27,8 +29,7 @@ class ProductPricing extends Model
     protected $attributes = [
         'base_price' => 0.00,
         'vat' => 0.00,
-        'currency' => 'HUF',
-        'quantity_based' => false
+        'currency' => 'HUF'
     ];
 
     public static function booted() {

@@ -16,7 +16,9 @@ class CreateProductPricingsTable extends Migration
         Schema::create('product_pricings', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('product_id')->nullable()->references('id')->on('products');
+            $table->unsignedBigInteger('customer_id')->nullable()->references('id')->on('customers');
             $table->double('base_price');
+            $table->double('wholesale_price');
             $table->double('vat');
             $table->string('currency');
             $table->timestamp('available_from')->nullable();
