@@ -27,12 +27,11 @@ extend type Mutation @guard(with: ["sanctum"]) {
 }
 
 input UpdateCustomerRelation {
-    connect: ID
-    create: CreateCustomerInput
+    create: [CreateCustomerInput!]
+    update: [UpdateCustomerInput!]
 }
 
 input CreateCustomerInput {
-    user: UpdateUserRelation @spread
     title: String
     first_name: String!
     last_name: String!
@@ -43,21 +42,12 @@ input CreateCustomerInput {
     house_nr: String!
     floor: String
     door: String
-    phone_number: String
+    phone_number: String!
     email: String!
-    different_billing_address: Boolean
-    company_billing: Boolean
-    billing_first_name: String
-    billing_last_name: String
-    billing_company_name: String
-    billing_vat_number: String
-    billing_country: String
-    billing_city: String
-    billing_zip_code: String
-    billing_address: String
-    billing_house_nr: String
-    billing_floor: String
-    billing_door: String
+    company_name: String
+    vat_id: String
+    billing_address: Boolean
+    user: UpdateUserRelation
 }
 
 input UpdateCustomerInput {
@@ -72,21 +62,12 @@ input UpdateCustomerInput {
     house_nr: String!
     floor: String
     door: String
-    phone_number: String
+    phone_number: String!
     email: String!
-    different_billing_address: Boolean
-    company_billing: Boolean
-    billing_first_name: String
-    billing_last_name: String
-    billing_company_name: String
-    billing_vat_number: String
-    billing_country: String
-    billing_city: String
-    billing_zip_code: String
-    billing_address: String
-    billing_house_nr: String
-    billing_floor: String
-    billing_door: String
+    company_name: String
+    vat_id: String
+    billing_address: Boolean
+    user: UpdateUserRelation
 }
 
 input UpdateUserRelation {
@@ -106,30 +87,20 @@ type Customer @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Customer")
     house_nr: String!
     floor: String
     door: String
-    phone_number: String
+    phone_number: String!
     email: String!
-    different_billing_address: Boolean
-    company_billing: Boolean
-    billing_first_name: String
-    billing_last_name: String
-    billing_company_name: String
-    billing_vat_number: String
-    billing_country: String
-    billing_city: String
-    billing_zip_code: String
-    billing_address: String
-    billing_house_nr: String
-    billing_floor: String
-    billing_door: String
+    company_name: String
+    vat_id: String
+    billing_address: Boolean
     orders: [Order]! @hasMany
 }
 
 extend type User {
-    customer: Customer @hasOne
+    customers: Customer @hasMany
     reseller: Boolean
 }
 
 extend input UpdateUserInput {
-    customer: UpdateCustomerRelation
+    customers: UpdateCustomerRelation
     reseller: Boolean
 }
