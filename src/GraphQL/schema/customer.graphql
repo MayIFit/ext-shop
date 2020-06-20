@@ -47,7 +47,7 @@ input CreateCustomerInput {
     company_name: String
     vat_id: String
     billing_address: Boolean
-    user: UpdateUserRelation 
+    user: UpdateUserRelation
 }
 
 input UpdateCustomerInput {
@@ -90,13 +90,17 @@ type Customer @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Customer")
     email: String!
     company_name: String
     vat_id: String
+    "If it's marked as true, a shipping address will be generated with the same values"
     billing_address: Boolean
+}
+
+extend type Customer @guard(with: ["sanctum"]) {
     orders: [Order]! @hasMany
     user: User @belongsTo
 }
 
-extend type User {
-    customers: Customer @hasMany
+extend type User @guard(with: ["sanctum"]) {
+    customers: [Customer] @hasMany
     reseller: Boolean
 }
 

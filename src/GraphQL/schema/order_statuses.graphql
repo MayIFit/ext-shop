@@ -48,5 +48,6 @@ type OrderStatus @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\OrderSt
     id: ID!
     name: String!
     icon: String!
+    "If it's marked as true, a notification will be sent out for the user"
     send_notification: Boolean!
 }

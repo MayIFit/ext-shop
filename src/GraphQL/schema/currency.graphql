@@ -5,7 +5,9 @@ extend type Query {
 type Currency {
     id: ID!
     currency: String!
+    "The symbol of the currency e.g. `$, Ft, € and £`."
     symbol: String!
+    "ISO Code of the currency"
     iso_code: String!
     active: Boolean
 }
