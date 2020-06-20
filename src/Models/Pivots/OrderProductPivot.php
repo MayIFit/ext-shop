@@ -25,13 +25,17 @@ class OrderProductPivot extends Pivot
             $model->product_id = $product->id;
             $now = Carbon::now();
             $order = $model->pivotParent;
-            $productPricingForCurrency = $product->pricings()->where('currency', $order->currency)
-                ->orWhere(function ($query) use ($now) {
-                    $query->where('available_to', '>=', $now);
-                    $query->orWhereNull('available_to');
-                })->first();
             
-            $model->product_pricing_id = $productPricingForCurrency->id;
+            if (!$model->product_pricing_id) {
+                $productPricingForCurrency = $product->pricings()->where('currency', $order->currency)
+                    ->orWhere(function ($query) use ($now) {
+                        $query->where('available_to', '>=', $now);
+                        $query->orWhereNull('available_to');
+                    })->first();
+                
+                $model->product_pricing_id = $productPricingForCurrency->id;
+            }
+            
             
             $productDiscount = $product->discounts()
                 ->where(function ($query) use ($now) {
@@ -43,6 +47,9 @@ class OrderProductPivot extends Pivot
                     $query->whereNull('available_to');
                 })
                 ->first();
+
+            $model->product_discount_id = $productDiscount->id ?? null;
+
             $order->net_value += ($productPricingForCurrency->base_price * (1 - ($productDiscount->discount_percentage ?? 0 / 100))) * $model->quantity;
             $order->gross_value += ($productPricingForCurrency->gross_price * (1 - ($productDiscount->discount_percentage ?? 0 / 100))) * $model->quantity;
             $order->quantity += $model->quantity;

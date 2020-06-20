@@ -20,6 +20,11 @@ extend type Query @guard(with: ["sanctum"]) {
         @find
 }
 
+extend type Mutation {
+    createOrder(input: CreateOrderInput! @spread): Order 
+        @create
+}
+
 extend type Mutation @guard(with: ["sanctum"]) {
     updateOrder(input: UpdateOrderInput! @spread): Order 
         @can(ability: "update" find: "id") 
@@ -28,11 +33,6 @@ extend type Mutation @guard(with: ["sanctum"]) {
     deleteOrder(id: ID! @rules(apply: ["required"])): Order 
         @can(ability: "delete" find: "id") 
         @delete
-}
-
-extend type Mutation {
-    createOrder(input: CreateOrderInput! @spread): Order 
-        @create
 }
 
 input UpdateOrderInput {
@@ -62,6 +62,8 @@ input syncProductsRelation {
 input syncProductPivotRelationData {
     id: ID!
     quantity: Int!
+    product_pricing_id: ID
+    product_discount_id: ID
 }
 
 type Order @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Order") {

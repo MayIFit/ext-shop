@@ -6,11 +6,12 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use MayIFit\Core\Permission\Traits\HasUsers;
 use MayIFit\Extension\Shop\Traits\HasProduct;
 
 class ProductDiscount extends Model
 {
-    use SoftDeletes, HasProduct;
+    use SoftDeletes, HasUsers, HasProduct;
 
     public $fillable = [
         'product_id',

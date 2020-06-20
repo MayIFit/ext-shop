@@ -6,9 +6,11 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use MayIFit\Core\Permission\Traits\HasUsers;
+
 class ProductCategoryDiscount extends Model
 {
-    use SoftDeletes, HasProduct;
+    use SoftDeletes, HasUsers, HasProduct;
 
     public $fillable = [
         'product_cagtegory_id',

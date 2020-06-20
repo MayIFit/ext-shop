@@ -17,6 +17,7 @@ class CreateOrderProductTable extends Migration
             $table->unsignedBigInteger('order_id')->references('id')->on('orders');
             $table->unsignedBigInteger('product_id')->references('id')->on('products');
             $table->unsignedBigInteger('product_pricing_id')->references('id')->on('product_pricings');
+            $table->unsignedBigInteger('product_discount_id')->nullable()->references('id')->on('product_discounts');
             $table->unsignedInteger('quantity');
             $table->primary(['order_id', 'product_id']);
             $table->timestamps();

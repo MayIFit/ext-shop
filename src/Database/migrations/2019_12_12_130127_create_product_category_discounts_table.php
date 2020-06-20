@@ -19,6 +19,8 @@ class CreateProductCategoryDiscountsTable extends Migration
             $table->double('discount_percentage');
             $table->timestamp('available_from');
             $table->timestamp('available_to')->nullable();
+            $table->foreignId('created_by')->nullable()->references('id')->on('users');
+            $table->foreignId('updated_by')->nullable()->references('id')->on('users');
             $table->timestamps();
             $table->softDeletes();
             $table->unique(['product_category_id', 'available_from', 'available_to']);
