@@ -26,11 +26,12 @@ class OrderProductPivot extends Pivot
             $now = Carbon::now();
             $order = $model->pivotParent;
             $productPricingForCurrency = $product->pricings()->where('currency', $order->currency)
-            ->orWhere(function ($query) use ($now) {
-                $query->where('available_to', '>=', $now);
-                $query->orWhereNull('available_to');
-            })->first();
-
+                ->orWhere(function ($query) use ($now) {
+                    $query->where('available_to', '>=', $now);
+                    $query->orWhereNull('available_to');
+                })->first();
+            
+            $model->product_pricing_id = $productPricingForCurrency->id;
             
             $productDiscount = $product->discounts()
                 ->where(function ($query) use ($now) {

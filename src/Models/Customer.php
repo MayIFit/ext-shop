@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Notifications\Notifiable;
 
-use App\Models\User;
 use MayIFit\Core\Permission\Traits\HasUsers;
 use MayIFit\Extension\Shop\Traits\HasOrders;
 

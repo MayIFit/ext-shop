@@ -40,6 +40,7 @@ class CreateCustomersTable extends Migration
             $table->string('billing_house_nr')->nullable();
             $table->string('billing_floor')->nullable();
             $table->string('billing_door')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable()->references('id')->on('users');
             $table->timestamps();
         });
     }
