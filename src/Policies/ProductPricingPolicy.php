@@ -26,7 +26,7 @@ class ProductPricingPolicy
      * Determine whether the user can view the product pricing.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductPricing  $product-pricing
+     * @param  \MayIFit\Extension\Shop\Models\ProductPricing  $productPricing
      * @return mixed
      */
     public function view(User $user, ProductPricing $productPricing)

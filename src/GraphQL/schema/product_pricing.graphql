@@ -36,18 +36,20 @@ input ProductPricingRelation {
 
 input CreateProductPricingInput {
     base_price: Float!
+    wholesale_price: Float
     vat: Float!
     currency: String!
-    user: UpdateUserRelation
+    customer: UpdateCustomerRelation
     available_to: DateTime
 }
 
 input UpdateProductPricingInput {
     id: ID!
     base_price: Float!
+    wholesale_price: Float
     vat: Float!
     currency: String!
-    user: UpdateUserRelation
+    customer: UpdateCustomerRelation
     available_to: DateTime
 }
 
@@ -55,14 +57,15 @@ type ProductPricing @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Prod
     id: ID!
     product: Product! @belongsTo
     base_price: Float!
+    wholesale_price: Float
     vat: Float!
     available_to: DateTime
     grossPrice: Float @method(name: "getGrossPriceAttribute")
     currency: String!
-    user: User
+    customer: Customer
 }
 
 enum ListProductPricingHasProductWhereConditions {
-  CATALOG_ID @enum(value: "catalog_id")
-  NAME @enum(value: "name")
+    CATALOG_ID @enum(value: "catalog_id")
+    NAME @enum(value: "name")
 }
