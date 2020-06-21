@@ -96,5 +96,5 @@ extend type User @guard(with: ["sanctum"]) {
 }
 
 extend input UpdateUserInput {
-    customers: UpdateCustomerRelation
+    customers: CustomerRelation
 }
