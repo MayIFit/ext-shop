@@ -1,5 +1,5 @@
 extend type Query {
-    allCurrency: [Currency!]! @all @cache(maxAge: 300)
+    allCurrency: [Currency!]! @cache(maxAge: 300)
 } 
 
 type Currency {
