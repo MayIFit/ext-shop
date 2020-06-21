@@ -1,4 +1,6 @@
 extend type Query @guard(with: ["sanctum"]) {
+    allReseller: [ResellerSelect]! @all
+    
     listReseller(
         company_name: String @where(operator: "like")
         vat_id: String @where(operator: "like")
@@ -54,6 +56,12 @@ type Reseller @guard(with: ["sanctum"]) @modelClass(class: "\\MayIFit\\Extension
     email: String!
     company_name: String!
     vat_id: String!
+}
+
+"Subset of Reseller"
+type ResellerSelect @guard(with: ["sanctum"]) @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Reseller") {
+    id: ID!
+    company_name: String!
 }
 
 extend type User @guard(with: ["sanctum"]) {

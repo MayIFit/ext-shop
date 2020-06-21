@@ -21,6 +21,8 @@ extend type Query {
 }
 
 extend type Query @guard(with: ["sanctum"]) {
+    allProduct: [ProductSelect]! @all
+
     listProduct(
         name: String @where(operator: "like")
         catalog_id: String @where(operator: "like")
@@ -129,4 +131,10 @@ type Product @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Product") {
         @method(passordered: true)
     getDiscountForDate(dateTime: DateTime!): ProductDiscount
         @method(passordered: true)
+}
+
+"Subset of Product"
+type ProductSelect @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Product") {
+    id: ID!
+    catalog_id: String!
 }
