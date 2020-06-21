@@ -27,12 +27,12 @@ extend type Mutation @guard(with: ["sanctum"]) {
 }
 
 input ResellerRelation {
-    create: CreateResellerInput!
-    update: UpdateResellerInput!
+    create: CreateResellerInput
+    update: UpdateResellerInput
 }
 
 input CreateResellerInput {
-    user: UserRelation!
+    user: UserRelation
     phone_number: String!
     email: String!
     company_name: String!
