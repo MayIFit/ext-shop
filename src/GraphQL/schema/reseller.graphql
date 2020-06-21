@@ -26,9 +26,9 @@ extend type Mutation @guard(with: ["sanctum"]) {
         @update
 }
 
-input UpdateResellerRelation {
-    create: [CreateResellerInput!]
-    update: [UpdateResellerInput!]
+input ResellerRelation {
+    create: CreateResellerInput!
+    update: UpdateResellerInput!
 }
 
 input CreateResellerInput {
@@ -62,6 +62,6 @@ extend type User @guard(with: ["sanctum"]) {
 }
 
 extend input UpdateUserInput {
-    reseller: UpdateResellerRelation
+    reseller: ResellerRelation
     is_reseller: Boolean
 }
