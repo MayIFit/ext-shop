@@ -93,10 +93,8 @@ extend type Customer @guard(with: ["sanctum"]) {
 
 extend type User @guard(with: ["sanctum"]) {
     customers: [Customer] @hasMany
-    reseller: Boolean
 }
 
 extend input UpdateUserInput {
     customers: UpdateCustomerRelation
-    reseller: Boolean
 }
