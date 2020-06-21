@@ -7,16 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 use MayIFit\Core\Permission\Traits\HasUsers;
-use MayIFit\Extension\Shop\Traits\HasCustomer;
+use MayIFit\Extension\Shop\Traits\HasReseller;
 use MayIFit\Extension\Shop\Traits\HasProduct;
 
 class ProductDiscount extends Model
 {
-    use SoftDeletes, HasUsers, HasProduct, HasCustomer;
+    use SoftDeletes, HasUsers, HasProduct, HasReseller;
 
     public $fillable = [
         'product_id',
-        'customer_id',
+        'reseller_id',
         'discount_percentage',
         'available_from',
         'available_to'

@@ -27,7 +27,7 @@ extend type Query @guard(with: ["sanctum"]) {
     @can(ability: "view" find: "id") 
 }
 
-input SyncProductDiscountRelation {
+input ProductDiscountRelation {
     create: [CreateProductDiscountInput!]
     update: [UpdateProductDiscountInput!]
     connect: [ID!]
@@ -35,7 +35,7 @@ input SyncProductDiscountRelation {
 
 input CreateProductDiscountInput {
     discount_percentage: Float!
-    customer: UpdateCustomerRelation
+    customer: CustomerRelation
     available_from: DateTime!
     available_to: DateTime
 }
@@ -43,7 +43,7 @@ input CreateProductDiscountInput {
 input UpdateProductDiscountInput {
     id: ID!
     discount_percentage: Float!
-    customer: UpdateCustomerRelation
+    customer: CustomerRelation
     available_from: DateTime!
     available_to: DateTime
 }

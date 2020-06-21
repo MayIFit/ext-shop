@@ -15,8 +15,8 @@ class CreateProductPricingsTable extends Migration
     {
         Schema::create('product_pricings', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('product_id')->nullable()->references('id')->on('products');
-            $table->unsignedBigInteger('customer_id')->nullable()->references('id')->on('customers');
+            $table->unsignedBigInteger('product_id')->references('id')->on('products');
+            $table->unsignedBigInteger('reseller_id')->nullable()->references('id')->on('resellers');
             $table->double('base_price');
             $table->double('wholesale_price')->nullable();
             $table->double('vat');
@@ -26,7 +26,7 @@ class CreateProductPricingsTable extends Migration
             $table->unsignedBigInteger('updated_by')->nullable()->references('id')->on('users');
             $table->timestamps();
             $table->softDeletes();
-            $table->unique(['product_id', 'currency', 'customer_id']);
+            $table->unique(['product_id', 'currency', 'reseller_id']);
         });
     }
 

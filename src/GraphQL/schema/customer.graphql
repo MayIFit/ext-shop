@@ -22,7 +22,7 @@ extend type Mutation @guard(with: ["sanctum"]) {
         @update
 }
 
-input UpdateCustomerRelation {
+input CustomerRelation {
     create: [CreateCustomerInput!]
     update: [UpdateCustomerInput!]
 }

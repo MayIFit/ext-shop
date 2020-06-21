@@ -40,7 +40,7 @@ input CreateOrderStatusInput {
     send_notification: Boolean!
 }
 
-input connectOrderStatusRelation {
+input OrderStatusRelation {
     connect: ID!
 }
 

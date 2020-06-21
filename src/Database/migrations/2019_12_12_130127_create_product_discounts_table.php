@@ -16,7 +16,7 @@ class CreateProductDiscountsTable extends Migration
         Schema::create('product_discounts', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('product_id')->references('id')->on('products');
-            $table->unsignedBigInteger('customer_id')->nullable()->references('id')->on('customers');
+            $table->unsignedBigInteger('reseller_id')->nullable()->references('id')->on('resellers');
             $table->boolean('quantity_based');
             $table->unsignedSmallInteger('minimum_quantity')->nullable();
             $table->double('discount_percentage');

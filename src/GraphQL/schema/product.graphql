@@ -62,10 +62,10 @@ input CreateProductInput {
     refurbished: Boolean!
     varranty: String!
     documents: UpdateDocumentHasMany
-    pricings: SyncProductPricingRelation
-    category: UpsertProductCategoryRelation
-    discounts: SyncProductDiscountRelation
-    parentProduct: UpsertParentProductRelation
+    pricings: ProductPricingRelation
+    category: ProductCategoryRelation
+    discounts: ProductDiscountRelation
+    parentProduct: ParentProductRelation
 }
 
 input UpdateProductInput {
@@ -82,13 +82,13 @@ input UpdateProductInput {
     refurbished: Boolean!
     varranty: String!
     documents: UpdateDocumentHasMany
-    pricings: SyncProductPricingRelation
-    category: UpsertProductCategoryRelation
-    discounts: SyncProductDiscountRelation
-    parentProduct: UpsertParentProductRelation
+    pricings: ProductPricingRelation
+    category: ProductCategoryRelation
+    discounts: ProductDiscountRelation
+    parentProduct: ParentProductRelation
 }
 
-input UpsertParentProductRelation {
+input ParentProductRelation {
     connect: ID
 }
 

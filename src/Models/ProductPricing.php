@@ -7,19 +7,19 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 
 use MayIFit\Core\Permission\Traits\HasUsers;
-use MayIFit\Extension\Shop\Traits\HasCustomer;
+use MayIFit\Extension\Shop\Traits\HasReseller;
 use MayIFit\Extension\Shop\Traits\HasProduct;
 
 
 class ProductPricing extends Model
 {
-    use SoftDeletes, HasUsers, HasProduct, HasCustomer;
+    use SoftDeletes, HasUsers, HasProduct, HasReseller;
 
     protected $with = ['user'];
 
     public $fillable = [
         'product_id',
-        'customer_id',
+        'reseller_id',
         'user_id',
         'base_price',
         'vat',

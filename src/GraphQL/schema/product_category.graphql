@@ -30,7 +30,7 @@ extend type Mutation @guard(with: ["sanctum"]) {
         @delete
 }
 
-input UpsertProductCategoryRelation {
+input ProductCategoryRelation {
     connect: ID
 }
 
@@ -39,7 +39,7 @@ input CreateProductCategoryInput {
     description: String
     parentCategory: ProductCategoryRelation
     document: UpdateDocumentHasOne
-    discounts: UpdateProductCategoryDiscountRelation
+    discounts: ProductCategoryDiscountRelation
 }
 
 input UpdateProductCategoryInput {
@@ -48,7 +48,7 @@ input UpdateProductCategoryInput {
     description: String
     parentCategory: ProductCategoryRelation
     document: UpdateDocumentHasOne
-    discounts: UpdateProductCategoryDiscountRelation
+    discounts: ProductCategoryDiscountRelation
 }
 
 type ProductCategory @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\ProductCategory") {

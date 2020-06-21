@@ -1,4 +1,4 @@
-input UpdateProductCategoryDiscountRelation {
+input ProductCategoryDiscountRelation {
     create: [CreateProductCategoryDiscountInput!]
     update: [UpdateProductCategoryDiscountInput!]
     connect: [ID!]

@@ -38,9 +38,9 @@ extend type Mutation @guard(with: ["sanctum"]) {
 input UpdateOrderInput {
     id: ID!
     token: String!
-    customers: [UpdateCustomerRelation]
-    products: SyncProductsRelation
-    orderStatus: connectOrderStatusRelation
+    customers: CustomerRelation!
+    products: ProductsRelation!
+    orderStatus: OrderStatusRelation!
     discount_percentage: Float
     extra_information: String
     paid: Boolean
@@ -48,18 +48,19 @@ input UpdateOrderInput {
 }
 
 input CreateOrderInput {
-    customers: [UpdateCustomerRelation]!
-    products: SyncProductsRelation!
+    customers: CustomerRelation!
+    products: ProductsRelation!
+    orderStatus: OrderStatusRelation!
     extra_information: String
     paid: Boolean
     currency: String!
 }
 
-input SyncProductsRelation {
-    sync: [SyncProductPivotRelationData!]!
+input ProductsRelation {
+    sync: [ProductPivotRelationData!]!
 }
 
-input SyncProductPivotRelationData {
+input ProductPivotRelationData {
     id: ID!
     quantity: Int!
     product_pricing_id: ID
