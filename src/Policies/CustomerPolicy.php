@@ -12,7 +12,7 @@ class CustomerPolicy
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can view any translations.
+     * Determine whether the user can view any customers.
      *
      * @param  \App\Models\User  $user
      * @return mixed

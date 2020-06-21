@@ -1,0 +1,62 @@
+extend type Query @guard(with: ["sanctum"]) {
+    listReseller(
+        company_name: String @where(operator: "like")
+        vat_id: String @where(operator: "like")
+    ): [Reseller]!
+        @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\Reseller") 
+        @paginate(type: "paginator")
+
+    viewReseller(
+        id: ID @eq
+    ): Reseller @can(ability: "view" find: "id") @find
+
+    allReseller: [Reseller]! @all
+}
+
+extend type Mutation {
+    createReseller(input: CreateResellerInput! @spread): Reseller 
+        @create
+}
+
+extend type Mutation @guard(with: ["sanctum"]) {
+    updateReseller(input: UpdateResellerInput! @spread): Reseller 
+        @can(ability: "update" find: "id")
+        @update
+}
+
+input UpdateResellerRelation {
+    create: [CreateResellerInput!]
+    update: [UpdateResellerInput!]
+}
+
+input CreateResellerInput {
+    phone_number: String!
+    email: String!
+    company_name: String!
+    vat_id: String!
+}
+
+input UpdateResellerInput {
+    id: ID!
+    phone_number: String!
+    email: String!
+    company_name: String!
+    vat_id: String!
+}
+
+type Reseller @guard(with: ["sanctum"]) @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Reseller") {
+    id: ID!
+    user_id: User @belongsTo
+    phone_number: String!
+    email: String!
+    company_name: String!
+    vat_id: String!
+}
+
+extend type User @guard(with: ["sanctum"]) {
+    reseller: Reseller @hasOne
+}
+
+extend input UpdateUserInput {
+    reseller: UpdateResellerRelation
+}

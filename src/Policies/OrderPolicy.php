@@ -12,7 +12,7 @@ class OrderPolicy
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can view any translations.
+     * Determine whether the user can view any orders.
      *
      * @param  \App\Models\User  $user
      * @return mixed
