@@ -36,7 +36,7 @@ class ResellerPolicy
     }
 
     /**
-     * Determine whether the user can create customers.
+     * Determine whether the user can create resellers.
      *
      * @param  \App\Models\User  $user
      * @return mixed

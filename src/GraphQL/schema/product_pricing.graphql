@@ -39,7 +39,7 @@ input CreateProductPricingInput {
     wholesale_price: Float
     vat: Float!
     currency: String!
-    customer: CustomerRelation
+    reseller: ResellerRelation
     available_to: DateTime
 }
 
@@ -49,7 +49,7 @@ input UpdateProductPricingInput {
     wholesale_price: Float
     vat: Float!
     currency: String!
-    customer: CustomerRelation
+    reseller: ResellerRelation
     available_to: DateTime
 }
 
@@ -62,7 +62,7 @@ type ProductPricing @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Prod
     available_to: DateTime
     grossPrice: Float @method(name: "getGrossPriceAttribute")
     currency: String!
-    customer: Customer
+    reseller: Reseller
 }
 
 enum ListProductPricingHasProductWhereConditions {

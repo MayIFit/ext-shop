@@ -35,7 +35,7 @@ input ProductDiscountRelation {
 
 input CreateProductDiscountInput {
     discount_percentage: Float!
-    customer: CustomerRelation
+    reseller: ResellerRelation
     available_from: DateTime!
     available_to: DateTime
 }
@@ -43,7 +43,7 @@ input CreateProductDiscountInput {
 input UpdateProductDiscountInput {
     id: ID!
     discount_percentage: Float!
-    customer: CustomerRelation
+    reseller: ResellerRelation
     available_from: DateTime!
     available_to: DateTime
 }
@@ -54,5 +54,5 @@ type ProductDiscount @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Pro
     discount_percentage: Float!
     available_from: DateTime!
     available_to: DateTime
-    customer: Customer
+    reseller: Reseller
 }
