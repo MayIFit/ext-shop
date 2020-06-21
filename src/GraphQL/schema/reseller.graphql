@@ -2,6 +2,8 @@ extend type Query @guard(with: ["sanctum"]) {
     listReseller(
         company_name: String @where(operator: "like")
         vat_id: String @where(operator: "like")
+        email: String @where(operator: "like")
+        phone_number: String @where(operator: "like")
     ): [Reseller]!
         @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\Reseller") 
         @paginate(type: "paginator")
