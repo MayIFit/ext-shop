@@ -43,7 +43,7 @@ class ResellerPolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermission('reseller.create');
+        return $user->hasPermission('reseller.create') || $user->is_reseller;
     }
 
     /**
