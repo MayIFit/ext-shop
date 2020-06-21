@@ -43,7 +43,7 @@ input CreateCustomerInput {
     company_name: String
     vat_id: String
     billing_address: Boolean
-    user: UpdateUserRelation
+    user: UserRelation
 }
 
 input UpdateCustomerInput {
@@ -63,7 +63,7 @@ input UpdateCustomerInput {
     company_name: String
     vat_id: String
     billing_address: Boolean
-    user: UpdateUserRelation
+    user: UserRelation
 }
 
 type Customer @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Customer") {

@@ -30,6 +30,7 @@ input UpdateResellerRelation {
 }
 
 input CreateResellerInput {
+    user: UserRelation!
     phone_number: String!
     email: String!
     company_name: String!
@@ -46,7 +47,7 @@ input UpdateResellerInput {
 
 type Reseller @guard(with: ["sanctum"]) @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Reseller") {
     id: ID!
-    user_id: User @belongsTo
+    user: User @belongsTo
     phone_number: String!
     email: String!
     company_name: String!

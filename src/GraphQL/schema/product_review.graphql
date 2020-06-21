@@ -21,7 +21,7 @@ input CreateProductReviewInput {
     title: String!
     message: String
     rating: Int!
-    createdBy: UpdateUserRelation!
+    createdBy: UserRelation!
 }
 
 input UpdateProductReviewInput {
