@@ -58,8 +58,10 @@ type Reseller @guard(with: ["sanctum"]) @modelClass(class: "\\MayIFit\\Extension
 
 extend type User @guard(with: ["sanctum"]) {
     reseller: Reseller @hasOne
+    is_reseller: Boolean
 }
 
 extend input UpdateUserInput {
     reseller: UpdateResellerRelation
+    is_reseller: Boolean
 }
