@@ -18,7 +18,6 @@ extend type Query @guard(with: ["sanctum"]) {
         reseller_id: ID
     ): [ProductPricing]!
     @field(resolver: "ListCustomerProductPricing@resolve")
-    @paginate(type: "paginator")
 
     listProductPricing(
         hasProduct: _ @whereHasConditions(columns: ["catalog_id", "name"])
