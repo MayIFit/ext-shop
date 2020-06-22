@@ -17,7 +17,7 @@ extend type Query @guard(with: ["sanctum"]) {
         hasProduct: _ @whereHasConditions(columns: ["catalog_id", "name"])
         reseller_id: ID
     ): [ProductPricing]!
-    @field(resolver: "ListCustomerProductPricing@resolve")
+    @paginate(builder: "MayIFit\\Extension\\Shop\\Models\\ProductPricing@resellerPricing")
 
     listProductPricing(
         hasProduct: _ @whereHasConditions(columns: ["catalog_id", "name"])

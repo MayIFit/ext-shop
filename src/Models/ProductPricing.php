@@ -2,6 +2,11 @@
 
 namespace MayIFit\Extension\Shop\Models;
 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Query\Builder;
+use GraphQL\Type\Definition\ResolveInfo;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
@@ -41,5 +46,10 @@ class ProductPricing extends Model
 
     public function getGrossPriceAttribute(): float {
         return $this->base_price * (1 + ($this->vat / 100));
+    }
+
+    public function resellerPricing($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder {
+        return DB::table('product_pricings')
+            ->where('reseller_id', '=', $args['reseller_id']);
     }
 }
