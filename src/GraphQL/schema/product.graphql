@@ -94,7 +94,7 @@ input ParentProductRelation {
     connect: ID
 }
 
-input SyncProductRelation {
+input ProductRelation {
     connect: ID
 }
 

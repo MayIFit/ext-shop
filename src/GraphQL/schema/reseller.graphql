@@ -31,6 +31,7 @@ extend type Mutation @guard(with: ["sanctum"]) {
 input ResellerRelation {
     create: CreateResellerInput
     update: UpdateResellerInput
+    connect: ID
 }
 
 input CreateResellerInput {

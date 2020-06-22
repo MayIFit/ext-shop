@@ -41,6 +41,7 @@ input CreateProductPricingInput {
     currency: String!
     reseller: ResellerRelation
     available_to: DateTime
+    product: ProductRelation!
 }
 
 input UpdateProductPricingInput {
@@ -51,6 +52,7 @@ input UpdateProductPricingInput {
     currency: String!
     reseller: ResellerRelation
     available_to: DateTime
+    product: ProductRelation!
 }
 
 type ProductPricing @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\ProductPricing") {
