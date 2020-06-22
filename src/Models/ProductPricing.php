@@ -28,6 +28,7 @@ class ProductPricing extends Model
 
     protected $attributes = [
         'base_price' => 0.00,
+        'wholesale_price' => 0.00,
         'vat' => 0.00,
         'currency' => 'HUF'
     ];
