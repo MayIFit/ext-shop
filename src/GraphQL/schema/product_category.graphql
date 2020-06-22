@@ -1,6 +1,8 @@
-extend type Query @guard(with: ["sanctum"]) {
+extend type Query {
     allProductCategory: [ProductCategorySelect]! @all
+}
 
+extend type Query @guard(with: ["sanctum"]) {
     listProductCategory(
         name: String @where(operator: "like")
     ): [ProductCategory]!

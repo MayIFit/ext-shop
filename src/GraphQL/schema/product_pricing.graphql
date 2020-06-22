@@ -13,16 +13,21 @@ extend type Mutation @guard(with: ["sanctum"]) {
 }
 
 extend type Query @guard(with: ["sanctum"]) {
+    listCustomerProductPricing(
+        hasProduct: _ @whereHasConditions(columns: ["catalog_id", "name"])
+        reseller_id: ID
+    ): [ProductPricing]!
+    @field(resolver: "ListCustomerProductPricing@resolve")
+    @paginate(type: "paginator")
+
     listProductPricing(
         hasProduct: _ @whereHasConditions(columns: ["catalog_id", "name"])
-        user_id: ID
     ): [ProductPricing]!
     @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\ProductPricing") 
     @paginate(type: "paginator")
 
     viewProductPricing(
         id: ID! @eq
-        user_id: ID @eq
     ): ProductPricing @find
     @can(ability: "view" find: "id") 
 }
