@@ -15,7 +15,7 @@ extend type Mutation @guard(with: ["sanctum"]) {
 extend type Query @guard(with: ["sanctum"]) {
     listCustomerProductPricing(
         reseller_id: ID
-    ): [ProductPricing]!
+    ): [ResellerProductPricing]!
     @paginate(builder: "MayIFit\\Extension\\Shop\\Models\\ProductPricing@resellerPricing")
 
     listProductPricing(
@@ -67,7 +67,19 @@ type ProductPricing @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Prod
     available_to: DateTime
     grossPrice: Float @method(name: "getGrossPriceAttribute")
     currency: String!
-    reseller: Reseller
+    reseller: Reseller @belongsTo
+}
+
+type ResellerProductPricing @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\ProductPricing") {
+    id: ID!
+    base_price: Float!
+    wholesale_price: Float
+    vat: Float!
+    available_to: DateTime
+    grossPrice: Float @method(name: "getGrossPriceAttribute")
+    currency: String!
+    reseller_id: ID
+    product_id: ID
 }
 
 enum ListProductPricingHasProductWhereConditions {

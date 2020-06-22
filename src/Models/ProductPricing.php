@@ -50,7 +50,7 @@ class ProductPricing extends Model
 
     public function resellerPricing($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder {
         return DB::table('product_pricings')
-            ->join('products', 'product_pricings.product_id', '=', 'product.id')
+            ->join('products', 'product_pricings.product_id', '=', 'products.id')
             ->where('reseller_id', '=', $args['reseller_id']);
     }
 }
