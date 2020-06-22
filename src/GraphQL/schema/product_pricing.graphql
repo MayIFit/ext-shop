@@ -14,7 +14,6 @@ extend type Mutation @guard(with: ["sanctum"]) {
 
 extend type Query @guard(with: ["sanctum"]) {
     listCustomerProductPricing(
-        hasProduct: _ @whereHasConditions(columns: ["catalog_id", "name"])
         reseller_id: ID
     ): [ProductPricing]!
     @paginate(builder: "MayIFit\\Extension\\Shop\\Models\\ProductPricing@resellerPricing")
