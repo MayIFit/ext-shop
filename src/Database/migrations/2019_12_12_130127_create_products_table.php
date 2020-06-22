@@ -23,6 +23,7 @@ class CreateProductsTable extends Migration
             $table->string('technical_specs')->nullable();
             $table->string('supplied')->nullable();
             $table->unsignedInteger('in_stock');
+            $table->unsignedInteger('waste_stock');
             $table->string('varranty');
             $table->string('out_of_stock_text')->nullable();
             $table->string('quantity_unit_text')->nullable();

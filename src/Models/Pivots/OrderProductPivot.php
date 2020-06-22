@@ -32,10 +32,8 @@ class OrderProductPivot extends Pivot
                         $query->where('available_to', '>=', $now);
                         $query->orWhereNull('available_to');
                     })->first();
-                
                 $model->product_pricing_id = $productPricingForCurrency->id;
             }
-            
             
             $productDiscount = $product->discounts()
                 ->where(function ($query) use ($now) {
@@ -54,7 +52,10 @@ class OrderProductPivot extends Pivot
             $order->gross_value += ($productPricingForCurrency->gross_price * (1 - ($productDiscount->discount_percentage ?? 0 / 100))) * $model->quantity;
             $order->quantity += $model->quantity;
 
+            $product->in_stock -= $model->quantity;
+            $product->save();
             $order->save();
+
             return $model;
         });
     }
