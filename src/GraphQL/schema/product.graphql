@@ -24,9 +24,7 @@ extend type Query @guard(with: ["sanctum"]) {
     allProduct: [ProductSelect]! @all
 
     listProduct(
-        name: String @where(operator: "like")
-        catalog_id: String @where(operator: "like")
-        in_stock: Boolean @neq(key: "0")
+        filter: _ @whereConditions(columnsEnum: "ProductWhereColumn")
     ): [Product]!
     @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\Product") 
     @paginate(type: "paginator")
@@ -137,4 +135,12 @@ type Product @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Product") {
 type ProductSelect @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Product") {
     id: ID!
     catalog_id: String!
+}
+
+"A list of filterable columns."
+enum ProductWhereColumn {
+    CATALOG_ID @enum(value: "catalog_id")
+    NAME @enum(value: "name")
+    IN_STOCK @enum(value: "in_stock")
+    REFURBISHED @enum(value: "refurbished")
 }

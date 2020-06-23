@@ -1,7 +1,6 @@
 extend type Query @guard(with: ["sanctum"]) {
     listCustomer(
-        first_name: String @where(operator: "like")
-        last_name: String @where(operator: "like")
+        filter: _ @whereConditions(columnsEnum: "CustomerWhereColumn")
     ): [Customer]!
         @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\Customer") 
         @paginate(type: "paginator")
@@ -97,4 +96,13 @@ extend type User @guard(with: ["sanctum"]) {
 
 extend input UpdateUserInput {
     customers: CustomerRelation
+}
+
+"A list of filterable columns."
+enum CustomerWhereColumn {
+    FIRST_NAME @enum(value: "first_name")
+    LAST_NAME @enum(value: "last_name")
+    ADDRESS @enum(value: "address")
+    PHONE_NUMBER @enum(value: "phone_number")
+    EMAIL @enum(value: "email")
 }

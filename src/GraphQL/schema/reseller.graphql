@@ -2,10 +2,7 @@ extend type Query @guard(with: ["sanctum"]) {
     allReseller: [ResellerSelect]! @all
     
     listReseller(
-        company_name: String @where(operator: "like")
-        vat_id: String @where(operator: "like")
-        email: String @where(operator: "like")
-        phone_number: String @where(operator: "like")
+        filter: _ @whereConditions(columnsEnum: "ResellerWhereColumn")
     ): [Reseller]!
         @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\Reseller") 
         @paginate(type: "paginator")
@@ -73,4 +70,12 @@ extend type User @guard(with: ["sanctum"]) {
 extend input UpdateUserInput {
     reseller: ResellerRelation
     is_reseller: Boolean
+}
+
+"A list of filterable columns."
+enum ResellerWhereColumn {
+    COMPANY_NAME @enum(value: "company_name")
+    VAT_ID @enum(value: "vat_id")
+    PHONE_NUMBER @enum(value: "phone_number")
+    EMAIL @enum(value: "email")
 }

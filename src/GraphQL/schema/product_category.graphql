@@ -4,7 +4,7 @@ extend type Query {
 
 extend type Query @guard(with: ["sanctum"]) {
     listProductCategory(
-        name: String @where(operator: "like")
+        filter: _ @whereConditions(columnsEnum: "ProductCategoryWhereColumn")
     ): [ProductCategory]!
     @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\ProductCategory") 
     @paginate(type: "paginator")
@@ -68,4 +68,9 @@ type ProductCategory @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Pro
 type ProductCategorySelect @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\ProductCategory") {
     id: ID!
     name: String!
+}
+
+"A list of filterable columns."
+enum ProductCategoryWhereColumn {
+    NAME @enum(value: "name")
 }
