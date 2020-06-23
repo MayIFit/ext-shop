@@ -36,7 +36,8 @@ class SystemSettingsTableSeeder extends Seeder
         SystemSetting::firstOrCreate([
 			'setting_name' => 'shop.name',
 			'setting_description' => 'The name of the E-commerce application',
-			'setting_value' => 'GÜDE Webshop'
+            'setting_value' => 'GÜDE Webshop',
+            'public' => true
 		]);
     }
 }
