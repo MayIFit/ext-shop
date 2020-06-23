@@ -10,9 +10,9 @@ $factory->define(Product::class, function (Faker $faker) {
 
     $technicalSpecs = array(
         'weight' => $faker->numberBetween($min = 0, $max = 500).' kg',
-        'width' => $faker->numberBetween($min = 0, $max = 1870),
-        'height' => $faker->numberBetween($min = 0, $max = 920),
-        'length' => $faker->numberBetween($min = 0, $max = 1230),
+        'width' => $faker->numberBetween($min = 0, $max = 1870).' mm',
+        'height' => $faker->numberBetween($min = 0, $max = 920).' mm',
+        'length' => $faker->numberBetween($min = 0, $max = 1230).' mm',
     );
 
     return [
