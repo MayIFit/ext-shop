@@ -20,7 +20,7 @@ class TranslationsTableSeeder extends Seeder
     public function run()
     {
         $this->addUnitTranslations();
-        $this->addProductRelatedTranslations();
+		$this->addProductRelatedTranslations();
         $this->addShopRelatedTranslations();
 		$this->addOrderRelatedTranslations();
 		$this->addPricingRelatedTranslations();
@@ -226,6 +226,32 @@ class TranslationsTableSeeder extends Seeder
 				'key' => 'refurbished'
 			],
 			['text' => ['en' => 'Refurbished', 'hu' => 'Felújított']],
+		);
+
+
+		Translation::updateOrCreate([
+				'group' => 'supplied',
+				'key' => 'name'
+			],
+			['text' => ['en' => 'Supplied Item Name', 'hu' => 'Csomagtétel Neve']],
+		);
+		Translation::updateOrCreate([
+				'group' => 'supplied',
+				'key' => 'value'
+			],
+			['text' => ['en' => 'Supplied Item Value', 'hu' => 'Csomagtétel Értéke']],
+		);
+		Translation::updateOrCreate([
+				'group' => 'technical_specs',
+				'key' => 'name'
+			],
+			['text' => ['en' => 'Technical Specification Attribute', 'hu' => 'Specifikáció Tulajdonság']],
+		);
+		Translation::updateOrCreate([
+				'group' => 'technical_specs',
+				'key' => 'value'
+			],
+			['text' => ['en' => 'Technical Specification Value', 'hu' => 'Specifikáció Érték']],
 		);
     }
 
