@@ -23,15 +23,20 @@ class SystemSettingsTableSeeder extends Seeder
     }
 
 	protected function addMailingRelatedSettings() {
-        SystemSetting::updateOrCreate([
+        SystemSetting::firstOrCreate([
 			'setting_name' => 'shop.emailFrom',
-			'setting_description' => 'shop.email_from',
+			'setting_description' => 'The email address from which messages are sent from',
 			'setting_value' => 'tischler.kristof@gmail.com'
 		]);
-		SystemSetting::updateOrCreate([
+		SystemSetting::firstOrCreate([
 			'setting_name' => 'shop.emailFromName',
-			'setting_description' => 'shop.email_from_name',
-			'setting_value' => 'info@mayifit.net'
+			'setting_description' => 'The email sender name from which messages are sent from',
+			'setting_value' => 'Güde'
+        ]);
+        SystemSetting::firstOrCreate([
+			'setting_name' => 'shop.name',
+			'setting_description' => 'The name of the E-commerce application',
+			'setting_value' => 'GÜDE Webshop'
 		]);
     }
 }
