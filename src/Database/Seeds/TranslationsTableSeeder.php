@@ -33,37 +33,37 @@ class TranslationsTableSeeder extends Seeder
 				'group' => 'global',
 				'key' => 'store'
 			],
-			['text' => ['en' => 'Store', 'hu' => 'Üzlet']],
+			['text' => ['en' => 'store', 'hu' => 'üzlet']],
 		);
 		Translation::updateOrCreate([
 				'group' => 'list',
 				'key' => 'product'
 			],
-			['text' => ['en' => 'Product List', 'hu' => 'Termék Lista']],
+			['text' => ['en' => 'product list', 'hu' => 'termék lista']],
 		);
 		Translation::updateOrCreate([
 				'group' => 'list',
 				'key' => 'product-category'
 			],
-			['text' => ['en' => 'Product Category List', 'hu' => 'Termék Kategória Lista']],
+			['text' => ['en' => 'product category list', 'hu' => 'termék kategória lista']],
 		);
 		Translation::updateOrCreate([
 				'group' => 'list',
 				'key' => 'product-pricing'
 			],
-			['text' => ['en' => 'Product Pricing List', 'hu' => 'Termék Árazás Lista']],
+			['text' => ['en' => 'product pricing list', 'hu' => 'termék árazás lista']],
 		);
 		Translation::updateOrCreate([
 				'group' => 'list',
 				'key' => 'order'
 			],
-			['text' => ['en' => 'Order List', 'hu' => 'Rendelés Lista']],
+			['text' => ['en' => 'order list', 'hu' => 'rendelés lista']],
 		);
 		Translation::updateOrCreate([
 				'group' => 'global',
 				'key' => 'reviews'
 			],
-			['text' => ['en' => 'Reviews', 'hu' => 'Értékelések']],
+			['text' => ['en' => 'reviews', 'hu' => 'értékelések']],
 		);
 	}
 
@@ -72,25 +72,25 @@ class TranslationsTableSeeder extends Seeder
 	            'group' => 'unit',
 	            'key' => 'pack'
 			],
-            ['text' => ['en' => 'Pack', 'hu' => 'Kiszerelés']],
+            ['text' => ['en' => 'pack', 'hu' => 'kiszerelés']],
 		);
         Translation::updateOrCreate([
 	            'group' => 'unit',
 	            'key' => 'piece'
 			],
-            ['text' => ['en' => 'Piece', 'hu' => 'Darab']],
+            ['text' => ['en' => 'piece', 'hu' => 'darab']],
 		);
         Translation::updateOrCreate([
 	            'group' => 'unit',
 	            'key' => 'pallet'
 			],
-            ['text' => ['en' => 'Pallet', 'hu' => 'Raklap']],
+            ['text' => ['en' => 'pallet', 'hu' => 'raklap']],
 		);
         Translation::updateOrCreate([
 	            'group' => 'unit',
 	            'key' => 'package'
 			],
-            ['text' => ['en' => 'Package', 'hu' => 'Csomag']],
+            ['text' => ['en' => 'package', 'hu' => 'csomag']],
 		);
     }
 
@@ -99,133 +99,133 @@ class TranslationsTableSeeder extends Seeder
 	            'group' => 'product',
 	            'key' => 'catalog_id'
 			],
-            ['text' => ['en' => 'Catalog ID', 'hu' => 'Katalógusszám']],
+            ['text' => ['en' => 'catalog id', 'hu' => 'katalógusszám']],
 		);
         Translation::updateOrCreate([
 				'group' => 'product',
 				'key' => 'quality'
 			],
-			['text' => ['en' => 'Quality', 'hu' => 'Minőség']],
+			['text' => ['en' => 'quality', 'hu' => 'minőség']],
 		);
 		Translation::updateOrCreate([
 				'group' => 'product',
 				'key' => 'name'
 			],
-			['text' => ['en' => 'Product Name', 'hu' => 'Termék Neve']],
+			['text' => ['en' => 'product name', 'hu' => 'termék neve']],
 		);
 		Translation::updateOrCreate([
 				'group' => 'product',
 				'key' => 'description'
 			],
-			['text' => ['en' => 'Product Description', 'hu' => 'Termék Leírása']],
+			['text' => ['en' => 'product description', 'hu' => 'termék leírása']],
 		);
 		Translation::updateOrCreate([
 				'group' => 'product',
 				'key' => 'technical_specs'
 			],
-			['text' => ['en' => 'Tehcnical Specifications', 'hu' => 'Műszaki Adatok']],
+			['text' => ['en' => 'tehcnical specifications', 'hu' => 'műszaki adatok']],
 		);
         Translation::updateOrCreate([
 	            'group' => 'product',
 	            'key' => 'net_price'
 			],
-            ['text' => ['en' => 'Net Price', 'hu' => 'Nettó Ár']],
+            ['text' => ['en' => 'net price', 'hu' => 'nettó ár']],
 		);
         Translation::updateOrCreate([
 	            'group' => 'product',
 	            'key' => 'gross_price'
 			],
-            ['text' => ['en' => 'Gross Price', 'hu' => 'Bruttó Ár']],
+            ['text' => ['en' => 'gross price', 'hu' => 'bruttó ár']],
 		);
         Translation::updateOrCreate([
 	            'group' => 'product',
 	            'key' => 'vat'
 			],
-            ['text' => ['en' => 'Vat', 'hu' => 'ÁFA']],
+            ['text' => ['en' => 'vat', 'hu' => 'áfa']],
 		);
         Translation::updateOrCreate([
 	            'group' => 'product',
 	            'key' => 'quantity'
 			],
-            ['text' => ['en' => 'Quantity', 'hu' => 'Mennyiség']],
+            ['text' => ['en' => 'quantity', 'hu' => 'mennyiség']],
 		);
         Translation::updateOrCreate([
 	            'group' => 'product',
 	            'key' => 'category'
 			],
-            ['text' => ['en' => 'Product Category', 'hu' => 'Termék Kategória']],
+            ['text' => ['en' => 'product category', 'hu' => 'termék kategória']],
 		);
         Translation::updateOrCreate([
 	            'group' => 'product',
 	            'key' => 'documents'
 			],
-            ['text' => ['en' => 'Product Documents', 'hu' => 'Termék Dokumentumok']],
+            ['text' => ['en' => 'product documents', 'hu' => 'termék dokumentumok']],
 		);
         Translation::updateOrCreate([
 	            'group' => 'product',
 	            'key' => 'discount'
 			],
-            ['text' => ['en' => 'Discount', 'hu' => 'Kedvezmény']],
+            ['text' => ['en' => 'discount', 'hu' => 'kedvezmény']],
 		);
 		Translation::updateOrCreate([
 				'group' => 'product',
 				'key' => 'in_stock'
 			],
-			['text' => ['en' => 'In Stock', 'hu' => 'Raktáron']],
+			['text' => ['en' => 'in stock', 'hu' => 'raktáron']],
 		);
 		Translation::updateOrCreate([
 				'group' => 'product',
 				'key' => 'discount_percentage'
 			],
-			['text' => ['en' => 'Discount Percentage', 'hu' => 'Kedvezmény Százalék']],
+			['text' => ['en' => 'discount percentage', 'hu' => 'kedvezmény százalék']],
 		);
 		Translation::updateOrCreate([
 				'group' => 'product',
 				'key' => 'parent_product_id'
 			],
-			['text' => ['en' => 'Parent Product', 'hu' => 'Szülő Termék']],
+			['text' => ['en' => 'parent product', 'hu' => 'szülő termék']],
 		);
 		Translation::updateOrCreate([
 				'group' => 'product',
 				'key' => 'out_of_stock_text'
 			],
-			['text' => ['en' => 'Out of Stock Text', 'hu' => 'Kifogyott szöveg']],
+			['text' => ['en' => 'out of stock text', 'hu' => 'kifogyott szöveg']],
 		);
 		Translation::updateOrCreate([
 			'group' => 'product',
 				'key' => 'quantity_unit_text'
 			],
-			['text' => ['en' => 'Quantity Unit', 'hu' => 'Csomag']],
+			['text' => ['en' => 'quantity unit', 'hu' => 'csomag']],
 		);
 		Translation::updateOrCreate([
 				'group' => 'product',
 				'key' => 'discounts'
 			],
-			['text' => ['en' => 'Discounts', 'hu' => 'Kedvezmények']],
+			['text' => ['en' => 'discounts', 'hu' => 'kedvezmények']],
 		);
 		Translation::updateOrCreate([
 				'group' => 'product',
 				'key' => 'varranty'
 			],
-			['text' => ['en' => 'Varranty', 'hu' => 'Garancia']],
+			['text' => ['en' => 'varranty', 'hu' => 'garancia']],
 		);
 		Translation::updateOrCreate([
 				'group' => 'product',
 				'key' => 'supplied'
 			],
-			['text' => ['en' => 'Supplied', 'hu' => 'Csomag tartalma']],
+			['text' => ['en' => 'supplied', 'hu' => 'csomag tartalma']],
 		);
 		Translation::updateOrCreate([
 				'group' => 'product',
 				'key' => 'pricings'
 			],
-			['text' => ['en' => 'Pricings', 'hu' => 'Árazás']],
+			['text' => ['en' => 'pricings', 'hu' => 'árazás']],
 		);
 		Translation::updateOrCreate([
 				'group' => 'product',
 				'key' => 'refurbished'
 			],
-			['text' => ['en' => 'Refurbished', 'hu' => 'Felújított']],
+			['text' => ['en' => 'refurbished', 'hu' => 'felújított']],
 		);
 
 
@@ -233,25 +233,25 @@ class TranslationsTableSeeder extends Seeder
 				'group' => 'supplied',
 				'key' => 'name'
 			],
-			['text' => ['en' => 'Supplied Item Name', 'hu' => 'Csomagtétel Neve']],
+			['text' => ['en' => 'supplied item name', 'hu' => 'csomagtétel neve']],
 		);
 		Translation::updateOrCreate([
 				'group' => 'supplied',
 				'key' => 'value'
 			],
-			['text' => ['en' => 'Supplied Item Value', 'hu' => 'Csomagtétel Értéke']],
+			['text' => ['en' => 'supplied item value', 'hu' => 'csomagtétel értéke']],
 		);
 		Translation::updateOrCreate([
 				'group' => 'technical_specs',
 				'key' => 'name'
 			],
-			['text' => ['en' => 'Technical Specification Attribute', 'hu' => 'Specifikáció Tulajdonság']],
+			['text' => ['en' => 'technical specification attribute', 'hu' => 'specifikáció tulajdonság']],
 		);
 		Translation::updateOrCreate([
 				'group' => 'technical_specs',
 				'key' => 'value'
 			],
-			['text' => ['en' => 'Technical Specification Value', 'hu' => 'Specifikáció Érték']],
+			['text' => ['en' => 'technical specification value', 'hu' => 'specifikáció érték']],
 		);
     }
 
@@ -260,134 +260,134 @@ class TranslationsTableSeeder extends Seeder
 	            'group' => 'order',
 	            'key' => 'order'
 			],
-            ['text' => ['en' => 'Order', 'hu' => 'Rendelés']],
+            ['text' => ['en' => 'order', 'hu' => 'rendelés']],
 		);
         Translation::updateOrCreate([
 	            'group' => 'order',
 	            'key' => 'final_net_price'
 			],
-            ['text' => ['en' => 'Total Net Price', 'hu' => 'Teljes Nettó Végösszeg']],
+            ['text' => ['en' => 'total net price', 'hu' => 'teljes nettó végösszeg']],
 		);
         Translation::updateOrCreate([
 	            'group' => 'order',
 	            'key' => 'final_gross_price'
 			],
-            ['text' => ['en' => 'Total Gross Price', 'hu' => 'Teljes Bruttó Végösszeg']],
+            ['text' => ['en' => 'total gross price', 'hu' => 'teljes bruttó végösszeg']],
 		);
 
         Translation::updateOrCreate([
 	            'group' => 'order',
 	            'key' => 'total_net_price'
 			],
-            ['text' => ['en' => 'Total Net Price', 'hu' => 'Teljes Nettó Összeg']],
+            ['text' => ['en' => 'total net price', 'hu' => 'teljes nettó összeg']],
 		);
         Translation::updateOrCreate([
 	            'group' => 'order',
 	            'key' => 'total_gross_price'
 			],
-            ['text' => ['en' => 'Total Gross Price', 'hu' => 'Teljes Bruttó Összeg']],
+            ['text' => ['en' => 'total gross price', 'hu' => 'teljes bruttó összeg']],
 		);
         Translation::updateOrCreate([
 	            'group' => 'order',
 	            'key' => 'shipping_address'
 			],
-            ['text' => ['en' => 'Shipping Address', 'hu' => 'Szállítási Adatok']],
+            ['text' => ['en' => 'shipping address', 'hu' => 'szállítási adatok']],
 		);
         Translation::updateOrCreate([
 	            'group' => 'order',
 	            'key' => 'billing_address'
 			],
-            ['text' => ['en' => 'Billing Address', 'hu' => 'Számlázási adatok']],
+            ['text' => ['en' => 'billing address', 'hu' => 'számlázási adatok']],
 		);
         Translation::updateOrCreate([
 	            'group' => 'order',
 	            'key' => 'track_order_status'
 			],
-            ['text' => ['en' => 'Track Order Status', 'hu' => 'Rendelés Követés']],
+            ['text' => ['en' => 'track order status', 'hu' => 'rendelés követés']],
 		);
         Translation::updateOrCreate([
 	            'group' => 'order',
 	            'key' => 'order_token'
 			],
-            ['text' => ['en' => 'Order Token', 'hu' => 'Rendelési Azonosító']],
+            ['text' => ['en' => 'order token', 'hu' => 'rendelési azonosító']],
 		);
         Translation::updateOrCreate([
 	            'group' => 'order',
 	            'key' => 'customer'
 			],
-            ['text' => ['en' => 'Customer', 'hu' => 'Ügyfél']],
+            ['text' => ['en' => 'customer', 'hu' => 'ügyfél']],
 		);
         Translation::updateOrCreate([
 	            'group' => 'order',
 	            'key' => 'title'
 			],
-            ['text' => ['en' => 'Title', 'hu' => 'Titulus']],
+            ['text' => ['en' => 'title', 'hu' => 'titulus']],
 		);
         Translation::updateOrCreate([
 	            'group' => 'order',
 	            'key' => 'first_name'
 			],
-            ['text' => ['en' => 'First Name', 'hu' => 'Vezetéknév']],
+            ['text' => ['en' => 'first name', 'hu' => 'vezetéknév']],
 		);
         Translation::updateOrCreate([
 	            'group' => 'order',
 	            'key' => 'last_name'
 			],
-            ['text' => ['en' => 'Last Name', 'hu' => 'Utónév']],
+            ['text' => ['en' => 'last name', 'hu' => 'utónév']],
 		);
         Translation::updateOrCreate([
 	            'group' => 'order',
 	            'key' => 'country'
 			],
-            ['text' => ['en' => 'Country', 'hu' => 'Ország']],
+            ['text' => ['en' => 'country', 'hu' => 'ország']],
 		);
         Translation::updateOrCreate([
 	            'group' => 'order',
 	            'key' => 'city'
 			],
-            ['text' => ['en' => 'City', 'hu' => 'Város']],
+            ['text' => ['en' => 'city', 'hu' => 'város']],
 		);
         Translation::updateOrCreate([
 	            'group' => 'order',
 	            'key' => 'zip_code'
 			],
-            ['text' => ['en' => 'Zip Code', 'hu' => 'Irányítószám']],
+            ['text' => ['en' => 'zip code', 'hu' => 'irányítószám']],
 		);
         Translation::updateOrCreate([
 	            'group' => 'order',
 	            'key' => 'address'
 			],
-            ['text' => ['en' => 'Address', 'hu' => 'Közterület neve']],
+            ['text' => ['en' => 'address', 'hu' => 'közterület neve']],
 		);
         Translation::updateOrCreate([
 	            'group' => 'order',
 	            'key' => 'house_nr'
 			],
-            ['text' => ['en' => 'House Number', 'hu' => 'Házszám']],
+            ['text' => ['en' => 'house number', 'hu' => 'házszám']],
 		);
         Translation::updateOrCreate([
 	            'group' => 'order',
 	            'key' => 'floor'
 			],
-            ['text' => ['en' => 'Floor', 'hu' => 'Emelet']],
+            ['text' => ['en' => 'floor', 'hu' => 'emelet']],
 		);
         Translation::updateOrCreate([
 	            'group' => 'order',
 	            'key' => 'door'
 			],
-            ['text' => ['en' => 'Door', 'hu' => 'Ajtó']],
+            ['text' => ['en' => 'door', 'hu' => 'ajtó']],
 		);
         Translation::updateOrCreate([
 	            'group' => 'order',
 	            'key' => 'billing_vat_number'
 			],
-            ['text' => ['en' => 'Billing Vat Number', 'hu' => 'Adószám']],
+            ['text' => ['en' => 'billing vat number', 'hu' => 'adószám']],
 		);
         Translation::updateOrCreate([
 	            'group' => 'order',
 	            'key' => 'different_billing'
 			],
-            ['text' => ['en' => 'Different Billing Address', 'hu' => 'Eltérő Számlázási Adatok']],
+            ['text' => ['en' => 'different billing address', 'hu' => 'eltérő számlázási adatok']],
 		);
 
     }
@@ -397,43 +397,43 @@ class TranslationsTableSeeder extends Seeder
 	            'group' => 'action',
 	            'key' => 'add_to_cart'
 			],
-            ['text' => ['en' => 'Add To Cart', 'hu' => 'Kosárba Rakás']],
+            ['text' => ['en' => 'add to cart', 'hu' => 'kosárba rakás']],
 		);
 		Translation::updateOrCreate([
 				'group' => 'action',
 				'key' => 'upload'
 			],
-			['text' => ['en' => 'Upload', 'hu' => 'Feltöltés']],
+			['text' => ['en' => 'upload', 'hu' => 'feltöltés']],
 		);
         Translation::updateOrCreate([
 	            'group' => 'shop',
 	            'key' => 'shop'
 			],
-            ['text' => ['en' => 'Shop', 'hu' => 'Üzlet']],
+            ['text' => ['en' => 'shop', 'hu' => 'üzlet']],
 		);
         Translation::updateOrCreate([
 	            'group' => 'shop',
 	            'key' => 'products'
 			],
-            ['text' => ['en' => 'Products', 'hu' => 'Termékek']],
+            ['text' => ['en' => 'products', 'hu' => 'termékek']],
 		);
         Translation::updateOrCreate([
 	            'group' => 'shop',
 	            'key' => 'categories'
 			],
-            ['text' => ['en' => 'Categories', 'hu' => 'Kategóriák']],
+            ['text' => ['en' => 'categories', 'hu' => 'kategóriák']],
 		);
 		Translation::updateOrCreate([
 				'group' => 'shop',
 				'key' => 'cart'
 			],
-			['text' => ['en' => 'Shopping Cart', 'hu' => 'Bevásárló Kosár']],
+			['text' => ['en' => 'shopping cart', 'hu' => 'bevásárló kosár']],
 		);
 		Translation::updateOrCreate([
 				'group' => 'shop',
 				'key' => 'order'
 			],
-			['text' => ['en' => 'Order', 'hu' => 'Rendelés']],
+			['text' => ['en' => 'order', 'hu' => 'rendelés']],
 		);
 	}
 	
@@ -442,25 +442,25 @@ class TranslationsTableSeeder extends Seeder
 	            'group' => 'pricings',
 	            'key' => 'base_price'
 			],
-            ['text' => ['en' => 'Net Price', 'hu' => 'Nettó Érték']],
+            ['text' => ['en' => 'net price', 'hu' => 'nettó érték']],
 		);
         Translation::updateOrCreate([
 	            'group' => 'pricings',
 	            'key' => 'vat'
 			],
-            ['text' => ['en' => 'Vat', 'hu' => 'ÁFA']],
+            ['text' => ['en' => 'vat', 'hu' => 'áfa']],
 		);
         Translation::updateOrCreate([
 	            'group' => 'pricings',
 	            'key' => 'currency'
 			],
-            ['text' => ['en' => 'Currency', 'hu' => 'Pénznem']],
+            ['text' => ['en' => 'currency', 'hu' => 'pénznem']],
 		);
         Translation::updateOrCreate([
 	            'group' => 'pricings',
 	            'key' => 'available_to'
 			],
-            ['text' => ['en' => 'Available to', 'hu' => 'Érvényes']],
+            ['text' => ['en' => 'available to', 'hu' => 'érvényes']],
 		);
 	}
 
@@ -469,19 +469,19 @@ class TranslationsTableSeeder extends Seeder
 				'group' => 'product-category',
 				'key' => 'name'
 			],
-			['text' => ['en' => 'Category Name', 'hu' => 'Kategória Név']],
+			['text' => ['en' => 'category name', 'hu' => 'kategória név']],
 		);
 		Translation::updateOrCreate([
 				'group' => 'product-category',
 				'key' => 'description'
 			],
-			['text' => ['en' => 'Category Description', 'hu' => 'Kategória Leírás']],
+			['text' => ['en' => 'category description', 'hu' => 'kategória leírás']],
 		);
 		Translation::updateOrCreate([
 				'group' => 'product-category',
 				'key' => 'parentcategory'
 			],
-			['text' => ['en' => 'Parent Category', 'hu' => 'Szülő Kategória']],
+			['text' => ['en' => 'parent category', 'hu' => 'szülő kategória']],
 		);
 	}
 	
@@ -490,19 +490,19 @@ class TranslationsTableSeeder extends Seeder
 	            'group' => 'discounts',
 	            'key' => 'discount_percentage'
 			],
-            ['text' => ['en' => 'Discount Percentage', 'hu' => 'Kedvezmény Százalék']],
+            ['text' => ['en' => 'discount percentage', 'hu' => 'kedvezmény százalék']],
 		);
         Translation::updateOrCreate([
 	            'group' => 'discounts',
 	            'key' => 'available_from'
 			],
-            ['text' => ['en' => 'Available From', 'hu' => 'Tól']],
+            ['text' => ['en' => 'available from', 'hu' => 'tól']],
 		);
         Translation::updateOrCreate([
 	            'group' => 'discounts',
 	            'key' => 'available_to'
 			],
-            ['text' => ['en' => 'Available To', 'hu' => 'Ig']],
+            ['text' => ['en' => 'available to', 'hu' => 'ig']],
 		);
     }
 }
