@@ -58,11 +58,13 @@ class ProductPricing extends Model
         return DB::table('product_pricings')
             ->select(
                 'product_pricings.id', 
-                'product_pricings.wholesale_price as base_price',
+                'product_pricings.base_price',
+                'product_pricings.wholesale_price',
                 'product_pricings.vat',
                 'product_pricings.reseller_id',
                 'product_pricings.available_from',
-                DB::raw('product_pricings.wholesale_price * (1 + (product_pricings.vat / 100)) as gross_price'),
+                DB::raw('product_pricings.base_price * (1 + (product_pricings.vat / 100)) as base_gross_price'),
+                DB::raw('product_pricings.wholesale_price * (1 + (product_pricings.vat / 100)) as wholesale_gross_price'),
                 'product_pricings.currency',
                 'product_pricings.reseller_id',
                 'products.catalog_id',

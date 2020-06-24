@@ -76,9 +76,11 @@ type ProductPricing @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Prod
 type ResellerProductPricing @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\ProductPricing") {
     id: ID!
     base_price: Float!
+    wholesale_prcie: Float!
     vat: Float!
     available_from: DateTime
-    gross_price: Float!
+    base_gross_price: Float!
+    wholesale_gross_price: Float!
     currency: String!
     reseller_id: ID
     catalog_id: String!
