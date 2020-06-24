@@ -28,7 +28,9 @@ class ProductPricing extends Model
         'user_id',
         'base_price',
         'vat',
-        'currency'
+        'currency',
+        'wholesale_price',
+        'available_from'
     ];
 
     protected $attributes = [

@@ -66,12 +66,15 @@ class Product extends Model
         return $this->hasMany(ProductDiscount::class);
     }
 
-    public function getPricingsForReseller($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): ?Collection {
-        return $this->hasMany(ProductPricing::class)
+    public function getPricingForReseller($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): ProductPricing {
+        return $this->hasOne(ProductPricing::class)
         ->when(isset($args['reseller_id']), function($query) use($args) {
-            return $query->where('reseller_id', $args['reseller_id']);
+            return $query->where(function($query) use($args) {
+                return $query->where('reseller_id', '=', $args['reseller_id'])
+                    ->orWhereNull('reseller_id');
+            });
         })
-        ->get();
+        ->orderBy('id', 'DESC')->first();
     }
 
     public function getDiscountForDate($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): ?ProductDiscount {
