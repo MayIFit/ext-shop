@@ -19,7 +19,7 @@ class CreateResellersTable extends Migration
             $table->string('email');
             $table->string('vat_id')->nullable();
             $table->string('company_name')->nullable();
-            $table->unsignedBigInteger('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('user_id')->unique()->references('id')->on('users');
             $table->timestamps();
         });
     }
