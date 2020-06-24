@@ -43,7 +43,7 @@ input CreateProductPricingInput {
     vat: Float!
     currency: String!
     reseller: ResellerRelation
-    available_to: DateTime
+    available_from: DateTime
     product: ProductRelation!
 }
 
@@ -54,7 +54,7 @@ input UpdateProductPricingInput {
     vat: Float!
     currency: String!
     reseller: ResellerRelation
-    available_to: DateTime
+    available_from: DateTime
     product: ProductRelation!
 }
 
@@ -64,22 +64,24 @@ type ProductPricing @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Prod
     base_price: Float!
     wholesale_price: Float
     vat: Float!
-    available_to: DateTime
+    available_from: DateTime
     grossPrice: Float @method(name: "getGrossPriceAttribute")
     currency: String!
     reseller: Reseller @belongsTo
 }
 
+"This type greatly differs from the ProductPricing for example the base_price here is the wholesale_prcie in the ProductPricing"
 type ResellerProductPricing @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\ProductPricing") {
     id: ID!
     base_price: Float!
-    wholesale_price: Float
     vat: Float!
-    available_to: DateTime
-    grossPrice: Float @method(name: "getGrossPriceAttribute")
+    available_from: DateTime
+    gross_price: Float!
     currency: String!
     reseller_id: ID
-    product_id: ID
+    catalog_id: String!
+    name: String!
+    resource_url: String
 }
 
 enum ListProductPricingHasProductWhereConditions {

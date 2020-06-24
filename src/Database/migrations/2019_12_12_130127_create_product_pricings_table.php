@@ -27,6 +27,7 @@ class CreateProductPricingsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
             $table->unique(['product_id', 'currency', 'reseller_id']);
+            $table->index('reseller_id');
         });
     }
 
