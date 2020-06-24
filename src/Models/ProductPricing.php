@@ -44,11 +44,15 @@ class ProductPricing extends Model
         });
     }
 
-    public function getGrossPriceAttribute(): float {
+    public function getBaseGrossPriceAttribute(): float {
         return $this->base_price * (1 + ($this->vat / 100));
     }
 
-    public function resellerPricing($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder {
+    public function getWholeSaleGrossPrice(): float {
+        return $this->wholesale_price * (1 + ($this->vat / 100));
+    }
+
+    public function listResellerProductPricing($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder {
         return DB::table('product_pricings')
             ->select(
                 'product_pricings.id', 
