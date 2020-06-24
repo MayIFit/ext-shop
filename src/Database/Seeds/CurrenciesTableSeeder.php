@@ -16,10 +16,6 @@ class CurrenciesTableSeeder extends Seeder
         'iso_code' => "HUF",
         'currency' => 'forint',
         'symbol' => 'Ft'
-    ], [
-        'iso_code' => "EUR",
-        'currency' => 'euro',
-        'symbol' => '€'
     ]];
 
     /**

@@ -44,16 +44,11 @@ class ProductsTableSeeder extends Seeder
                 $pricing = factory(ProductPricing::class)->create([
                     'product_id' => $product->id
                 ]);
-                $eurPricing = factory(ProductPricing::class)->create([
-                    'product_id' => $product->id,
-                    'currency' => 'EUR'
-                ]);
                 $discount = factory(ProductDiscount::class)->create([
                     'product_id' => $product->id
                 ]);
                 $discount->product()->associate($product);
                 $pricing->product()->associate($product);
-                $eurPricing->product()->associate($product);
                 $product->save();
             });
     }
