@@ -11,6 +11,7 @@ $factory->define(ProductPricing::class, function (Faker $faker) {
     $vat = $faker->numberBetween(1, 27);
     return [
         'base_price' => round($base_price, -3),
+        'wholessale_price' => round($base_price * 0.78, -3),
         'vat' => $vat,
         'currency' => 'HUF'
     ];
