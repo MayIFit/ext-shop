@@ -3,16 +3,16 @@
 namespace MayIFit\Extension\Shop\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 
 use MayIFit\Core\Permission\Traits\HasUsers;
-use MayIFit\Extension\Shop\Traits\HasOrders;
+use MayIFit\Extension\Shop\Models\Pivots\OrderCustomerPivot;
 
 class Customer extends Model
 {
-    use HasOrders, HasUsers, Notifiable;
+    use HasUsers, Notifiable;
 
     protected $fillable = [
         'first_name',
@@ -51,5 +51,14 @@ class Customer extends Model
                 }
             }
         });
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function orders(): BelongsToMany {
+        return $this->belongsToMany(Order::class)
+            ->using(OrderCustomerPivot::class)
+            ->with('billing');
     }
 }

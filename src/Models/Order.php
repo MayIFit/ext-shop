@@ -14,7 +14,7 @@ use MayIFit\Extension\Shop\Traits\HasOrderStatus;
 
 class Order extends Model
 {
-    use HasOrderStatus;
+    use HasCustomer, HasOrderStatus;
 
     public $fillable = ['extra_information', 'discount_percentage'];
 
@@ -36,7 +36,8 @@ class Order extends Model
 
         self::saved(function(Model $model) {
             if ($model->orderStatus->send_notification) {
-                $model->customer->notify(new OrderStatusUpdate($model));
+                $customer = $model->customers()->where('billing', false)->first();
+                $customer->notify(new OrderStatusUpdate($model));
             }
         });
     }
