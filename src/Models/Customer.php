@@ -8,11 +8,11 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 
 use MayIFit\Core\Permission\Traits\HasUsers;
-use MayIFit\Extension\Shop\Models\Pivots\CustomerOrderPivot;
+use MayIFit\Extension\Shop\Traits\HasOrders;
 
 class Customer extends Model
 {
-    use HasUsers, Notifiable;
+    use Notifiable, HasUsers, HasOrders;
 
     protected $fillable = [
         'first_name',
@@ -51,14 +51,5 @@ class Customer extends Model
                 }
             }
         });
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function orders(): BelongsToMany {
-        return $this->belongsToMany(Order::class)
-            ->using(CustomerOrderPivot::class)
-            ->with('billing');
     }
 }

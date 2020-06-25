@@ -26,9 +26,7 @@ trait HasCustomer {
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function customers(): BelongsToMany {
-        return $this->belongsToMany(Customer::class)
-            ->using(CustomerOrderPivot::class)
-            ->with('billing');
+        return $this->belongsToMany(Customer::class);
     }
 
 
