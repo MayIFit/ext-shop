@@ -17,7 +17,6 @@ class CreateCustomerOrderTable extends Migration
             $table->unsignedBigInteger('order_id')->references('id')->on('orders');
             $table->unsignedBigInteger('customer_id')->references('id')->on('customers');
             $table->primary(['order_id', 'customer_id']);
-            $table->timestamps();
         });
     }
 

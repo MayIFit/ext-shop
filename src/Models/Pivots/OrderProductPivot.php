@@ -5,9 +5,12 @@ namespace MayIFit\Extension\Shop\Models\Pivots;
 use Carbon\Carbon;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 
 use MayIFit\Extension\Shop\Models\Product;
+use MayIFit\Extension\Shop\Models\ProductPricing;
+use MayIFit\Extension\Shop\Models\ProductDiscount;
 
 class OrderProductPivot extends Pivot
 {
@@ -58,5 +61,13 @@ class OrderProductPivot extends Pivot
 
             return $model;
         });
+    }
+
+    public function pricing(): BelongsTo {
+        return $this->belongsTo(ProductPricing::class, 'product_pricing_id');
+    }
+
+    public function discount(): BelongsTo {
+        return $this->belongsTo(ProductDiscount::class, 'product_discount_id');
     }
 }

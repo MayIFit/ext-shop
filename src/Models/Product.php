@@ -8,17 +8,15 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-
 use Nuwave\Lighthouse\Schema\Context as GraphQLContext;
 use GraphQL\Type\Definition\ResolveInfo;
 
-use MayIFit\Extension\Shop\Models\ProductPricing;
-
-use MayIFit\Extension\Shop\Models\ProductDiscount;
-use MayIFit\Extension\Shop\Models\ProductCategory;
-
 use MayIFit\Core\Permission\Traits\HasUsers;
 use MayIFit\Core\Permission\Traits\HasDocuments;
+
+use MayIFit\Extension\Shop\Models\ProductPricing;
+use MayIFit\Extension\Shop\Models\ProductDiscount;
+use MayIFit\Extension\Shop\Models\ProductCategory;
 use MayIFit\Extension\Shop\Traits\HasOrders;
 use MayIFit\Extension\Shop\Traits\HasReviews;
 

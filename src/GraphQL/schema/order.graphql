@@ -1,9 +1,8 @@
 extend type Query {
     getOrderFromToken(
-        token: String!
-        currency: String!
-        dateTime: DateTime!
-    ): Order @field(resolver: "GetOrderFromToken@resolve")
+        token: String! @eq
+        reseller_id: ID
+    ): Order @find
 }
 
 extend type Query @guard(with: ["sanctum"]) {
@@ -63,8 +62,15 @@ input ProductsRelation {
 input ProductPivotRelationData {
     id: ID!
     quantity: Int!
-    product_pricing_id: ID
+    product_pricing_id: ID!
     product_discount_id: ID
+}
+
+type OrderProductPivot @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Pivots\\OrderProductPivot") {
+    "Ordered quantity of a product"
+    quantity: Int!
+    pricing: ProductPricing! @belongsTo
+    discount: ProductDiscount
 }
 
 type Order @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Order") {

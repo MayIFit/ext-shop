@@ -96,11 +96,6 @@ input ProductRelation {
     connect: ID
 }
 
-type OrderProductPivot {
-    "Ordered quantity of a product"
-    quantity: Int!
-}
-
 type Product @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Product") {
     id: ID!
     catalog_id: String!

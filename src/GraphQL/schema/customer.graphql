@@ -24,6 +24,7 @@ extend type Mutation @guard(with: ["sanctum"]) {
 input CustomerRelation {
     create: [CreateCustomerInput!]
     update: [UpdateCustomerInput!]
+    connect: [ID!]
 }
 
 input CreateCustomerInput {

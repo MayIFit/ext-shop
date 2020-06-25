@@ -17,6 +17,7 @@ class Order extends Model
     use HasCustomer, HasOrderStatus;
 
     public $fillable = ['extra_information', 'discount_percentage'];
+    protected $with = ['customers'];
 
     protected $attributes = [
         'net_value' => 0.00,
@@ -36,8 +37,8 @@ class Order extends Model
 
         self::saved(function(Model $model) {
             if ($model->orderStatus->send_notification) {
-                $customer = $model->customers()->where('billing', false)->first();
-                $customer->notify(new OrderStatusUpdate($model));
+                // $customer = $model->customers()->where('billing', false)->first();
+                // $customer->notify(new OrderStatusUpdate($model));
             }
         });
     }
@@ -45,6 +46,6 @@ class Order extends Model
     public function products(): BelongsToMany {
         return $this->belongstoMany(Product::class)
         ->using(OrderProductPivot::class)
-        ->withPivot('quantity');
+        ->withPivot(['id', 'quantity', 'product_pricing_id']);
     }
 }
