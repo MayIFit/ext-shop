@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 use MayIFit\Extension\Shop\Models\Customer;
+use MayIFit\Extension\Shop\Models\Pivots\OrderCustomerPivot;
 
 /**
  * Class HasOrderer
@@ -25,7 +26,9 @@ trait HasCustomer {
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function customers(): BelongsToMany {
-        return $this->belongsToMany(Customer::class);
+        return $this->belongsToMany(Customer::class)
+            ->using(OrderCustomerPivot::class)
+            ->with('billing');
     }
 
 

@@ -2,7 +2,7 @@
 
 namespace MayIFit\Extension\Shop\Traits;
 
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 use MayIFit\Extension\Shop\Models\Order;
 
@@ -14,9 +14,9 @@ use MayIFit\Extension\Shop\Models\Order;
 trait HasOrders {
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function orders(): HasMany {
-        return $this->hasMany(Order::class);
+    public function orders(): BelongsToMany {
+        return $this->belongsToMany(Order::class);
     }
 }

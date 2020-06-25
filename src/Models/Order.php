@@ -14,7 +14,7 @@ use MayIFit\Extension\Shop\Traits\HasOrderStatus;
 
 class Order extends Model
 {
-    use HasCustomer, HasOrderStatus;
+    use HasOrderStatus;
 
     public $fillable = ['extra_information', 'discount_percentage'];
 

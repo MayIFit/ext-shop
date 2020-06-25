@@ -50,7 +50,7 @@ input UpdateOrderInput {
 input CreateOrderInput {
     customers: CustomerRelation!
     products: ProductsRelation!
-    orderStatus: OrderStatusRelation!
+    orderStatus: OrderStatusRelation
     extra_information: String
     paid: Boolean
     currency: String!
