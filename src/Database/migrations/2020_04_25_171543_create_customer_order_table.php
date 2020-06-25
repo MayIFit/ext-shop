@@ -13,7 +13,7 @@ class CreateOrderCustomerTable extends Migration
      */
     public function up()
     {
-        Schema::create('order_customer', function (Blueprint $table) {
+        Schema::create('customer_order', function (Blueprint $table) {
             $table->unsignedBigInteger('order_id')->references('id')->on('orders');
             $table->unsignedBigInteger('customer_id')->references('id')->on('customers');
             $table->boolean('billing');
@@ -29,6 +29,6 @@ class CreateOrderCustomerTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('order_customer');
+        Schema::dropIfExists('customer_order');
     }
 }

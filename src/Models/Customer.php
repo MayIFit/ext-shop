@@ -8,7 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 
 use MayIFit\Core\Permission\Traits\HasUsers;
-use MayIFit\Extension\Shop\Models\Pivots\OrderCustomerPivot;
+use MayIFit\Extension\Shop\Models\Pivots\CustomerOrderPivot;
 
 class Customer extends Model
 {
@@ -58,7 +58,7 @@ class Customer extends Model
      */
     public function orders(): BelongsToMany {
         return $this->belongsToMany(Order::class)
-            ->using(OrderCustomerPivot::class)
+            ->using(CustomerOrderPivot::class)
             ->with('billing');
     }
 }

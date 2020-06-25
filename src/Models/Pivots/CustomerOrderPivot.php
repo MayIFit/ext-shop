@@ -9,16 +9,16 @@ use Illuminate\Database\Eloquent\Model;
 
 use MayIFit\Extension\Shop\Models\Customer;
 
-class OrderCustomerPivot extends Pivot
+class CustomerOrderPivot extends Pivot
 {
-    protected $table = 'order_customer';
+    protected $table = 'customer_order';
 
     public static function boot()
     {
         parent::boot();
 
         self::creating(function(Model $model) {
-            $customer = Customer::where('catalog_id', $model->customer_id)->first();
+            $customer = Customer::find($model->customer_id)->first();
             $model->billing = $customer->billing_address;
             return $model;
         });
