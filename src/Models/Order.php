@@ -9,12 +9,12 @@ use Illuminate\Support\Str;
 use MayIFit\Extension\Shop\Notifications\OrderStatusUpdate;
 use MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot;
 use MayIFit\Extension\Shop\Models\OrderStatus;
-use MayIFit\Extension\Shop\Traits\HasCustomer;
+use MayIFit\Extension\Shop\Traits\HasCustomers;
 use MayIFit\Extension\Shop\Traits\HasOrderStatus;
 
 class Order extends Model
 {
-    use HasCustomer, HasOrderStatus;
+    use HasCustomers, HasOrderStatus;
 
     public $fillable = ['extra_information', 'discount_percentage'];
     protected $with = ['customers'];
@@ -35,12 +35,7 @@ class Order extends Model
             return $model;
         });
 
-        self::saved(function(Model $model) {
-            if ($model->orderStatus->send_notification) {
-                // $customer = $model->customers()->where('billing', false)->first();
-                // $customer->notify(new OrderStatusUpdate($model));
-            }
-        });
+        // TODO: figure out, how to send notificaiton for related customer
     }
 
     public function products(): BelongsToMany {

@@ -15,6 +15,7 @@ class Customer extends Model
     use Notifiable, HasUsers, HasOrders;
 
     protected $fillable = [
+        'title',
         'first_name',
         'last_name',
         'country',

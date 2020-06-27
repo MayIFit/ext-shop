@@ -50,7 +50,7 @@ class ProductPricing extends Model
         return $this->base_price * (1 + ($this->vat / 100));
     }
 
-    public function getWholeSaleGrossPrice(): float {
+    public function getWholeSaleGrossPriceAttribute(): float {
         return $this->wholesale_price * (1 + ($this->vat / 100));
     }
 

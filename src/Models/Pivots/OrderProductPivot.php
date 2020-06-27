@@ -20,39 +20,63 @@ class OrderProductPivot extends Pivot
     {
         parent::boot();
 
-        self::creating(function(Model $model) {
-            $product = Product::where('catalog_id', $model->product_id)->first();
+        self::saving(function(Model $model) {
+            $product = Product::find($model->product_id);
             if (!$product) {
                 return $model;
             }
             $model->product_id = $product->id;
             $now = Carbon::now();
             $order = $model->pivotParent;
+            $reseller = $order->customers()->first()->user->reseller;
             
-            if (!$model->product_pricing_id) {
-                $productPricingForCurrency = $product->pricings()->where('currency', $order->currency)
+            $model->pricing()->associate(
+                $product->pricings()
+                ->where('currency', $order->currency)
+                ->where(function($query) use($now) {
+                    $query->where('available_to', '>=', $now)
+                    ->orWhereNull('available_to');
+                })
+                ->when(!$reseller, function($query) use($reseller) {
+                    return $query->whereNull('reseller_id');
+                })
+                ->when($reseller, function($query) use($reseller) {
+                    return $query->where('reseller_id', $reseller->id);
+                })
+                ->first()
+            );
+
+            $model->discount()->associate($product->discounts()
+                ->where(function($query) use($now) {
+                    return $query->where(function ($query) use ($now) {
+                        return $query->where([
+                            ['available_from', '<=', $now],
+                            ['available_to', '>=', $now]
+                        ]);
+                    })
                     ->orWhere(function ($query) use ($now) {
-                        $query->where('available_to', '>=', $now);
-                        $query->orWhereNull('available_to');
-                    })->first();
-                $model->product_pricing_id = $productPricingForCurrency->id;
-            }
+                        return $query->where('available_from', '<=', $now)
+                        ->whereNull('available_to');
+                    });
+                })
+                ->when(!$reseller, function($query) use($reseller) {
+                    return $query->whereNull('reseller_id');
+                })
+                ->when($reseller, function($query) use($reseller) {
+                    return $query->where('reseller_id', $reseller->id);
+                })
+                ->first()
+            );
+
             
-            $productDiscount = $product->discounts()
-                ->where(function ($query) use ($now) {
-                    $query->where('available_from', '<=', $now);
-                    $query->where('available_to', '>=', $now);
-                })
-                ->orWhere(function ($query) use ($now) {
-                    $query->where('available_from', '<=', $now);
-                    $query->whereNull('available_to');
-                })
-                ->first();
+            if ($reseller) {
+                $order->net_value += ($model->pricing->wholesale_price * (1 - ($model->discount->discount_percentage ?? 0 / 100))) * $model->quantity;
+                $order->gross_value += $model->pricing->getWholeSaleGrossPriceAttribute() * (1 - ($model->discount->discount_percentage ?? 0 / 100)) * $model->quantity;
+            } else {
+                $order->net_value += ($model->pricing->base_price * (1 - ($model->discount->discount_percentage ?? 0 / 100))) * $model->quantity;
+                $order->gross_value += $model->pricing->getBaseGrossPriceAttribute() * (1 - ($model->discount->discount_percentage ?? 0 / 100)) * $model->quantity;
+            }
 
-            $model->product_discount_id = $productDiscount->id ?? null;
-
-            $order->net_value += ($productPricingForCurrency->base_price * (1 - ($productDiscount->discount_percentage ?? 0 / 100))) * $model->quantity;
-            $order->gross_value += ($productPricingForCurrency->gross_price * (1 - ($productDiscount->discount_percentage ?? 0 / 100))) * $model->quantity;
             $order->quantity += $model->quantity;
 
             $product->in_stock -= $model->quantity;

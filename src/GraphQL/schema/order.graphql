@@ -62,8 +62,6 @@ input ProductsRelation {
 input ProductPivotRelationData {
     id: ID!
     quantity: Int!
-    product_pricing_id: ID!
-    product_discount_id: ID
 }
 
 type OrderProductPivot @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Pivots\\OrderProductPivot") {
@@ -75,7 +73,7 @@ type OrderProductPivot @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\P
 
 type Order @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Order") {
     id: ID!
-    customers: [Customer] @belongsToMany
+    customers: [Customer]! @belongsToMany
     orderStatus: OrderStatus @belongsTo
     token: String!
     placed: DateTime!
