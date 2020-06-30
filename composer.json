@@ -27,29 +27,40 @@
             "MayIFit\\Extension\\Shop\\Models\\": "src/Models/",
             "MayIFit\\Extension\\Shop\\Models\\Pivots\\": "src/Models/Pivots/",
             "MayIFit\\Extension\\Shop\\Policies\\": "src/Policies/",
-            "MayIFit\\Extension\\Shop\\Notifications\\": "src/Notifications/"
+            "MayIFit\\Extension\\Shop\\Notifications\\": "src/Notifications/",
+            "MayIFit\\Extension\\Shop\\Events\\": "src/Events/",
+            "MayIFit\\Extension\\Shop\\Listeners\\": "src/Listeners/",
+            "MayIFit\\Extension\\Shop\\Providers\\": "src/Providers/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MayIFit\\Extension\\Shop\\Tests\\": "tests"
         }
     },
     "require": {
         "php": "^7.2",
-        "laravel/framework": "^7.0",
-        "laravel/helpers": "^1.2",
         "nesbot/carbon": "^2.34.0",
         "mayifit/core-permission": "^1.0",
         "mayifit/core-translation": "^1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.5"
+        "laravel/framework": "^7.0",
+        "phpunit/phpunit": "^8.0",
+        "orchestra/testbench": "^5.3",
+        "orchestra/database": "^5.0"
     },
     "extra": {
         "laravel": {
             "providers": [
                 "MayIFit\\Extension\\Shop\\ShopServiceProvider"
-            ],
-            "aliases": {
-                "Product": "MayIFit\\Extension\\Shop\\Facades\\Product"
-            }
+            ]
         }
+    },
+    "scripts": {
+        "test": "phpunit --colors=always",
+        "test:unit": "phpunit --colors=always --testsuite Unit",
+        "test:feature": "phpunit --colors=always --testsuite Feature"
     },
     "minimum-stability": "dev",
     "prefer-stable": true

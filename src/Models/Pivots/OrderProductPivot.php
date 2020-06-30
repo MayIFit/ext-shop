@@ -37,11 +37,9 @@ class OrderProductPivot extends Pivot
                     $query->where('available_to', '>=', $now)
                     ->orWhereNull('available_to');
                 })
-                ->when(!$reseller, function($query) use($reseller) {
-                    return $query->whereNull('reseller_id');
-                })
                 ->when($reseller, function($query) use($reseller) {
-                    return $query->where('reseller_id', $reseller->id);
+                    return $query->where('reseller_id', $reseller->id)
+                        ->orWhereNull('reseller_id');
                 })
                 ->first()
             );
@@ -68,7 +66,6 @@ class OrderProductPivot extends Pivot
                 ->first()
             );
 
-            
             if ($reseller) {
                 $order->net_value += ($model->pricing->wholesale_price * (1 - ($model->discount->discount_percentage ?? 0 / 100))) * $model->quantity;
                 $order->gross_value += $model->pricing->getWholeSaleGrossPriceAttribute() * (1 - ($model->discount->discount_percentage ?? 0 / 100)) * $model->quantity;

@@ -67,7 +67,7 @@ type ProductPricing @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Prod
     vat: Float!
     available_from: DateTime
     grossPrice: Float @method(name: "getBaseGrossPriceAttribute")
-    wholeSaleGrossPrice: Float @method(name: "getWholeSaleGrossPrice")
+    wholeSaleGrossPrice: Float @method(name: "getWholeSaleGrossPriceAttribute")
     currency: String!
     reseller: Reseller @belongsTo
 }

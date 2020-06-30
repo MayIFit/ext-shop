@@ -10,6 +10,9 @@
     use Symfony\Component\Console\Output\ConsoleOutput;
     use Illuminate\Database\Eloquent\Relations\Relation;
 
+
+    use MayIFit\Extension\Shop\Providers\EventServiceProvider;
+
     use MayIFit\Extension\Shop\Models\Product;
     use MayIFit\Extension\Shop\Models\ProductCategory;
     use MayIFit\Extension\Shop\Models\ProductReview;
@@ -80,6 +83,8 @@
             $this->app->bind('order', function () {
                 return new Order();
             });
+
+            $this->app->register(EventServiceProvider::class);
         }
 
         /**
