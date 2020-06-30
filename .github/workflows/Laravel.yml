@@ -51,6 +51,8 @@ jobs:
           php-version: "${{ matrix.php-version }}"
 
       - name: "Cache dependencies installed with composer"
+        env:
+          COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
         uses: "actions/cache@v1.0.3"
         with:
           path: "~/.composer/cache"
@@ -61,6 +63,8 @@ jobs:
         run: "composer remove --dev nunomaduro/larastan phpstan/phpstan-mockery phpbench/phpbench --no-update"
 
       - name: "Install dependencies with composer"
+        env:
+          COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
         run: "composer require illuminate/contracts:${{ matrix.laravel-version }} --no-interaction --prefer-dist --no-interaction --no-suggest"
 
       - name: "Set up the database"
