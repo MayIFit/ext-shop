@@ -40,7 +40,7 @@
     },
     "require": {
         "php": "^7.0",
-        "nesbot/carbon": "^2.34.0",
+        "nesbot/carbon": "^1.26.0 || ^2.0",
         "mayifit/core-permission": "^1.0",
         "mayifit/core-translation": "^1.0"
     },
