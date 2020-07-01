@@ -21,36 +21,32 @@
     ],
     "autoload": {
         "psr-4": {
-            "MayIFit\\Extension\\Shop\\": "src/",
-            "MayIFit\\Extension\\Shop\\Database\\Seeds\\": "src/Database/Seeds/",
-            "MayIFit\\Extension\\Shop\\Facades\\": "src/Facades/",
-            "MayIFit\\Extension\\Shop\\Models\\": "src/Models/",
-            "MayIFit\\Extension\\Shop\\Models\\Pivots\\": "src/Models/Pivots/",
-            "MayIFit\\Extension\\Shop\\Policies\\": "src/Policies/",
-            "MayIFit\\Extension\\Shop\\Notifications\\": "src/Notifications/",
-            "MayIFit\\Extension\\Shop\\Events\\": "src/Events/",
-            "MayIFit\\Extension\\Shop\\Listeners\\": "src/Listeners/",
-            "MayIFit\\Extension\\Shop\\Providers\\": "src/Providers/"
+            "MayIFit\\Extension\\Shop\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "MayIFit\\Extension\\Shop\\Tests\\": "tests"
+            "MayIFit\\Extension\\Shop\\Tests\\": "tests/"
         }
     },
     "require": {
-        "php": ">= 7.1",
+        "php": "^7.2",
+        "ext-json": "*",
+        "illuminate/contracts": "^6.9|^7.0",
+        "illuminate/database": "^6.9|^7.0",
+        "illuminate/support": "^6.9|^7.0",
         "nesbot/carbon": "^1.26.0 || ^2.0",
         "mayifit/core-permission": "^1.0",
         "mayifit/core-translation": "^1.0"
     },
     "require-dev": {
-        "laravel/framework": "^6.0 || ^7.0",
-        "phpunit/phpunit": "^6.5 || ^7.5 || ^8.4",
-        "orchestra/database": "^4.0 || ^5.0",
-        "orchestra/testbench": "^4.0 || ^5.0"
+        "orchestra/testbench": "^4.0 || ^5.0",
+        "phpunit/phpunit": "^8.0"
     },
     "extra": {
+        "branch-alias": {
+            "dev-master": "1.x-dev"
+        },
         "laravel": {
             "providers": [
                 "MayIFit\\Extension\\Shop\\ShopServiceProvider"
@@ -61,6 +57,9 @@
         "test": "phpunit --colors=always",
         "test:unit": "phpunit --colors=always --testsuite Unit",
         "test:feature": "phpunit --colors=always --testsuite Feature"
+    },
+    "config": {
+        "sort-packages": true
     },
     "minimum-stability": "dev",
     "prefer-stable": true
