@@ -1,7 +1,7 @@
 {
     "name": "mayifit/ext-shop",
     "description": "MayIFit E-Commerce extension",
-    "keywords": ["e-Commerce", "laravel", "php", "shop", "webshop"],
+    "keywords": ["E-Commerce", "laravel", "php", "shop", "webshop"],
     "type": "project",
     "repositories": [
         {
@@ -39,16 +39,16 @@
         }
     },
     "require": {
-        "php": "^7.0",
+        "php": ">= 7.1",
         "nesbot/carbon": "^1.26.0 || ^2.0",
         "mayifit/core-permission": "^1.0",
         "mayifit/core-translation": "^1.0"
     },
     "require-dev": {
-        "laravel/framework": "5.5.* || 5.6.* || 5.7.* || 5.8.* || ^6.0 || ^7.0",
+        "laravel/framework": "^6.0 || ^7.0",
         "phpunit/phpunit": "^6.5 || ^7.5 || ^8.4",
-        "orchestra/database": "3.5.* || 3.6.* || 3.7.* || 3.8.* || 3.9.* || ^4.0 || ^5.0",
-        "orchestra/testbench": "3.5.* || 3.6.* || 3.7.* || 3.8.* || 3.9.* || ^4.0 || ^5.0"
+        "orchestra/database": "^4.0 || ^5.0",
+        "orchestra/testbench": "^4.0 || ^5.0"
     },
     "extra": {
         "laravel": {
