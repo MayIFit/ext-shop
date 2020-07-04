@@ -1,18 +1,11 @@
 <?php
     namespace MayIFit\Extension\Shop;
 
-    use Illuminate\Console\Events\CommandFinished;
-    use Illuminate\Support\Facades\Artisan;
-    use Illuminate\Support\Facades\Event;
-    use Illuminate\Support\Facades\Request;    
-    use Illuminate\Support\Str;
+    use Illuminate\Contracts\Config\Repository as ConfigRepository;
     use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-    use Symfony\Component\Console\Output\ConsoleOutput;
     use Illuminate\Database\Eloquent\Relations\Relation;
 
-
     use MayIFit\Extension\Shop\Providers\EventServiceProvider;
-
     use MayIFit\Extension\Shop\Models\Product;
     use MayIFit\Extension\Shop\Models\ProductCategory;
     use MayIFit\Extension\Shop\Models\ProductReview;
@@ -55,7 +48,10 @@
          */
         protected $database_folder = '/Database';
 
-        public function boot() {
+        /**
+         * Bootstrap any application services.
+         */
+        public function boot(ConfigRepository $configRepository): void {
             Relation::morphMap([
                 'product' => 'MayIFit\Extension\Shop\Models\Product',
                 'product_category' => 'MayIFit\Extension\Shop\Models\ProductCategory',
@@ -63,27 +59,11 @@
 
             $this->loadMigrationsFrom(__DIR__.$this->database_folder.'/migrations');
             $this->loadFactoriesFrom(__DIR__.$this->database_folder.'/Factories');
-            if ($this->app->runningInConsole()) {
-                if ($this->isConsoleCommandContains([ 'db:seed', '--seed' ], [ '--class', 'help', '-h' ])) {
-                    $this->addSeedsAfterConsoleCommandFinished();
-                }
-            }
-            
-            $this->publishResources();
+            $this->publishResources($configRepository);
             $this->registerPolicies();
         }
 
-        public function register() {
-            $this->app->bind('product', function () {
-                return new Product();
-            });
-            $this->app->bind('customer', function () {
-                return new Customer();
-            });
-            $this->app->bind('order', function () {
-                return new Order();
-            });
-
+        public function register(): void {
             $this->app->register(EventServiceProvider::class);
         }
 
@@ -92,46 +72,18 @@
          *
          * @return void
          */
-        protected function publishResources() {
+        protected function publishResources(ConfigRepository $configRepository): void {
             $this->publishes([
-                __DIR__.'/GraphQL/schema' => './graphql/extensions',
-            ]);
+                __DIR__.'/ext-shop.php' => $this->app->configPath().'/ext-shop.php',
+            ], 'config');
+
             $this->publishes([
-                __DIR__.'/GraphQL/Queries' => './app/GraphQL/Queries/Extensions',
-            ]);
-        }
+                __DIR__.'/GraphQL/schema' => $configRepository->get('ext-shop.schema.register'),
+            ], 'schema');
 
-        /**
-         * Get a value that indicates whether the current command in console
-         * contains a string in the specified $fields.
-         *
-         * @param string|array $contain_options
-         * @param string|array $exclude_options
-         *
-         * @return bool
-         */
-        protected function isConsoleCommandContains($contain_options, $exclude_options = null) : bool {
-            $args = Request::server('argv', null);
-            if (is_array($args)) {
-                $command = implode(' ', $args);
-                if (Str::contains($command, $contain_options) && ($exclude_options == null || !Str::contains($command, $exclude_options))) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        /**
-         * Add seeds from the $seed_path after the current command in console finished.
-         */
-        protected function addSeedsAfterConsoleCommandFinished() {
-            Event::listen(CommandFinished::class, function(CommandFinished $event) {
-                // Accept command in console only,
-                // exclude all commands from Artisan::call() method.
-                if ($event->output instanceof ConsoleOutput) {
-                    Artisan::call('db:seed', [ '--class' => "MayIFit\Extension\Shop\Database\Seeds\DatabaseSeeder", '--force' => '' ]);
-                }
-            });
+            $this->publishes([
+                __DIR__.'/GraphQL/Queries' => $configRepository->get('ext-shop.queries.register'),
+            ], 'graphql');
         }
     }
 ?>

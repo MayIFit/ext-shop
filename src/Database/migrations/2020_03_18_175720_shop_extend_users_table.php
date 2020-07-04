@@ -13,9 +13,11 @@ class ShopExtendUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->boolean('is_reseller')->default(false);
-        });
+        if (Schema::hasTable('users')) {
+            Schema::table('users', function (Blueprint $table) {
+                $table->boolean('is_reseller')->default(false);
+            });
+        }
     }
 
     /**
@@ -25,8 +27,10 @@ class ShopExtendUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['is_reseller']);
-        });
+        if (Schema::hasTable('users')) {
+            Schema::table('users', function (Blueprint $table) {
+                $table->dropColumn(['is_reseller']);
+            });
+        }
     }
 }
