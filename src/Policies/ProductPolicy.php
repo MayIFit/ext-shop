@@ -19,7 +19,7 @@ class ProductPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasPermission('product.list');
+        return $user->tokenCan('product.list');
     }
 
     /**
@@ -31,7 +31,7 @@ class ProductPolicy
      */
     public function view(User $user, Product $product)
     {
-        return $user->hasPermission('product.view');
+        return $user->tokenCan('product.view');
     }
 
     /**
@@ -42,7 +42,7 @@ class ProductPolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermission('product.create');
+        return $user->tokenCan('product.create');
     }
 
     /**
@@ -54,7 +54,7 @@ class ProductPolicy
      */
     public function update(User $user, Product $product)
     {
-        return $user->hasPermission('product.update');
+        return $user->tokenCan('product.update');
     }
 
     /**
@@ -66,7 +66,7 @@ class ProductPolicy
      */
     public function delete(User $user, Product $product)
     {
-        return $user->hasPermission('product.delete');
+        return $user->tokenCan('product.delete');
     }
 
     /**

@@ -19,7 +19,7 @@ class OrderStatusPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasPermission('order-status.list');
+        return $user->tokenCan('order-status.list');
     }
 
     /**
@@ -31,7 +31,7 @@ class OrderStatusPolicy
      */
     public function view(User $user, OrderStatus $orderStatus)
     {
-        return $user->hasPermission('order-status.view');
+        return $user->tokenCan('order-status.view');
     }
 
     /**
@@ -42,7 +42,7 @@ class OrderStatusPolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermission('order-status.create');
+        return $user->tokenCan('order-status.create');
     }
 
     /**
@@ -54,7 +54,7 @@ class OrderStatusPolicy
      */
     public function update(User $user, OrderStatus $orderStatus)
     {
-        return $user->hasPermission('order-status.update');
+        return $user->tokenCan('order-status.update');
     }
 
     /**
@@ -66,7 +66,7 @@ class OrderStatusPolicy
      */
     public function delete(User $user, OrderStatus $orderStatus)
     {
-        return $user->hasPermission('order-status.delete');
+        return $user->tokenCan('order-status.delete');
     }
 
     /**

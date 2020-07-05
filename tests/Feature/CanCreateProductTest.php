@@ -3,12 +3,12 @@
 namespace MayIFit\Extension\Shop\Tests\Feature;
 
 use Laravel\Sanctum\Sanctum;
-use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Auth\User as BaseUser;
 
 use MayIFit\Extension\Shop\Tests\TestCase;
+
+use App\Models\User;
 
 class CanCreateProductTest extends TestCase
 {
@@ -21,16 +21,18 @@ class CanCreateProductTest extends TestCase
         $user->id = 1;
         Sanctum::actingAs($user);
     
-        $resp = $this->graphQL("mutation { 
-            createProduct(input: {
-                catalog_id: \"20001\",
-                refurbished: false,
-                varranty: \"1 year\"
-            }) {
-                catalog_id
+        $resp = $this->graphQL('
+            mutation {
+                createProduct(input: {
+                    catalog_id: "20001"
+                    name:"asd"
+                    refurbished: false
+                    varranty: "1 year"
+                }) {
+                    catalog_id
+                }
             }
-        }");
-        dd($resp);
+        ');
         $resp->assertJSON([
             'data' => [
                 'createProduct' => [
@@ -42,7 +44,14 @@ class CanCreateProductTest extends TestCase
     }
 }
 
+namespace App\Models;
+
+use Illuminate\Foundation\Auth\User as BaseUser;
+use Laravel\Sanctum\HasApiTokens;
+
+use MayIFit\Core\Permission\Traits\HasPermissions;
+
 class User extends BaseUser
 {
-    use HasApiTokens;
+    use HasApiTokens, HasPermissions;
 }

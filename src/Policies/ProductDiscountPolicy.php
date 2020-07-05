@@ -19,7 +19,7 @@ class ProductDiscountPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasPermission('product-discount.list');
+        return $user->tokenCan('product-discount.list');
     }
 
     /**
@@ -31,7 +31,7 @@ class ProductDiscountPolicy
      */
     public function view(User $user, ProductPricing $productDiscount)
     {
-        return $user->hasPermission('product-discount.view');
+        return $user->tokenCan('product-discount.view');
     }
 
     /**
@@ -42,7 +42,7 @@ class ProductDiscountPolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermission('product-discount.create');
+        return $user->tokenCan('product-discount.create');
     }
 
     /**
@@ -54,7 +54,7 @@ class ProductDiscountPolicy
      */
     public function update(User $user, ProductPricing $productDiscount)
     {
-        return $user->hasPermission('product-discount.update') || $productDiscount->createdBy->id === $user->id;
+        return $user->tokenCan('product-discount.update') || $productDiscount->createdBy->id === $user->id;
     }
 
     /**
@@ -66,7 +66,7 @@ class ProductDiscountPolicy
      */
     public function delete(User $user, ProductPricing $productDiscount)
     {
-        return $user->hasPermission('product-discount.delete') || $productDiscount->createdBy->id === $user->id;
+        return $user->tokenCan('product-discount.delete') || $productDiscount->createdBy->id === $user->id;
     }
 
     /**

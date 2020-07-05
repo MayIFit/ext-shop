@@ -15,16 +15,14 @@ class TestCase extends \Orchestra\Testbench\TestCase
 {
     use MakesGraphQLRequests;
 
-    public function setUp(): void
-    {
+    public function setUp(): void {
         parent::setUp();
         
         $this->publishResources();
-        $this->artisan('migrate', ['--database' => 'testbench'])->execute();
+        $this->artisan('migrate:fresh', ['--database' => 'testbench'])->execute();
     }
 
-    protected function getPackageProviders($app)
-    {
+    protected function getPackageProviders($app) {
         return [
             SanctumServiceProvider::class,
             LighthouseServiceProvider::class,
@@ -35,8 +33,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
         ];
     }
 
-    protected function getEnvironmentSetUp($app)
-    {
+    protected function getEnvironmentSetUp($app): void {
         $app['config']->set('database.default', 'testbench');
         $app['config']->set('database.connections.testbench', [
             'driver'   => 'sqlite',
@@ -49,7 +46,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
         $app['config']->push('app.providers', 'Nuwave\\Lighthouse\\WhereConditions\\WhereConditionsServiceProvider');
     }
 
-    protected function publishResources() {
+    protected function publishResources(): void {
         $this->artisan('vendor:publish', [
             '--provider' => LighthouseServiceProvider::class,
             '--force' => true

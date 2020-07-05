@@ -19,7 +19,7 @@ class CustomerPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasPermission('customer.list');
+        return $user->tokenCan('customer.list');
     }
 
     /**
@@ -31,7 +31,7 @@ class CustomerPolicy
      */
     public function view(User $user, Customer $customer)
     {
-        return $user->hasPermission('customer.view') ||
+        return $user->tokenCan('customer.view') ||
             $user->id === $customer->user->id;
     }
 
@@ -55,7 +55,7 @@ class CustomerPolicy
      */
     public function update(User $user, Customer $customer)
     {
-        return $user->hasPermission('customer.update') ||
+        return $user->tokenCan('customer.update') ||
             $user->id === $customer->user->id;
     }
 
@@ -68,7 +68,7 @@ class CustomerPolicy
      */
     public function delete(User $user, Customer $customer)
     {
-        return $user->hasPermission('customer.delete') ||
+        return $user->tokenCan('customer.delete') ||
             $user->id === $customer->user->id;
     }
 

@@ -19,7 +19,7 @@ class ResellerPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasPermission('reseller.list');
+        return $user->tokenCan('reseller.list');
     }
 
     /**
@@ -31,7 +31,7 @@ class ResellerPolicy
      */
     public function view(User $user, Reseller $reseller)
     {
-        return $user->hasPermission('reseller.view') ||
+        return $user->tokenCan('reseller.view') ||
             $user->id === $reseller->user->id;
     }
 
@@ -43,7 +43,7 @@ class ResellerPolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermission('reseller.create') || $user->is_reseller;
+        return $user->tokenCan('reseller.create') || $user->is_reseller;
     }
 
     /**
@@ -55,7 +55,7 @@ class ResellerPolicy
      */
     public function update(User $user, Reseller $reseller)
     {
-        return $user->hasPermission('reseller.update') ||
+        return $user->tokenCan('reseller.update') ||
             $user->id === $reseller->user->id;
     }
 
@@ -68,7 +68,7 @@ class ResellerPolicy
      */
     public function delete(User $user, Reseller $reseller)
     {
-        return $user->hasPermission('reseller.delete') ||
+        return $user->tokenCan('reseller.delete') ||
             $user->id === $reseller->user->id;
     }
 

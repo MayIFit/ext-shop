@@ -54,7 +54,7 @@ class ProductReviewPolicy
      */
     public function update(User $user, ProductReview $productReview)
     {
-        return $user->hasPermission('product-review.update') || $productReview->createdBy->id === $user->id;
+        return $user->tokenCan('product-review.update') || $productReview->createdBy->id === $user->id;
     }
 
     /**
@@ -66,7 +66,7 @@ class ProductReviewPolicy
      */
     public function delete(User $user, ProductReview $productReview)
     {
-        return $user->hasPermission('product-review.delete') || $productReview->createdBy->id === $user->id;
+        return $user->tokenCan('product-review.delete') || $productReview->createdBy->id === $user->id;
     }
 
     /**
