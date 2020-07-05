@@ -12,7 +12,7 @@ return [
     */
 
     'schema' => [
-        'register' => base_path('graphql/extensions/'),
+        'register' => base_path('graphql/extensions'),
     ],
     'queries' => [
         'register' => base_path('app/GraphQL/Queries')

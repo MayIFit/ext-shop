@@ -2,11 +2,11 @@
 
 namespace MayIFit\Extension\Shop\Tests\Feature;
 
-use Illuminate\Foundation\Auth\User as BaseUser;
 use Laravel\Sanctum\Sanctum;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Auth\User as BaseUser;
 
 use MayIFit\Extension\Shop\Tests\TestCase;
 
@@ -24,7 +24,7 @@ class CanCreateProductTest extends TestCase
         $resp = $this->graphQL("mutation { 
             createProduct(input: {
                 catalog_id: \"20001\",
-                refurbrished: FALSE,
+                refurbished: false,
                 varranty: \"1 year\"
             }) {
                 catalog_id

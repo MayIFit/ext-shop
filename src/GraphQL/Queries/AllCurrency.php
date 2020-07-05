@@ -1,6 +1,6 @@
 <?php
 
-namespace App\GraphQL\Queries\Extensions;
+namespace MayIFit\Extension\Shop\GraphQL\Queries;
 
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;

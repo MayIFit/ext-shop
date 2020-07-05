@@ -52,19 +52,24 @@ class TestCase extends \Orchestra\Testbench\TestCase
     protected function publishResources() {
         $this->artisan('vendor:publish', [
             '--provider' => LighthouseServiceProvider::class,
+            '--force' => true
         ])->execute();
 
         $this->artisan('vendor:publish', [
             '--provider' => PermissionServiceProvider::class,
+            '--tag' => 'schema'
         ])->execute();
 
         $this->artisan('vendor:publish', [
             '--provider' => TranslationServiceProvider::class,
+            '--tag' => 'schema'
         ])->execute();
 
         $this->artisan('vendor:publish', [
             '--provider' => ShopServiceProvider::class,
+            '--tag' => 'schema'
         ])->execute();
+
 
         file_put_contents($this->app['config']->get('lighthouse.schema.register'), 
         '
@@ -74,6 +79,6 @@ class TestCase extends \Orchestra\Testbench\TestCase
 type Query
 
 type Mutation
-        ');
+        ', FILE_APPEND);
     }
 }

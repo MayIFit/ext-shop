@@ -9,7 +9,6 @@ use MayIFit\Extension\Shop\Tests\TestCase;
 use MayIFit\Extension\Shop\Models\Product;
 use MayIFit\Extension\Shop\Models\ProductPricing;
 
-
 class CalculateGrossPriceTest extends TestCase
 {
     use RefreshDatabase;

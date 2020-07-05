@@ -56,7 +56,7 @@
                 'product' => 'MayIFit\Extension\Shop\Models\Product',
                 'product_category' => 'MayIFit\Extension\Shop\Models\ProductCategory',
             ]);
-
+            $this->mergeConfigFrom(__DIR__.'/ext-shop.php', 'ext-shop');
             $this->loadMigrationsFrom(__DIR__.$this->database_folder.'/migrations');
             $this->loadFactoriesFrom(__DIR__.$this->database_folder.'/Factories');
             $this->publishResources($configRepository);
