@@ -14,6 +14,16 @@ class ProductDiscount extends Model
 {
     use SoftDeletes, HasUsers, HasProduct, HasReseller;
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'available_from' => 'datetime:Y-m-d h:i:s',
+        'available_to' => 'datetime:Y-m-d h:i:s',
+    ];
+
     public $fillable = [
         'product_id',
         'reseller_id',

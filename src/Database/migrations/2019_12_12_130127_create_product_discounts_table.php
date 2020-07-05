@@ -20,8 +20,8 @@ class CreateProductDiscountsTable extends Migration
             $table->boolean('quantity_based');
             $table->unsignedSmallInteger('minimum_quantity')->nullable();
             $table->double('discount_percentage');
-            $table->timestamp('available_from');
-            $table->timestamp('available_to')->nullable();
+            $table->dateTime('available_from');
+            $table->dateTime('available_to')->nullable();
             $table->foreignId('created_by')->nullable()->references('id')->on('users');
             $table->foreignId('updated_by')->nullable()->references('id')->on('users');
             $table->timestamps();

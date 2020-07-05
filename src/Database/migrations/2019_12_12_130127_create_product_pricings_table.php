@@ -21,7 +21,7 @@ class CreateProductPricingsTable extends Migration
             $table->double('wholesale_price')->nullable();
             $table->double('vat');
             $table->string('currency');
-            $table->timestamp('available_from')->nullable();
+            $table->dateTime('available_from')->nullable();
             $table->unsignedBigInteger('created_by')->nullable()->references('id')->on('users');
             $table->unsignedBigInteger('updated_by')->nullable()->references('id')->on('users');
             $table->timestamps();

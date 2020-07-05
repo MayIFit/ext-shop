@@ -33,6 +33,15 @@ class ProductPricing extends Model
         'available_from'
     ];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'available_from' => 'datetime:Y-m-d h:i:s'
+    ];
+
     protected $attributes = [
         'base_price' => 0.00,
         'wholesale_price' => 0.00,
