@@ -64,14 +64,14 @@ input ProductPivotRelationData {
     quantity: Int!
 }
 
-type OrderProductPivot @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Pivots\\OrderProductPivot") {
+type OrderProductPivot @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Pivots\\OrderProductPivot") {
     "Ordered quantity of a product"
     quantity: Int!
     pricing: ProductPricing! @belongsTo
     discount: ProductDiscount
 }
 
-type Order @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Order") {
+type Order @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
     id: ID!
     customers: [Customer]! @belongsToMany
     orderStatus: OrderStatus @belongsTo

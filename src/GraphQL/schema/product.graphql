@@ -96,7 +96,7 @@ input ProductRelation {
     connect: ID
 }
 
-type Product @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Product") {
+type Product @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Product") {
     id: ID!
     catalog_id: String!
     name: String!
@@ -125,7 +125,7 @@ type Product @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Product") {
 }
 
 "Subset of Product"
-type ProductSelect @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Product") {
+type ProductSelect @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Product") {
     id: ID!
     catalog_id: String!
 }

@@ -44,7 +44,7 @@ input OrderStatusRelation {
     connect: ID!
 }
 
-type OrderStatus @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\OrderStatus") {
+type OrderStatus @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\OrderStatus") {
     id: ID!
     name: String!
     icon: String!

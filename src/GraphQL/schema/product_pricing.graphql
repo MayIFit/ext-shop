@@ -59,7 +59,7 @@ input UpdateProductPricingInput {
     product: ProductRelation!
 }
 
-type ProductPricing @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\ProductPricing") {
+type ProductPricing @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\ProductPricing") {
     id: ID!
     product: Product! @belongsTo
     base_price: Float!
@@ -73,7 +73,7 @@ type ProductPricing @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Prod
 }
 
 "This type greatly differs from the ProductPricing for example the base_price here is the wholesale_prcie in the ProductPricing"
-type ResellerProductPricing @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\ProductPricing") {
+type ResellerProductPricing @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\ProductPricing") {
     id: ID!
     base_price: Float!
     wholesale_price: Float!

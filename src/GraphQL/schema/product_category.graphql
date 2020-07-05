@@ -52,7 +52,7 @@ input UpdateProductCategoryInput {
     discounts: ProductCategoryDiscountRelation
 }
 
-type ProductCategory @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\ProductCategory") {
+type ProductCategory @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\ProductCategory") {
     id: ID!
     name: String!
     description: String
@@ -65,7 +65,7 @@ type ProductCategory @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\Pro
 }
 
 "Subset of ProductCategory "
-type ProductCategorySelect @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\ProductCategory") {
+type ProductCategorySelect @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\ProductCategory") {
     id: ID!
     name: String!
 }

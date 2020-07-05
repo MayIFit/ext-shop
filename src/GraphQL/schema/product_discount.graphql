@@ -48,7 +48,7 @@ input UpdateProductDiscountInput {
     available_to: DateTime
 }
 
-type ProductDiscount @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\ProductDiscount") {
+type ProductDiscount @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\ProductDiscount") {
     id: ID!
     product: Product! @belongsTo
     discount_percentage: Float!

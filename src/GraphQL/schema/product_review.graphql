@@ -31,7 +31,7 @@ input UpdateProductReviewInput {
     rating: Int!
 }
 
-type ProductReview @modelClass(class: "\\MayIFit\\Extension\\Shop\\Models\\ProductReview") {
+type ProductReview @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\ProductReview") {
     id: ID!
     product: Product! @belongsTo
     title: String!
