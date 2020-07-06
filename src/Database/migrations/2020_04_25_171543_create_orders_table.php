@@ -22,9 +22,11 @@ class CreateOrdersTable extends Migration
             $table->double('net_value');
             $table->double('gross_value');
             $table->string('currency');
+            $table->string('payment_type');
             $table->double('discount_percentage');
             $table->string('extra_information')->nullable();
             $table->boolean('paid');
+            $table->timestamp('sent_to_courier_service')->nullable();
             $table->timestamps();
         });
     }

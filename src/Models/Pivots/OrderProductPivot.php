@@ -21,7 +21,7 @@ class OrderProductPivot extends Pivot
         parent::boot();
 
         self::saving(function(Model $model) {
-            $product = Product::find($model->product_id);
+            $product = Product::where('catalog_id', $model->product_id)->first();
             if (!$product) {
                 return $model;
             }
@@ -73,7 +73,6 @@ class OrderProductPivot extends Pivot
                 $order->net_value += ($model->pricing->base_price * (1 - ($model->discount->discount_percentage ?? 0 / 100))) * $model->quantity;
                 $order->gross_value += $model->pricing->getBaseGrossPriceAttribute() * (1 - ($model->discount->discount_percentage ?? 0 / 100)) * $model->quantity;
             }
-
             $order->quantity += $model->quantity;
 
             $product->in_stock -= $model->quantity;

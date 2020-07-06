@@ -1,0 +1,9 @@
+extend type Query {
+    allPaymentType: [PaymentType!]!
+        @field(resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\AllPaymentType")
+}
+
+type PaymentType {
+    id: ID!
+    name: String!
+}

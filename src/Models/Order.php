@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 
 use MayIFit\Extension\Shop\Notifications\OrderStatusUpdate;
 use MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot;
+use MayIFit\Extension\Shop\Models\Order;
 use MayIFit\Extension\Shop\Models\OrderStatus;
 use MayIFit\Extension\Shop\Events\OrderAccepted;
 use MayIFit\Extension\Shop\Traits\HasCustomers;
@@ -17,8 +18,8 @@ class Order extends Model
 {
     use HasCustomers, HasOrderStatus;
 
-    public $fillable = ['extra_information', 'discount_percentage'];
-    protected $with = ['customers'];
+    public $fillable = ['extra_information', 'discount_percentage', 'payment_type', 'paid', 'sent_to_courier_service'];
+    protected $with = ['customers', 'products'];
 
     protected $attributes = [
         'net_value' => 0.00,
@@ -32,18 +33,22 @@ class Order extends Model
     public static function booted() {
         self::creating(function(Model $model) {
             $model->token = Str::random(40);
-            // $model->orderStatus()->associate(OrderStatus::first());
-            $model->orderStatus()->associate(3);
+            $model->orderStatus()->associate(OrderStatus::first());
             return $model;
         });
 
         // TODO: figure out, how to send notificaiton for related customer
 
+        static::updated(function (Model $model) {
+            
+            if ($model->orderStatus->id === 3) {
+                event(new OrderAccepted($model));
+            }
+        });
 
-        static::created(function (Model $model) {
-            event(new OrderAccepted($model));
-            // if ($model->orderStatus === 3) {
-            // }
+        static::saved(function (Model $model) {
+            self::mergeOrders($model);
+            return $model;
         });
     }
 

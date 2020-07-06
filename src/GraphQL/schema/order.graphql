@@ -34,25 +34,26 @@ extend type Mutation @guard(with: ["sanctum"]) {
         @delete
 }
 
-input UpdateOrderInput {
-    id: ID!
-    token: String!
-    customers: CustomerRelation!
-    products: ProductsRelation!
-    orderStatus: OrderStatusRelation!
-    discount_percentage: Float
-    extra_information: String
-    paid: Boolean
-    currency: String!
-}
-
 input CreateOrderInput {
     customers: CustomerRelation!
     products: ProductsRelation!
     orderStatus: OrderStatusRelation
     extra_information: String
-    paid: Boolean
     currency: String!
+    payment_type: String!
+}
+
+input UpdateOrderInput {
+    id: ID!
+    token: String
+    customers: CustomerRelation
+    products: ProductsRelation
+    orderStatus: OrderStatusRelation
+    discount_percentage: Float
+    extra_information: String
+    paid: Boolean
+    currency: String
+    payment_type: String
 }
 
 input ProductsRelation {
@@ -85,4 +86,5 @@ type Order @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
     discount_percentage: Float
     extra_information: String
     paid: Boolean
+    payment_type: String
 }
