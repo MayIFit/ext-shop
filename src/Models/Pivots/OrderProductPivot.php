@@ -73,9 +73,14 @@ class OrderProductPivot extends Pivot
                 $order->net_value += ($model->pricing->base_price * (1 - ($model->discount->discount_percentage ?? 0 / 100))) * $model->quantity;
                 $order->gross_value += $model->pricing->getBaseGrossPriceAttribute() * (1 - ($model->discount->discount_percentage ?? 0 / 100)) * $model->quantity;
             }
+            
+            $product->in_stock -= $model->quantity;
+            if ($product->in_stock < 0) {
+                return false;
+            }
             $order->quantity += $model->quantity;
 
-            $product->in_stock -= $model->quantity;
+            
             $product->save();
             $order->save();
 

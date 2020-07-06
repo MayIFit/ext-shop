@@ -14,6 +14,7 @@
     use MayIFit\Extension\Shop\Models\Customer;
     use MayIFit\Extension\Shop\Models\Order;
     use MayIFit\Extension\Shop\Models\Reseller;
+    use MayIFit\Extension\Shop\Models\ResellerGroup;
     use MayIFit\Extension\Shop\Policies\ProductPolicy;
     use MayIFit\Extension\Shop\Policies\ProductCategoryPolicy;
     use MayIFit\Extension\Shop\Policies\ProductReviewPolicy;
@@ -22,6 +23,7 @@
     use MayIFit\Extension\Shop\Policies\CustomerPolicy;
     use MayIFit\Extension\Shop\Policies\OrderPolicy;
     use MayIFit\Extension\Shop\Policies\ResellerPolicy;
+    use MayIFit\Extension\Shop\Policies\ResellerGroupPolicy;
 
     class ShopServiceProvider extends ServiceProvider {
 
@@ -38,7 +40,8 @@
             ProductReview::class => ProductReviewPolicy::class,
             ProductPricing::class => ProductPricingPolicy::class,
             ProductDiscount::class => ProductDiscountPolicy::class,
-            Reseller::class => ResellerPolicy::class
+            Reseller::class => ResellerPolicy::class,
+            ResellerGroup::class => ResellerGroupPolicy::class
         ];
 
         /**

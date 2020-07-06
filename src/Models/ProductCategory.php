@@ -5,20 +5,36 @@ namespace MayIFit\Extension\Shop\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Auth;
 
+use MayIFit\Core\Permission\Traits\HasUsers;
 use MayIFit\Core\Permission\Traits\HasDocuments;
+
 use MayIFit\Extension\Shop\Models\Product;
 use MayIFit\Extension\Shop\Models\ProductCategoryDiscount;
 
 class ProductCategory extends Model
 {
-    use SoftDeletes, HasDocuments;
+    use SoftDeletes, HasUsers, HasDocuments;
     
     public $fillable = [
         'name',
         'description',
         'parent_id'
     ];
+
+    public static function boot() {
+        parent::boot();
+        self::creating(function($model) {
+            $model->createdBy()->associate(Auth::user());
+            return $model;
+        });
+
+        self::updating(function($model) {
+            $model->updatedBy()->associate(Auth::user());
+            return $model;
+        });
+    }
 
     public function parentCategory(): BelongsTo {
         return $this->belongsTo(ProductCategory::class, 'parent_id', 'id');

@@ -1,0 +1,72 @@
+extend type Query @guard(with: ["sanctum"]) {
+    allResellerGroup: [ResellerGroupSelect]! @all
+    
+    listResellerGroup(
+        filter: _ @whereConditions(columnsEnum: "ResellerGroupWhereColumn")
+    ): [ResellerGroup]!
+        @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\ResellerGroup") 
+        @paginate(type: "paginator")
+
+    viewResellerGroup(
+        id: ID @eq
+    ): ResellerGroup @can(ability: "view" find: "id") @find
+
+    allResellerGroup: [ResellerGroup]! @all
+}
+
+extend type Mutation {
+    createResellerGroup(input: CreateResellerGroupInput! @spread): ResellerGroup 
+        @create
+}
+
+extend type Mutation @guard(with: ["sanctum"]) {
+    updateResellerGroup(input: UpdateResellerGroupInput! @spread): ResellerGroup 
+        @can(ability: "update" find: "id")
+        @update
+}
+
+input ResellerGroupRelation {
+    connect: ID
+}
+
+input CreateResellerGroupInput {
+    name: String!
+    discount_value: Float!
+}
+
+input UpdateResellerGroupInput {
+    id: ID!
+    name: String!
+    discount_value: Float!
+}
+
+type ResellerGroup @guard(with: ["sanctum"]) @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\ResellerGroup") {
+    id: ID!
+    name: String!
+    discount_value: Float!
+    resellers: [Reseller]! @hasMany
+}
+
+"Subset of ResellerGroup"
+type ResellerGroupSelect @guard(with: ["sanctum"]) @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\ResellerGroup") {
+    id: ID!
+    name: String!
+}
+
+extend type Reseller {
+    resellerGroup: ResellerGroup @belongsTo
+}
+
+extend input CreateResellerInput {
+    resellerGroup: ResellerGroupRelation
+}
+
+extend input UpdateResellerInput {
+    resellerGroup: ResellerGroupRelation
+}
+
+"A list of filterable columns."
+enum ResellerGroupWhereColumn {
+    NAME @enum(value: "name")
+    DISCOUNT_VALUE @enum(value: "discount_value")
+}

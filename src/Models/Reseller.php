@@ -3,11 +3,13 @@
 namespace MayIFit\Extension\Shop\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 
 use MayIFit\Core\Permission\Traits\HasUsers;
+
+use MayIFit\Extension\Shop\Models\ResellerGroup;
 
 class Reseller extends Model
 {
@@ -18,7 +20,10 @@ class Reseller extends Model
         'email',
         'vat_id',
         'company_name',
-        'user_id'
+        'contact_person',
+        'supplier_customer_code',
+        'user_id',
+        'reseller_group_id',
     ];
     
 
@@ -29,5 +34,9 @@ class Reseller extends Model
                 $model->user()->associate(Auth::user());
             }
         });
+    }
+
+    public function resellerGroup(): BelongsTo {
+        return $this->belongsTo(ResellerGroup::class);
     }
 }

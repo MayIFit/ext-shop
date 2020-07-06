@@ -27,9 +27,9 @@ class CreateProductsTable extends Migration
             $table->string('varranty');
             $table->string('out_of_stock_text')->nullable();
             $table->string('quantity_unit_text')->nullable();
+            $table->boolean('refurbished');
             $table->foreignId('created_by')->nullable()->references('id')->on('users');
             $table->foreignId('updated_by')->nullable()->references('id')->on('users');
-            $table->boolean('refurbished');
             $table->timestamps();
             $table->softDeletes();
         });

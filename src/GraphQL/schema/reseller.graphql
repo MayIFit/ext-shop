@@ -32,19 +32,24 @@ input ResellerRelation {
 }
 
 input CreateResellerInput {
-    user: UserRelation
+    user: UserRelation!
     phone_number: String!
     email: String!
     company_name: String!
     vat_id: String!
+    contact_person: String!
+    supplier_customer_code: String!
 }
 
 input UpdateResellerInput {
     id: ID!
+    user: UserRelation!
     phone_number: String!
     email: String!
     company_name: String!
     vat_id: String!
+    contact_person: String!
+    supplier_customer_code: String!
 }
 
 type Reseller @guard(with: ["sanctum"]) @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Reseller") {
@@ -54,6 +59,8 @@ type Reseller @guard(with: ["sanctum"]) @modelClass(class: "MayIFit\\Extension\\
     email: String!
     company_name: String!
     vat_id: String!
+    contact_person: String!
+    supplier_customer_code: String!
 }
 
 "Subset of Reseller"
@@ -78,4 +85,5 @@ enum ResellerWhereColumn {
     VAT_ID @enum(value: "vat_id")
     PHONE_NUMBER @enum(value: "phone_number")
     EMAIL @enum(value: "email")
+    CONTACT_PERSON @enum(value: "contact_person")
 }

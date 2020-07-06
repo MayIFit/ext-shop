@@ -3,6 +3,7 @@
 namespace MayIFit\Extension\Shop\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Auth;
 
 use App\Models\User;
 use MayIFit\Extension\Shop\Models\Product;

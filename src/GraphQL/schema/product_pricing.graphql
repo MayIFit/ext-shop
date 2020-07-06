@@ -86,6 +86,7 @@ type ResellerProductPricing @modelClass(class: "MayIFit\\Extension\\Shop\\Models
     catalog_id: String!
     name: String!
     resource_url: String
+    in_stock: Int!
 }
 
 enum ListProductPricingHasProductWhereConditions {

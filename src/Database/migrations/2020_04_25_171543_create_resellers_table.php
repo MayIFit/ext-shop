@@ -17,9 +17,12 @@ class CreateResellersTable extends Migration
             $table->id();
             $table->string('phone_number');
             $table->string('email');
-            $table->string('vat_id')->nullable();
-            $table->string('company_name')->nullable();
+            $table->string('vat_id');
+            $table->string('company_name');
+            $table->string('contact_person');
+            $table->string('supplier_customer_code');
             $table->unsignedBigInteger('user_id')->unique()->references('id')->on('users');
+            $table->unsignedBigInteger('reseller_group_id')->nullable()->references('id')->on('reseller_groups');
             $table->timestamps();
         });
     }

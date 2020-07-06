@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\Builder;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -50,8 +51,15 @@ class ProductPricing extends Model
     ];
 
     public static function booted() {
-        self::created(function(Model $model) {
+        self::creating(function(Model $model) {
             $model->available_from = Carbon::now();
+            $model->createdBy()->associate(Auth::user());
+            return $model;
+        });
+
+        self::updating(function($model) {
+            $model->updatedBy()->associate(Auth::user());
+            return $model;
         });
     }
 
@@ -78,6 +86,7 @@ class ProductPricing extends Model
                 'product_pricings.reseller_id',
                 'products.catalog_id',
                 'products.name',
+                'products.in_stock',
                 'documents.resource_url',
             )
             ->join('products', 'product_pricings.product_id', '=', 'products.id')
