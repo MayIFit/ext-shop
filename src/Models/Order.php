@@ -19,7 +19,7 @@ class Order extends Model
     use HasCustomers, HasOrderStatus;
 
     public $fillable = ['extra_information', 'discount_percentage', 'payment_type', 'paid', 'sent_to_courier_service'];
-    protected $with = ['customers', 'products'];
+    protected $with = ['customers'];
 
     protected $attributes = [
         'net_value' => 0.00,
@@ -32,7 +32,7 @@ class Order extends Model
 
     public static function booted() {
         self::creating(function(Model $model) {
-            $model->token = Str::random(40);
+            $model->token = Str::random(20);
             $model->orderStatus()->associate(OrderStatus::first());
             return $model;
         });
@@ -44,11 +44,6 @@ class Order extends Model
             if ($model->orderStatus->id === 3) {
                 event(new OrderAccepted($model));
             }
-        });
-
-        static::saved(function (Model $model) {
-            self::mergeOrders($model);
-            return $model;
         });
     }
 

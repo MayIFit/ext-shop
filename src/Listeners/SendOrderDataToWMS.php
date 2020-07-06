@@ -49,6 +49,11 @@ class SendOrderDataToWMS implements ShouldQueue
             return;
         }
 
+        $partnerData = $event->order->customers()->where('billing_address', true)->first();
+        $partnerReseller = $partnerData->user()->first()->reseller;
+
+        $recipientLocation = $event->order->customers()->where('billing_address', false)->first();
+
         $requestData = array(
             'ClientHPId' => '8420',
             'ClientUID' => 'WMSAPI',
@@ -56,23 +61,36 @@ class SendOrderDataToWMS implements ShouldQueue
             'DocumentList' => [[
                 'DocumentHeader' => [
                     'ClientReferenceNumber' => $event->order->token,
-                    'ClientDocType' => 2,
+                    'ClientDocType' => 1,
                     'DocYear' => Carbon::now()->format('Y'),
                     'DocDate' => Carbon::now()->format('Y-m-d'),
-                    'ShipmentCODValue' => $event->order->payment_type === 'bank_transfer' ? 0 : $event->order->paid ? 0 : $event->order->gross_value,
+                    'ShipmentCODValue' => $event->order->payment_type == 'bank_transfer' ? 0 : ($event->order->paid ? 0 : $event->order->gross_value),
                     'Recipient' => [
-                        'PartnerID' => 8140,
-                        'PartnerName' => 'Güde Hungary Kft.',
-                        'PartnerZip' => '8420',
-                        'PartnerCity' => 'Zirc',
-                        'PartnerStreet1' => 'Kossuth Lajos u. 72'
+                        'PartnerID' => $partnerReseller->vat_id,
+                        'PartnerName' => $partnerReseller->company_name,
+                        'PartnerZip' => $partnerData->zip_code,
+                        'PartnerCity' => $partnerData->city,
+                        'PartnerStreet1' => $partnerData->address.' '.$partnerData->house_nr,
+                        'PartnerStreet2' => $partnerData->floor.' '.$partnerData->door,
+                        'PartnerCountry' => 'HUN'
                     ],
-                    'DocumentDetails' => []
                 ],
+                'DocumentDetails' => []
             ]],
         );
 
-        $requestData['DocumentList'][0]['DocumentHeader']['DocumentDetails'] = $event->order->products->map(function($product) {
+        if ($recipientLocation) {
+            $requestData['DocumentList'][0]['DocumentHeader']['DeliveryLocation'] = [
+                'PartnerID' => $partnerReseller->vat_id,
+                'PartnerName' => $recipientLocation->first_name.' '.$recipientLocation->last_name,
+                'PartnerZip' => $recipientLocation->zip_code,
+                'PartnerCity' => $recipientLocation->city,
+                'PartnerStreet1' => $recipientLocation->address.' '.$recipientLocation->house_nr,
+                'PartnerCountry' => 'HUN'
+            ];
+        }
+
+        $requestData['DocumentList'][0]['DocumentDetails'] = $event->order->products->map(function($product) {
             return [
                 'ItemSKU' => [
                     'ItemSKUCode' => $product->catalog_id,
@@ -83,10 +101,15 @@ class SendOrderDataToWMS implements ShouldQueue
             ];
         })->toArray();
 
-        $response = Http::withBasicAuth('WMSAPI', 'Api83Wms')
-        ->post('http://10.2.9.60:80/WMSImportService/api/Orders', $requestData);
+        $response = json_decode(Http::withBasicAuth('WMSAPI', 'Api83Wms')
+        ->post('http://10.2.9.60:80/WMSImportService/api/Orders', $requestData)->body());
 
-        $event->order->sent_to_courier_service = Carbon::now();
+        if ($response->MsgStatus === 0) {
+            $event->order->sent_to_courier_service = Carbon::now();
+        } else {
+            $event->order->order_status_id = 1;
+        }
         $event->order->save();
+
     }
 }
