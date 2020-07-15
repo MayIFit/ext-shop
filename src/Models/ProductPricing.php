@@ -4,12 +4,11 @@ namespace MayIFit\Extension\Shop\Models;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\Builder;
-use GraphQL\Type\Definition\ResolveInfo;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Illuminate\Support\Facades\Auth;
-
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use GraphQL\Type\Definition\ResolveInfo;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Carbon\Carbon;
 
 use MayIFit\Core\Permission\Traits\HasUsers;
@@ -26,7 +25,6 @@ class ProductPricing extends Model
     public $fillable = [
         'product_id',
         'reseller_id',
-        'user_id',
         'base_price',
         'vat',
         'currency',

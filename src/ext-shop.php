@@ -16,5 +16,8 @@ return [
     ],
     'queries' => [
         'register' => base_path('app/GraphQL/Queries')
+    ],
+    'mutations' => [
+        'register' => base_path('app/GraphQL/Mutations')
     ]
 ];

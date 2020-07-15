@@ -35,12 +35,13 @@
         "illuminate/contracts": "^6.9 || ^7.0",
         "illuminate/database": "^6.9 || ^7.0",
         "illuminate/support": "^6.9 || ^7.0",
-        "nesbot/carbon": "^1.26.0 || ^2.0",
+        "laravel/sanctum": "^2.0",
+        "maatwebsite/excel": "^3.1",
         "mayifit/core-permission": "^1.0",
         "mayifit/core-translation": "^1.0",
-        "nuwave/lighthouse": "^4.12",
         "mll-lab/graphql-php-scalars": "^3.0",
-        "laravel/sanctum": "^2.0"
+        "nesbot/carbon": "^1.26.0 || ^2.0",
+        "nuwave/lighthouse": "^4.12"
     },
     "require-dev": {
         "orchestra/testbench": "^4.0 || ^5.0",

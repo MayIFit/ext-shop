@@ -19,8 +19,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             SystemSettingsTableSeeder::class,
             TranslationsTableSeeder::class,
-            ProductCategoriesTableSeeder::class,
-            ProductsTableSeeder::class,
+            // ProductCategoriesTableSeeder::class,
+            // ProductsTableSeeder::class,
             OrderStatusesTableSeeder::class,
             CurrenciesTableSeeder::class,
             PaymentTypesTableSeeder::class,

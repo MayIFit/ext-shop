@@ -87,6 +87,10 @@
             $this->publishes([
                 __DIR__.'/GraphQL/Queries' => $configRepository->get('ext-shop.queries.register'),
             ], 'graphql');
+
+            $this->publishes([
+                __DIR__.'/GraphQL/Mutations' => $configRepository->get('ext-shop.mutations.register'),
+            ], 'graphql');
         }
     }
 ?>

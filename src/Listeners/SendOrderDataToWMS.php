@@ -45,15 +45,14 @@ class SendOrderDataToWMS implements ShouldQueue
      */
     public function handle(OrderAccepted $event)
     {
-        if ($event->order->sent_to_courier_service) {
-            return;
-        }
-
+        // if ($event->order->sent_to_courier_service) {
+        //     return;
+        // }
+        $sentItemCount = 0;
         $partnerData = $event->order->customers()->where('billing_address', true)->first();
         $partnerReseller = $partnerData->user()->first()->reseller;
 
         $recipientLocation = $event->order->customers()->where('billing_address', false)->first();
-
         $requestData = array(
             'ClientHPId' => '8420',
             'ClientUID' => 'WMSAPI',
@@ -61,12 +60,12 @@ class SendOrderDataToWMS implements ShouldQueue
             'DocumentList' => [[
                 'DocumentHeader' => [
                     'ClientReferenceNumber' => $event->order->token,
-                    'ClientDocType' => 1,
+                    'ClientDocType' => "Out",
                     'DocYear' => Carbon::now()->format('Y'),
                     'DocDate' => Carbon::now()->format('Y-m-d'),
                     'ShipmentCODValue' => $event->order->payment_type == 'bank_transfer' ? 0 : ($event->order->paid ? 0 : $event->order->gross_value),
                     'Recipient' => [
-                        'PartnerID' => $partnerReseller->vat_id,
+                        'PartnerID' => '8420',
                         'PartnerName' => $partnerReseller->company_name,
                         'PartnerZip' => $partnerData->zip_code,
                         'PartnerCity' => $partnerData->city,
@@ -74,6 +73,7 @@ class SendOrderDataToWMS implements ShouldQueue
                         'PartnerStreet2' => $partnerData->floor.' '.$partnerData->door,
                         'PartnerCountry' => 'HUN'
                     ],
+                    'DeliveryComment' => $event->order->extra_information
                 ],
                 'DocumentDetails' => []
             ]],
@@ -90,26 +90,32 @@ class SendOrderDataToWMS implements ShouldQueue
             ];
         }
 
-        $requestData['DocumentList'][0]['DocumentDetails'] = $event->order->products->map(function($product) {
-            return [
-                'ItemSKU' => [
-                    'ItemSKUCode' => $product->catalog_id,
-                    'ItemDescription' => $product->name,
-                    'ItemUnitMeasure' => 1
-                ],
-                'ItemQuantityOrdered' => $product->pivot->quantity
-            ];
+        $requestData['DocumentList'][0]['DocumentDetails'] = $event->order->products->map(function($product) use($event, &$sentItemCount) {
+            if ($product->pivot->can_be_shipped && !$product->pivot->shipped_at) {
+                $event->order->products()->updateExistingPivot($product->id, ['shipped_at' => Carbon::now()]);
+                $sentItemCount++;
+
+                return [
+                    'ItemSKU' => [
+                        'ItemSKUCode' => $product->catalog_id,
+                        'ItemDescription' => $product->name,
+                        'ItemUnitMeasure' => 1
+                    ],
+                    'ItemQuantityOrdered' => $product->pivot->quantity
+                ];
+            }
         })->toArray();
 
         $response = json_decode(Http::withBasicAuth('WMSAPI', 'Api83Wms')
         ->post('http://10.2.9.60:80/WMSImportService/api/Orders', $requestData)->body());
 
-        if ($response->MsgStatus === 0) {
+        
+        if ($response->MsgStatus === 0 && $sentItemCount === $event->order->products->count()) {
             $event->order->sent_to_courier_service = Carbon::now();
         } else {
             $event->order->order_status_id = 1;
         }
+        
         $event->order->save();
-
     }
 }

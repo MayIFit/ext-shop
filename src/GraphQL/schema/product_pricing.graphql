@@ -1,17 +1,3 @@
-extend type Mutation @guard(with: ["sanctum"]) {
-    updateProductPricing(input: UpdateProductPricingInput! @spread): ProductPricing
-        @can(ability: "update" find: "id") 
-        @update
-
-    createProductPricing(input: CreateProductPricingInput! @spread): ProductPricing 
-        @can(ability: "create" model: "MayIFit\\Extension\\Shop\\Models\\ProductPricing") 
-        @create
-
-    deleteProductPricing(id: ID! @rules(apply: ["required"])): ProductPricing 
-        @can(ability: "delete" find: "id") 
-        @delete
-}
-
 extend type Query @guard(with: ["sanctum"]) {
     listResellerProductPricing(
         reseller_id: ID
@@ -29,6 +15,23 @@ extend type Query @guard(with: ["sanctum"]) {
         id: ID! @eq
     ): ProductPricing @find
     @can(ability: "view" find: "id") 
+}
+
+extend type Mutation @guard(with: ["sanctum"]) {
+    updateProductPricing(input: UpdateProductPricingInput! @spread): ProductPricing
+        @can(ability: "update" find: "id") 
+        @update
+
+    createProductPricing(input: CreateProductPricingInput! @spread): ProductPricing 
+        @can(ability: "create" model: "MayIFit\\Extension\\Shop\\Models\\ProductPricing") 
+        @create
+
+    deleteProductPricing(id: ID! @rules(apply: ["required"])): ProductPricing 
+        @can(ability: "delete" find: "id") 
+        @delete
+
+    uploadProductPricing(input: [FileUploadInput!]! @spread): ObjectScalar
+        @field(resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Mutations\\UploadProductPricingsCSV@resolve")
 }
 
 input ProductPricingRelation {

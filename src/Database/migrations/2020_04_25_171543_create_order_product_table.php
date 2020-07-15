@@ -19,6 +19,11 @@ class CreateOrderProductTable extends Migration
             $table->unsignedBigInteger('product_id')->references('id')->on('products');
             $table->unsignedBigInteger('product_pricing_id')->references('id')->on('product_pricings');
             $table->unsignedBigInteger('product_discount_id')->nullable()->references('id')->on('product_discounts');
+            $table->boolean('is_wholesale');
+            $table->double('net_value');
+            $table->double('gross_value');
+            $table->boolean('can_be_shipped');
+            $table->timestamp('shipped_at')->nullable();
             $table->unsignedInteger('quantity');
             $table->unique(['order_id', 'product_id']);
         });

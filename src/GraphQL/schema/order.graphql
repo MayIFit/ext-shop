@@ -69,7 +69,9 @@ type OrderProductPivot @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Piv
     "Ordered quantity of a product"
     quantity: Int!
     pricing: ProductPricing! @belongsTo
-    discount: ProductDiscount
+    discount: ProductDiscount @belongsTo
+    net_value: Float!
+    gross_value: Float!
 }
 
 type Order @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {

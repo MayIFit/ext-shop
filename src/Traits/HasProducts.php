@@ -5,7 +5,6 @@ namespace MayIFit\Extension\Shop\Traits;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 use MayIFit\Extension\Shop\Models\Product;
-use MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot;
 
 /**
  * Class HasProducts
