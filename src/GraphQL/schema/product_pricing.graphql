@@ -29,9 +29,6 @@ extend type Mutation @guard(with: ["sanctum"]) {
     deleteProductPricing(id: ID! @rules(apply: ["required"])): ProductPricing 
         @can(ability: "delete" find: "id") 
         @delete
-
-    uploadProductPricing(input: [FileUploadInput!]! @spread): ObjectScalar
-        @field(resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Mutations\\UploadProductPricingsCSV@resolve")
 }
 
 input ProductPricingRelation {

@@ -48,8 +48,13 @@ extend type Mutation @guard(with: ["sanctum"]) {
         @can(ability: "delete" find: "id") 
         @delete
 
-    uploadProduct(input: [FileUploadInput!]! @spread): ObjectScalar
-        @field(resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Mutations\\UploadProductsCSV@resolve")
+    importCsv(input: [csvInput!]! @spread): VoidScalar
+        @field(resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Mutations\\ImportCSV@resolve")
+}
+
+input csvInput {
+    path: String!
+    type: String!
 }
 
 input CreateProductInput {
