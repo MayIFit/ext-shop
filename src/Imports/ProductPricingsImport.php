@@ -33,10 +33,12 @@ class ProductPricingsImport implements ToCollection, WithHeadingRow, WithChunkRe
                     ], [
                         'product_id' => $product->id,
                         'currency' => trim($row['currency'] ?? 'HUF'),
-                        'available_from' => $row['available_from'] ?? Carbon::now()
+                        'available_from' => $row['available_from'] ?? Carbon::now(),
+                        'base_price' => $row['base_price'] ?? 0,
+                        'wholesale_price' => $row['wholesale_price'] ?? 0,
+                        'vat' => $row['vat']
                     ]);
                 }
-
             }
         }
     }
