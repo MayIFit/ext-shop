@@ -23,6 +23,7 @@ class CreateOrdersTable extends Migration
             $table->double('gross_value');
             $table->string('currency');
             $table->string('payment_type');
+            $table->unsignedSmallInteger('delivery_type');
             $table->double('discount_percentage');
             $table->string('extra_information')->nullable();
             $table->boolean('paid');
