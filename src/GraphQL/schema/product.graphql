@@ -11,6 +11,7 @@ extend type Query {
         catalog_id: String! @eq
         dateTime: DateTime!
         currency: String!
+        reseller_id: Int
     ): Product @find
 
     cartProducts(
