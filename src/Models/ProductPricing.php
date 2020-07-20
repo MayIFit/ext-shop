@@ -50,8 +50,15 @@ class ProductPricing extends Model
 
     public static function booted() {
         self::creating(function(Model $model) {
-            $model->available_from = Carbon::now();
+            if (!$model->available_from) {
+                $model->available_from = Carbon::now();
+            }
+            if (!$model->wholesale_price) {
+                $model->wholesale_price = $model->base_price;
+            }
+
             $model->createdBy()->associate(Auth::user());
+
             return $model;
         });
 
