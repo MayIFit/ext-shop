@@ -75,31 +75,4 @@ class ProductPricing extends Model
     public function getWholeSaleGrossPriceAttribute(): float {
         return $this->wholesale_price * (1 + ($this->vat / 100));
     }
-
-    public function listResellerProductPricing($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder {
-        return DB::table('product_pricings')
-            ->select(
-                'product_pricings.id', 
-                'product_pricings.base_price',
-                'product_pricings.wholesale_price',
-                'product_pricings.vat',
-                'product_pricings.reseller_id',
-                'product_pricings.available_from',
-                DB::raw('product_pricings.base_price * (1 + (product_pricings.vat / 100)) as base_gross_price'),
-                DB::raw('product_pricings.wholesale_price * (1 + (product_pricings.vat / 100)) as wholesale_gross_price'),
-                'product_pricings.currency',
-                'product_pricings.reseller_id',
-                'products.catalog_id',
-                'products.name',
-                'products.in_stock',
-                'documents.resource_url',
-            )
-            ->join('products', 'product_pricings.product_id', '=', 'products.id')
-            ->leftJoin('documents', function($join) {
-                $join->on('documents.documentable_type', '=', 'product');
-                $join->on('documents.documentable_id', '=', 'products.id');
-            })
-            ->where('reseller_id', '=', $args['reseller_id'])
-            ->orWhereNull('reseller_id');
-    }
 }

@@ -33,10 +33,10 @@ class Product extends Model
     ];
 
     protected $attributes = [
-        'in_stock' => 0,
+        'in_stock' => 1,
         'waste_stock' => 0,
-        'technical_specs' => '{}',
-        'supplied' => '{}',
+        'technical_specs' => '{"":""}',
+        'supplied' => '{"":""}',
         'varranty' => '1 year',
         'refurbished' => false
     ];

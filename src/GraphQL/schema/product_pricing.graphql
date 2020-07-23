@@ -1,11 +1,6 @@
 extend type Query @guard(with: ["sanctum"]) {
-    listResellerProductPricing(
-        reseller_id: ID
-        hasProduct: _ @whereHasConditions(columns: ["catalog_id", "name"])
-    ): [ResellerProductPricing]!
-    @paginate(builder: "MayIFit\\Extension\\Shop\\Models\\ProductPricing@listResellerProductPricing")
-
     listProductPricing(
+        reseller_id: ID
         hasProduct: _ @whereHasConditions(columnsEnum: ProductPricingWhereColumn)
     ): [ProductPricing]!
     @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\ProductPricing") 
@@ -70,23 +65,6 @@ type ProductPricing @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Produc
     wholeSaleGrossPrice: Float @method(name: "getWholeSaleGrossPriceAttribute")
     currency: String!
     reseller: Reseller @belongsTo
-}
-
-"This type greatly differs from the ProductPricing for example the base_price here is the wholesale_prcie in the ProductPricing"
-type ResellerProductPricing @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\ProductPricing") {
-    id: ID!
-    base_price: Float!
-    wholesale_price: Float!
-    vat: Float!
-    available_from: DateTime
-    base_gross_price: Float!
-    wholesale_gross_price: Float!
-    currency: String!
-    reseller_id: ID
-    catalog_id: String!
-    name: String!
-    resource_url: String
-    in_stock: Int!
 }
 
 "A list of filterable columns."

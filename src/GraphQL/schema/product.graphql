@@ -11,7 +11,7 @@ extend type Query {
         catalog_id: String! @eq
         dateTime: DateTime!
         currency: String!
-        reseller_id: Int
+        reseller_id: ID
     ): Product @find
 
     cartProducts(
@@ -49,8 +49,14 @@ extend type Mutation @guard(with: ["sanctum"]) {
         @can(ability: "delete" find: "id") 
         @delete
 
-    importCsv(input: [csvInput!]! @spread): VoidScalar
-        @field(resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Mutations\\ImportCSV@resolve")
+    getImportFileHeaders(input: csvInput! @spread): ObjectScalar
+        @field(resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Mutations\\ImportCSV@getHeader")
+
+    importFile(
+        input: csvInput!
+        entity_mapping: ObjectScalar
+    ): ObjectScalar
+        @field(resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Mutations\\ImportCSV@import")
 }
 
 input csvInput {

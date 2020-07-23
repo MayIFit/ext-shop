@@ -19,5 +19,6 @@ return [
     ],
     'mutations' => [
         'register' => base_path('app/GraphQL/Mutations')
-    ]
+    ],
+    'courier_api_endpoint' => env('COURIER_API_ENDPOINT', 'http://10.2.9.60/WMSImportService/Orders.svc?wsdl'),
 ];

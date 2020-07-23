@@ -3,6 +3,7 @@
 namespace MayIFit\Extension\Shop\Listeners;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Http;
 use Carbon\Carbon;
 use SoapClient;
@@ -27,7 +28,7 @@ class SendOrderDataToWMS implements ShouldQueue
     public $delay = 60;
 
     private $client;
-    private $wsdl = 'http://10.2.9.60/WMSImportService/Orders.svc?wsdl';
+    private $wsdl;
 
 
     
@@ -38,6 +39,7 @@ class SendOrderDataToWMS implements ShouldQueue
      */
     public function __construct()
     {
+        $this->wsdl = config('ext-shop.courier_api_endpoint');
         $this->client = new SoapClient($this->wsdl);
     }
 
@@ -101,6 +103,7 @@ class SendOrderDataToWMS implements ShouldQueue
         $requestData['Order']['DocumentList'][0]['DocumentDetails'] = $event->order->products->map(function($product) use($event, &$sentItemCount) {
             if ($product->pivot->can_be_shipped && !$product->pivot->shipped_at) {
                 $event->order->products()->updateExistingPivot($product->id, ['shipped_at' => Carbon::now()]);
+                dd($product->pivot->shipped_at);
                 $sentItemCount++;
 
                 return [
@@ -113,14 +116,40 @@ class SendOrderDataToWMS implements ShouldQueue
                 ];
             }
         })->toArray();
+
+        if ($sentItemCount === 0) {
+            $event->order->order_status_id = 1;
+            $event->order->save();
+            return Response::json([
+                'status' => 'partial_success',
+                'message' => 'no_items_could_be_transferred'
+            ], 200);
+        }
+        dd('asd');
         $response = $this->client->CreateOrder($requestData);
 
-        if ($response->CreateOrderResult->MsgStatus === 0 && $sentItemCount === $event->order->products->count()) {
-            $event->order->sent_to_courier_service = Carbon::now();
+        if ($response->CreateOrderResult->MsgStatus === 0) {
+            if ($sentItemCount === $event->order->products->count()) {
+                $event->order->sent_to_courier_service = Carbon::now();
+                $event->order->save();
+                return Response::json([], 200);
+            } else {
+                $event->order->order_status_id = 1;
+                $event->order->save();
+                return Response::json([
+                    'status' => 'partial_success',
+                    'message' => 'some_items_couldnt_be_transferred'
+                ], 200);
+            }
         } else {
             $event->order->order_status_id = 1;
+            $event->order->save();
+
+            return Response::json([
+                'status' => 'api_error',
+                'message' => 'An error occurred!'
+            ], 500);
         }
         
-        $event->order->save();
     }
 }

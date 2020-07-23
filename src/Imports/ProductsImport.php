@@ -10,8 +10,24 @@ use Maatwebsite\Excel\Concerns\WithChunkReading;
 
 use MayIFit\Extension\Shop\Models\Product;
 
-class ProductsImport implements ToCollection, WithHeadingRow, WithChunkReading, ShouldQueue
+class ProductsImport implements ToCollection, WithHeadingRow
 {
+
+    private $mapping;
+    /**
+     * The total rowcount of the importable file
+     */
+    private $rows = 0;
+
+    /**
+     *  The rowcount of the imported rows
+     */
+    private $importedRows = 0;
+
+    public function __construct($mapping) {
+        $this->mapping = $mapping;
+    }
+
     /**
      * @param Collection $row
      *
@@ -19,18 +35,18 @@ class ProductsImport implements ToCollection, WithHeadingRow, WithChunkReading, 
      */
     public function collection(Collection $rows): void {
         foreach ($rows as $row) {
-            if (isset($row['catalog_id'])) {
-                Product::updateOrCreate(['catalog_id' => trim($row['catalog_id'])], [
-                    'catalog_id' => trim($row['catalog_id']),
-                    'name' => trim($row['name'] ?? ''),
-                    'description' => trim(strip_tags($row['description'] ?? '')),
-                    'in_stock' => intval($row['in_stock'] ?? 0),
-                    'waste_stock' => intval($row['waste_stock'] ?? 0),
-                    'varranty' => trim($row['varranty'] ?? ''),
-                    'refurbished' => $row['refurbished'] ?? false,
-                    'technical_specs' => json_decode($row['attributes'] ?? '{"":""}'),
-                    'supplied' => json_decode($row['supplied'] ?? '{"":""}'),
-                ]);
+            ++$this->rows;
+            $parse = [];
+            foreach ($this->mapping as $key => $value) {
+                if ($key === 'technical_specs' || $key === 'supplied') {
+                    $parse[$key] = \json_decode($row[$value]);
+                } else {
+                    $parse[$key] = trim($row[$value]);
+                }
+            }
+            if (isset($parse['catalog_id'])) {
+                ++$this->importedRows;
+                Product::updateOrCreate(['catalog_id' => $parse['catalog_id']], $parse);
             }
         }
     }
@@ -42,11 +58,7 @@ class ProductsImport implements ToCollection, WithHeadingRow, WithChunkReading, 
         ];
     }
 
-    public function batchSize(): int {
-        return 1000;
-    }
-    
-    public function chunkSize(): int {
-        return 1000;
+    public function getImportedRowCount(): string {
+        return $this->rows.'/'.$this->importedRows;
     }
 }
