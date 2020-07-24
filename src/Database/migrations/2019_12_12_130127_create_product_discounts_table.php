@@ -26,7 +26,7 @@ class CreateProductDiscountsTable extends Migration
             $table->foreignId('updated_by')->nullable()->references('id')->on('users');
             $table->timestamps();
             $table->softDeletes();
-            $table->unique(['product_id', 'available_from', 'available_to']);
+            $table->unique(['product_id', 'available_from', 'available_to'], 'product_discount_unique');
         });
     }
 

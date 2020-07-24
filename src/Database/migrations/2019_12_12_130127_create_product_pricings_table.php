@@ -26,7 +26,7 @@ class CreateProductPricingsTable extends Migration
             $table->unsignedBigInteger('updated_by')->nullable()->references('id')->on('users');
             $table->timestamps();
             $table->softDeletes();
-            $table->unique(['product_id', 'currency', 'reseller_id']);
+            $table->unique(['product_id', 'currency', 'reseller_id'], 'product_pricing_unique');
             $table->index('reseller_id');
         });
     }
