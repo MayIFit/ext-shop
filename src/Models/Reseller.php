@@ -5,7 +5,6 @@ namespace MayIFit\Extension\Shop\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Auth;
 
 use MayIFit\Core\Permission\Traits\HasUsers;
 
@@ -25,16 +24,6 @@ class Reseller extends Model
         'user_id',
         'reseller_group_id',
     ];
-    
-
-    public static function boot() {
-        parent::boot();
-        self::creating(function($model) {
-            if (!$model->user) {
-                $model->user()->associate(Auth::user());
-            }
-        });
-    }
 
     public function resellerGroup(): BelongsTo {
         return $this->belongsTo(ResellerGroup::class);

@@ -34,17 +34,4 @@ class ProductCategoryDiscount extends Model
     protected $attributes = [
         'discount_percentage' => 0.00,
     ];
-
-    protected static function booted() {
-        static::creating(function ($model) {
-            $model->createdBy()->associate(Auth::user());
-            $model->available_from = Carbon::now();
-            return $model;
-        });
-
-        self::updating(function($model) {
-            $model->updatedBy()->associate(Auth::user());
-            return $model;
-        });
-    }
 }

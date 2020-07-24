@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Nuwave\Lighthouse\Schema\Context as GraphQLContext;
 use GraphQL\Type\Definition\ResolveInfo;
-use Illuminate\Support\Facades\Auth;
 
 use MayIFit\Core\Permission\Traits\HasUsers;
 use MayIFit\Core\Permission\Traits\HasDocuments;
@@ -40,19 +39,6 @@ class Product extends Model
         'varranty' => '1 year',
         'refurbished' => false
     ];
-
-    public static function boot() {
-        parent::boot();
-        self::creating(function($model) {
-            $model->createdBy()->associate(Auth::user());
-            return $model;
-        });
-
-        self::updating(function($model) {
-            $model->updatedBy()->associate(Auth::user());
-            return $model;
-        });
-    }
 
     protected function asJson($value) {
         return json_encode($value, JSON_UNESCAPED_UNICODE);

@@ -2,7 +2,6 @@
 
 namespace MayIFit\Extension\Shop\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -36,11 +35,4 @@ class ProductDiscount extends Model
         'discount_percentage' => 0.00,
         'quantity_based' => false
     ];
-
-    protected static function booted() {
-        static::creating(function ($model) {
-            $model->available_from = Carbon::now();
-            return $model;
-        });
-    }
 }

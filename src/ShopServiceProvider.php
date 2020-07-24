@@ -8,6 +8,7 @@
     use MayIFit\Extension\Shop\Providers\EventServiceProvider;
     use MayIFit\Extension\Shop\Models\Product;
     use MayIFit\Extension\Shop\Models\ProductCategory;
+    use MayIFit\Extension\Shop\Models\ProductCategoryDiscount;
     use MayIFit\Extension\Shop\Models\ProductReview;
     use MayIFit\Extension\Shop\Models\ProductPricing;
     use MayIFit\Extension\Shop\Models\ProductDiscount;
@@ -24,6 +25,14 @@
     use MayIFit\Extension\Shop\Policies\OrderPolicy;
     use MayIFit\Extension\Shop\Policies\ResellerPolicy;
     use MayIFit\Extension\Shop\Policies\ResellerGroupPolicy;
+    use MayIFit\Extension\Shop\Observers\ProductObserver;
+    use MayIFit\Extension\Shop\Observers\ProductPricingObserver;
+    use MayIFit\Extension\Shop\Observers\ProductDiscountObserver;
+    use MayIFit\Extension\Shop\Observers\ProductCategoryObserver;
+    use MayIFit\Extension\Shop\Observers\ProductCategoryDiscountObserver;
+    use MayIFit\Extension\Shop\Observers\OrderObserver;
+    use MayIFit\Extension\Shop\Observers\ResellerObserver;
+    use MayIFit\Extension\Shop\Observers\ResellerGroupObserver;
 
     class ShopServiceProvider extends ServiceProvider {
 
@@ -64,6 +73,8 @@
             $this->loadFactoriesFrom(__DIR__.$this->database_folder.'/Factories');
             $this->publishResources($configRepository);
             $this->registerPolicies();
+
+            $this->registerObservers();
         }
 
         public function register(): void {
@@ -91,6 +102,22 @@
             $this->publishes([
                 __DIR__.'/GraphQL/Mutations' => $configRepository->get('ext-shop.mutations.register'),
             ], 'graphql');
+        }
+
+        /**
+         * Register model observers.
+         *
+         * @return void
+         */
+        private function registerObservers(): void {
+            Product::observe(ProductObserver::class);
+            ProductPricing::observe(ProductPricingObserver::class);
+            ProductDiscount::observe(ProductDiscountObserver::class);
+            ProductCategory::observe(ProductCategoryObserver::class);
+            ProductCategoryDiscount::observe(ProductCategoryDiscountObserver::class);
+            Order::observe(OrderObserver::class);
+            Reseller::observe(ResellerObserver::class);
+            ResellerGroup::observe(ResellerGroupObserver::class);
         }
     }
 ?>

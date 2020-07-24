@@ -3,9 +3,7 @@
 namespace MayIFit\Extension\Shop\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\DB;
 
 use MayIFit\Core\Permission\Traits\HasUsers;
 use MayIFit\Extension\Shop\Traits\HasOrders;

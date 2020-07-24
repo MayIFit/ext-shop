@@ -26,6 +26,8 @@ class CreateOrderProductTable extends Migration
             $table->timestamp('shipped_at')->nullable();
             $table->unsignedInteger('quantity');
             $table->unique(['order_id', 'product_id'], 'order_product_unique');
+            $table->index(['product_id', 'shipped_at'], 'order_product_shipped_unique');
+            $table->index(['product_id', 'can_be_shipped'], 'order_product_shippable_unique');
         });
     }
 
