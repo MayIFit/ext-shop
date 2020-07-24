@@ -27,10 +27,22 @@ class SendOrderDataToWMS implements ShouldQueue
      */
     public $delay = 60;
 
+    /**
+     * SoapClient
+     *
+     * @var SoapClient
+     */
     private $client;
-    private $wsdl;
 
-
+    /**
+     * URL, username, password and ID for SoapClient
+     *
+     * @var string
+     */
+    private $apiWsdlUrl;
+    private $apiUserName = '';
+    private $apiUserPassword = '';
+    private $apiUserID = '';
     
     /**
      * Create the event listener.
@@ -39,8 +51,12 @@ class SendOrderDataToWMS implements ShouldQueue
      */
     public function __construct()
     {
-        $this->wsdl = config('ext-shop.courier_api_endpoint');
-        $this->client = new SoapClient($this->wsdl);
+        $this->apiWsdlUrl = config('ext-shop.courier_api_endpoint');
+        $this->apiUserName = config('ext-shop.courier_api_username');
+        $this->apiUserPassword = config('ext-shop.courier_api_password');
+        $this->apiUserID = config('ext-shop.courier_api_userid');
+
+        $this->client = new SoapClient($this->apiWsdlUrl);
     }
 
     /**
@@ -51,10 +67,6 @@ class SendOrderDataToWMS implements ShouldQueue
      */
     public function handle(OrderAccepted $event)
     {
-        if ($event->order->sent_to_courier_service) {
-            return;
-        }
-        
         $sentItemCount = 0;
         $partnerData = $event->order->customers()->where('billing_address', true)->first();
         $partnerReseller = $partnerData->user()->first()->reseller;
@@ -62,12 +74,12 @@ class SendOrderDataToWMS implements ShouldQueue
         $recipientLocation = $event->order->customers()->where('billing_address', false)->first();
         $requestData = array(
             'Order' => [
-                'ClientHPId' => '8420',
-                'ClientUID' => 'WMSAPI',
-                'ClientPWD' => 'Api83Wms',
+                'ClientHPId' => $this->apiUserID,
+                'ClientUID' => $this->apiUserName,
+                'ClientPWD' => $this->apiUserPassword,
                 'DocumentList' => [[
                     'DocumentHeader' => [
-                        'ClientReferenceNumber' => $event->order->token,
+                        'ClientReferenceNumber' => $event->order->order_id_prefix.$event->order->id,
                         'ClientDocType' => "Out",
                         'DocYear' => Carbon::now()->format('Y'),
                         'DocDate' => Carbon::now()->format('Y-m-d\TH:i:s'),
@@ -82,7 +94,8 @@ class SendOrderDataToWMS implements ShouldQueue
                             'PartnerCountry' => 'HUN'
                         ],
                         'DeliveryType' => $event->order->delivery_type,
-                        'DeliveryComment' => $event->order->extra_information
+                        'DeliveryComment' => $event->order->extra_information,
+                        'ClientRef1' => $event->order->token,
                     ],
                     'DocumentDetails' => []
                 ]],
@@ -110,7 +123,8 @@ class SendOrderDataToWMS implements ShouldQueue
                     'ItemSKU' => [
                         'ItemSKUCode' => $product->catalog_id,
                         'ItemDescription' => $product->name,
-                        'ItemUnitMeasure' => 1
+                        'ItemUnitMeasure' => 1,
+                        'ItemEAN' => $product->ean_code
                     ],
                     'ItemQuantityOrdered' => $product->pivot->quantity
                 ];

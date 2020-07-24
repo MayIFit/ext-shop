@@ -15,6 +15,7 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->string('order_id_prefix');
             $table->string('token')->unique();
             $table->foreignId('order_status_id')->references('id')->on('order_statuses');
             $table->timestamp('placed')->useCurrent();

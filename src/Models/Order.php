@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 
+use MayIFit\Core\Permission\Models\SystemSetting;
+
 use MayIFit\Extension\Shop\Notifications\OrderStatusUpdate;
 use MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot;
 use MayIFit\Extension\Shop\Models\Order;
@@ -32,6 +34,8 @@ class Order extends Model
 
     public static function booted() {
         self::creating(function(Model $model) {
+            $orderPrefix = SystemSetting::where('setting_name', 'shop.orderIdPrefix')->first();
+            $model->order_id_prefix = $orderPrefix->setting_value;
             $model->token = Str::random(20);
             $model->orderStatus()->associate(OrderStatus::first());
             return $model;
@@ -40,8 +44,7 @@ class Order extends Model
         // TODO: figure out, how to send notificaiton for related customer
 
         static::updated(function (Model $model) {
-            
-            if ($model->orderStatus->id === 3) {
+            if ($model->orderStatus->id === 3 && !$model->sent_to_courier_service) {
                 event(new OrderAccepted($model));
             }
         });

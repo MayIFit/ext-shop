@@ -39,5 +39,10 @@ class SystemSettingsTableSeeder extends Seeder
             'setting_value' => 'GÜDE Webshop',
             'public' => true
 		]);
+        SystemSetting::firstOrCreate([
+			'setting_name' => 'shop.orderIdPrefix',
+			'setting_description' => 'The prefix of the order id what will be sent to the courier service',
+            'setting_value' => 'GUD'
+		]);
     }
 }
