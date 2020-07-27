@@ -20,8 +20,8 @@ class CreateProductsTable extends Migration
             $table->string('upc_code')->nullable();
             $table->string('name');
             $table->longText('description')->nullable();
-            $table->string('technical_specs')->nullable();
-            $table->string('supplied')->nullable();
+            $table->longText('technical_specs')->nullable();
+            $table->longText('supplied')->nullable();
             $table->unsignedInteger('in_stock');
             $table->unsignedInteger('waste_stock');
             $table->string('varranty');
@@ -30,7 +30,7 @@ class CreateProductsTable extends Migration
             $table->boolean('refurbished');
 
             $table->foreignId('category_id')->nullable()->references('id')->on('product_categories');
-            $table->string('parent_id')->nullable()->references('id')->on('products');
+            $table->foreignId('parent_id')->nullable()->references('id')->on('products');
             $table->foreignId('created_by')->nullable()->references('id')->on('users');
             $table->foreignId('updated_by')->nullable()->references('id')->on('users');
             $table->timestamps();
