@@ -25,6 +25,8 @@ class TranslationsTableSeeder extends Seeder
 		$this->addOrderRelatedTranslations();
 		$this->addPricingRelatedTranslations();
 		$this->addDiscountRelatedTranslations();
+		$this->addUserRelatedTranslations();
+		$this->addResellerRelatedTranslations();
 		$this->globalTranslations();
 	}
 	
@@ -58,6 +60,30 @@ class TranslationsTableSeeder extends Seeder
 				'key' => 'order'
 			],
 			['text' => ['en' => 'order list', 'hu' => 'rendelés lista']],
+		);
+		Translation::updateOrCreate([
+				'group' => 'order',
+				'key' => 'gross_price'
+			],
+			['text' => ['en' => 'order gross price', 'hu' => 'rendelés bruttó összeg']],
+		);
+		Translation::updateOrCreate([
+				'group' => 'order',
+				'key' => 'quantity'
+			],
+			['text' => ['en' => 'order quantity', 'hu' => 'rendelés mennyisége']],
+		);
+		Translation::updateOrCreate([
+				'group' => 'order',
+				'key' => 'paid'
+			],
+			['text' => ['en' => 'paid', 'hu' => 'fizetve']],
+		);
+		Translation::updateOrCreate([
+				'group' => 'order',
+				'key' => 'placed'
+			],
+			['text' => ['en' => 'placed', 'hu' => 'leadva']],
 		);
 		Translation::updateOrCreate([
 				'group' => 'global',
@@ -504,5 +530,34 @@ class TranslationsTableSeeder extends Seeder
 			],
             ['text' => ['en' => 'available to', 'hu' => 'ig']],
 		);
-    }
+	}
+	
+	protected function addUserRelatedTranslations() {
+		Translation::updateOrCreate([
+				'group' => 'user',
+				'key' => 'customer'
+			],
+			['text' => ['en' => 'customer', 'hu' => 'vásárló']],
+		);
+		Translation::updateOrCreate([
+				'group' => 'user',
+				'key' => 'reseller'
+			],
+			['text' => ['en' => 'reseller', 'hu' => 'viszonteladó']],
+		);
+	}	
+	protected function addResellerRelatedTranslations() {
+		Translation::updateOrCreate([
+				'group' => 'list',
+				'key' => 'reseller'
+			],
+			['text' => ['en' => 'list reseller', 'hu' => 'viszonteladói lista']],
+		);
+		Translation::updateOrCreate([
+				'group' => 'list',
+				'key' => 'reseller-group'
+			],
+			['text' => ['en' => 'list reseller group', 'hu' => 'viszonteladói csoport lista']],
+		);
+	}
 }
