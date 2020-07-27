@@ -50,6 +50,7 @@ input UpdateResellerInput {
     vat_id: String!
     contact_person: String!
     supplier_customer_code: String!
+    resellerGroup: ResellerGroupRelation
 }
 
 type Reseller @guard(with: ["sanctum"]) @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Reseller") {
@@ -61,6 +62,7 @@ type Reseller @guard(with: ["sanctum"]) @modelClass(class: "MayIFit\\Extension\\
     vat_id: String!
     contact_person: String!
     supplier_customer_code: String!
+    resellerGroup: ResellerGroup @belongsTo
 }
 
 "Subset of Reseller"
