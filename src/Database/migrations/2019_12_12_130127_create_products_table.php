@@ -22,7 +22,7 @@ class CreateProductsTable extends Migration
             $table->longText('description')->nullable();
             $table->longText('technical_specs')->nullable();
             $table->longText('supplied')->nullable();
-            $table->unsignedInteger('in_stock');
+            $table->integer('in_stock');
             $table->unsignedInteger('waste_stock');
             $table->string('varranty');
             $table->string('out_of_stock_text')->nullable();
