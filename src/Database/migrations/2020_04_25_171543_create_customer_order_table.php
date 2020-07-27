@@ -14,9 +14,9 @@ class CreateCustomerOrderTable extends Migration
     public function up()
     {
         Schema::create('customer_order', function (Blueprint $table) {
-            $table->unsignedBigInteger('order_id')->references('id')->on('orders');
             $table->unsignedBigInteger('customer_id')->references('id')->on('customers');
-            $table->primary(['order_id', 'customer_id']);
+            $table->unsignedBigInteger('order_id')->references('id')->on('orders');
+            $table->primary(['customer_id', 'order_id']);
         });
     }
 
