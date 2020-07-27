@@ -5,15 +5,14 @@ namespace MayIFit\Extension\Shop\Observers;
 use Illuminate\Support\Facades\Auth;
 
 use MayIFit\Extension\Shop\Models\Pivot\OrderProduct;
-
-use MayIFit\Extensiom\Shop\Models\Product;
+use MayIFit\Extension\Shop\Models\Product;
 
 class ProductObserver
 {
     /**
      * Handle the Product "created" event.
      *
-     * @param  \MayIFit\Extensiom\Shop\Models\Product  $model
+     * @param  \MayIFit\Extension\Shop\Models\Product  $model
      * @return void
      */
     public function created(Product $model): void {
@@ -23,7 +22,7 @@ class ProductObserver
     /**
      * Handle the Product "updated" event.
      *
-     * @param  \MayIFit\Extensiom\Shop\Models\Product  $model
+     * @param  \MayIFit\Extension\Shop\Models\Product  $model
      * @return void
      */
     public function updated(Product $model): void {
@@ -40,7 +39,7 @@ class ProductObserver
     /**
      * Handle the Product "deleted" event.
      *
-     * @param  \MayIFit\Extensiom\Shop\Models\Product  $model
+     * @param  \MayIFit\Extension\Shop\Models\Product  $model
      * @return void
      */
     public function deleted(Product $model): void {
@@ -56,7 +55,7 @@ class ProductObserver
     /**
      * Handle the Product "forceDeleted" event.
      *
-     * @param  \MayIFit\Extensiom\Shop\Models\Product  $model
+     * @param  \MayIFit\Extension\Shop\Models\Product  $model
      * @return void
      */
     public function forceDeleted(Product $model): void {

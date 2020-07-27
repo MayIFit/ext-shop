@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Auth;
 
 use MayIFit\Core\Permission\Models\SystemSetting;
 
-use MayIFit\Extensiom\Shop\Models\Order;
-use MayIFit\Extensiom\Shop\Models\OrderStatus;
+use MayIFit\Extension\Shop\Models\Order;
+use MayIFit\Extension\Shop\Models\OrderStatus;
 use MayIFit\Extension\Shop\Events\OrderAccepted;
 use MayIFit\Extension\Shop\Notifications\OrderStatusUpdate;
 
@@ -17,7 +17,7 @@ class OrderObserver
     /**
      * Handle the Order "created" event.
      *
-     * @param  \MayIFit\Extensiom\Shop\Models\Order  $model
+     * @param  \MayIFit\Extension\Shop\Models\Order  $model
      * @return void
      */
     public function created(Order $model): void {
@@ -30,7 +30,7 @@ class OrderObserver
     /**
      * Handle the Order "updated" event.
      *
-     * @param  \MayIFit\Extensiom\Shop\Models\Order  $model
+     * @param  \MayIFit\Extension\Shop\Models\Order  $model
      * @return void
      */
     public function updated(Order $model): void {
@@ -42,7 +42,7 @@ class OrderObserver
     /**
      * Handle the Order "deleted" event.
      *
-     * @param  \MayIFit\Extensiom\Shop\Models\Order  $model
+     * @param  \MayIFit\Extension\Shop\Models\Order  $model
      * @return void
      */
     public function deleted(Order $model): void {
@@ -58,7 +58,7 @@ class OrderObserver
     /**
      * Handle the Order "forceDeleted" event.
      *
-     * @param  \MayIFit\Extensiom\Shop\Models\Order  $model
+     * @param  \MayIFit\Extension\Shop\Models\Order  $model
      * @return void
      */
     public function forceDeleted(Order $model): void {

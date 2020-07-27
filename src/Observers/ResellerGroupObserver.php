@@ -4,14 +4,14 @@ namespace MayIFit\Extension\Shop\Observers;
 
 use Illuminate\Support\Facades\Auth;
 
-use MayIFit\Extensiom\Shop\Models\ResellerGroup;
+use MayIFit\Extension\Shop\Models\ResellerGroup;
 
 class ResellerGroupObserver
 {
     /**
      * Handle the ResellerGroup "created" event.
      *
-     * @param  \MayIFit\Extensiom\Shop\Models\ResellerGroup  $model
+     * @param  \MayIFit\Extension\Shop\Models\ResellerGroup  $model
      * @return void
      */
     public function created(ResellerGroup $model): void {
@@ -21,7 +21,7 @@ class ResellerGroupObserver
     /**
      * Handle the ResellerGroup "updated" event.
      *
-     * @param  \MayIFit\Extensiom\Shop\Models\ResellerGroup  $model
+     * @param  \MayIFit\Extension\Shop\Models\ResellerGroup  $model
      * @return void
      */
     public function updated(ResellerGroup $model): void {
@@ -31,7 +31,7 @@ class ResellerGroupObserver
     /**
      * Handle the ResellerGroup "deleted" event.
      *
-     * @param  \MayIFit\Extensiom\Shop\Models\ResellerGroup  $model
+     * @param  \MayIFit\Extension\Shop\Models\ResellerGroup  $model
      * @return void
      */
     public function deleted(ResellerGroup $model): void {
@@ -41,7 +41,7 @@ class ResellerGroupObserver
     /**
      * Handle the ResellerGroup "forceDeleted" event.
      *
-     * @param  \MayIFit\Extensiom\Shop\Models\ResellerGroup  $model
+     * @param  \MayIFit\Extension\Shop\Models\ResellerGroup  $model
      * @return void
      */
     public function forceDeleted(ResellerGroup $model): void {

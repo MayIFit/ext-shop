@@ -5,14 +5,14 @@ namespace MayIFit\Extension\Shop\Observers;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
-use MayIFit\Extensiom\Shop\Models\ProductCategoryDiscount;
+use MayIFit\Extension\Shop\Models\ProductCategoryDiscount;
 
 class ProductCategoryDiscountObserver
 {
     /**
      * Handle the ProductCategoryDiscount "created" event.
      *
-     * @param  \MayIFit\Extensiom\Shop\Models\ProductCategoryDiscount  $model
+     * @param  \MayIFit\Extension\Shop\Models\ProductCategoryDiscount  $model
      * @return void
      */
     public function created(ProductCategoryDiscount $model): void {
@@ -25,7 +25,7 @@ class ProductCategoryDiscountObserver
     /**
      * Handle the ProductCategoryDiscount "updated" event.
      *
-     * @param  \MayIFit\Extensiom\Shop\Models\ProductCategoryDiscount  $model
+     * @param  \MayIFit\Extension\Shop\Models\ProductCategoryDiscount  $model
      * @return void
      */
     public function updated(ProductCategoryDiscount $model): void {
@@ -35,7 +35,7 @@ class ProductCategoryDiscountObserver
     /**
      * Handle the ProductCategoryDiscount "deleted" event.
      *
-     * @param  \MayIFit\Extensiom\Shop\Models\ProductCategoryDiscount  $model
+     * @param  \MayIFit\Extension\Shop\Models\ProductCategoryDiscount  $model
      * @return void
      */
     public function deleted(ProductCategoryDiscount $model): void {
@@ -45,7 +45,7 @@ class ProductCategoryDiscountObserver
     /**
      * Handle the ProductCategoryDiscount "forceDeleted" event.
      *
-     * @param  \MayIFit\Extensiom\Shop\Models\ProductCategoryDiscount  $model
+     * @param  \MayIFit\Extension\Shop\Models\ProductCategoryDiscount  $model
      * @return void
      */
     public function forceDeleted(ProductCategoryDiscount $model): void {

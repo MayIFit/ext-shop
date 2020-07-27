@@ -5,14 +5,14 @@ namespace MayIFit\Extension\Shop\Observers;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
-use MayIFit\Extensiom\Shop\Models\ProductDiscount;
+use MayIFit\Extension\Shop\Models\ProductDiscount;
 
 class ProductDiscountObserver
 {
     /**
      * Handle the ProductDiscount "created" event.
      *
-     * @param  \MayIFit\Extensiom\Shop\Models\ProductDiscount  $model
+     * @param  \MayIFit\Extension\Shop\Models\ProductDiscount  $model
      * @return void
      */
     public function created(ProductDiscount $model): void {
@@ -25,7 +25,7 @@ class ProductDiscountObserver
     /**
      * Handle the ProductDiscount "updated" event.
      *
-     * @param  \MayIFit\Extensiom\Shop\Models\ProductDiscount  $model
+     * @param  \MayIFit\Extension\Shop\Models\ProductDiscount  $model
      * @return void
      */
     public function updated(ProductDiscount $model): void {
@@ -35,7 +35,7 @@ class ProductDiscountObserver
     /**
      * Handle the ProductDiscount "deleted" event.
      *
-     * @param  \MayIFit\Extensiom\Shop\Models\ProductDiscount  $model
+     * @param  \MayIFit\Extension\Shop\Models\ProductDiscount  $model
      * @return void
      */
     public function deleted(ProductDiscount $model): void {
@@ -45,7 +45,7 @@ class ProductDiscountObserver
     /**
      * Handle the ProductDiscount "forceDeleted" event.
      *
-     * @param  \MayIFit\Extensiom\Shop\Models\ProductDiscount  $model
+     * @param  \MayIFit\Extension\Shop\Models\ProductDiscount  $model
      * @return void
      */
     public function forceDeleted(ProductDiscount $model): void {

@@ -4,14 +4,14 @@ namespace MayIFit\Extension\Shop\Observers;
 
 use Illuminate\Support\Facades\Auth;
 
-use MayIFit\Extensiom\Shop\Models\ProductCategory;
+use MayIFit\Extension\Shop\Models\ProductCategory;
 
 class ProductCategoryObserver
 {
     /**
      * Handle the ProductCategory "created" event.
      *
-     * @param  \MayIFit\Extensiom\Shop\Models\ProductCategory  $model
+     * @param  \MayIFit\Extension\Shop\Models\ProductCategory  $model
      * @return void
      */
     public function created(ProductCategory $model): void {
@@ -21,7 +21,7 @@ class ProductCategoryObserver
     /**
      * Handle the ProductCategory "updated" event.
      *
-     * @param  \MayIFit\Extensiom\Shop\Models\ProductCategory  $model
+     * @param  \MayIFit\Extension\Shop\Models\ProductCategory  $model
      * @return void
      */
     public function updated(ProductCategory $model): void {
@@ -31,7 +31,7 @@ class ProductCategoryObserver
     /**
      * Handle the ProductCategory "deleted" event.
      *
-     * @param  \MayIFit\Extensiom\Shop\Models\ProductCategory  $model
+     * @param  \MayIFit\Extension\Shop\Models\ProductCategory  $model
      * @return void
      */
     public function deleted(ProductCategory $model): void {
@@ -41,7 +41,7 @@ class ProductCategoryObserver
     /**
      * Handle the ProductCategory "forceDeleted" event.
      *
-     * @param  \MayIFit\Extensiom\Shop\Models\ProductCategory  $model
+     * @param  \MayIFit\Extension\Shop\Models\ProductCategory  $model
      * @return void
      */
     public function forceDeleted(ProductCategory $model): void {
