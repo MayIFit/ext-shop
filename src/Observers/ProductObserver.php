@@ -4,7 +4,7 @@ namespace MayIFit\Extension\Shop\Observers;
 
 use Illuminate\Support\Facades\Auth;
 
-use MayIFit\Extension\Shop\Models\Pivot\OrderProduct;
+use MayIFit\Extension\Shop\Models\Pivot\OrderProductPivot;
 use MayIFit\Extension\Shop\Models\Product;
 
 class ProductObserver
@@ -27,7 +27,7 @@ class ProductObserver
      */
     public function updated(Product $model): void {
         $model->updatedBy()->associate(Auth::user());
-        OrderProduct::where([['product_id', $model->id], ['can_be_shipped', false]])
+        OrderProductPivot::where([['product_id', $model->id], ['can_be_shipped', false]])
         ->whereNull('shipped_at')
         ->get()->map(function($pivot) use($model) {
             if ($pivot->quantity <= $model->quantity) {
@@ -43,7 +43,7 @@ class ProductObserver
      * @return void
      */
     public function deleted(Product $model): void {
-        OrderProduct::where([['product_id', $model->id]])
+        OrderProductPivot::where([['product_id', $model->id]])
         ->whereNull('shipped_at')
         ->get()->map(function($pivot) use($model) {
             if ($pivot->quantity <= $model->quantity) {
