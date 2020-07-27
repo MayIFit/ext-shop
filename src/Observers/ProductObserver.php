@@ -10,13 +10,23 @@ use MayIFit\Extension\Shop\Models\Product;
 class ProductObserver
 {
     /**
+     * Handle the Product "creating" event.
+     *
+     * @param  \MayIFit\Extension\Shop\Models\Product  $model
+     * @return void
+     */
+    public function creating(Product $model): void {
+        $model->createdBy()->associate(Auth::user());
+    }
+
+    /**
      * Handle the Product "created" event.
      *
      * @param  \MayIFit\Extension\Shop\Models\Product  $model
      * @return void
      */
     public function created(Product $model): void {
-        $model->createdBy()->associate(Auth::user());
+        //
     }
 
     /**

@@ -10,16 +10,26 @@ use MayIFit\Extension\Shop\Models\ProductCategoryDiscount;
 class ProductCategoryDiscountObserver
 {
     /**
+     * Handle the ProductCategoryDiscount "creating" event.
+     *
+     * @param  \MayIFit\Extension\Shop\Models\ProductCategoryDiscount  $model
+     * @return void
+     */
+    public function creating(ProductCategoryDiscount $model): void {
+        $model->createdBy()->associate(Auth::user());
+        if (!$model->available_from) {
+            $model->available_from = Carbon::now();
+        }
+    }
+
+    /**
      * Handle the ProductCategoryDiscount "created" event.
      *
      * @param  \MayIFit\Extension\Shop\Models\ProductCategoryDiscount  $model
      * @return void
      */
     public function created(ProductCategoryDiscount $model): void {
-        $model->createdBy()->associate(Auth::user());
-        if (!$model->available_from) {
-            $model->available_from = Carbon::now();
-        }
+        //
     }
 
     /**

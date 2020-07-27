@@ -9,13 +9,23 @@ use MayIFit\Extension\Shop\Models\ProductCategory;
 class ProductCategoryObserver
 {
     /**
+     * Handle the ProductCategory "creating" event.
+     *
+     * @param  \MayIFit\Extension\Shop\Models\ProductCategory  $model
+     * @return void
+     */
+    public function creating(ProductCategory $model): void {
+        $model->createdBy()->associate(Auth::user());
+    }
+
+    /**
      * Handle the ProductCategory "created" event.
      *
      * @param  \MayIFit\Extension\Shop\Models\ProductCategory  $model
      * @return void
      */
     public function created(ProductCategory $model): void {
-        $model->createdBy()->associate(Auth::user());
+        //
     }
 
     /**
