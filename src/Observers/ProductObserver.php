@@ -4,7 +4,7 @@ namespace MayIFit\Extension\Shop\Observers;
 
 use Illuminate\Support\Facades\Auth;
 
-use MayIFit\Extension\Shop\Models\Pivot\OrderProductPivot;
+use MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot;
 use MayIFit\Extension\Shop\Models\Product;
 
 class ProductObserver
