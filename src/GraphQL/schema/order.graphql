@@ -74,6 +74,7 @@ type OrderProductPivot @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Piv
     discount: ProductDiscount @belongsTo
     net_value: Float!
     gross_value: Float!
+    is_wholesale: Boolean!
 }
 
 type Order @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {

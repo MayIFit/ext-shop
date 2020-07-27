@@ -15,13 +15,26 @@ class TestCase extends \Orchestra\Testbench\TestCase
 {
     use MakesGraphQLRequests;
 
+    /**
+     * Setup the test environment.
+     */
     public function setUp(): void {
         parent::setUp();
-        
         $this->publishResources();
-        $this->artisan('migrate:fresh', ['--database' => 'testbench'])->execute();
+        $this->artisan('migrate', ['--database' => 'testbench'])->run();
+        $this->loadLaravelMigrations(['--database' => 'testbench']);
     }
 
+    /**
+     * Get package providers.  At a minimum this is the package being tested, but also
+     * would include packages upon which our package depends, e.g. Cartalyst/Sentry
+     * In a normal app environment these would be added to the 'providers' array in
+     * the config/app.php file.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     *
+     * @return array
+     */
     protected function getPackageProviders($app) {
         return [
             SanctumServiceProvider::class,
@@ -33,6 +46,13 @@ class TestCase extends \Orchestra\Testbench\TestCase
         ];
     }
 
+    /**
+     * Define environment setup.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     *
+     * @return void
+     */
     protected function getEnvironmentSetUp($app): void {
         $app['config']->set('database.default', 'testbench');
         $app['config']->set('database.connections.testbench', [
@@ -40,8 +60,6 @@ class TestCase extends \Orchestra\Testbench\TestCase
             'database' => ':memory:',
             'prefix'   => '',
         ]);
-
-        $app['config']->push('lighthouse.namespaces.models', 'Illuminate\\Foundation\\Auth');
 
         $app['config']->push('app.providers', 'Nuwave\\Lighthouse\\WhereConditions\\WhereConditionsServiceProvider');
     }

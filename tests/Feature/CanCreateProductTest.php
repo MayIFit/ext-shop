@@ -19,13 +19,13 @@ class CanCreateProductTest extends TestCase
         
         $user = new User;
         $user->id = 1;
-        Sanctum::actingAs($user);
-    
+        Sanctum::actingAs($user, ['*']);
+        
         $resp = $this->graphQL('
             mutation {
                 createProduct(input: {
                     catalog_id: "20001"
-                    name:"asd"
+                    name: "asd"
                     refurbished: false
                     varranty: "1 year"
                 }) {
