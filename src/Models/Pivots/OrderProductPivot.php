@@ -39,8 +39,10 @@ class OrderProductPivot extends Pivot
 
             $pricing = $product->pricings()
                 ->when($reseller, function($query) use($reseller) {
-                    return $query->where('reseller_id', $reseller->id)
+                    return $query->where(function($query) use($reseller) {
+                        return $query->where('reseller_id', $reseller->id)
                         ->orWhereNull('reseller_id');
+                    });
                 })->when(!$reseller, function($query) {
                     return $query->whereNull('reseller_id');
                 })->where([
