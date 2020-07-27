@@ -22,7 +22,7 @@ class OrderObserver
      */
     public function creating(Order $model): void {
         $orderPrefix = SystemSetting::where('setting_name', 'shop.orderIdPrefix')->first();
-        $model->order_id_prefix = $orderPrefix->setting_value;
+        $model->order_id_prefix = $orderPrefix->setting_value ?? '';
         $model->token = Str::random(20);
         $model->orderStatus()->associate(OrderStatus::first());
     }

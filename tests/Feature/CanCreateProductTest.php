@@ -3,7 +3,6 @@
 namespace MayIFit\Extension\Shop\Tests\Feature;
 
 use Laravel\Sanctum\Sanctum;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use MayIFit\Extension\Shop\Tests\TestCase;
@@ -21,7 +20,7 @@ class CanCreateProductTest extends TestCase
         $user->id = 1;
         Sanctum::actingAs($user, ['*']);
         
-        $resp = $this->graphQL('
+        $this->graphQL('
             mutation {
                 createProduct(input: {
                     catalog_id: "20001"
@@ -32,14 +31,12 @@ class CanCreateProductTest extends TestCase
                     catalog_id
                 }
             }
-        ');
-        $resp->assertJSON([
+        ')->assertJSON([
             'data' => [
                 'createProduct' => [
                     'catalog_id' => 20001
                 ]
             ]
-
         ]);
     }
 }

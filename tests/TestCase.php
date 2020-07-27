@@ -21,8 +21,9 @@ class TestCase extends \Orchestra\Testbench\TestCase
     public function setUp(): void {
         parent::setUp();
         $this->publishResources();
-        $this->artisan('migrate', ['--database' => 'testbench'])->run();
         $this->loadLaravelMigrations(['--database' => 'testbench']);
+        $this->artisan('migrate', ['--database' => 'testbench'])->run();
+        $this->withFactories(__DIR__.'../src/Database/Factories');
     }
 
     /**
