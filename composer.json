@@ -3,16 +3,6 @@
     "description": "MayIFit E-Commerce extension",
     "keywords": ["E-Commerce", "laravel", "php", "shop", "webshop"],
     "type": "project",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/MayIFit/core-permission"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/MayIFit/core-translation"
-        }
-    ],
     "authors": [
         {
             "name": "MayIFit",
