@@ -116,7 +116,6 @@ class SendOrderDataToWMS implements ShouldQueue
         $requestData['Order']['DocumentList'][0]['DocumentDetails'] = $event->order->products->map(function($product) use($event, &$sentItemCount) {
             if ($product->pivot->can_be_shipped && !$product->pivot->shipped_at) {
                 $event->order->products()->updateExistingPivot($product->id, ['shipped_at' => Carbon::now()]);
-                dd($product->pivot->shipped_at);
                 $sentItemCount++;
 
                 return [
@@ -139,9 +138,8 @@ class SendOrderDataToWMS implements ShouldQueue
                 'message' => 'no_items_could_be_transferred'
             ], 200);
         }
-        dd('asd');
         $response = $this->client->CreateOrder($requestData);
-
+        
         if ($response->CreateOrderResult->MsgStatus === 0) {
             if ($sentItemCount === $event->order->products->count()) {
                 $event->order->sent_to_courier_service = Carbon::now();
