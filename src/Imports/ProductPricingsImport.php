@@ -8,13 +8,17 @@ use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Carbon\Carbon;
-
+use MayIFit\Core\Permission\Models\SystemSetting;
 use MayIFit\Extension\Shop\Models\ProductPricing;
 use MayIFit\Extension\Shop\Models\Product;
 
 class ProductPricingsImport implements ToCollection, WithHeadingRow
 {
+    /**
+     *  The mapping hash for inserting
+     */
     private $mapping;
+
     /**
      * The total rowcount of the importable file
      */
@@ -25,8 +29,22 @@ class ProductPricingsImport implements ToCollection, WithHeadingRow
      */
     private $importedRows = 0;
 
+    /**
+     *  The default vat amount for a the pricings
+     */
+    private $defaultVatAmount;
+
+    /**
+     *  The default vat amount for a the pricings
+     */
+    private $defaultCurrency;
+
+
+
     public function __construct($mapping) {
         $this->mapping = $mapping;
+        $this->defaultVatAmount = SystemSetting::where('setting_name', 'shop.defaultVatAmount')->first();
+        $this->defaultCurrency = SystemSetting::where('setting_name', 'shop.defaultCurrency')->first();
     }
 
     /**
@@ -48,7 +66,7 @@ class ProductPricingsImport implements ToCollection, WithHeadingRow
                     ++$this->importedRows;
                     ProductPricing::firstOrCreate([
                         'product_id' => $product->id,
-                        'currency' => $parse['currency'] ?? 'HUF',
+                        'currency' => $parse['currency'] ?? $this->defaultCurrency->setting_value,
                         'available_from' => $parse['available_from'] ?? Carbon::now(),
                         'reseller_id' => null
                     ], [
@@ -57,7 +75,7 @@ class ProductPricingsImport implements ToCollection, WithHeadingRow
                         'available_from' => $parse['available_from'] ?? Carbon::now(),
                         'base_price' => $parse['base_price'] ?? 0.0,
                         'wholesale_price' => $parse['wholesale_price'] ?? 0.0,
-                        'vat' => $parse['vat'] ?? 0.0
+                        'vat' => $parse['vat'] ?? $this->defaultVatAmount->setting_value
                     ]);
                 }
             }

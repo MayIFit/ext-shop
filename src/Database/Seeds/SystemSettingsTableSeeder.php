@@ -43,6 +43,16 @@ class SystemSettingsTableSeeder extends Seeder
 			'setting_name' => 'shop.orderIdPrefix',
 			'setting_description' => 'The prefix of the order id what will be sent to the courier service',
             'setting_value' => 'GUD'
+        ]);
+        SystemSetting::firstOrCreate([
+			'setting_name' => 'shop.defaultVatAmount',
+			'setting_description' => 'The default vat value for product pricings',
+            'setting_value' => '27.00'
+		]);
+        SystemSetting::firstOrCreate([
+			'setting_name' => 'shop.defaultCurrency',
+			'setting_description' => 'The default currency',
+            'setting_value' => 'HUF'
 		]);
     }
 }

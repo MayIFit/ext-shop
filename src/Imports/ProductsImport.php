@@ -12,8 +12,11 @@ use MayIFit\Extension\Shop\Models\Product;
 
 class ProductsImport implements ToCollection, WithHeadingRow
 {
-
+    /**
+     *  The mapping hash for inserting
+     */
     private $mapping;
+    
     /**
      * The total rowcount of the importable file
      */
@@ -39,7 +42,7 @@ class ProductsImport implements ToCollection, WithHeadingRow
             $parse = [];
             foreach ($this->mapping as $key => $value) {
                 if ($key === 'technical_specs' || $key === 'supplied') {
-                    $parse[$key] = json_decode($row[$value]) ?? '{"":""}';
+                    $parse[$key] = json_decode($row[$value]) ?? json_decode('{"":""}');
                 } else {
                     $parse[$key] = trim($row[$value]);
                 }
