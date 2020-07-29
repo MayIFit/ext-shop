@@ -11,7 +11,6 @@ use Carbon\Carbon;
 
 use MayIFit\Extension\Shop\Models\ProductPricing;
 use MayIFit\Extension\Shop\Models\Product;
-use MayIFit\Extension\Shop\Models\Reseller;
 
 class ProductPricingsImport implements ToCollection, WithHeadingRow
 {

@@ -67,11 +67,17 @@ class SendOrderDataToWMS implements ShouldQueue
      */
     public function handle(OrderAccepted $event)
     {
+        // TODO: come up with a solution for partial orders
+        // on a partial order, if the second part is to be delivered
+        // the previous order number has to bee present
         $sentItemCount = 0;
         $partnerData = $event->order->customers()->where('billing_address', true)->first();
         $partnerReseller = $partnerData->user()->first()->reseller;
 
         $recipientLocation = $event->order->customers()->where('billing_address', false)->first();
+
+        $foreignOrderID = $event->order->order_id_prefix.$event->order->id;
+
         $requestData = array(
             'Order' => [
                 'ClientHPId' => $this->apiUserID,
@@ -79,13 +85,13 @@ class SendOrderDataToWMS implements ShouldQueue
                 'ClientPWD' => $this->apiUserPassword,
                 'DocumentList' => [[
                     'DocumentHeader' => [
-                        'ClientReferenceNumber' => $event->order->order_id_prefix.$event->order->id,
+                        'ClientReferenceNumber' => $foreignOrderID,
                         'ClientDocType' => "Out",
                         'DocYear' => Carbon::now()->format('Y'),
                         'DocDate' => Carbon::now()->format('Y-m-d\TH:i:s'),
                         'ShipmentCODValue' => $event->order->payment_type == 'bank_transfer' ? 0 : ($event->order->paid ? 0 : $event->order->gross_value),
                         'Recipient' => [
-                            'PartnerID' => '8420',
+                            'PartnerID' => $partnerData->id,
                             'PartnerName' => $partnerReseller->company_name,
                             'PartnerZip' => $partnerData->zip_code,
                             'PartnerCity' => $partnerData->city,
@@ -138,8 +144,9 @@ class SendOrderDataToWMS implements ShouldQueue
                 'message' => 'no_items_could_be_transferred'
             ], 200);
         }
+
         $response = $this->client->CreateOrder($requestData);
-        
+
         if ($response->CreateOrderResult->MsgStatus === 0) {
             if ($sentItemCount === $event->order->products->count()) {
                 $event->order->sent_to_courier_service = Carbon::now();

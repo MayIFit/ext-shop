@@ -2,7 +2,6 @@
 
 namespace MayIFit\Extension\Shop\GraphQL\Mutations;
 
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Http\JsonResponse;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
@@ -25,6 +24,10 @@ class ImportCSV
     public function import($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): JsonResponse {
         $file = $args['input'];
         $import = [];
+
+        if (!count($args['entity_mapping'])) {
+            return Response::json('error.no_mapping_provided', 400);
+        }
 
         $import[$file['path']] = '';
         if ($file['type'] === 'product') {
