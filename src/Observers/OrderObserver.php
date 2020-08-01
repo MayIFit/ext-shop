@@ -3,14 +3,13 @@
 namespace MayIFit\Extension\Shop\Observers;
 
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Auth;
 
 use MayIFit\Core\Permission\Models\SystemSetting;
 
 use MayIFit\Extension\Shop\Models\Order;
 use MayIFit\Extension\Shop\Models\OrderStatus;
 use MayIFit\Extension\Shop\Events\OrderAccepted;
-use MayIFit\Extension\Shop\Notifications\OrderStatusUpdate;
+use MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot;
 
 class OrderObserver
 {
@@ -20,6 +19,7 @@ class OrderObserver
      * @param  \MayIFit\Extension\Shop\Models\Order  $model
      * @return void
      */
+    //TODO: merge orders for same customer
     public function creating(Order $model): void {
         $orderPrefix = SystemSetting::where('setting_name', 'shop.orderIdPrefix')->first();
         $model->order_id_prefix = $orderPrefix->setting_value ?? '';
@@ -56,7 +56,7 @@ class OrderObserver
      * @return void
      */
     public function deleted(Order $model): void {
-        OrderProduct::where([['product_id', $model->id]])
+        OrderProductPivot::where([['product_id', $model->id]])
         ->whereNull('shipped_at')
         ->get()->map(function($pivot) use($model) {
             if ($pivot->quantity <= $model->quantity) {
