@@ -52,7 +52,7 @@ input UpdateResellerInput {
     supplier_customer_code: String!
 }
 
-type Reseller @guard(with: ["sanctum"]) @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Reseller") {
+type Reseller @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Reseller") {
     id: ID!
     user: User @belongsTo
     phone_number: String!
@@ -71,6 +71,11 @@ type ResellerSelect @guard(with: ["sanctum"]) @modelClass(class: "MayIFit\\Exten
 
 extend type User @guard(with: ["sanctum"]) {
     reseller: Reseller @hasOne
+    is_reseller: Boolean
+}
+
+extend input CreateUserInput {
+    reseller: ResellerRelation
     is_reseller: Boolean
 }
 

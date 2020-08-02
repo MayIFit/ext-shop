@@ -431,6 +431,12 @@ class TranslationsTableSeeder extends Seeder
 			],
 			['text' => ['en' => 'upload', 'hu' => 'feltöltés']],
 		);
+		Translation::updateOrCreate([
+				'group' => 'action',
+				'key' => 'register_reseller'
+			],
+			['text' => ['en' => 'reseller registration', 'hu' => 'viszonteladói regisztráció']],
+		);
         Translation::updateOrCreate([
 	            'group' => 'shop',
 	            'key' => 'shop'
@@ -558,6 +564,48 @@ class TranslationsTableSeeder extends Seeder
 				'key' => 'reseller-group'
 			],
 			['text' => ['en' => 'list reseller group', 'hu' => 'viszonteladói csoport lista']],
+		);
+		Translation::updateOrCreate([
+				'group' => 'reseller',
+				'key' => 'company_name'
+			],
+			['text' => ['en' => 'reseller company name', 'hu' => 'viszonteladói cég név']],
+		);
+		Translation::updateOrCreate([
+				'group' => 'reseller',
+				'key' => 'vat_id'
+			],
+			['text' => ['en' => 'reseller vat id', 'hu' => 'viszonteladói adószám']],
+		);
+		Translation::updateOrCreate([
+				'group' => 'reseller',
+				'key' => 'contact_person'
+			],
+			['text' => ['en' => 'reseller contact person', 'hu' => 'viszonteladói kapcsolattartó']],
+		);
+		Translation::updateOrCreate([
+				'group' => 'reseller',
+				'key' => 'email'
+			],
+			['text' => ['en' => 'reseller email', 'hu' => 'viszonteladói e-mail']],
+		);
+		Translation::updateOrCreate([
+				'group' => 'reseller',
+				'key' => 'phone_number'
+			],
+			['text' => ['en' => 'reseller phone number', 'hu' => 'viszonteladói telefonszám']],
+		);
+		Translation::updateOrCreate([
+				'group' => 'reseller',
+				'key' => 'supplier_customer_code'
+			],
+			['text' => ['en' => 'supplier customer code', 'hu' => 'szállító kód']],
+		);
+		Translation::updateOrCreate([
+				'group' => 'global',
+				'key' => 'reseller'
+			],
+			['text' => ['en' => 'reseller', 'hu' => 'viszonteladó']],
 		);
 	}
 }
