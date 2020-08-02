@@ -38,7 +38,7 @@ input CreateResellerInput {
     company_name: String!
     vat_id: String!
     contact_person: String!
-    supplier_customer_code: String!
+    supplier_customer_code: String
 }
 
 input UpdateResellerInput {
@@ -49,7 +49,7 @@ input UpdateResellerInput {
     company_name: String!
     vat_id: String!
     contact_person: String!
-    supplier_customer_code: String!
+    supplier_customer_code: String
 }
 
 type Reseller @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Reseller") {
