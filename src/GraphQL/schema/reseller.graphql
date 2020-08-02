@@ -60,7 +60,7 @@ type Reseller @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Reseller") {
     company_name: String!
     vat_id: String!
     contact_person: String!
-    supplier_customer_code: String!
+    supplier_customer_code: String
 }
 
 "Subset of Reseller"

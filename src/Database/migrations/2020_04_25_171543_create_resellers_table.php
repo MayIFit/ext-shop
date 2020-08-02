@@ -20,7 +20,7 @@ class CreateResellersTable extends Migration
             $table->string('vat_id');
             $table->string('company_name');
             $table->string('contact_person');
-            $table->string('supplier_customer_code');
+            $table->string('supplier_customer_code')->nullable();
             $table->unsignedBigInteger('user_id')->unique()->references('id')->on('users');
             $table->unsignedBigInteger('reseller_group_id')->nullable()->references('id')->on('reseller_groups');
             $table->timestamps();
