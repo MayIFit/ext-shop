@@ -42,6 +42,7 @@ input CreateOrderInput {
     currency: String!
     payment_type: String!
     delivery_type: Int!
+    reseller: ResellerRelation
 }
 
 input UpdateOrderInput {
@@ -80,6 +81,7 @@ type OrderProductPivot @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Piv
 type Order @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
     id: ID!
     customers: [Customer]! @belongsToMany
+    reseller: Reseller @belongsTo
     orderStatus: OrderStatus @belongsTo
     token: String!
     placed: DateTime!

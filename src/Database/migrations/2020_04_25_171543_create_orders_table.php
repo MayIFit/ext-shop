@@ -18,6 +18,7 @@ class CreateOrdersTable extends Migration
             $table->string('order_id_prefix');
             $table->string('token')->unique();
             $table->foreignId('order_status_id')->references('id')->on('order_statuses');
+            $table->foreignId('reseller_id')->nullable()->references('id')->on('resellers');
             $table->timestamp('placed')->useCurrent();
             $table->unsignedInteger('quantity');
             $table->double('net_value');
