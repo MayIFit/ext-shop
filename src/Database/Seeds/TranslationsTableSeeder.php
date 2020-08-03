@@ -38,6 +38,12 @@ class TranslationsTableSeeder extends Seeder
 			['text' => ['en' => 'store', 'hu' => 'üzlet']],
 		);
 		Translation::updateOrCreate([
+				'group' => 'global',
+				'key' => 'shop'
+			],
+			['text' => ['en' => 'shop', 'hu' => 'üzlet']],
+		);
+		Translation::updateOrCreate([
 				'group' => 'list',
 				'key' => 'product'
 			],
@@ -564,6 +570,12 @@ class TranslationsTableSeeder extends Seeder
 				'key' => 'reseller-group'
 			],
 			['text' => ['en' => 'list reseller group', 'hu' => 'viszonteladói csoport lista']],
+		);
+		Translation::updateOrCreate([
+				'group' => 'list',
+				'key' => 'reseller-product-pricing'
+			],
+			['text' => ['en' => 'list products', 'hu' => 'termék lista']],
 		);
 		Translation::updateOrCreate([
 				'group' => 'reseller',
