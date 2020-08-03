@@ -64,7 +64,7 @@ class Product extends Model
         return $this->hasMany(ProductDiscount::class);
     }
 
-    public function getPricingForReseller($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): ProductPricing {
+    public function getPricingForReseller($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): ?ProductPricing {
         return $this->hasOne(ProductPricing::class)
         ->when(isset($args['reseller_id']), function($query) use($args) {
             return $query->where(function($query) use($args) {

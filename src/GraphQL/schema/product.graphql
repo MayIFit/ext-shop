@@ -1,9 +1,9 @@
 extend type Query {
     listProductWithPricing(
-        currency: String!
-        dateTime: DateTime!
-        category: ID @eq(key: "category_id")
-        name: String @where(operator: "like")
+        currency: String
+        dateTime: DateTime
+        filter: _ @whereConditions(columnsEnum: "ProductWhereColumn")
+        reseller_id: ID
     ): [Product]!
     @paginate(type: "paginator")
 
@@ -133,7 +133,7 @@ type Product @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Product") {
     documents: [Document]! @morphMany
     images: [Document]! @morphMany
     image: Document @morphOne
-    getPricingForReseller(reseller_id: ID): ProductPricing!
+    getPricingForReseller(reseller_id: ID): ProductPricing
         @method(passordered: true)
     getDiscountForDate(dateTime: DateTime!): ProductDiscount
         @method(passordered: true)
