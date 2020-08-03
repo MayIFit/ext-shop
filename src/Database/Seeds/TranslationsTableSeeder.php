@@ -421,6 +421,12 @@ class TranslationsTableSeeder extends Seeder
 			],
             ['text' => ['en' => 'different billing address', 'hu' => 'eltérő számlázási adatok']],
 		);
+        Translation::updateOrCreate([
+	            'group' => 'order',
+	            'key' => 'billing_same_as_shipping_address'
+			],
+            ['text' => ['en' => 'billing address is same as shipping address', 'hu' => 'számlázási cím megegyezik a szállítási címmel']],
+		);
 
     }
 
