@@ -128,9 +128,10 @@ class SendOrderDataToWMS implements ShouldQueue
                     'ItemSKU' => [
                         'ItemSKUCode' => $product->catalog_id,
                         'ItemDescription' => $product->name,
-                        'ItemUnitMeasure' => 1,
+                        'ItemUnitMeasure' => 'pcs',
                         'ItemEAN' => $product->ean_code
                     ],
+                    'ItemPrice' => $product->pivot->gross_value,
                     'ItemQuantityOrdered' => $product->pivot->quantity
                 ];
             }
