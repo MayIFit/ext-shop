@@ -35,7 +35,7 @@ class TranslationsTableSeeder extends Seeder
 				'group' => 'global',
 				'key' => 'store'
 			],
-			['text' => ['en' => 'store', 'hu' => 'üzlet']],
+			['text' => ['en' => 'store management', 'hu' => 'üzlet menedzsment']],
 		);
 		Translation::updateOrCreate([
 				'group' => 'global',
