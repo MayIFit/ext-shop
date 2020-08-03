@@ -265,6 +265,12 @@ class TranslationsTableSeeder extends Seeder
 			],
 			['text' => ['en' => 'refurbished', 'hu' => 'felújított']],
 		);
+		Translation::updateOrCreate([
+				'group' => 'product',
+				'key' => 'not_available_for_order'
+			],
+			['text' => ['en' => 'currently unavailable', 'hu' => 'jelenleg nem rendelhető']],
+		);
 
 
 		Translation::updateOrCreate([
