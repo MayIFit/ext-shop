@@ -81,6 +81,12 @@ class TranslationsTableSeeder extends Seeder
 		);
 		Translation::updateOrCreate([
 				'group' => 'order',
+				'key' => 'products'
+			],
+			['text' => ['en' => 'ordered products', 'hu' => 'rendelt termékek']],
+		);
+		Translation::updateOrCreate([
+				'group' => 'order',
 				'key' => 'paid'
 			],
 			['text' => ['en' => 'paid', 'hu' => 'fizetve']],
