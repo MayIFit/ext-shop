@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use MayIFit\Extension\Shop\Models\ProductReview;
 
 /**
- * Class HasReviews
+ * Trait HasReviews
  *
  * @package MayIFit\Extension\Shop\Traits
  */

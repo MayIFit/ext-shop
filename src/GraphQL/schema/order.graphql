@@ -46,7 +46,8 @@ input UpdateOrderProductPivotInput {
 }
 
 input CreateOrderInput {
-    customers: CustomerRelation!
+    shippingAddress: CustomerRelation!
+    billingAddress: CustomerRelation!
     products: ProductsRelation!
     orderStatus: OrderStatusRelation
     extra_information: String
@@ -59,7 +60,8 @@ input CreateOrderInput {
 input UpdateOrderInput {
     id: ID!
     token: String
-    customers: CustomerRelation
+    shippingAddress: CustomerRelation
+    billingAddress: CustomerRelation
     products: ProductsRelation
     orderStatus: OrderStatusRelation
     discount_percentage: Float
@@ -93,6 +95,8 @@ type OrderProductPivot @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Piv
 type Order @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
     id: ID!
     customers: [Customer]! @belongsToMany
+    shippingAddress: Customer @belongsTo
+    billingAddress: Customer @belongsTo
     reseller: Reseller @belongsTo
     orderStatus: OrderStatus @belongsTo
     token: String!

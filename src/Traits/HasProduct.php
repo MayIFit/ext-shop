@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\Belongsto;
 use MayIFit\Extension\Shop\Models\Product;
 
 /**
- * Class HasProduct
+ * Trait HasProduct
  *
  * @package MayIFit\Extension\Shop\Traits
  */

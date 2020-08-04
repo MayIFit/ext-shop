@@ -29,8 +29,10 @@ class CreateCustomersTable extends Migration
             $table->string('email');
             $table->string('vat_id')->nullable();
             $table->string('company_name')->nullable();
+            $table->boolean('primary_address');
             $table->boolean('billing_address');
-            $table->unsignedBigInteger('user_id')->nullable()->references('id')->on('users');
+            $table->boolean('shipping_address');
+            $table->foreignId('user_id')->nullable()->references('id')->on('users');
             $table->timestamps();
         });
     }

@@ -38,6 +38,36 @@ class OrderObserver
     }
 
     /**
+     * Handle the Order "saving" event.
+     *
+     * @param  \MayIFit\Extension\Shop\Models\Order  $model
+     * @return void
+     */
+    public function saving(Order $model): void {
+        //
+    }
+
+    /**
+     * Handle the Order "saved" event.
+     *
+     * @param  \MayIFit\Extension\Shop\Models\Order  $model
+     * @return void
+     */
+    public function saved(Order $model): void {
+        //
+    }
+
+    /**
+     * Handle the Order "updating" event.
+     *
+     * @param  \MayIFit\Extension\Shop\Models\Order  $model
+     * @return void
+     */
+    public function updating(Order $model): void {
+        //
+    }
+
+    /**
      * Handle the Order "updated" event.
      *
      * @param  \MayIFit\Extension\Shop\Models\Order  $model

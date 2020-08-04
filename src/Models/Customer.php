@@ -27,10 +27,14 @@ class Customer extends Model
         'email',
         'vat_id',
         'company_name',
+        'primary_address',
+        'shipping_address',
         'billing_address',
     ];
 
     protected $attributes = [
-        'billing_address' => true
+        'primary_address' => false,
+        'shipping_address' => false,
+        'billing_address' => false
     ];
 }

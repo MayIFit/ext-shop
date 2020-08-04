@@ -25,7 +25,7 @@ class OrderProductPivotObserver
         $model->product_id = $product->id;
         $order = $model->pivotParent;
         
-        $reseller = $order->customers()->first()->user->reseller;
+        $reseller = $order->reseller;
         $model->can_be_shipped = $product->in_stock >= $model->quantity;
         $product->in_stock -= $model->quantity;
         $order->quantity += $model->quantity;

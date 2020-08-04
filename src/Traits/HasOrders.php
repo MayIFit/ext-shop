@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use MayIFit\Extension\Shop\Models\Order;
 
 /**
- * Class HasOrders
+ * Trait HasOrders
  *
  * @package MayIFit\Extension\Shop\Traits
  */

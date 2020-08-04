@@ -22,9 +22,9 @@ extend type Mutation @guard(with: ["sanctum"]) {
 }
 
 input CustomerRelation {
-    create: [CreateCustomerInput!]
-    update: [UpdateCustomerInput!]
-    connect: [ID!]
+    create: CreateCustomerInput
+    update: UpdateCustomerInput
+    connect: ID
 }
 
 input CreateCustomerInput {
@@ -42,6 +42,8 @@ input CreateCustomerInput {
     email: String!
     company_name: String
     vat_id: String
+    primary_address: Boolean
+    shipping_address: Boolean
     billing_address: Boolean
     user: UserRelation
 }
@@ -62,6 +64,8 @@ input UpdateCustomerInput {
     email: String!
     company_name: String
     vat_id: String
+    primary_address: Boolean
+    shipping_address: Boolean
     billing_address: Boolean
     user: UserRelation
 }
@@ -82,7 +86,8 @@ type Customer @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Customer") {
     email: String!
     company_name: String
     vat_id: String
-    "If it's marked as true, a shipping address will be generated with the same values"
+    primary_address: Boolean
+    shipping_address: Boolean
     billing_address: Boolean
 }
 
