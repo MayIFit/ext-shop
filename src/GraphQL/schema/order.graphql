@@ -42,6 +42,7 @@ input UpdateOrderProductPivotInput {
     id: ID!
     net_value: Float
     gross_value: Float
+    quantity: Int
 }
 
 input CreateOrderInput {
