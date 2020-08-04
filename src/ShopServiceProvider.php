@@ -16,6 +16,7 @@
     use MayIFit\Extension\Shop\Models\Order;
     use MayIFit\Extension\Shop\Models\Reseller;
     use MayIFit\Extension\Shop\Models\ResellerGroup;
+    use MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot;
     use MayIFit\Extension\Shop\Policies\ProductPolicy;
     use MayIFit\Extension\Shop\Policies\ProductCategoryPolicy;
     use MayIFit\Extension\Shop\Policies\ProductReviewPolicy;
@@ -23,6 +24,7 @@
     use MayIFit\Extension\Shop\Policies\ProductDiscountPolicy;
     use MayIFit\Extension\Shop\Policies\CustomerPolicy;
     use MayIFit\Extension\Shop\Policies\OrderPolicy;
+    use MayIFit\Extension\Shop\Policies\OrderProductPivotPolicy;
     use MayIFit\Extension\Shop\Policies\ResellerPolicy;
     use MayIFit\Extension\Shop\Policies\ResellerGroupPolicy;
     use MayIFit\Extension\Shop\Observers\ProductObserver;
@@ -31,6 +33,7 @@
     use MayIFit\Extension\Shop\Observers\ProductCategoryObserver;
     use MayIFit\Extension\Shop\Observers\ProductCategoryDiscountObserver;
     use MayIFit\Extension\Shop\Observers\OrderObserver;
+    use MayIFit\Extension\Shop\Observers\OrderProductPivotObserver;
     use MayIFit\Extension\Shop\Observers\ResellerObserver;
     use MayIFit\Extension\Shop\Observers\ResellerGroupObserver;
 
@@ -50,7 +53,8 @@
             ProductPricing::class => ProductPricingPolicy::class,
             ProductDiscount::class => ProductDiscountPolicy::class,
             Reseller::class => ResellerPolicy::class,
-            ResellerGroup::class => ResellerGroupPolicy::class
+            ResellerGroup::class => ResellerGroupPolicy::class,
+            OrderProductPivot::class => OrderProductPivotPolicy::class
         ];
 
         /**
@@ -116,6 +120,7 @@
             ProductCategory::observe(ProductCategoryObserver::class);
             ProductCategoryDiscount::observe(ProductCategoryDiscountObserver::class);
             Order::observe(OrderObserver::class);
+            OrderProductPivot::observe(OrderProductPivotObserver::class);
             Reseller::observe(ResellerObserver::class);
             ResellerGroup::observe(ResellerGroupObserver::class);
         }

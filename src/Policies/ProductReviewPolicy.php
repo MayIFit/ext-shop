@@ -29,7 +29,7 @@ class ProductReviewPolicy
      * @param  \MayIFit\Extension\Shop\Models\ProductReview  $product-review
      * @return mixed
      */
-    public function view(User $user, ProductReview $productReview)
+    public function view(User $user, ProductReview $model)
     {
         return true;
     }
@@ -49,34 +49,34 @@ class ProductReviewPolicy
      * Determine whether the user can update the product review.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductReview  $productReview
+     * @param  \MayIFit\Extension\Shop\Models\ProductReview  $model
      * @return mixed
      */
-    public function update(User $user, ProductReview $productReview)
+    public function update(User $user, ProductReview $model)
     {
-        return $user->tokenCan('product-review.update') || $productReview->createdBy->id === $user->id;
+        return $user->tokenCan('product-review.update') || $model->createdBy->id === $user->id;
     }
 
     /**
      * Determine whether the user can delete the product review.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductReview  $productReview
+     * @param  \MayIFit\Extension\Shop\Models\ProductReview  $model
      * @return mixed
      */
-    public function delete(User $user, ProductReview $productReview)
+    public function delete(User $user, ProductReview $model)
     {
-        return $user->tokenCan('product-review.delete') || $productReview->createdBy->id === $user->id;
+        return $user->tokenCan('product-review.delete') || $model->createdBy->id === $user->id;
     }
 
     /**
      * Determine whether the user can restore the product review.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductReview  $productReview
+     * @param  \MayIFit\Extension\Shop\Models\ProductReview  $model
      * @return mixed
      */
-    public function restore(User $user, ProductReview $productReview)
+    public function restore(User $user, ProductReview $model)
     {
         return false;
     }
@@ -85,10 +85,10 @@ class ProductReviewPolicy
      * Determine whether the user can permanently delete the product review.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductReview  $productReview
+     * @param  \MayIFit\Extension\Shop\Models\ProductReview  $model
      * @return mixed
      */
-    public function forceDelete(User $user, ProductReview $productReview)
+    public function forceDelete(User $user, ProductReview $model)
     {
         return false;
     }

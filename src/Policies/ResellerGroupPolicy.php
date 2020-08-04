@@ -26,10 +26,10 @@ class ResellerGroupPolicy
      * Determine whether the user can view the resellerGroup.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ResellerGroup  $resellerGroup
+     * @param  \MayIFit\Extension\Shop\Models\ResellerGroup  $model
      * @return mixed
      */
-    public function view(User $user, ResellerGroup $resellerGroup)
+    public function view(User $user, ResellerGroup $model)
     {
         return $user->tokenCan('reseller-group.view');
     }
@@ -49,10 +49,10 @@ class ResellerGroupPolicy
      * Determine whether the user can update the resellerGroup.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ResellerGroup  $resellerGroup
+     * @param  \MayIFit\Extension\Shop\Models\ResellerGroup  $model
      * @return mixed
      */
-    public function update(User $user, ResellerGroup $resellerGroup)
+    public function update(User $user, ResellerGroup $model)
     {
         return $user->tokenCan('reseller-group.update');
     }
@@ -61,10 +61,10 @@ class ResellerGroupPolicy
      * Determine whether the user can delete the resellerGroup.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ResellerGroup  $resellerGroup
+     * @param  \MayIFit\Extension\Shop\Models\ResellerGroup  $model
      * @return mixed
      */
-    public function delete(User $user, ResellerGroup $resellerGroup)
+    public function delete(User $user, ResellerGroup $model)
     {
         return $user->tokenCan('reseller-group.delete');
     }
@@ -73,10 +73,10 @@ class ResellerGroupPolicy
      * Determine whether the user can restore the resellerGroup.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ResellerGroup  $resellerGroup
+     * @param  \MayIFit\Extension\Shop\Models\ResellerGroup  $model
      * @return mixed
      */
-    public function restore(User $user, ResellerGroup $resellerGroup)
+    public function restore(User $user, ResellerGroup $model)
     {
         return false;
     }
@@ -85,10 +85,10 @@ class ResellerGroupPolicy
      * Determine whether the user can permanently delete the resellerGroup.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ResellerGroup  $resellerGroup
+     * @param  \MayIFit\Extension\Shop\Models\ResellerGroup  $model
      * @return mixed
      */
-    public function forceDelete(User $user, ResellerGroup $resellerGroup)
+    public function forceDelete(User $user, ResellerGroup $model)
     {
         return false;
     }

@@ -26,10 +26,10 @@ class ProductDiscountPolicy
      * Determine whether the user can view the product discount.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductPricing  $productDiscount
+     * @param  \MayIFit\Extension\Shop\Models\ProductDiscount  $model
      * @return mixed
      */
-    public function view(User $user, ProductPricing $productDiscount)
+    public function view(User $user, ProductDiscount $model)
     {
         return $user->tokenCan('product-discount.view');
     }
@@ -49,34 +49,34 @@ class ProductDiscountPolicy
      * Determine whether the user can update the product discount.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductPricing  $productDiscount
+     * @param  \MayIFit\Extension\Shop\Models\ProductDiscount  $model
      * @return mixed
      */
-    public function update(User $user, ProductPricing $productDiscount)
+    public function update(User $user, ProductDiscount $model)
     {
-        return $user->tokenCan('product-discount.update') || $productDiscount->createdBy->id === $user->id;
+        return $user->tokenCan('product-discount.update') || $model->createdBy->id === $user->id;
     }
 
     /**
      * Determine whether the user can delete the product discount.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductPricing  $productDiscount
+     * @param  \MayIFit\Extension\Shop\Models\ProductDiscount  $model
      * @return mixed
      */
-    public function delete(User $user, ProductPricing $productDiscount)
+    public function delete(User $user, ProductDiscount $model)
     {
-        return $user->tokenCan('product-discount.delete') || $productDiscount->createdBy->id === $user->id;
+        return $user->tokenCan('product-discount.delete') || $model->createdBy->id === $user->id;
     }
 
     /**
      * Determine whether the user can restore the product discount.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductPricing  $productDiscount
+     * @param  \MayIFit\Extension\Shop\Models\ProductDiscount  $model
      * @return mixed
      */
-    public function restore(User $user, ProductPricing $productDiscount)
+    public function restore(User $user, ProductDiscount $model)
     {
         return false;
     }
@@ -85,10 +85,10 @@ class ProductDiscountPolicy
      * Determine whether the user can permanently delete the product discount.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductPricing  $productDiscount
+     * @param  \MayIFit\Extension\Shop\Models\ProductDiscount  $model
      * @return mixed
      */
-    public function forceDelete(User $user, ProductPricing $productDiscount)
+    public function forceDelete(User $user, ProductDiscount $model)
     {
         return false;
     }

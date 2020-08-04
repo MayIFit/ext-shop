@@ -26,13 +26,13 @@ class ResellerPolicy
      * Determine whether the user can view the reseller.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Reseller  $reseller
+     * @param  \MayIFit\Extension\Shop\Models\Reseller  $model
      * @return mixed
      */
-    public function view(User $user, Reseller $reseller)
+    public function view(User $user, Reseller $model)
     {
         return $user->tokenCan('reseller.view') ||
-            $user->id === $reseller->user->id;
+            $user->id === $model->user->id;
     }
 
     /**
@@ -50,36 +50,36 @@ class ResellerPolicy
      * Determine whether the user can update the reseller.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Reseller  $reseller
+     * @param  \MayIFit\Extension\Shop\Models\Reseller  $model
      * @return mixed
      */
-    public function update(User $user, Reseller $reseller)
+    public function update(User $user, Reseller $model)
     {
         return $user->tokenCan('reseller.update') ||
-            $user->id === $reseller->user->id;
+            $user->id === $model->user->id;
     }
 
     /**
      * Determine whether the user can delete the reseller.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Reseller  $reseller
+     * @param  \MayIFit\Extension\Shop\Models\Reseller  $model
      * @return mixed
      */
-    public function delete(User $user, Reseller $reseller)
+    public function delete(User $user, Reseller $model)
     {
         return $user->tokenCan('reseller.delete') ||
-            $user->id === $reseller->user->id;
+            $user->id === $model->user->id;
     }
 
     /**
      * Determine whether the user can restore the reseller.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Reseller  $reseller
+     * @param  \MayIFit\Extension\Shop\Models\Reseller  $model
      * @return mixed
      */
-    public function restore(User $user, Reseller $reseller)
+    public function restore(User $user, Reseller $model)
     {
         return false;
     }
@@ -88,10 +88,10 @@ class ResellerPolicy
      * Determine whether the user can permanently delete the reseller.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Reseller  $reseller
+     * @param  \MayIFit\Extension\Shop\Models\Reseller  $model
      * @return mixed
      */
-    public function forceDelete(User $user, Reseller $reseller)
+    public function forceDelete(User $user, Reseller $model)
     {
         return false;
     }

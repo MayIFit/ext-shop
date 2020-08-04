@@ -26,13 +26,13 @@ class CustomerPolicy
      * Determine whether the user can view the customer.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Customer  $customer
+     * @param  \MayIFit\Extension\Shop\Models\Customer  $model
      * @return mixed
      */
-    public function view(User $user, Customer $customer)
+    public function view(User $user, Customer $model)
     {
         return $user->tokenCan('customer.view') ||
-            $user->id === $customer->user->id;
+            $user->id === $model->user->id;
     }
 
     /**
@@ -50,36 +50,36 @@ class CustomerPolicy
      * Determine whether the user can update the customer.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Customer  $customer
+     * @param  \MayIFit\Extension\Shop\Models\Customer  $model
      * @return mixed
      */
-    public function update(User $user, Customer $customer)
+    public function update(User $user, Customer $model)
     {
         return $user->tokenCan('customer.update') ||
-            $user->id === $customer->user->id;
+            $user->id === $model->user->id;
     }
 
     /**
      * Determine whether the user can delete the customer.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Customer  $customer
+     * @param  \MayIFit\Extension\Shop\Models\Customer  $model
      * @return mixed
      */
-    public function delete(User $user, Customer $customer)
+    public function delete(User $user, Customer $model)
     {
         return $user->tokenCan('customer.delete') ||
-            $user->id === $customer->user->id;
+            $user->id === $model->user->id;
     }
 
     /**
      * Determine whether the user can restore the customer.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Customer  $customer
+     * @param  \MayIFit\Extension\Shop\Models\Customer  $model
      * @return mixed
      */
-    public function restore(User $user, Customer $customer)
+    public function restore(User $user, Customer $model)
     {
         return false;
     }
@@ -88,10 +88,10 @@ class CustomerPolicy
      * Determine whether the user can permanently delete the customer.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Customer  $customer
+     * @param  \MayIFit\Extension\Shop\Models\Customer  $model
      * @return mixed
      */
-    public function forceDelete(User $user, Customer $customer)
+    public function forceDelete(User $user, Customer $model)
     {
         return false;
     }

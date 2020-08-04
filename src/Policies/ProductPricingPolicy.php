@@ -26,10 +26,10 @@ class ProductPricingPolicy
      * Determine whether the user can view the product pricing.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductPricing  $productPricing
+     * @param  \MayIFit\Extension\Shop\Models\ProductPricing  $model
      * @return mixed
      */
-    public function view(User $user, ProductPricing $productPricing)
+    public function view(User $user, ProductPricing $model)
     {
         return $user->tokenCan('product-pricing.view');
     }
@@ -49,34 +49,34 @@ class ProductPricingPolicy
      * Determine whether the user can update the product pricing.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductPricing  $productPricing
+     * @param  \MayIFit\Extension\Shop\Models\ProductPricing  $model
      * @return mixed
      */
-    public function update(User $user, ProductPricing $productPricing)
+    public function update(User $user, ProductPricing $model)
     {
-        return $user->tokenCan('product-pricing.update') || $productPricing->createdBy->id === $user->id;
+        return $user->tokenCan('product-pricing.update') || $model->createdBy->id === $user->id;
     }
 
     /**
      * Determine whether the user can delete the product pricing.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductPricing  $productPricing
+     * @param  \MayIFit\Extension\Shop\Models\ProductPricing  $model
      * @return mixed
      */
-    public function delete(User $user, ProductPricing $productPricing)
+    public function delete(User $user, ProductPricing $model)
     {
-        return $user->tokenCan('product-pricing.delete') || $productPricing->createdBy->id === $user->id;
+        return $user->tokenCan('product-pricing.delete') || $model->createdBy->id === $user->id;
     }
 
     /**
      * Determine whether the user can restore the product pricing.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductPricing  $productPricing
+     * @param  \MayIFit\Extension\Shop\Models\ProductPricing  $model
      * @return mixed
      */
-    public function restore(User $user, ProductPricing $productPricing)
+    public function restore(User $user, ProductPricing $model)
     {
         return false;
     }
@@ -85,10 +85,10 @@ class ProductPricingPolicy
      * Determine whether the user can permanently delete the product pricing.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductPricing  $productPricing
+     * @param  \MayIFit\Extension\Shop\Models\ProductPricing  $model
      * @return mixed
      */
-    public function forceDelete(User $user, ProductPricing $productPricing)
+    public function forceDelete(User $user, ProductPricing $model)
     {
         return false;
     }

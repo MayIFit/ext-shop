@@ -7,7 +7,7 @@ extend type Query {
 
 extend type Query @guard(with: ["sanctum"]) {
     listOrder(
-        token: String @eq
+        hasReseller: _ @whereHasConditions(columnsEnum: OrderResellerWhereColumn)
     ): [Order]!
         @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\Order") 
         @paginate(type: "paginator")
@@ -32,6 +32,16 @@ extend type Mutation @guard(with: ["sanctum"]) {
     deleteOrder(id: ID! @rules(apply: ["required"])): Order 
         @can(ability: "delete" find: "id") 
         @delete
+
+    updateOrderProductPivot(input: UpdateOrderProductPivotInput! @spread): OrderProductPivot
+        @can(ability: "update" find: "id") 
+        @update
+}
+
+input UpdateOrderProductPivotInput {
+    id: ID!
+    net_value: Float
+    gross_value: Float
 }
 
 input CreateOrderInput {
@@ -69,6 +79,7 @@ input ProductPivotRelationData {
 }
 
 type OrderProductPivot @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Pivots\\OrderProductPivot") {
+    id: ID!
     "Ordered quantity of a product"
     quantity: Int!
     pricing: ProductPricing! @belongsTo
@@ -95,4 +106,12 @@ type Order @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
     paid: Boolean!
     payment_type: String!
     delivery_type: Int!
+}
+
+"A list of filterable columns."
+enum OrderResellerWhereColumn {
+    TOKEN @enum(value: "token")
+    COMPANY_NAME @enum(value: "company_name")
+    NET_VALUE @enum(value: "net_value")
+    GROSS_VALUE @enum(value: "gross_value")
 }

@@ -27,10 +27,10 @@ class ProductPolicy
      * Determine whether the user can view the product.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Product  $product
+     * @param  \MayIFit\Extension\Shop\Models\Product  $model
      * @return mixed
      */
-    public function view(User $user, Product $product)
+    public function view(User $user, Product $model)
     {
         return $user->tokenCan('product.view');
     }
@@ -50,10 +50,10 @@ class ProductPolicy
      * Determine whether the user can update the product.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Product  $product
+     * @param  \MayIFit\Extension\Shop\Models\Product  $model
      * @return mixed
      */
-    public function update(User $user, Product $product)
+    public function update(User $user, Product $model)
     {
         return $user->tokenCan('product.update');
     }
@@ -62,10 +62,10 @@ class ProductPolicy
      * Determine whether the user can delete the product.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Product  $product
+     * @param  \MayIFit\Extension\Shop\Models\Product  $model
      * @return mixed
      */
-    public function delete(User $user, Product $product)
+    public function delete(User $user, Product $model)
     {
         return $user->tokenCan('product.delete');
     }
@@ -74,10 +74,10 @@ class ProductPolicy
      * Determine whether the user can restore the product.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Product  $product
+     * @param  \MayIFit\Extension\Shop\Models\Product  $model
      * @return mixed
      */
-    public function restore(User $user, Product $product)
+    public function restore(User $user, Product $model)
     {
         return false;
     }
@@ -86,10 +86,10 @@ class ProductPolicy
      * Determine whether the user can permanently delete the product.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Product  $product
+     * @param  \MayIFit\Extension\Shop\Models\Product  $model
      * @return mixed
      */
-    public function forceDelete(User $user, Product $product)
+    public function forceDelete(User $user, Product $model)
     {
         return false;
     }

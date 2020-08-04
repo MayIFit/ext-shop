@@ -26,10 +26,10 @@ class ProductCategoryPolicy
      * Determine whether the user can view the product category.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductCategory  $productCategory
+     * @param  \MayIFit\Extension\Shop\Models\ProductCategory  $model
      * @return mixed
      */
-    public function view(User $user, ProductCategory $productCategory)
+    public function view(User $user, ProductCategory $model)
     {
         return $user->tokenCan('product-category.view');
     }
@@ -49,10 +49,10 @@ class ProductCategoryPolicy
      * Determine whether the user can update the product category.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductCategory  $productCategory
+     * @param  \MayIFit\Extension\Shop\Models\ProductCategory  $model
      * @return mixed
      */
-    public function update(User $user, ProductCategory $productCategory)
+    public function update(User $user, ProductCategory $model)
     {
         return $user->tokenCan('product-category.update');
     }
@@ -61,10 +61,10 @@ class ProductCategoryPolicy
      * Determine whether the user can delete the product category.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductCategory  $productCategory
+     * @param  \MayIFit\Extension\Shop\Models\ProductCategory  $model
      * @return mixed
      */
-    public function delete(User $user, ProductCategory $productCategory)
+    public function delete(User $user, ProductCategory $model)
     {
         return $user->tokenCan('product-category.delete');
     }
@@ -73,10 +73,10 @@ class ProductCategoryPolicy
      * Determine whether the user can restore the product category.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductCategory  $productCategory
+     * @param  \MayIFit\Extension\Shop\Models\ProductCategory  $model
      * @return mixed
      */
-    public function restore(User $user, ProductCategory $productCategory)
+    public function restore(User $user, ProductCategory $model)
     {
         return false;
     }
@@ -85,10 +85,10 @@ class ProductCategoryPolicy
      * Determine whether the user can permanently delete the product category.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductCategory  $productCategory
+     * @param  \MayIFit\Extension\Shop\Models\ProductCategory  $model
      * @return mixed
      */
-    public function forceDelete(User $user, ProductCategory $productCategory)
+    public function forceDelete(User $user, ProductCategory $model)
     {
         return false;
     }

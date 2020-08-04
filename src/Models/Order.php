@@ -41,4 +41,15 @@ class Order extends Model
             'shipped_at'
         ]);
     }
+
+    public function recalculateValues(): void {
+        $this->net_value = 0;
+        $this->gross_value = 0;
+        $this->products->map(function($product) {
+            $this->net_value += $product->pivot->net_value * $product->pivot->quantity;
+            $this->gross_value += $product->pivot->gross_value * $product->pivot->quantity;
+        });
+
+        $this->save();
+    }
 }

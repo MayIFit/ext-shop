@@ -26,10 +26,10 @@ class OrderStatusPolicy
      * Determine whether the user can view the order status.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\OrderStatus  $orderStatus
+     * @param  \MayIFit\Extension\Shop\Models\OrderStatus  $model
      * @return mixed
      */
-    public function view(User $user, OrderStatus $orderStatus)
+    public function view(User $user, OrderStatus $model)
     {
         return $user->tokenCan('order-status.view');
     }
@@ -49,10 +49,10 @@ class OrderStatusPolicy
      * Determine whether the user can update the order status.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\OrderStatus  $orderStatus
+     * @param  \MayIFit\Extension\Shop\Models\OrderStatus  $model
      * @return mixed
      */
-    public function update(User $user, OrderStatus $orderStatus)
+    public function update(User $user, OrderStatus $model)
     {
         return $user->tokenCan('order-status.update');
     }
@@ -61,10 +61,10 @@ class OrderStatusPolicy
      * Determine whether the user can delete the order status.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\OrderStatus  $orderStatus
+     * @param  \MayIFit\Extension\Shop\Models\OrderStatus  $model
      * @return mixed
      */
-    public function delete(User $user, OrderStatus $orderStatus)
+    public function delete(User $user, OrderStatus $model)
     {
         return $user->tokenCan('order-status.delete');
     }
@@ -73,10 +73,10 @@ class OrderStatusPolicy
      * Determine whether the user can restore the order status.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\OrderStatus  $orderStatus
+     * @param  \MayIFit\Extension\Shop\Models\OrderStatus  $model
      * @return mixed
      */
-    public function restore(User $user, OrderStatus $orderStatus)
+    public function restore(User $user, OrderStatus $model)
     {
         return false;
     }
@@ -85,10 +85,10 @@ class OrderStatusPolicy
      * Determine whether the user can permanently delete the order status.
      *
      * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\OrderStatus  $orderStatus
+     * @param  \MayIFit\Extension\Shop\Models\OrderStatus  $model
      * @return mixed
      */
-    public function forceDelete(User $user, OrderStatus $orderStatus)
+    public function forceDelete(User $user, OrderStatus $model)
     {
         return false;
     }
