@@ -10,6 +10,7 @@ use Maatwebsite\Excel\Concerns\WithChunkReading;
 
 use MayIFit\Extension\Shop\Models\Product;
 use MayIFit\Extension\Shop\Models\ProductCategory;
+use Mockery\Undefined;
 
 class ProductsImport implements ToCollection, WithHeadingRow
 {
@@ -41,14 +42,32 @@ class ProductsImport implements ToCollection, WithHeadingRow
         foreach ($rows as $row) {
             ++$this->rows;
             $parse = [];
+            $previousCategoryID = null;
             foreach ($this->mapping as $key => $value) {
                 $value = iconv('UTF-8', 'ASCII//TRANSLIT', $value);
+                if ($value === 'kategoria' && isset($row[$value])) {
+                    $categoryNames = explode('>',trim($row[$value]));
+                    foreach ($categoryNames as $category) {
+                        $categoryToInsert = [
+                            'name' => $category,
+                            'parent_id' => $previousCategoryID
+                        ];
+                        $insert = ProductCategory::updateOrCreate(['name' => $category], $categoryToInsert);
+                        $previousCategoryID = $insert->id;
+                    }
+                } 
+
                 if (isset($row[$value])) {
                     if ($key === 'technical_specs' || $key === 'supplied') {
                         $parse[$key] = json_decode($row[$value]) ?? json_decode('{"":""}');
                     } else {
                         $parse[$key] = trim($row[$value]);
                     }
+                }
+                
+                if (isset($previousCategoryID)) {
+                    $parse['category_id'] = $previousCategoryID;
+                    unset($parse['category']);
                 }
             }
             if (isset($parse['catalog_id'])) {
