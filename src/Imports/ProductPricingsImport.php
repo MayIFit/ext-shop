@@ -57,7 +57,10 @@ class ProductPricingsImport implements ToCollection, WithHeadingRow
             ++$this->rows;
             $parse = [];
             foreach ($this->mapping as $key => $value) {
-                $parse[$key] = trim($row[$value]);
+                $value = iconv('UTF-8', 'ASCII//TRANSLIT', $value);
+                if (isset($row[$value])) {
+                    $parse[$key] = trim($row[$value]);
+                }
             }
 
             if (isset($parse['catalog_id'])) {
