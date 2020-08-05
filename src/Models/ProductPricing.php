@@ -42,10 +42,10 @@ class ProductPricing extends Model
     ];
 
     public function getBaseGrossPriceAttribute(): float {
-        return $this->base_price * (1 + ($this->vat / 100));
+        return round($this->base_price * (1 + ($this->vat / 100)));
     }
 
     public function getWholeSaleGrossPriceAttribute(): float {
-        return $this->wholesale_price * (1 + ($this->vat / 100));
+        return round($this->wholesale_price * (1 + ($this->vat / 100)));
     }
 }
