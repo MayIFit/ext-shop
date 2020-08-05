@@ -43,7 +43,7 @@ class CanCreateOrderTest extends TestCase
                     currency: "HUF"
                     payment_type: "cod_cash"
                     delivery_type: 10
-                    customers: {
+                    shippingAddress: {
                         create: {
                             first_name: "test"
                             last_name: "test"
@@ -54,6 +54,21 @@ class CanCreateOrderTest extends TestCase
                             house_nr: "2-8"
                             phone_number: "06123456789"
                             email: "test@test.com"
+                            shipping_address: true
+                        }
+                    },
+                    billingAddress: {
+                        create: {
+                            first_name: "test"
+                            last_name: "test"
+                            country: "HUN"
+                            city: "Budapest"
+                            zip_code: "1147"
+                            address: "Test street"
+                            house_nr: "2-8"
+                            phone_number: "06123456789"
+                            email: "test@test.com"
+                            billing_address: true
                         }
                     }
                 }) {
