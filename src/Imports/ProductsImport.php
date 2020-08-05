@@ -9,6 +9,7 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 
 use MayIFit\Extension\Shop\Models\Product;
+use MayIFit\Extension\Shop\Models\ProductCategory;
 
 class ProductsImport implements ToCollection, WithHeadingRow
 {
@@ -41,10 +42,13 @@ class ProductsImport implements ToCollection, WithHeadingRow
             ++$this->rows;
             $parse = [];
             foreach ($this->mapping as $key => $value) {
-                if ($key === 'technical_specs' || $key === 'supplied') {
-                    $parse[$key] = json_decode($row[$value]) ?? json_decode('{"":""}');
-                } else {
-                    $parse[$key] = trim($row[$value]);
+                $value = iconv('UTF-8', 'ASCII//TRANSLIT', $value);
+                if (isset($row[$value])) {
+                    if ($key === 'technical_specs' || $key === 'supplied') {
+                        $parse[$key] = json_decode($row[$value]) ?? json_decode('{"":""}');
+                    } else {
+                        $parse[$key] = trim($row[$value]);
+                    }
                 }
             }
             if (isset($parse['catalog_id'])) {
