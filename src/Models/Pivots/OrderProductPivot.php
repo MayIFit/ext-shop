@@ -15,7 +15,17 @@ class OrderProductPivot extends Pivot
 {
     use HasUsers;
 
+    protected $gaurded = [];
     protected $table = 'order_product';
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'shipped_at' => 'datetime:Y-m-d h:i:s'
+    ];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

@@ -105,11 +105,12 @@ class OrderProductPivotObserver
      */
     public function updating(OrderProductPivot $model): void {
         $dirty = $model->getDirty();
-
-        if (!isset($dirty['gross_value'])) {
-            $model->gross_value = $model->net_value * (1 + ($model->vat / 100));
-        } else if (!isset($dirty['net_value'])) {
-            $model->net_value = $model->gross_value / (1 + ($model->vat / 100));
+        if (isset($dirty['gross_value']) || isset($dirty['net_value'])) {
+            if (!isset($dirty['gross_value'])) {
+                $model->gross_value = $model->net_value * (1 + ($model->vat / 100));
+            } else if (!isset($dirty['net_value'])) {
+                $model->net_value = $model->gross_value / (1 + ($model->vat / 100));
+            }
         }
         $model->updatedBy()->associate(Auth::id());
     }
@@ -122,6 +123,26 @@ class OrderProductPivotObserver
      */
     public function updated(OrderProductPivot $model): void {
         $model->order->recalculateValues();
+    }
+
+    /**
+     * Handle the OrderProductPivot "saving" event.
+     *
+     * @param  \MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot  $model
+     * @return void
+     */
+    public function saving(OrderProductPivot $model): void {
+        //
+    }
+
+    /**
+     * Handle the OrderProductPivot "saved" event.
+     *
+     * @param  \MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot  $model
+     * @return void
+     */
+    public function saved(OrderProductPivot $model): void {
+        //
     }
 
     /**

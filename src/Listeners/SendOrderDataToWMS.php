@@ -4,7 +4,6 @@ namespace MayIFit\Extension\Shop\Listeners;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Http;
 use Carbon\Carbon;
 use SoapClient;
 
@@ -77,7 +76,6 @@ class SendOrderDataToWMS implements ShouldQueue
         $recipientLocation = $event->order->shippingAddress;
 
         $foreignOrderID = $event->order->order_id_prefix.$event->order->id;
-
         $requestData = array(
             'Order' => [
                 'ClientHPId' => $this->apiUserID,
@@ -86,7 +84,7 @@ class SendOrderDataToWMS implements ShouldQueue
                 'DocumentList' => [[
                     'DocumentHeader' => [
                         'ClientReferenceNumber' => $foreignOrderID,
-                        'ClientDocType' => "Out",
+                        'ClientDocType' => 'Out',
                         'DocYear' => Carbon::now()->format('Y'),
                         'DocDate' => Carbon::now()->format('Y-m-d\TH:i:s'),
                         'ShipmentCODValue' => $event->order->payment_type == 'bank_transfer' ? 0 : ($event->order->paid ? 0 : $event->order->gross_value),
@@ -119,12 +117,11 @@ class SendOrderDataToWMS implements ShouldQueue
             ];
         }
 
-        
-
-        $requestData['Order']['DocumentList'][0]['DocumentDetails'] = $event->order->products->map(function($product) use(&$sentItemCount) {
+        $requestData['Order']['DocumentList'][0]['DocumentDetails'] = $event->order->products->map(function($product) use(&$sentItemCount, $event) {
             if ($product->pivot->can_be_shipped && !$product->pivot->shipped_at) {
-                $product->pivot->shipped_at = Carbon::now();
                 ++$sentItemCount;
+                $product->pivot->shipped_at = Carbon::now()->format('Y-m-d H:i:s');
+                $product->pivot->save();
                 return [
                     'ItemSKU' => [
                         'ItemSKUCode' => $product->catalog_id,
@@ -133,7 +130,7 @@ class SendOrderDataToWMS implements ShouldQueue
                         'ItemEAN' => $product->ean_code
                     ],
                     'ItemPrice' => $product->pivot->gross_value,
-                    'ItemQuantityOrdered' => $product->pivot->quantity
+                    'ItemQuantityOrdered' => $product->pivot->quantity,
                 ];
             }
         })->toArray();
@@ -171,6 +168,5 @@ class SendOrderDataToWMS implements ShouldQueue
                 'message' => 'An error occurred!'
             ], 500);
         }
-        
     }
 }
