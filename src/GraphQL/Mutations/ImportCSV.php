@@ -11,6 +11,8 @@ use Maatwebsite\Excel\HeadingRowImport;
 
 use MayIFit\Extension\Shop\Imports\ProductsImport;
 use MayIFit\Extension\Shop\Imports\ProductPricingsImport;
+use MayIFit\Extension\Shop\Imports\ResellersImport;
+use MayIFit\Extension\Shop\Imports\UsersImport;
 
 class ImportCSV
 {
@@ -36,6 +38,14 @@ class ImportCSV
             $import[$file['path']] = $imp->getImportedRowCount();
         } else if ($file['type'] === 'product-pricing') {
             $imp = new ProductPricingsImport($args['entity_mapping']);
+            Excel::import($imp, $file['path']);
+            $import[$file['path']] = $imp->getImportedRowCount();
+        } else if ($file['type'] === 'reseller') {
+            $imp = new ResellersImport($args['entity_mapping']);
+            Excel::import($imp, $file['path']);
+            $import[$file['path']] = $imp->getImportedRowCount();
+        } else if ($file['type'] === 'user') {
+            $imp = new UsersImport($args['entity_mapping']);
             Excel::import($imp, $file['path']);
             $import[$file['path']] = $imp->getImportedRowCount();
         }

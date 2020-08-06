@@ -14,15 +14,12 @@ class Reseller extends Model
 {
     use HasUsers, Notifiable;
 
-    protected $fillable = [
-        'phone_number',
-        'email',
-        'vat_id',
-        'company_name',
-        'contact_person',
-        'supplier_customer_code',
-        'user_id',
-        'reseller_group_id',
+    protected $guarded = [];
+
+    protected $attributes = [
+        'floor' => '',
+        'door' => '',
+        'supplier_customer_code' => ''
     ];
 
     public function resellerGroup(): BelongsTo {

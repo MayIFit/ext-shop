@@ -71,10 +71,10 @@ class SendOrderDataToWMS implements ShouldQueue
         // on a partial order, if the second part is to be delivered
         // the previous order number has to bee present
         $sentItemCount = 0;
-        $partnerData = $event->order->customers()->where('billing_address', true)->first();
-        $partnerReseller = $partnerData->user()->first()->reseller;
+        $partnerData = $event->order->billingAddress;
+        $partnerReseller = $event->order->reseller;
 
-        $recipientLocation = $event->order->customers()->where('billing_address', false)->first();
+        $recipientLocation = $event->order->shippingAddress;
 
         $foreignOrderID = $event->order->order_id_prefix.$event->order->id;
 
@@ -91,12 +91,12 @@ class SendOrderDataToWMS implements ShouldQueue
                         'DocDate' => Carbon::now()->format('Y-m-d\TH:i:s'),
                         'ShipmentCODValue' => $event->order->payment_type == 'bank_transfer' ? 0 : ($event->order->paid ? 0 : $event->order->gross_value),
                         'Recipient' => [
-                            'PartnerID' => $partnerData->id,
+                            'PartnerID' => $partnerReseller->supplier_customer_code,
                             'PartnerName' => $partnerReseller->company_name,
-                            'PartnerZip' => $partnerData->zip_code,
-                            'PartnerCity' => $partnerData->city,
-                            'PartnerStreet1' => $partnerData->address.' '.$partnerData->house_nr,
-                            'PartnerStreet2' => $partnerData->floor.' '.$partnerData->door,
+                            'PartnerZip' => $partnerReseller->zip_code ?? $partnerData->zip_code,
+                            'PartnerCity' => $partnerReseller->city ?? $partnerData->city,
+                            'PartnerStreet1' => ($partnerReseller->address ?? $partnerData->address).' '.($partnerReseller->house_nr ?? $partnerData->house_nr),
+                            'PartnerStreet2' => ($partnerReseller->floor ?? $partnerData->floor ?? '').' '.($partnerReseller->door ?? $partnerData->door ?? ''),
                             'PartnerCountry' => 'HUN'
                         ],
                         'DeliveryType' => $event->order->delivery_type,
@@ -110,7 +110,7 @@ class SendOrderDataToWMS implements ShouldQueue
 
         if ($recipientLocation) {
             $requestData['Order']['DocumentList'][0]['DocumentHeader']['DeliveryLocation'] = [
-                'PartnerID' => $partnerReseller->vat_id,
+                'PartnerID' => $partnerReseller->supplier_customer_code,
                 'PartnerName' => $recipientLocation->first_name.' '.$recipientLocation->last_name,
                 'PartnerZip' => $recipientLocation->zip_code,
                 'PartnerCity' => $recipientLocation->city,
@@ -119,11 +119,12 @@ class SendOrderDataToWMS implements ShouldQueue
             ];
         }
 
-        $requestData['Order']['DocumentList'][0]['DocumentDetails'] = $event->order->products->map(function($product) use($event, &$sentItemCount) {
-            if ($product->pivot->can_be_shipped && !$product->pivot->shipped_at) {
-                $event->order->products()->updateExistingPivot($product->id, ['shipped_at' => Carbon::now()]);
-                $sentItemCount++;
+        
 
+        $requestData['Order']['DocumentList'][0]['DocumentDetails'] = $event->order->products->map(function($product) use(&$sentItemCount) {
+            if ($product->pivot->can_be_shipped && !$product->pivot->shipped_at) {
+                $product->pivot->shipped_at = Carbon::now();
+                ++$sentItemCount;
                 return [
                     'ItemSKU' => [
                         'ItemSKUCode' => $product->catalog_id,

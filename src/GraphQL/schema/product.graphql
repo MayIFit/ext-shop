@@ -48,15 +48,6 @@ extend type Mutation @guard(with: ["sanctum"]) {
     deleteProduct(id: ID! @rules(apply: ["required"])): Product 
         @can(ability: "delete" find: "id") 
         @delete
-
-    getImportFileHeaders(input: csvInput! @spread): ObjectScalar
-        @field(resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Mutations\\ImportCSV@getHeader")
-
-    importFile(
-        input: csvInput!
-        entity_mapping: ObjectScalar
-    ): ObjectScalar
-        @field(resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Mutations\\ImportCSV@import")
 }
 
 input csvInput {

@@ -37,7 +37,8 @@ class Product extends Model
         'technical_specs' => '{"":""}',
         'supplied' => '{"":""}',
         'varranty' => '1 year',
-        'refurbished' => false
+        'refurbished' => false,
+        'out_of_stock_text' => ''
     ];
 
     protected function asJson($value) {

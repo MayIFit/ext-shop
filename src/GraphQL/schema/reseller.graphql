@@ -39,6 +39,13 @@ input CreateResellerInput {
     vat_id: String!
     contact_person: String!
     supplier_customer_code: String
+    country: String
+    city: String
+    zip_code: String
+    address: String
+    house_nr: String
+    floor: String
+    door: String
 }
 
 input UpdateResellerInput {
@@ -50,6 +57,13 @@ input UpdateResellerInput {
     vat_id: String!
     contact_person: String!
     supplier_customer_code: String
+    country: String
+    city: String
+    zip_code: String
+    address: String
+    house_nr: String
+    floor: String
+    door: String
 }
 
 type Reseller @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Reseller") {
@@ -61,6 +75,13 @@ type Reseller @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Reseller") {
     vat_id: String!
     contact_person: String!
     supplier_customer_code: String
+    country: String
+    city: String
+    zip_code: String
+    address: String
+    house_nr: String
+    floor: String
+    door: String
 }
 
 "Subset of Reseller"
@@ -91,4 +112,6 @@ enum ResellerWhereColumn {
     PHONE_NUMBER @enum(value: "phone_number")
     EMAIL @enum(value: "email")
     CONTACT_PERSON @enum(value: "contact_person")
+    CITY @enum(value: "city")
+    ZIP_CODE @enum(value: "zip_code")
 }

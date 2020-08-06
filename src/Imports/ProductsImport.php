@@ -10,7 +10,6 @@ use Maatwebsite\Excel\Concerns\WithChunkReading;
 
 use MayIFit\Extension\Shop\Models\Product;
 use MayIFit\Extension\Shop\Models\ProductCategory;
-use Mockery\Undefined;
 
 class ProductsImport implements ToCollection, WithHeadingRow
 {
@@ -72,6 +71,7 @@ class ProductsImport implements ToCollection, WithHeadingRow
             }
             if (isset($parse['catalog_id'])) {
                 ++$this->importedRows;
+                // TODO: Fix in_stock update, don't overwrite, sum!
                 Product::updateOrCreate(['catalog_id' => $parse['catalog_id']], $parse);
             }
         }
