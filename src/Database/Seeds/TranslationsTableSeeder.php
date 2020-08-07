@@ -535,7 +535,7 @@ class TranslationsTableSeeder extends Seeder
 		);
 		Translation::updateOrCreate([
 				'group' => 'product-category',
-				'key' => 'parentcategory'
+				'key' => 'parent'
 			],
 			['text' => ['en' => 'parent category', 'hu' => 'szülő kategória']],
 		);

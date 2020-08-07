@@ -2,6 +2,7 @@
 
 namespace MayIFit\Extension\Shop\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -23,8 +24,16 @@ class ProductCategory extends Model
         'parent_id'
     ];
 
-    public function parentCategory(): BelongsTo {
+    public function parent(): BelongsTo {
         return $this->belongsTo(ProductCategory::class, 'parent_id', 'id');
+    }
+
+    public function children(): HasMany {
+        return $this->hasMany(ProductCategory::class, 'parent_id');
+    }
+
+    public function categoryRecursive() {
+        return $this->children()->with('categoryRecursive');
     }
 
     public function products(): HasMany {
