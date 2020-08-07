@@ -4,6 +4,7 @@ extend type Query {
         dateTime: DateTime
         filter: _ @whereConditions(columnsEnum: "ProductWhereColumn")
         reseller_id: ID
+        category_id: ID @eq
     ): [Product]!
     @paginate(type: "paginator")
 
