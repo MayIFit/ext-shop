@@ -55,6 +55,7 @@ input CreateOrderInput {
     payment_type: String!
     delivery_type: Int!
     reseller: ResellerRelation
+    bank_account_no: String
 }
 
 input UpdateOrderInput {
@@ -70,6 +71,7 @@ input UpdateOrderInput {
     currency: String
     payment_type: String
     delivery_type: Int
+    bank_account_no: String
 }
 
 input ProductsRelation {
@@ -111,6 +113,7 @@ type Order @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
     paid: Boolean!
     payment_type: String!
     delivery_type: Int!
+    bank_account_no: String
 }
 
 "A list of filterable columns."
