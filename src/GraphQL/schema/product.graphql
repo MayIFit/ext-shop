@@ -63,6 +63,7 @@ input CreateProductInput {
     technical_specs: ObjectScalar
     supplied: ObjectScalar
     in_stock: Int
+    ean_code: String
     out_of_stock_text: String
     quantity_unit_text: String
     discount_percentage: Float
@@ -83,6 +84,7 @@ input UpdateProductInput {
     technical_specs: ObjectScalar
     supplied: ObjectScalar
     in_stock: Int
+    ean_code: String
     out_of_stock_text: String
     quantity_unit_text: String
     discount_percentage: Float
@@ -111,6 +113,7 @@ type Product @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Product") {
     technical_specs: ObjectScalar
     supplied: ObjectScalar
     in_stock: Int
+    ean_code: String
     out_of_stock_text: String
     quantity_unit_text: String
     refurbished: Boolean!
