@@ -121,6 +121,7 @@ type Order @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
 "A list of filterable columns."
 enum OrderResellerWhereColumn {
     TOKEN @enum(value: "token")
+    ORDER_ID_PREFIX @enum(value: "order_id_prefix")
     COMPANY_NAME @enum(value: "company_name")
     NET_VALUE @enum(value: "net_value")
     GROSS_VALUE @enum(value: "gross_value")
