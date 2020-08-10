@@ -114,6 +114,7 @@ type Order @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
     payment_type: String!
     delivery_type: Int!
     bank_account_no: String
+    order_id_prefix: String
 }
 
 "A list of filterable columns."

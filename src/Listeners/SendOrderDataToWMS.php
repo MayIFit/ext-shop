@@ -75,7 +75,6 @@ class SendOrderDataToWMS implements ShouldQueue
 
         $recipientLocation = $event->order->shippingAddress;
 
-        $foreignOrderID = $event->order->order_id_prefix.$event->order->id;
         $requestData = array(
             'Order' => [
                 'ClientHPId' => $this->apiUserID,
@@ -83,7 +82,7 @@ class SendOrderDataToWMS implements ShouldQueue
                 'ClientPWD' => $this->apiUserPassword,
                 'DocumentList' => [[
                     'DocumentHeader' => [
-                        'ClientReferenceNumber' => $foreignOrderID,
+                        'ClientReferenceNumber' => $event->order->order_id_prefix,
                         'ClientDocType' => 'Out',
                         'DocYear' => Carbon::now()->format('Y'),
                         'DocDate' => Carbon::now()->format('Y-m-d\TH:i:s'),

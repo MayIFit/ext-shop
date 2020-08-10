@@ -34,7 +34,7 @@ class OrderObserver
      * @return void
      */
     public function created(Order $model): void {
-        //
+        $model->order_id_prefix .= $model->id;
     }
 
     /**
