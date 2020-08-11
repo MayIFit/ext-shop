@@ -77,6 +77,7 @@ type Order @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
     order_id_prefix: String
     items_sent: Int!
     transport_cost: Float
+    sent_to_courier_service: DateTime
 }
 
 "A list of filterable columns."
