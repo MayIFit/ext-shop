@@ -90,7 +90,7 @@ class SendOrderDataToWMS implements ShouldQueue
                         'ClientDocType' => 'Out',
                         'DocYear' => Carbon::now()->format('Y'),
                         'DocDate' => Carbon::now()->format('Y-m-d\TH:i:s'),
-                        'ShipmentCODValue' => $event->order->payment_type == 'bank_transfer' ? 0 : ($event->order->paid ? 0 : $event->order->gross_value),
+                        'ShipmentCODValue' => $event->order->payment_type == 'bank_transfer' ? 0 : ($event->order->paid ? 0 : $event->order->gross_value + $event->order->transport_cost),
                         'Recipient' => [
                             'PartnerID' => $partnerReseller->supplier_customer_code,
                             'PartnerName' => $partnerReseller->company_name,

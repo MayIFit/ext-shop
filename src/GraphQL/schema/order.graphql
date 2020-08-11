@@ -44,6 +44,7 @@ input CreateOrderInput {
     payment_type: String!
     delivery_type: Int!
     bank_account_no: String
+    transport_cost: Float
 }
 
 input UpdateOrderInput {
@@ -56,6 +57,7 @@ input UpdateOrderInput {
     payment_type: String
     delivery_type: Int
     bank_account_no: String
+    transport_cost: Float
 }
 
 type Order @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
@@ -74,6 +76,7 @@ type Order @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
     bank_account_no: String
     order_id_prefix: String
     items_sent: Int!
+    transport_cost: Float
 }
 
 "A list of filterable columns."
