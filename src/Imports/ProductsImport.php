@@ -58,17 +58,27 @@ class ProductsImport implements ToCollection, WithHeadingRow
 
                 if (isset($row[$value])) {
                     if ($key === 'technical_specs' || $key === 'supplied') {
-                        $parse[$key] = json_decode($row[$value]) ?? json_decode('{"":""}');
+                        $rawAttributes = explode("\n", $row[$value]);
+                        $attributes = null;
+                        $pattern = "/(\d.*)/";
+
+                        foreach ($rawAttributes as $attribute) {
+                            $attr = preg_split($pattern, trim(str_replace('-', '', $attribute)), -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+                            if (count($attr) >= 2) {
+                                $attributes[$attr[0]] = $attr[1];
+                            }
+                        }
+                        $parse[$key] = $attributes ?? json_decode('{"":""}');
                     } else {
                         $parse[$key] = trim($row[$value]);
                     }
                 }
-                
                 if (isset($previousCategoryID)) {
                     $parse['category_id'] = $previousCategoryID;
                     unset($parse['category']);
                 }
             }
+
             if (isset($parse['catalog_id'])) {
                 ++$this->importedRows;
                 // TODO: Fix in_stock update, don't overwrite, sum!
