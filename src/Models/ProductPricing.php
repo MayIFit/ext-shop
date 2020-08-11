@@ -13,8 +13,6 @@ class ProductPricing extends Model
 {
     use SoftDeletes, HasUsers, HasProduct, HasReseller;
 
-    protected $with = ['user'];
-
     public $fillable = [
         'product_id',
         'reseller_id',

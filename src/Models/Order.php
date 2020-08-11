@@ -39,7 +39,8 @@ class Order extends Model
             'gross_value',
             'is_wholesale',
             'can_be_shipped',
-            'shipped_at'
+            'shipped_at',
+            'declined'
         ]);
     }
 

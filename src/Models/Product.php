@@ -25,7 +25,6 @@ class Product extends Model
     use SoftDeletes, HasUsers, HasOrders, HasReviews, HasDocuments;
 
     protected $guarded = [];
-    protected $with = ['pricings', 'category', 'discounts', 'reviews'];
     protected $casts = [
         'technical_specs' => 'array',
         'supplied' => 'array'

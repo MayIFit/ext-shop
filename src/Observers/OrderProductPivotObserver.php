@@ -105,13 +105,37 @@ class OrderProductPivotObserver
      */
     public function updating(OrderProductPivot $model): void {
         $dirty = $model->getDirty();
+        $orig = $model->getOriginal();
         if (isset($dirty['gross_value']) || isset($dirty['net_value'])) {
-            if (!isset($dirty['gross_value'])) {
+            if (isset($dirty['net_value']) && $dirty['net_value'] != $orig['net_value']) {
                 $model->gross_value = $model->net_value * (1 + ($model->vat / 100));
-            } else if (!isset($dirty['net_value'])) {
+            } else if (isset($dirty['gross_value']) && $dirty['gross_value'] != $orig['gross_value']) {
                 $model->net_value = $model->gross_value / (1 + ($model->vat / 100));
             }
         }
+
+        if (isset($dirty['quantity'])) {
+            if ($orig['quantity'] >= $dirty['quantity'] && $dirty['quantity'] > 0) {
+                $model->product->in_stock += abs($orig['quantity'] - $dirty['quantity']);
+                $model->order->quantity -= abs($orig['quantity'] - $dirty['quantity']);
+            } else if ($dirty['quantity'] > 0) {
+                $model->product->in_stock -= abs($orig['quantity'] - $dirty['quantity']);
+                $model->order->quantity += abs($orig['quantity'] - $dirty['quantity']);
+            } else {
+                $model->product->in_stock += $orig['quantity'];
+                $model->order->quantity -= $orig['quantity'];
+            }
+
+            $model->can_be_shipped = $model->product->in_stock >= $model->quantity ? true : false;
+        }
+
+        if (isset($dirty['declined'])) {
+            $model->product->in_stock += $model->quantity;
+        }
+
+        $model->product->save();
+        $model->order->save();
+
         $model->updatedBy()->associate(Auth::id());
     }
 

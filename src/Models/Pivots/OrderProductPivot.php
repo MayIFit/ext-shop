@@ -10,10 +10,12 @@ use MayIFit\Core\Permission\Traits\HasUsers;
 use MayIFit\Extension\Shop\Models\Order;
 use MayIFit\Extension\Shop\Models\ProductPricing;
 use MayIFit\Extension\Shop\Models\ProductDiscount;
+use MayIFit\Extension\Shop\Traits\HasReseller;
+use MayIFit\Extension\Shop\Traits\HasProduct;
 
 class OrderProductPivot extends Pivot
 {
-    use HasUsers;
+    use HasUsers, HasReseller, HasProduct;
 
     protected $gaurded = [];
     protected $table = 'order_product';
@@ -25,6 +27,10 @@ class OrderProductPivot extends Pivot
      */
     protected $casts = [
         'shipped_at' => 'datetime:Y-m-d h:i:s'
+    ];
+
+    protected $attributes = [
+        'declined' => false
     ];
 
     /**

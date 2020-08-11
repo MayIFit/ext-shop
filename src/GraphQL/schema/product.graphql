@@ -119,7 +119,6 @@ type Product @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Product") {
     refurbished: Boolean!
     varranty: String!
     reviews: [ProductReview]! @hasMany
-    pivot: OrderProductPivot
     pricings: [ProductPricing]! @hasMany
     discounts: [ProductDiscount]! @hasMany
     category: ProductCategory @belongsTo

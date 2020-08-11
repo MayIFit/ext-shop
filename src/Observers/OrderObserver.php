@@ -2,6 +2,8 @@
 
 namespace MayIFit\Extension\Shop\Observers;
 
+use Carbon\Carbon;
+
 use Illuminate\Support\Str;
 
 use MayIFit\Core\Permission\Models\SystemSetting;
@@ -9,7 +11,6 @@ use MayIFit\Core\Permission\Models\SystemSetting;
 use MayIFit\Extension\Shop\Models\Order;
 use MayIFit\Extension\Shop\Models\OrderStatus;
 use MayIFit\Extension\Shop\Events\OrderAccepted;
-use MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot;
 
 class OrderObserver
 {
@@ -66,9 +67,10 @@ class OrderObserver
      */
     public function updating(Order $model): void {
         $dirty = $model->getDirty();
-
         if ($model->orderStatus->id === 3 && !$model->sent_to_courier_service && !isset($dirty['items_sent'])) {
             event(new OrderAccepted($model));
+        } else if ($dirty['order_status_id'] === 5) {
+            $model = $this->declineOrder($model);
         }
     }
 
@@ -89,13 +91,7 @@ class OrderObserver
      * @return void
      */
     public function deleted(Order $model): void {
-        OrderProductPivot::where([['product_id', $model->id]])
-        ->whereNull('shipped_at')
-        ->get()->map(function($pivot) use($model) {
-            if ($pivot->quantity <= $model->quantity) {
-                $pivot->can_be_shipped = false;
-            }
-        });
+        $this->declineOrder($model);
     }
 
     /**
@@ -106,5 +102,24 @@ class OrderObserver
      */
     public function forceDeleted(Order $model): void {
         //
+    }
+
+    /**
+     * Refills the stock of the ordered product.
+     *
+     * @param  \MayIFit\Extension\Shop\Models\Order  $model
+     * @return void
+     */
+    private function declineOrder(Order $model): Order {
+        $model->products->map(function($product) {
+            if (!$product->pivot->shipped_at) {
+                $product->pivot->declined = true;
+                $product->pivot->save();
+            }
+        });
+
+        $model->sent_to_courier_service = Carbon::now();
+
+        return $model;
     }
 }

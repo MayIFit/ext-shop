@@ -22,6 +22,10 @@ input ProductPivotRelationData {
     quantity: Int!
 }
 
+extend type Product @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Product") {
+    pivot: OrderProductPivot
+}
+
 extend type Order @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
     products: [Product!]! @belongsToMany
 }
@@ -37,4 +41,5 @@ type OrderProductPivot @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Piv
     is_wholesale: Boolean!
     can_be_shipped: Boolean!
     shipped_at: DateTime
+    declined: Boolean!
 }
