@@ -51,3 +51,15 @@ type OrderStatus @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\OrderStat
     "If it's marked as true, a notification will be sent out for the user"
     send_notification: Boolean!
 }
+
+extend input CreateOrderInput {
+    orderStatus: OrderStatusRelation
+}
+
+extend input UpdateOrderInput {
+    orderStatus: OrderStatusRelation
+}
+
+extend type Order @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
+    orderStatus: OrderStatus @belongsTo
+}

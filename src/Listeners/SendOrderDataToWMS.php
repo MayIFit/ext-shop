@@ -72,8 +72,12 @@ class SendOrderDataToWMS implements ShouldQueue
         $sentItemCount = 0;
         $partnerData = $event->order->billingAddress;
         $partnerReseller = $event->order->reseller;
-
+        
         $recipientLocation = $event->order->shippingAddress;
+        
+        if ($event->order->items_sent > 0) {
+            $event->order->order_id_prefix .= '-EXT';
+        }
 
         $requestData = array(
             'Order' => [
@@ -121,6 +125,7 @@ class SendOrderDataToWMS implements ShouldQueue
                 ++$sentItemCount;
                 $product->pivot->shipped_at = Carbon::now()->format('Y-m-d H:i:s');
                 $product->pivot->save();
+                $event->order->items_sent++;
                 return [
                     'ItemSKU' => [
                         'ItemSKUCode' => $product->catalog_id,
@@ -151,7 +156,7 @@ class SendOrderDataToWMS implements ShouldQueue
                 $event->order->save();
                 return Response::json([], 200);
             } else {
-                $event->order->order_status_id = 1;
+                $event->order->order_status_id = 6;
                 $event->order->save();
                 return Response::json([
                     'status' => 'partial_success',

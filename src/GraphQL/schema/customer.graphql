@@ -104,6 +104,22 @@ extend input UpdateUserInput {
     customers: CustomerRelation
 }
 
+extend input CreateOrderInput {
+    shippingAddress: CustomerRelation
+    billingAddress: CustomerRelation
+}
+
+extend input UpdateOrderInput {
+    shippingAddress: CustomerRelation
+    billingAddress: CustomerRelation
+}
+
+extend type Order @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
+    customer: Customer @belongsTo
+    shippingAddress: Customer @belongsTo
+    billingAddress: Customer @belongsTo
+}
+
 "A list of filterable columns."
 enum CustomerWhereColumn {
     FIRST_NAME @enum(value: "first_name")

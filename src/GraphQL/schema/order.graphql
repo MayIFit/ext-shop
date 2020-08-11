@@ -38,33 +38,17 @@ extend type Mutation @guard(with: ["sanctum"]) {
         @update
 }
 
-input UpdateOrderProductPivotInput {
-    id: ID!
-    net_value: Float
-    gross_value: Float
-    quantity: Int
-}
-
 input CreateOrderInput {
-    shippingAddress: CustomerRelation!
-    billingAddress: CustomerRelation!
-    products: ProductsRelation!
-    orderStatus: OrderStatusRelation
     extra_information: String
     currency: String!
     payment_type: String!
     delivery_type: Int!
-    reseller: ResellerRelation
     bank_account_no: String
 }
 
 input UpdateOrderInput {
     id: ID!
     token: String
-    shippingAddress: CustomerRelation
-    billingAddress: CustomerRelation
-    products: ProductsRelation
-    orderStatus: OrderStatusRelation
     discount_percentage: Float
     extra_information: String
     paid: Boolean
@@ -74,37 +58,10 @@ input UpdateOrderInput {
     bank_account_no: String
 }
 
-input ProductsRelation {
-    sync: [ProductPivotRelationData!]!
-}
-
-input ProductPivotRelationData {
-    id: ID!
-    quantity: Int!
-}
-
-type OrderProductPivot @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Pivots\\OrderProductPivot") {
-    id: ID!
-    "Ordered quantity of a product"
-    quantity: Int!
-    pricing: ProductPricing! @belongsTo
-    discount: ProductDiscount @belongsTo
-    net_value: Float!
-    gross_value: Float!
-    is_wholesale: Boolean!
-    can_be_shipped: Boolean!
-}
-
 type Order @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
     id: ID!
-    customers: [Customer]! @belongsToMany
-    shippingAddress: Customer @belongsTo
-    billingAddress: Customer @belongsTo
-    reseller: Reseller @belongsTo
-    orderStatus: OrderStatus @belongsTo
     token: String!
     placed: DateTime!
-    products: [Product!]! @belongsToMany
     quantity: Int!
     net_value: Float!
     gross_value: Float!
@@ -116,6 +73,7 @@ type Order @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
     delivery_type: Int!
     bank_account_no: String
     order_id_prefix: String
+    items_sent: Int!
 }
 
 "A list of filterable columns."

@@ -106,6 +106,14 @@ extend input UpdateUserInput {
     is_reseller: Boolean
 }
 
+extend input CreateOrderInput {
+    reseller: ResellerRelation
+}
+
+extend type Order @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
+    reseller: Reseller @belongsTo
+}
+
 "A list of filterable columns."
 enum ResellerWhereColumn {
     COMPANY_NAME @enum(value: "company_name")

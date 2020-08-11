@@ -22,7 +22,8 @@ class Order extends Model
         'discount_percentage' => 0.00,
         'quantity' => 0,
         'paid' => false,
-        'currency' => 'HUF'
+        'currency' => 'HUF',
+        'items_sent' => 0,
     ];
     
     public function products(): BelongsToMany {

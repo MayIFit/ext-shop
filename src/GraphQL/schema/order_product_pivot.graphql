@@ -1,0 +1,40 @@
+input UpdateOrderProductPivotInput {
+    id: ID!
+    net_value: Float
+    gross_value: Float
+    quantity: Int
+}
+
+extend input CreateOrderInput {
+    products: ProductsRelation!
+}
+
+extend input UpdateOrderInput {
+    products: ProductsRelation
+}
+
+input ProductsRelation {
+    sync: [ProductPivotRelationData!]!
+}
+
+input ProductPivotRelationData {
+    id: ID!
+    quantity: Int!
+}
+
+extend type Order @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
+    products: [Product!]! @belongsToMany
+}
+
+type OrderProductPivot @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Pivots\\OrderProductPivot") {
+    id: ID!
+    "Ordered quantity of a product"
+    quantity: Int!
+    pricing: ProductPricing! @belongsTo
+    discount: ProductDiscount @belongsTo
+    net_value: Float!
+    gross_value: Float!
+    is_wholesale: Boolean!
+    can_be_shipped: Boolean!
+    shipped_at: DateTime
+}
