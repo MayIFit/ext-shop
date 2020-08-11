@@ -24,6 +24,7 @@ class Order extends Model
         'paid' => false,
         'currency' => 'HUF',
         'items_sent' => 0,
+        'transport_cost' => 0.00,
     ];
     
     public function products(): BelongsToMany {
