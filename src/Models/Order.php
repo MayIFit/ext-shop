@@ -14,7 +14,7 @@ class Order extends Model
 {
     use HasCustomers, HasReseller, HasOrderStatus;
 
-    public $fillable = ['order_id_prefix', 'extra_information', 'discount_percentage', 'payment_type', 'delivery_type', 'paid', 'sent_to_courier_service'];
+    public $fillable = ['order_id_prefix', 'transport_cost', 'extra_information', 'discount_percentage', 'payment_type', 'delivery_type', 'paid', 'sent_to_courier_service'];
 
     protected $attributes = [
         'net_value' => 0.00,
