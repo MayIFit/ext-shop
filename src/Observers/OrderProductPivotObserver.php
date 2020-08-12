@@ -29,6 +29,7 @@ class OrderProductPivotObserver
         $model->can_be_shipped = $product->in_stock >= $model->quantity;
         $product->in_stock -= $model->quantity;
         $order->quantity += $model->quantity;
+        $order->items_ordered++;
         $now = Carbon::now();
 
         $pricing = $product->pricings()

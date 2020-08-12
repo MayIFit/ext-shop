@@ -80,6 +80,7 @@ type Order @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
     transport_cost: Float
     sent_to_courier_service: DateTime
     can_be_shipped: Boolean @method(name: "getOrderCanBeShippedAttribute")
+    items_ordered: Int
 }
 
 "A list of filterable columns."

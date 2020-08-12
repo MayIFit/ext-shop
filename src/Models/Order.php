@@ -26,6 +26,7 @@ class Order extends Model
         'currency' => 'HUF',
         'items_sent' => 0,
         'transport_cost' => 0.00,
+        'items_ordered' => 0
     ];
     
     public function products(): BelongsToMany {

@@ -121,7 +121,10 @@ class SendOrderDataToWMS
         }
 
         $sendableProducts = $event->order->products->filter(function($product) {
-            return $product->pivot->can_be_shipped && !$product->pivot->shipped_at && !$product->pivot->declined;
+            return $product->pivot->can_be_shipped && 
+                    !$product->pivot->shipped_at && 
+                    !$product->pivot->declined &&
+                    $product->pivot->quantity > 0;
         });
 
         $docDetails = $sendableProducts->map(function($product) use(&$sentItemCount, &$event) {
