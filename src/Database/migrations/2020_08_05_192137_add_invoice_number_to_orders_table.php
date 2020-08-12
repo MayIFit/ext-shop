@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddBankAccountNoToOrdersTable extends Migration
+class AddInvoiceNumberToOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,7 +15,7 @@ class AddBankAccountNoToOrdersTable extends Migration
     {
         if (Schema::hasTable('orders')) {
             Schema::table('orders', function (Blueprint $table) {
-                $table->string('bank_account_no')->nullable();
+                $table->string('invoice_number')->nullable();
             });
         }
     }
@@ -30,7 +30,7 @@ class AddBankAccountNoToOrdersTable extends Migration
         if (Schema::hasTable('orders')) {
             Schema::table('orders', function (Blueprint $table) {
                 $table->dropColumn([
-                    'bank_account_no',
+                    'invoice_number',
                 ]);
             });
         }

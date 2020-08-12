@@ -44,7 +44,7 @@ input CreateOrderInput {
     currency: String!
     payment_type: String!
     delivery_type: Int!
-    bank_account_no: String
+    invoice_number: String
     transport_cost: Float
 }
 
@@ -57,7 +57,7 @@ input UpdateOrderInput {
     currency: String
     payment_type: String
     delivery_type: Int
-    bank_account_no: String
+    invoice_number: String
     transport_cost: Float
 }
 
@@ -74,7 +74,7 @@ type Order @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
     paid: Boolean!
     payment_type: String!
     delivery_type: Int!
-    bank_account_no: String
+    invoice_number: String
     order_id_prefix: String
     items_sent: Int!
     transport_cost: Float
