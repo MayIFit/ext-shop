@@ -69,7 +69,7 @@ class OrderObserver
         $dirty = $model->getDirty();
         if ($model->orderStatus->id === 3 && !$model->sent_to_courier_service && !isset($dirty['items_sent'])) {
             event(new OrderAccepted($model));
-        } else if ($dirty['order_status_id'] === 5) {
+        } else if (isset($dirty['order_status_id']) && $dirty['order_status_id'] === 5) {
             $model = $this->declineOrder($model);
         }
     }

@@ -4,6 +4,7 @@ namespace MayIFit\Extension\Shop\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 use MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot;
 use MayIFit\Extension\Shop\Traits\HasCustomers;
@@ -12,7 +13,7 @@ use MayIFit\Extension\Shop\Traits\HasOrderStatus;
 
 class Order extends Model
 {
-    use HasCustomers, HasReseller, HasOrderStatus;
+    use SoftDeletes, HasCustomers, HasReseller, HasOrderStatus;
 
     public $fillable = ['order_id_prefix', 'transport_cost', 'extra_information', 'discount_percentage', 'payment_type', 'delivery_type', 'paid', 'sent_to_courier_service'];
 

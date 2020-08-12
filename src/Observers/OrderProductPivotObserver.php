@@ -83,6 +83,8 @@ class OrderProductPivotObserver
         $order->net_value += $netPrice * $model->quantity;
         $order->gross_value += $grossPrice * $model->quantity;
 
+        $model->declined = false;
+
         $product->save();
         $order->save();
     }

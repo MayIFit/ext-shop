@@ -29,10 +29,6 @@ class OrderProductPivot extends Pivot
         'shipped_at' => 'datetime:Y-m-d h:i:s'
     ];
 
-    protected $attributes = [
-        'declined' => false
-    ];
-
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
