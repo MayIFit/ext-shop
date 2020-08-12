@@ -85,13 +85,23 @@ class OrderObserver
     }
 
     /**
+     * Handle the Order "deleting" event.
+     *
+     * @param  \MayIFit\Extension\Shop\Models\Order  $model
+     * @return void
+     */
+    public function deleting(Order $model): void {
+        $this->declineOrder($model);
+    }
+
+    /**
      * Handle the Order "deleted" event.
      *
      * @param  \MayIFit\Extension\Shop\Models\Order  $model
      * @return void
      */
     public function deleted(Order $model): void {
-        $this->declineOrder($model);
+        //
     }
 
     /**
@@ -117,8 +127,6 @@ class OrderObserver
                 $product->pivot->save();
             }
         });
-
-        $model->sent_to_courier_service = Carbon::now();
 
         return $model;
     }

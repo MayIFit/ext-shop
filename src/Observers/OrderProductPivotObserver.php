@@ -131,10 +131,11 @@ class OrderProductPivotObserver
             $model->can_be_shipped = $model->product->in_stock >= $model->quantity ? true : false;
         }
 
+        
         if (isset($dirty['declined'])) {
             $model->product->in_stock += $model->quantity;
         }
-
+        
         $model->product->save();
         $model->order->save();
 
