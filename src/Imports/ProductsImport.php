@@ -44,7 +44,7 @@ class ProductsImport implements ToCollection, WithHeadingRow
             $previousCategoryID = null;
             foreach ($this->mapping as $key => $value) {
                 $value = iconv('UTF-8', 'ASCII//TRANSLIT', $value);
-                if ($value === 'kategoria' && isset($row[$value])) {
+                if ($key === 'category' && isset($row[$value])) {
                     $categoryNames = explode('>',trim($row[$value]));
                     foreach ($categoryNames as $category) {
                         $categoryToInsert = [
