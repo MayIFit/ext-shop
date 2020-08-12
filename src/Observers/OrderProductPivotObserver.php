@@ -135,9 +135,12 @@ class OrderProductPivotObserver
         if (isset($dirty['declined'])) {
             $model->product->in_stock += $model->quantity;
         }
+
+        if (!isset($dirty['shipped_at'])) {
+            $model->product->save();
+            $model->order->save();
+        }
         
-        $model->product->save();
-        $model->order->save();
 
         $model->updatedBy()->associate(Auth::id());
     }

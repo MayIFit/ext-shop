@@ -56,7 +56,9 @@ class OrderObserver
      * @return void
      */
     public function saved(Order $model): void {
-        //
+        if ($model->order_status_id == 3 && !$model->sent_to_courier_service) {
+            event(new OrderAccepted($model));
+        }
     }
 
     /**
@@ -66,10 +68,13 @@ class OrderObserver
      * @return void
      */
     public function updating(Order $model): void {
+        if ($model->order_status_id === 3) {
+            return;
+        }
+
         $dirty = $model->getDirty();
-        if ($model->orderStatus->id === 3 && !$model->sent_to_courier_service && !isset($dirty['items_sent'])) {
-            event(new OrderAccepted($model));
-        } else if (isset($dirty['order_status_id']) && $dirty['order_status_id'] === 5) {
+
+        if (isset($dirty['order_status_id']) && $dirty['order_status_id'] === 5) {
             $model = $this->declineOrder($model);
         }
     }

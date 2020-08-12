@@ -2,14 +2,12 @@
 
 namespace MayIFit\Extension\Shop\Listeners;
 
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Support\Facades\Response;
 use Carbon\Carbon;
 use SoapClient;
 
 use MayIFit\Extension\Shop\Events\OrderAccepted;
 
-class SendOrderDataToWMS implements ShouldQueue
+class SendOrderDataToWMS
 {
 
     /**
@@ -61,21 +59,18 @@ class SendOrderDataToWMS implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  \App\Events\OrderAccepted  $event
+     * @param  \MayIFit\Extension\Shop\Events\OrderAccepted  $event
      * @return void
      */
     public function handle(OrderAccepted $event)
     {
-        // TODO: come up with a solution for partial orders
-        // on a partial order, if the second part is to be delivered
-        // the previous order number has to bee present
-        $sentItemCount = 0;
+        $sentItemCount = $event->order->items_sent;
         $partnerData = $event->order->billingAddress;
         $partnerReseller = $event->order->reseller;
         
         $recipientLocation = $event->order->shippingAddress;
         
-        if ($event->order->items_sent > 0) {
+        if ($sentItemCount > 0) {
             $event->order->order_id_prefix .= '-EXT';
         }
 
@@ -102,9 +97,8 @@ class SendOrderDataToWMS implements ShouldQueue
                         ],
                         'DeliveryType' => $event->order->delivery_type,
                         'DeliveryComment' => $event->order->extra_information,
-                        'ClientRef1' => $event->order->token,
+                        'ClientRef1' => $event->order->token
                     ],
-                    'DocumentDetails' => []
                 ]],
             ]
         );
@@ -120,57 +114,48 @@ class SendOrderDataToWMS implements ShouldQueue
             ];
         }
 
-        $requestData['Order']['DocumentList'][0]['DocumentDetails'] = $event->order->products->map(function($product) use(&$sentItemCount, $event) {
-            if ($product->pivot->can_be_shipped && !$product->pivot->shipped_at) {
-                ++$sentItemCount;
-                $product->pivot->shipped_at = Carbon::now()->format('Y-m-d H:i:s');
-                $product->pivot->save();
-                $event->order->items_sent++;
-                return [
-                    'ItemSKU' => [
-                        'ItemSKUCode' => $product->catalog_id,
-                        'ItemDescription' => $product->name,
-                        'ItemUnitMeasure' => 'pcs',
-                        'ItemEAN' => $product->ean_code
-                    ],
-                    'ItemPrice' => $product->pivot->gross_value,
-                    'ItemQuantityOrdered' => $product->pivot->quantity,
-                ];
-            }
+        $sendableProducts = $event->order->products->filter(function($product) {
+            return $product->pivot->can_be_shipped && !$product->pivot->shipped_at && !$product->pivot->declined;
+        });
+
+        $docDetails = $sendableProducts->map(function($product) use(&$sentItemCount, &$event) {
+            ++$sentItemCount;
+            $event->order->items_sent++;
+            return [
+                'ItemSKU' => [
+                    'ItemSKUCode' => $product->catalog_id,
+                    'ItemDescription' => $product->name,
+                    'ItemUnitMeasure' => 'pcs',
+                    'ItemEAN' => $product->ean_code
+                ],
+                'ItemPrice' => $product->pivot->gross_value,
+                'ItemQuantityOrdered' => $product->pivot->quantity,
+            ];
         })->toArray();
 
+        $docDetails = array_values($docDetails);
+
+        $requestData['Order']['DocumentList'][0]['DocumentDetails'] = $docDetails;
+
         if ($sentItemCount === 0) {
-            $event->order->order_status_id = 1;
-            $event->order->save();
-            return Response::json([
-                'status' => 'partial_success',
-                'message' => 'no_items_could_be_transferred'
-            ], 200);
+            $event->order->orderStatus()->associate(1);
+            return;
         }
-
+        
         $response = $this->client->CreateOrder($requestData);
-
         if ($response->CreateOrderResult->MsgStatus === 0) {
             if ($sentItemCount === $event->order->products->count()) {
                 $event->order->sent_to_courier_service = Carbon::now();
-                $event->order->save();
-                return Response::json([], 200);
             } else {
-                $event->order->order_status_id = 6;
-                $event->order->save();
-                return Response::json([
-                    'status' => 'partial_success',
-                    'message' => 'some_items_couldnt_be_transferred'
-                ], 200);
+                $event->order->orderStatus()->associate(6);
+            }
+            foreach ($sendableProducts as $product) {
+                $product->pivot->shipped_at = Carbon::now()->format('Y-m-d H:i:s');
+                $product->pivot->save();
             }
         } else {
-            $event->order->order_status_id = 1;
-            $event->order->save();
-
-            return Response::json([
-                'status' => 'api_error',
-                'message' => 'An error occurred!'
-            ], 500);
+            $event->order->orderStatus()->associate(1);
         }
+        $event->order->save();
     }
 }
