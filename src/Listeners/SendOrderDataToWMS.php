@@ -70,6 +70,8 @@ class SendOrderDataToWMS
         
         $recipientLocation = $event->order->shippingAddress;
         
+        $orderShipmentId = $event->order->order_id_prefix;
+
         if ($sentItemCount > 0) {
             $event->order->order_id_prefix .= '-EXT';
         }
@@ -92,12 +94,14 @@ class SendOrderDataToWMS
                             'PartnerZip' => $partnerReseller->zip_code ?? $partnerData->zip_code,
                             'PartnerCity' => $partnerReseller->city ?? $partnerData->city,
                             'PartnerStreet1' => ($partnerReseller->address ?? $partnerData->address).' '.($partnerReseller->house_nr ?? $partnerData->house_nr),
-                            'PartnerStreet2' => ($partnerReseller->floor ?? $partnerData->floor ?? '').' '.($partnerReseller->door ?? $partnerData->door ?? ''),
+                            'PartnerStreet2' => ($partnerReseller->floor ?? $partnerData->floor ?? '').'/'.($partnerReseller->door ?? $partnerData->door ?? ''),
+                            'PartnerContact' => ($partnerReseller->phone_number ?? $partnerData->phone_number ?? ''). ' / '.($partnerReseller->email ?? $partnerData->email ?? ''),
                             'PartnerCountry' => 'HUN'
                         ],
                         'DeliveryType' => $event->order->delivery_type,
                         'DeliveryComment' => $event->order->extra_information,
-                        'ClientRef1' => $event->order->token
+                        'ClientRef1' => $event->order->token,
+                        'ClientRef2' => $orderShipmentId
                     ],
                 ]],
             ]
@@ -110,6 +114,8 @@ class SendOrderDataToWMS
                 'PartnerZip' => $recipientLocation->zip_code,
                 'PartnerCity' => $recipientLocation->city,
                 'PartnerStreet1' => $recipientLocation->address.' '.$recipientLocation->house_nr,
+                'PartnerStreet2' => ($recipientLocation->floor ?? '').'/'.($recipientLocation->door ?? ''),
+                'PartnerContact' => $recipientLocation->phone_number.' / '.$recipientLocation->email,
                 'PartnerCountry' => 'HUN'
             ];
         }
