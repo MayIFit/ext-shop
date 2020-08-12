@@ -8,6 +8,7 @@ extend type Query {
 extend type Query @guard(with: ["sanctum"]) {
     listOrder(
         hasReseller: _ @whereHasConditions(columnsEnum: OrderResellerWhereColumn)
+        orderBy: _ @orderBy(columnsEnum: OrderResellerWhereColumn)
     ): [Order]!
         @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\Order") 
         @paginate(type: "paginator")
@@ -78,11 +79,13 @@ type Order @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
     items_sent: Int!
     transport_cost: Float
     sent_to_courier_service: DateTime
+    order_can_be_shipped: Boolean @method(name: "getOrderCanBeShippedAttribute")
 }
 
 "A list of filterable columns."
 enum OrderResellerWhereColumn {
     TOKEN @enum(value: "token")
+    PLACED @enum(value: "placed")
     ORDER_ID_PREFIX @enum(value: "order_id_prefix")
     COMPANY_NAME @enum(value: "company_name")
     NET_VALUE @enum(value: "net_value")

@@ -54,4 +54,17 @@ class Order extends Model
 
         $this->save();
     }
+
+    public function getOrderCanBeShippedAttribute(): bool {
+
+        if ($this->sent_to_courier_service) {
+            return false;
+        }
+
+        $canBeShipped = count($this->products->filter(function($product) {
+            return $product->pivot->can_be_shipped && !$product->pivot->shipped_at;
+        }));
+
+        return $canBeShipped > 0;
+    }
 }

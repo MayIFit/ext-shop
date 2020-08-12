@@ -81,7 +81,14 @@ class ProductsImport implements ToCollection, WithHeadingRow
 
             if (isset($parse['catalog_id'])) {
                 ++$this->importedRows;
-                // TODO: Fix in_stock update, don't overwrite, sum!
+                if (isset($parse['in_stock'])) {
+                    $prod = Product::firstWhere(['catalog_id' => $parse['catalog_id']]);
+                    if ($prod) {
+                        $prod->in_stock += $parse['in_stock'];
+                        unset($parse['in_stock']);
+                        $prod->save();
+                    }
+                }
                 Product::updateOrCreate(['catalog_id' => $parse['catalog_id']], $parse);
             }
         }
