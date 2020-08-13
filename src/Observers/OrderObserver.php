@@ -67,15 +67,14 @@ class OrderObserver
      * @param  \MayIFit\Extension\Shop\Models\Order  $model
      * @return void
      */
-    public function updating(Order $model): void {
-        if ($model->order_status_id === 3) {
-            return;
+    public function updating(Order $model) {
+        if ($model->order_status_id == 3 || $model->order_status_id == 5) {
+            return false;
         }
-
 
         $dirty = $model->getDirty();
 
-        if (isset($dirty['order_status_id']) && $dirty['order_status_id'] === 5) {
+        if (isset($dirty['order_status_id']) && $dirty['order_status_id'] == 5) {
             $model = $this->declineOrder($model);
         }
     }

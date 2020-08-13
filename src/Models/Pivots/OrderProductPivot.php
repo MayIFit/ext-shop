@@ -26,7 +26,9 @@ class OrderProductPivot extends Pivot
      * @var array
      */
     protected $casts = [
-        'shipped_at' => 'datetime:Y-m-d h:i:s'
+        'created_at' => 'datetime:Y-m-d h:i:s',
+        'updated_at' => 'datetime:Y-m-d h:i:s',
+        'shipped_at' => 'datetime:Y-m-d h:i:s',
     ];
 
     /**
@@ -57,9 +59,8 @@ class OrderProductPivot extends Pivot
 
         $previouslyOrdered = OrderProductPivot::where([
             ['product_id', '=', $this->product_id],
-            ['created_at', '=<', $this->created_at],
             ['order_id', '!=', $this->order_id],
-        ])->whereNull('shipped_at')->first();
+        ])->where('created_at', '<', $this->created_at)->whereNull('shipped_at')->first();
 
         if ($previouslyOrdered) {
             return false;

@@ -129,7 +129,6 @@ class OrderProductPivotObserver
             }
         }
 
-        
         if (isset($dirty['declined'])) {
             $model->product->calculated_stock += $model->quantity;
         }
