@@ -56,6 +56,7 @@ class OrderObserver
      * @return void
      */
     public function saved(Order $model): void {
+        
         if ($model->order_status_id == 3 && !$model->sent_to_courier_service) {
             event(new OrderAccepted($model));
         }
@@ -68,7 +69,7 @@ class OrderObserver
      * @return void
      */
     public function updating(Order $model) {
-        if ($model->order_status_id == 3 || $model->order_status_id == 5) {
+        if ($model->sent_to_courier_service || $model->order_status_id == 5) {
             return false;
         }
 
