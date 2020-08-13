@@ -28,7 +28,6 @@ class CreateProductsTable extends Migration
             $table->string('out_of_stock_text')->nullable();
             $table->string('quantity_unit_text')->nullable();
             $table->boolean('refurbished');
-
             $table->foreignId('category_id')->nullable()->references('id')->on('product_categories');
             $table->foreignId('parent_id')->nullable()->references('id')->on('products');
             $table->foreignId('created_by')->nullable()->references('id')->on('users');

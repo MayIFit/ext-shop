@@ -4,7 +4,6 @@ namespace MayIFit\Extension\Shop\Observers;
 
 use Illuminate\Support\Facades\Auth;
 
-use MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot;
 use MayIFit\Extension\Shop\Models\Product;
 
 class ProductObserver
@@ -16,6 +15,7 @@ class ProductObserver
      * @return void
      */
     public function creating(Product $model): void {
+        $model->calculated_stock = $model->stock;
         $model->createdBy()->associate(Auth::user());
     }
 
@@ -29,6 +29,21 @@ class ProductObserver
         //
     }
 
+     /**
+     * Handle the Product "updating" event.
+     *
+     * @param  \MayIFit\Extension\Shop\Models\Product  $model
+     * @return void
+     */
+    public function updating(Product $model): void {
+        $dirty = $model->getDirty();
+        if (isset($dirty['stock'])) {
+            if ($dirty['stock'] > $model->stock) {
+                $model->calculated_stock += $dirty['stock'] - $model->stock;
+            }
+        }
+    }
+
     /**
      * Handle the Product "updated" event.
      *
@@ -37,13 +52,6 @@ class ProductObserver
      */
     public function updated(Product $model): void {
         $model->updatedBy()->associate(Auth::user());
-        OrderProductPivot::where([['product_id', $model->id], ['can_be_shipped', false]])
-        ->whereNull('shipped_at')
-        ->get()->map(function($pivot) use($model) {
-            if ($pivot->quantity <= $model->quantity) {
-                $pivot->can_be_shipped = true;
-            }
-        });
     }
 
     /**
@@ -53,13 +61,7 @@ class ProductObserver
      * @return void
      */
     public function deleted(Product $model): void {
-        OrderProductPivot::where([['product_id', $model->id]])
-        ->whereNull('shipped_at')
-        ->get()->map(function($pivot) use($model) {
-            if ($pivot->quantity <= $model->quantity) {
-                $pivot->can_be_shipped = false;
-            }
-        });
+        //
     }
 
     /**

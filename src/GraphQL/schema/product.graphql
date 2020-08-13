@@ -62,7 +62,7 @@ input CreateProductInput {
     description: String
     technical_specs: ObjectScalar
     supplied: ObjectScalar
-    in_stock: Int
+    stock: Int
     ean_code: String
     out_of_stock_text: String
     quantity_unit_text: String
@@ -83,7 +83,7 @@ input UpdateProductInput {
     description: String
     technical_specs: ObjectScalar
     supplied: ObjectScalar
-    in_stock: Int
+    stock: Int
     ean_code: String
     out_of_stock_text: String
     quantity_unit_text: String
@@ -112,7 +112,8 @@ type Product @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Product") {
     description: String
     technical_specs: ObjectScalar
     supplied: ObjectScalar
-    in_stock: Int
+    stock: Int
+    calculated_stock: Int
     ean_code: String
     out_of_stock_text: String
     quantity_unit_text: String
@@ -143,6 +144,7 @@ type ProductSelect @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Product
 enum ProductWhereColumn {
     CATALOG_ID @enum(value: "catalog_id")
     NAME @enum(value: "name")
-    IN_STOCK @enum(value: "in_stock")
+    STOCK @enum(value: "stock")
+    CALCULATED_STOCK @enum(value: "calculated_stock")
     REFURBISHED @enum(value: "refurbished")
 }

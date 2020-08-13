@@ -22,6 +22,7 @@
     "require": {
         "php": "^7.2",
         "ext-json": "*",
+        "doctrine/dbal": "^2.10",
         "illuminate/contracts": "^6.9 || ^7.0",
         "illuminate/database": "^6.9 || ^7.0",
         "illuminate/support": "^6.9 || ^7.0",

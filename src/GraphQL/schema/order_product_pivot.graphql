@@ -34,12 +34,13 @@ type OrderProductPivot @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Piv
     id: ID!
     "Ordered quantity of a product"
     quantity: Int!
+    quantity_transferred: Int
     pricing: ProductPricing! @belongsTo
     discount: ProductDiscount @belongsTo
     net_value: Float!
     gross_value: Float!
     is_wholesale: Boolean!
-    can_be_shipped: Boolean!
     shipped_at: DateTime
     declined: Boolean!
+    can_be_shipped: Boolean @method(name: "canBeShipped")
 }

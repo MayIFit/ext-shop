@@ -24,9 +24,10 @@ class Order extends Model
         'quantity' => 0,
         'paid' => false,
         'currency' => 'HUF',
-        'items_sent' => 0,
+        'items_transferred' => 0,
         'transport_cost' => 0.00,
-        'items_ordered' => 0
+        'items_ordered' => 0,
+        'quantity_transferred' => 0
     ];
     
     public function products(): BelongsToMany {
@@ -35,15 +36,22 @@ class Order extends Model
         ->withPivot([
             'id',
             'quantity',
+            'quantity_transferred',
             'product_pricing_id',
             'product_discount_id',
             'net_value',
             'gross_value',
             'is_wholesale',
-            'can_be_shipped',
             'shipped_at',
             'declined'
-        ]);
+        ])->withTimestamps();
+    }
+
+    public function getOrderHasShippedItemAttribute(): bool {
+        $transferredItems = $this->products->filter(function($product) {
+            return $product->pivot->transferred_items > 0;
+        });
+        return count($transferredItems) > 0 ? true : false;
     }
 
     public function recalculateValues(): void {
@@ -58,15 +66,14 @@ class Order extends Model
     }
 
     public function getOrderCanBeShippedAttribute(): bool {
-
         if ($this->sent_to_courier_service) {
             return false;
         }
 
-        $canBeShipped = count($this->products->filter(function($product) {
-            return $product->pivot->can_be_shipped && !$product->pivot->shipped_at;
-        }));
+        $canBeShipped = $this->products->filter(function($product) {
+            return $product->pivot->canBeShipped();
+        });
 
-        return $canBeShipped > 0;
+        return count($canBeShipped) > 0;
     }
 }

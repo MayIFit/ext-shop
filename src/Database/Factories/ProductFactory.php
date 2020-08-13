@@ -19,7 +19,7 @@ $factory->define(Product::class, function (Faker $faker) {
         'catalog_id' => $faker->numerify('prdct_########'),
         'name' => $faker->text($maxNbChars = 30),
         'description' => $faker->text($maxNbChars = 500),
-        'in_stock' => $faker->numberBetween($min = 0, $max = 73),
+        'stock' => $faker->numberBetween($min = 0, $max = 73),
         'technical_specs' => $technicalSpecs,
         'varranty' => '1 year',
         'supplied' => [

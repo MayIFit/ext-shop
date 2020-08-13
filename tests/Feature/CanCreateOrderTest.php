@@ -34,7 +34,7 @@ class CanCreateOrderTest extends TestCase
         $orderStatus->icon = '';
         $orderStatus->save();
 
-        $this->graphQL('
+        dd($this->graphQL('
             mutation {
                 createOrder(input: {
                     products: {
@@ -75,13 +75,15 @@ class CanCreateOrderTest extends TestCase
                     id
                 }
             }
-        ')->assertJSON([
-            'data' => [
-                'createOrder' => [
-                    'id' => 1
-                ]
-            ]
-        ]);
+        '));
+        
+        // ->assertJSON([
+        //     'data' => [
+        //         'createOrder' => [
+        //             'id' => 1
+        //         ]
+        //     ]
+        // ]);
         
     }
 }

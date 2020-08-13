@@ -26,8 +26,7 @@ class OrderProductPivotObserver
         $order = $model->pivotParent;
         
         $reseller = $order->reseller;
-        $model->can_be_shipped = $product->in_stock >= $model->quantity;
-        $product->in_stock -= $model->quantity;
+        $product->calculated_stock -= $model->quantity;
         $order->quantity += $model->quantity;
         $order->items_ordered++;
         $now = Carbon::now();
@@ -119,22 +118,20 @@ class OrderProductPivotObserver
 
         if (isset($dirty['quantity'])) {
             if ($orig['quantity'] >= $dirty['quantity'] && $dirty['quantity'] > 0) {
-                $model->product->in_stock += abs($orig['quantity'] - $dirty['quantity']);
+                $model->product->calculated_stock += abs($orig['quantity'] - $dirty['quantity']);
                 $model->order->quantity -= abs($orig['quantity'] - $dirty['quantity']);
             } else if ($dirty['quantity'] > 0) {
-                $model->product->in_stock -= abs($orig['quantity'] - $dirty['quantity']);
+                $model->product->calculated_stock -= abs($orig['quantity'] - $dirty['quantity']);
                 $model->order->quantity += abs($orig['quantity'] - $dirty['quantity']);
             } else {
-                $model->product->in_stock += $orig['quantity'];
+                $model->product->calculated_stock += $orig['quantity'];
                 $model->order->quantity -= $orig['quantity'];
             }
-
-            $model->can_be_shipped = $model->product->in_stock >= $model->quantity ? true : false;
         }
 
         
         if (isset($dirty['declined'])) {
-            $model->product->in_stock += $model->quantity;
+            $model->product->calculated_stock += $model->quantity;
         }
 
         if (!isset($dirty['shipped_at'])) {

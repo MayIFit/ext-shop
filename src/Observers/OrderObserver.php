@@ -72,6 +72,7 @@ class OrderObserver
             return;
         }
 
+
         $dirty = $model->getDirty();
 
         if (isset($dirty['order_status_id']) && $dirty['order_status_id'] === 5) {
@@ -95,7 +96,10 @@ class OrderObserver
      * @param  \MayIFit\Extension\Shop\Models\Order  $model
      * @return void
      */
-    public function deleting(Order $model): void {
+    public function deleting(Order $model) {
+        if ($model->getOrderHasShippedItemAttribute) {
+            return false;
+        }
         $this->declineOrder($model);
     }
 

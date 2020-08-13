@@ -66,6 +66,7 @@ type Order @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
     token: String!
     placed: DateTime!
     quantity: Int!
+    quantity_transferred: Int
     net_value: Float!
     gross_value: Float!
     currency: String!
@@ -76,15 +77,17 @@ type Order @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
     delivery_type: Int!
     invoice_number: String
     order_id_prefix: String
-    items_sent: Int!
+    items_ordered: Int
+    items_transferred: Int
     transport_cost: Float
     sent_to_courier_service: DateTime
+    has_shipped_item: Boolean @method(name: "getOrderHasShippedItemAttribute")
     can_be_shipped: Boolean @method(name: "getOrderCanBeShippedAttribute")
-    items_ordered: Int
 }
 
 "A list of filterable columns."
 enum OrderColumns {
+    ID @enum(value: "id")
     TOKEN @enum(value: "token")
     PLACED @enum(value: "placed")
     ORDER_ID_PREFIX @enum(value: "order_id_prefix")

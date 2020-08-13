@@ -64,7 +64,8 @@ class SendOrderDataToWMS
      */
     public function handle(OrderAccepted $event)
     {
-        $sentItemCount = $event->order->items_sent;
+        $sentItemCount = $event->order->items_transferred;
+        $sentQuantity = $event->order->quantity_transferred;
         $partnerData = $event->order->billingAddress;
         $partnerReseller = $event->order->reseller;
         
@@ -83,7 +84,7 @@ class SendOrderDataToWMS
                 'ClientPWD' => $this->apiUserPassword,
                 'DocumentList' => [[
                     'DocumentHeader' => [
-                        'ClientReferenceNumber' => $event->order->order_id_prefix,
+                        'ClientReferenceNumber' => 'TEST9020',
                         'ClientDocType' => 'Out',
                         'DocYear' => Carbon::now()->format('Y'),
                         'DocDate' => Carbon::now()->format('Y-m-d\TH:i:s'),
@@ -121,15 +122,26 @@ class SendOrderDataToWMS
         }
 
         $sendableProducts = $event->order->products->filter(function($product) {
-            return $product->pivot->can_be_shipped && 
+            return $product->pivot->canBeShipped() && 
                     !$product->pivot->shipped_at && 
                     !$product->pivot->declined &&
+                    $product->pivot->quantity_transferred < $product->pivot->quantity  &&
                     $product->pivot->quantity > 0;
         });
 
-        $docDetails = $sendableProducts->map(function($product) use(&$sentItemCount, &$event) {
+        $docDetails = $sendableProducts->map(function($product) use(&$sentItemCount, &$event, &$sentQuantity) {
             ++$sentItemCount;
-            $event->order->items_sent++;
+            $transferrableQuantity = 0;
+            $quantityToBeSent = $product->pivot->quantity - $product->pivot->quantity_transferred;
+            if ($product->stock >= $quantityToBeSent) {
+                $transferrableQuantity = $quantityToBeSent;
+            } else {
+                $transferrableQuantity = $product->stock;
+            }
+
+            $sentQuantity += $transferrableQuantity;
+
+            $event->order->items_transferred++;
             return [
                 'ItemSKU' => [
                     'ItemSKUCode' => $product->catalog_id,
@@ -138,7 +150,7 @@ class SendOrderDataToWMS
                     'ItemEAN' => $product->ean_code
                 ],
                 'ItemPrice' => $product->pivot->gross_value,
-                'ItemQuantityOrdered' => $product->pivot->quantity,
+                'ItemQuantityOrdered' => $transferrableQuantity,
             ];
         })->toArray();
 
@@ -152,14 +164,27 @@ class SendOrderDataToWMS
         }
         
         $response = $this->client->CreateOrder($requestData);
+
         if ($response->CreateOrderResult->MsgStatus === 0) {
-            if ($sentItemCount === $event->order->products->count()) {
+            if ($sentItemCount === $event->order->products->count() && $sentQuantity === $event->order->quantity) {
                 $event->order->sent_to_courier_service = Carbon::now();
             } else {
                 $event->order->orderStatus()->associate(6);
             }
             foreach ($sendableProducts as $product) {
-                $product->pivot->shipped_at = Carbon::now()->format('Y-m-d H:i:s');
+                $transferrableQuantity = 0;
+                $quantityToBeSent = $product->pivot->quantity - $product->pivot->quantity_transferred;
+                if ($product->stock >= $quantityToBeSent) {
+                    $product->pivot->shipped_at = Carbon::now()->format('Y-m-d H:i:s');
+                    $transferrableQuantity = $quantityToBeSent;
+                } else {
+                    $transferrableQuantity = $product->stock;
+                }
+
+                $product->pivot->quantity_transferred += $transferrableQuantity;
+                $event->order->quantity_transferred += $transferrableQuantity;
+                $product->stock -= $transferrableQuantity;
+                $product->save();
                 $product->pivot->save();
             }
         } else {

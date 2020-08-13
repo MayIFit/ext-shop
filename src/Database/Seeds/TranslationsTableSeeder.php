@@ -207,7 +207,7 @@ class TranslationsTableSeeder extends Seeder
 		);
 		Translation::updateOrCreate([
 				'group' => 'product',
-				'key' => 'in_stock'
+				'key' => 'stock'
 			],
 			['text' => ['en' => 'in stock', 'hu' => 'raktáron']],
 		);
