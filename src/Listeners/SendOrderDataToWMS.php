@@ -84,7 +84,7 @@ class SendOrderDataToWMS
                 'ClientPWD' => $this->apiUserPassword,
                 'DocumentList' => [[
                     'DocumentHeader' => [
-                        'ClientReferenceNumber' => 'TEST9020',
+                        'ClientReferenceNumber' => $event->order->order_id_prefix,
                         'ClientDocType' => 'Out',
                         'DocYear' => Carbon::now()->format('Y'),
                         'DocDate' => Carbon::now()->format('Y-m-d\TH:i:s'),
