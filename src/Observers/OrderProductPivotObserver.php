@@ -141,6 +141,10 @@ class OrderProductPivotObserver
             $model->product->save();
             $model->order->save();
         }
+
+        if (isset($dirty['quantity']) && $dirty['quantity'] <= 0) {
+            $model->delete();
+        }
         
 
         $model->updatedBy()->associate(Auth::id());

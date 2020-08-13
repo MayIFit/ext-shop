@@ -15,7 +15,7 @@ class AddItemsOrderedToOrdersTable extends Migration
     {
         if (Schema::hasTable('orders')) {
             Schema::table('orders', function (Blueprint $table) {
-                $table->unsignedInteger('items_ordered');
+                $table->unsignedInteger('items_ordered')->nullable();
             });
         }
     }

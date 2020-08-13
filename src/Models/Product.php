@@ -31,7 +31,7 @@ class Product extends Model
     ];
 
     protected $attributes = [
-        'in_stock' => 1,
+        'in_stock' => 0,
         'waste_stock' => 0,
         'technical_specs' => '{"":""}',
         'supplied' => '{"":""}',
