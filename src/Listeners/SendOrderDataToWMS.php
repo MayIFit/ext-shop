@@ -130,10 +130,10 @@ class SendOrderDataToWMS
         });
 
         $docDetails = $sendableProducts->map(function($product) use(&$sentItemCount, &$event, &$sentQuantity) {
-            ++$sentItemCount;
             $transferrableQuantity = 0;
             $quantityToBeSent = $product->pivot->quantity - $product->pivot->quantity_transferred;
             if ($product->stock >= $quantityToBeSent) {
+                ++$sentItemCount;
                 $transferrableQuantity = $quantityToBeSent;
             } else {
                 $transferrableQuantity = $product->stock;
@@ -166,7 +166,7 @@ class SendOrderDataToWMS
         $response = $this->client->CreateOrder($requestData);
 
         if ($response->CreateOrderResult->MsgStatus === 0) {
-            if ($sentItemCount === $event->order->products->count() && $sentQuantity === $event->order->quantity) {
+            if ($sentItemCount === $event->order->items_ordered && $sentQuantity === $event->order->quantity) {
                 $event->order->sent_to_courier_service = Carbon::now();
             } else {
                 $event->order->orderStatus()->associate(6);
