@@ -59,6 +59,7 @@ input UpdateOrderInput {
     delivery_type: Int
     invoice_number: String
     transport_cost: Float
+    closed: Boolean
 }
 
 type Order @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
@@ -81,6 +82,7 @@ type Order @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
     items_transferred: Int
     transport_cost: Float
     sent_to_courier_service: DateTime
+    closed: Boolean
     can_be_shipped: Boolean @method(name: "getOrderCanBeShippedAttribute")
 }
 
@@ -96,4 +98,5 @@ enum OrderColumns {
     QUANTITY @enum(value: "quantity")
     ITEMS_SENT @enum(value: "items_sent")
     ITEMS_ORDERED @enum(value: "items_ordered")
+    CLOSED @enum(value: "closed")
 }
