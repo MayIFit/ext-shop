@@ -68,6 +68,7 @@ extend input UpdateResellerInput {
 
 "A list of filterable columns."
 enum ResellerGroupColumns {
+    ID @enum(value: "id")
     NAME @enum(value: "name")
     DISCOUNT_VALUE @enum(value: "discount_value")
 }

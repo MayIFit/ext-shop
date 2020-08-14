@@ -143,6 +143,7 @@ type ProductSelect @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Product
 
 "A list of filterable columns."
 enum ProductColumns {
+    ID @enum(value: "id")
     CATALOG_ID @enum(value: "catalog_id")
     NAME @enum(value: "name")
     STOCK @enum(value: "stock")
