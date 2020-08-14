@@ -97,7 +97,7 @@ class OrderObserver
      * @return void
      */
     public function deleting(Order $model) {
-        if ($model->getOrderHasShippedItemAttribute) {
+        if ($model->getOrderHasShippedItemAttribute()) {
             return false;
         }
         $this->declineOrder($model);

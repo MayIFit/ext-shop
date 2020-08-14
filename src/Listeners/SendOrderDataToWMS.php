@@ -129,7 +129,7 @@ class SendOrderDataToWMS
                     $product->pivot->quantity > 0;
         });
 
-        $docDetails = $sendableProducts->map(function($product) use(&$sentItemCount, &$event, &$sentQuantity) {
+        $docDetails = $sendableProducts->map(function($product) use(&$sentItemCount, &$sentQuantity) {
             $transferrableQuantity = 0;
             $quantityToBeSent = $product->pivot->quantity - $product->pivot->quantity_transferred;
             if ($product->stock >= $quantityToBeSent) {
@@ -141,7 +141,7 @@ class SendOrderDataToWMS
 
             $sentQuantity += $transferrableQuantity;
 
-            $event->order->items_transferred++;
+
             return [
                 'ItemSKU' => [
                     'ItemSKUCode' => $product->catalog_id,
@@ -162,11 +162,11 @@ class SendOrderDataToWMS
             $event->order->orderStatus()->associate(1);
             return;
         }
-        
+
         $response = $this->client->CreateOrder($requestData);
 
         if ($response->CreateOrderResult->MsgStatus === 0) {
-            if ($sentItemCount === $event->order->items_ordered && $sentQuantity === $event->order->quantity) {
+            if ($sentItemCount == $event->order->items_ordered) {
                 $event->order->sent_to_courier_service = Carbon::now();
             } else {
                 $event->order->orderStatus()->associate(6);
@@ -177,6 +177,7 @@ class SendOrderDataToWMS
                 if ($product->stock >= $quantityToBeSent) {
                     $product->pivot->shipped_at = Carbon::now()->format('Y-m-d H:i:s');
                     $transferrableQuantity = $quantityToBeSent;
+                    $event->order->items_transferred++;
                 } else {
                     $transferrableQuantity = $product->stock;
                 }
