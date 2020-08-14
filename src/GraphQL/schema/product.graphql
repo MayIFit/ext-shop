@@ -2,7 +2,7 @@ extend type Query {
     listProductWithPricing(
         currency: String
         dateTime: DateTime
-        filter: _ @whereConditions(columnsEnum: "ProductWhereColumn")
+        filter: _ @whereConditions(columnsEnum: ProductColumns)
         reseller_id: ID
         category_id: ID @eq
     ): [Product]!
@@ -26,7 +26,8 @@ extend type Query @guard(with: ["sanctum"]) {
     allProduct: [ProductSelect]! @all
 
     listProduct(
-        filter: _ @whereConditions(columnsEnum: "ProductWhereColumn")
+        filter: _ @whereConditions(columnsEnum: ProductColumns)
+        orderBy: _ @orderBy(columnsEnum: ProductColumns)
     ): [Product]!
     @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\Product") 
     @paginate(type: "paginator")
@@ -141,7 +142,7 @@ type ProductSelect @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Product
 }
 
 "A list of filterable columns."
-enum ProductWhereColumn {
+enum ProductColumns {
     CATALOG_ID @enum(value: "catalog_id")
     NAME @enum(value: "name")
     STOCK @enum(value: "stock")

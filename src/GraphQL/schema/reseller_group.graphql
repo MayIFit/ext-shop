@@ -2,7 +2,8 @@ extend type Query @guard(with: ["sanctum"]) {
     allResellerGroup: [ResellerGroupSelect]! @all
     
     listResellerGroup(
-        filter: _ @whereConditions(columnsEnum: "ResellerGroupWhereColumn")
+        filter: _ @whereConditions(columnsEnum: ResellerGroupColumns)
+        orderBy: _ @orderBy(columnsEnum: ResellerGroupColumns)
     ): [ResellerGroup]!
         @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\ResellerGroup") 
         @paginate(type: "paginator")
@@ -66,7 +67,7 @@ extend input UpdateResellerInput {
 }
 
 "A list of filterable columns."
-enum ResellerGroupWhereColumn {
+enum ResellerGroupColumns {
     NAME @enum(value: "name")
     DISCOUNT_VALUE @enum(value: "discount_value")
 }

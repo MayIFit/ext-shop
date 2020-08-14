@@ -2,7 +2,8 @@ extend type Query @guard(with: ["sanctum"]) {
     allReseller: [ResellerSelect]! @all
     
     listReseller(
-        filter: _ @whereConditions(columnsEnum: "ResellerWhereColumn")
+        filter: _ @whereHasConditions(columnsEnum: ResellerColumns)
+        orderBy: _ @orderBy(columnsEnum: ResellerColumns)
     ): [Reseller]!
         @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\Reseller") 
         @paginate(type: "paginator")
@@ -115,7 +116,7 @@ extend type Order @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") 
 }
 
 "A list of filterable columns."
-enum ResellerWhereColumn {
+enum ResellerColumns {
     COMPANY_NAME @enum(value: "company_name")
     VAT_ID @enum(value: "vat_id")
     PHONE_NUMBER @enum(value: "phone_number")
@@ -123,4 +124,6 @@ enum ResellerWhereColumn {
     CONTACT_PERSON @enum(value: "contact_person")
     CITY @enum(value: "city")
     ZIP_CODE @enum(value: "zip_code")
+    RESELLERGROUP_NAME @enum(value: "name")
+    SUPPLIER_CUSTOMER_CODE @enum(value: "supplier_customer_code")
 }

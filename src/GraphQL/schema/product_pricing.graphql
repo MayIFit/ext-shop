@@ -1,7 +1,8 @@
 extend type Query @guard(with: ["sanctum"]) {
     listProductPricing(
         reseller_id: ID
-        hasProduct: _ @whereHasConditions(columnsEnum: ProductPricingWhereColumn)
+        hasProduct: _ @whereHasConditions(columnsEnum: ProductPricingColumns)
+        orderBy: _ @orderBy(columnsEnum: ProductPricingColumns)
     ): [ProductPricing]!
     @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\ProductPricing") 
     @paginate(type: "paginator")
@@ -68,7 +69,7 @@ type ProductPricing @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Produc
 }
 
 "A list of filterable columns."
-enum ProductPricingWhereColumn {
+enum ProductPricingColumns {
     CATALOG_ID @enum(value: "catalog_id")
     NAME @enum(value: "name")
     BASE_PRICE @enum(value: "base_price")
