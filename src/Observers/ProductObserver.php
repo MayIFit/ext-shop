@@ -37,9 +37,10 @@ class ProductObserver
      */
     public function updating(Product $model): void {
         $dirty = $model->getDirty();
+        $original = $model->getOriginal();
         if (isset($dirty['stock'])) {
-            if ($dirty['stock'] > $model->stock) {
-                $model->calculated_stock += $dirty['stock'] - $model->stock;
+            if ($dirty['stock'] > $original['stock']) {
+                $model->calculated_stock += $dirty['stock'] - $original['stock'];
             }
         }
     }

@@ -81,7 +81,6 @@ type Order @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
     items_transferred: Int
     transport_cost: Float
     sent_to_courier_service: DateTime
-    has_shipped_item: Boolean @method(name: "getOrderHasShippedItemAttribute")
     can_be_shipped: Boolean @method(name: "getOrderCanBeShippedAttribute")
 }
 

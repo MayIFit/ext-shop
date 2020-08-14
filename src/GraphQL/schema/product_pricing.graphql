@@ -2,7 +2,6 @@ extend type Query @guard(with: ["sanctum"]) {
     listProductPricing(
         reseller_id: ID
         hasProduct: _ @whereHasConditions(columnsEnum: ProductPricingColumns)
-        orderBy: _ @orderBy(columnsEnum: ProductPricingColumns)
     ): [ProductPricing]!
     @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\ProductPricing") 
     @paginate(type: "paginator")

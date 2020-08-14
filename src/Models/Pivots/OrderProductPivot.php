@@ -52,17 +52,19 @@ class OrderProductPivot extends Pivot
         return $this->belongsTo(Order::class);
     }
 
+    public function hasPreviousUnShippedOrder() {
+        return OrderProductPivot::where([
+            ['product_id', '=', $this->product_id],
+            ['order_id', '!=', $this->order_id],
+        ])->where('created_at', '<', $this->created_at)->whereNull('shipped_at')->first();
+    }
+
     public function canBeShipped(): bool {
         if ($this->quantity === $this->quantity_transferred || $this->shipped_at) {
             return false;
         }
 
-        $previouslyOrdered = OrderProductPivot::where([
-            ['product_id', '=', $this->product_id],
-            ['order_id', '!=', $this->order_id],
-        ])->where('created_at', '<', $this->created_at)->whereNull('shipped_at')->first();
-
-        if ($previouslyOrdered) {
+        if ($this->hasPreviousUnShippedOrder()) {
             return false;
         }
 

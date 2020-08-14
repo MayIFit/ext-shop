@@ -46,7 +46,7 @@ class OrderObserver
      * @return void
      */
     public function saving(Order $model): void {
-        //
+        
     }
 
     /**
@@ -56,7 +56,6 @@ class OrderObserver
      * @return void
      */
     public function saved(Order $model): void {
-        
         if ($model->order_status_id == 3 && !$model->sent_to_courier_service) {
             event(new OrderAccepted($model));
         }
@@ -69,7 +68,9 @@ class OrderObserver
      * @return void
      */
     public function updating(Order $model) {
-        if ($model->sent_to_courier_service || $model->order_status_id == 5) {
+        $original = $model->getOriginal();
+
+        if ($original['sent_to_courier_service'] || $original['order_status_id'] == 5) {
             return false;
         }
 
@@ -97,9 +98,9 @@ class OrderObserver
      * @return void
      */
     public function deleting(Order $model) {
-        if ($model->getOrderHasShippedItemAttribute()) {
+        if ($model->quantity_transferred > 0){
             return false;
-        }
+        } 
         $this->declineOrder($model);
     }
 

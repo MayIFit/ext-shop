@@ -47,13 +47,6 @@ class Order extends Model
         ])->withTimestamps();
     }
 
-    public function getOrderHasShippedItemAttribute(): bool {
-        $transferredItems = $this->products->filter(function($product) {
-            return $product->pivot->transferred_items > 0;
-        });
-        return count($transferredItems) > 0 ? true : false;
-    }
-
     public function recalculateValues(): void {
         $this->net_value = 0;
         $this->gross_value = 0;
@@ -66,7 +59,7 @@ class Order extends Model
     }
 
     public function getOrderCanBeShippedAttribute(): bool {
-        if ($this->sent_to_courier_service) {
+        if ($this->sent_to_courier_service || $this->items_transferred === $this->items_ordered) {
             return false;
         }
 
