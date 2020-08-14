@@ -23,6 +23,7 @@ class Order extends Model
         'discount_percentage' => 0.00,
         'quantity' => 0,
         'paid' => false,
+        'closed' => false,
         'currency' => 'HUF',
         'items_transferred' => 0,
         'transport_cost' => 0.00,
