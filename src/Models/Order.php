@@ -15,7 +15,7 @@ class Order extends Model
 {
     use SoftDeletes, HasCustomers, HasReseller, HasOrderStatus;
 
-    public $fillable = ['order_id_prefix', 'transport_cost', 'extra_information', 'discount_percentage', 'payment_type', 'delivery_type', 'paid', 'closed', 'sent_to_courier_service'];
+    public $fillable = ['order_id_prefix', 'transport_cost', 'extra_information', 'discount_percentage', 'payment_type', 'delivery_type', 'paid', 'closed', 'sent_to_courier_service', 'invoice_number'];
 
     protected $attributes = [
         'net_value' => 0.00,

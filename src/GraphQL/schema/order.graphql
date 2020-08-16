@@ -102,4 +102,6 @@ enum OrderColumns {
     ITEMS_SENT @enum(value: "items_sent")
     ITEMS_ORDERED @enum(value: "items_ordered")
     CLOSED @enum(value: "closed")
+    SENT_TO_COURIER_SERVICE @enum(value: "sent_to_courier_service")
+    INVOICE_NUMBER @enum(value: "invoice_number")
 }
