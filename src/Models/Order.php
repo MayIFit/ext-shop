@@ -23,6 +23,7 @@ class Order extends Model
         'discount_percentage' => 0.00,
         'quantity' => 0,
         'paid' => false,
+        'sent_to_courier_service' => null,
         'closed' => false,
         'currency' => 'HUF',
         'items_transferred' => 0,
@@ -36,15 +37,16 @@ class Order extends Model
         ->using(OrderProductPivot::class)
         ->withPivot([
             'id',
-            'quantity',
-            'quantity_transferred',
             'product_pricing_id',
             'product_discount_id',
+            'is_wholesale',
             'net_value',
             'gross_value',
-            'is_wholesale',
+            'vat',
+            'quantity',
             'shipped_at',
-            'declined'
+            'declined',
+            'quantity_transferred',
         ])->withTimestamps();
     }
 
@@ -52,11 +54,9 @@ class Order extends Model
         $this->net_value = 0;
         $this->gross_value = 0;
         $this->products->map(function($product) {
-            $this->net_value += $product->pivot->net_value * $product->pivot->quantity;
-            $this->gross_value += $product->pivot->gross_value * $product->pivot->quantity;
+            $this->net_value += round($product->pivot->net_value * $product->pivot->quantity, 2, PHP_ROUND_HALF_EVEN);
+            $this->gross_value += round($product->pivot->gross_value * $product->pivot->quantity, 2, PHP_ROUND_HALF_EVEN);
         });
-
-        $this->save();
     }
 
     public function getOrderCanBeShippedAttribute(): bool {

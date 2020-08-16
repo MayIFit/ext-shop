@@ -2,12 +2,12 @@
 
 namespace MayIFit\Extension\Shop\Models;
 
+use Carbon\Carbon;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Nuwave\Lighthouse\Schema\Context as GraphQLContext;
 use GraphQL\Type\Definition\ResolveInfo;
 
@@ -65,15 +65,16 @@ class Product extends Model
         return $this->hasMany(ProductDiscount::class);
     }
 
-    public function getPricingForReseller($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): ?ProductPricing {
+    public function getCurrentPricing($rootValue = null, array $args = [], GraphQLContext $context = null, ResolveInfo $resolveInfo = null): ?ProductPricing {
+        $reseller = $context->user->reseller->id ?? null;
         return $this->hasOne(ProductPricing::class)
-        ->when(isset($args['reseller_id']), function($query) use($args) {
-            return $query->where(function($query) use($args) {
-                return $query->where('reseller_id', '=', $args['reseller_id'])
-                    ->orWhereNull('reseller_id');
-            });
-        })
-        ->orderBy('id', 'DESC')->first();
+            ->where(function($query) use($reseller) {
+                return $query->where('reseller_id', $reseller)
+                ->orWhereNull('reseller_id');
+            })
+            ->where([['available_from', '<=', Carbon::now()]])
+            ->orderBy('id', 'DESC')
+            ->first();
     }
 
     public function getDiscountForDate($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): ?ProductDiscount {

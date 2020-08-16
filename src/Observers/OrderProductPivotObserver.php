@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 use MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot;
 use MayIFit\Extension\Shop\Models\Product;
+use MayIFit\Extension\Shop\Models\Order;
 
 class OrderProductPivotObserver
 {
@@ -17,13 +18,18 @@ class OrderProductPivotObserver
      * @return void
      */
     //TODO: merge orders for same customer
-    public function creating(OrderProductPivot $model): void {
+    public function creating(OrderProductPivot $model) {
         $product = Product::where('catalog_id', $model->product_id)->first();
         if (!$product) {
             return;
         }
-        $model->product_id = $product->id;
         $order = $model->pivotParent;
+        $mergeTo = $order->mergable_to;
+        if ($order->mergable_to) {
+            $mergeOrder = Order::find($order->mergable_to);
+            $order = $mergeOrder;
+        }
+        $model->product_id = $product->id;
         
         $reseller = $order->reseller;
         $product->calculated_stock -= $model->quantity;
@@ -31,19 +37,7 @@ class OrderProductPivotObserver
         $order->items_ordered++;
         $now = Carbon::now();
 
-        $pricing = $product->pricings()
-            ->when($reseller, function($query) use($reseller) {
-                return $query->where(function($query) use($reseller) {
-                    return $query->where('reseller_id', $reseller->id)
-                    ->orWhereNull('reseller_id');
-                });
-            })->when(!$reseller, function($query) {
-                return $query->whereNull('reseller_id');
-            })->where([
-                ['available_from', '<=', $now],
-                ['currency', $order->currency]
-            ])
-            ->first();
+        $pricing = $product->getCurrentPricing();
         if (!$pricing) {
             return;
         }
@@ -84,9 +78,23 @@ class OrderProductPivotObserver
         $order->gross_value += $grossPrice * $model->quantity;
 
         $model->declined = false;
-
         $product->save();
-        $order->save();
+        if ($mergeTo) {
+            $model->order_id = $mergeOrder->id;
+            $prevOrderedProduct = OrderProductPivot::firstWhere([
+                'order_id' => $mergeOrder->id,
+                'product_id' => $product->id
+            ]);
+            if ($prevOrderedProduct) {
+                $prevOrderedProduct->quantity += $model->quantity;
+                $prevOrderedProduct->update();
+                $order->update();
+                return false;
+            } else {
+                $model = $model->newPivot($mergeOrder, $model->attributesToArray(), 'order_product', false);
+            }
+        }
+        $order->update();
     }
 
     /**
@@ -110,9 +118,9 @@ class OrderProductPivotObserver
         $orig = $model->getOriginal();
         if (isset($dirty['gross_value']) || isset($dirty['net_value'])) {
             if (isset($dirty['net_value']) && $dirty['net_value'] != $orig['net_value']) {
-                $model->gross_value = $model->net_value * (1 + ($model->vat / 100));
+                $model->gross_value = round($model->net_value * (1 + ($model->vat / 100)),  2, PHP_ROUND_HALF_EVEN);
             } else if (isset($dirty['gross_value']) && $dirty['gross_value'] != $orig['gross_value']) {
-                $model->net_value = $model->gross_value / (1 + ($model->vat / 100));
+                $model->net_value = round($model->gross_value / (1 + ($model->vat / 100)), 2, PHP_ROUND_HALF_EVEN);
             }
         }
 
@@ -127,6 +135,9 @@ class OrderProductPivotObserver
                 $model->product->calculated_stock += $orig['quantity'];
                 $model->order->quantity -= $orig['quantity'];
             }
+            if (!isset($dirty['shipped_at'])) {
+                $model->order->update();
+            }
         }
 
         if (isset($dirty['declined'])) {
@@ -135,7 +146,6 @@ class OrderProductPivotObserver
 
         if (!isset($dirty['shipped_at'])) {
             $model->product->save();
-            $model->order->save();
         }
 
         if (isset($dirty['quantity']) && $dirty['quantity'] <= 0) {
@@ -153,7 +163,12 @@ class OrderProductPivotObserver
      * @return void
      */
     public function updated(OrderProductPivot $model): void {
-        $model->order->recalculateValues();
+        $dirty = $model->getDirty();
+
+        if (isset($dirty['net_value']) || isset($dirty['gross_value']) || isset($dirty['quantity'])) {
+            $model->order->recalculateValues();
+            $model->order->update();
+        };
     }
 
     /**

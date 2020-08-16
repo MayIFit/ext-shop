@@ -73,10 +73,6 @@ class SendOrderDataToWMS
         
         $orderShipmentId = $event->order->order_id_prefix;
 
-        if ($sentItemCount > 0) {
-            $event->order->order_id_prefix .= '-EXT';
-        }
-
         $requestData = array(
             'Order' => [
                 'ClientHPId' => $this->apiUserID,
@@ -132,8 +128,8 @@ class SendOrderDataToWMS
         $docDetails = $sendableProducts->map(function($product) use(&$sentItemCount, &$sentQuantity) {
             $transferrableQuantity = 0;
             $quantityToBeSent = $product->pivot->quantity - $product->pivot->quantity_transferred;
+            ++$sentItemCount;
             if ($product->stock >= $quantityToBeSent) {
-                ++$sentItemCount;
                 $transferrableQuantity = $quantityToBeSent;
             } else {
                 $transferrableQuantity = $product->stock;
@@ -166,16 +162,17 @@ class SendOrderDataToWMS
         $response = $this->client->CreateOrder($requestData);
 
         if ($response->CreateOrderResult->MsgStatus === 0) {
+            $event->order->sent_to_courier_service = Carbon::now();
             if ($sentItemCount == $event->order->items_ordered) {
-                $event->order->sent_to_courier_service = Carbon::now();
+                $event->order->orderStatus()->associate(4);
             } else {
                 $event->order->orderStatus()->associate(6);
             }
             foreach ($sendableProducts as $product) {
                 $transferrableQuantity = 0;
                 $quantityToBeSent = $product->pivot->quantity - $product->pivot->quantity_transferred;
+                $product->pivot->shipped_at = Carbon::now()->format('Y-m-d H:i:s');
                 if ($product->stock >= $quantityToBeSent) {
-                    $product->pivot->shipped_at = Carbon::now()->format('Y-m-d H:i:s');
                     $transferrableQuantity = $quantityToBeSent;
                     $event->order->items_transferred++;
                 } else {
@@ -183,7 +180,6 @@ class SendOrderDataToWMS
                 }
 
                 $product->pivot->quantity_transferred += $transferrableQuantity;
-                $event->order->quantity_transferred += $transferrableQuantity;
                 $product->stock -= $transferrableQuantity;
                 $product->save();
                 $product->pivot->save();
@@ -191,6 +187,7 @@ class SendOrderDataToWMS
         } else {
             $event->order->orderStatus()->associate(1);
         }
-        $event->order->save();
+        $event->order->quantity_transferred += $sentQuantity;
+        $event->order->update();
     }
 }

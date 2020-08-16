@@ -20,6 +20,10 @@ class OrderProductPivot extends Pivot
     protected $gaurded = [];
     protected $table = 'order_product';
 
+    protected $attributes = [
+        'quantity_transferred' => 0
+    ];
+
     /**
      * The attributes that should be cast.
      *

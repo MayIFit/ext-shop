@@ -21,11 +21,26 @@ class OrderObserver
      * @return void
      */
     //TODO: merge orders for same customer
-    public function creating(Order $model): void {
+    public function creating(Order $model) {
         $orderPrefix = SystemSetting::where('setting_name', 'shop.orderIdPrefix')->first();
-        $model->order_id_prefix = $orderPrefix->setting_value ?? '';
+        if (!$model->order_id_prefix) {
+            $model->order_id_prefix = $orderPrefix->setting_value ?? '';
+        }
+        
         $model->token = Str::random(20);
         $model->orderStatus()->associate(OrderStatus::first());
+
+        $mergableTo = Order::where([
+            'shipping_address_id' => $model->shipping_address_id,
+            'reseller_id' => $model->reseller_id
+        ])->where('id', '!=', $model->id)
+        ->whereNull('sent_to_courier_service')->first();
+        if ($mergableTo) {
+            $model->mergable_to = $mergableTo->id; 
+            $model = $mergableTo;
+            $model->reseller->resellerShopCart()->delete();
+            return false;
+        }
     }
 
     /**
@@ -34,9 +49,13 @@ class OrderObserver
      * @param  \MayIFit\Extension\Shop\Models\Order  $model
      * @return void
      */
-    public function created(Order $model): void {
-        $model->order_id_prefix = $model->order_id_prefix.$model->id;
-        $model->save();
+    public function created(Order $model) {
+        $model->reseller->resellerShopCart()->delete();
+        $orderPrefix = SystemSetting::where('setting_name', 'shop.orderIdPrefix')->first();
+        if ($model->order_id_prefix === $orderPrefix->setting_value) {
+            $model->order_id_prefix .= $model->id;
+        }
+        $model->update();
     }
 
     /**
@@ -46,7 +65,7 @@ class OrderObserver
      * @return void
      */
     public function saving(Order $model): void {
-        
+        //
     }
 
     /**
@@ -65,19 +84,11 @@ class OrderObserver
      * Handle the Order "updating" event.
      *
      * @param  \MayIFit\Extension\Shop\Models\Order  $model
-     * @return void
+     * @return mixed
      */
     public function updating(Order $model) {
-        $original = $model->getOriginal();
-
-        if ($original['sent_to_courier_service'] || $original['order_status_id'] == 5) {
+        if ($model->getOriginal('closed')) {
             return false;
-        }
-
-        $dirty = $model->getDirty();
-
-        if (isset($dirty['order_status_id']) && $dirty['order_status_id'] == 5) {
-            $model = $this->declineOrder($model);
         }
     }
 
@@ -88,14 +99,20 @@ class OrderObserver
      * @return void
      */
     public function updated(Order $model): void {
-        //
+        if ($model->order_status_id == 5) {
+            $model = $this->declineOrder($model);
+        }
+        
+        if ($model->sent_to_courier_service && $model->order_status_id == 6) {
+            $this->cloneOrder($model);
+        }
     }
 
     /**
      * Handle the Order "deleting" event.
      *
      * @param  \MayIFit\Extension\Shop\Models\Order  $model
-     * @return void
+     * @return mixed
      */
     public function deleting(Order $model) {
         if ($model->quantity_transferred > 0){
@@ -125,7 +142,7 @@ class OrderObserver
     }
 
     /**
-     * Refills the stock of the ordered product.
+     * Refills the stock of the ordered and not yet shipped products.
      *
      * @param  \MayIFit\Extension\Shop\Models\Order  $model
      * @return void
@@ -139,5 +156,64 @@ class OrderObserver
         });
 
         return $model;
+    }
+
+    private function cloneOrder(Order $model) {
+        $clone = $model->replicate();
+        $clone->sent_to_courier_service = null;
+        $clone->order_id_prefix .= '-EXT';
+        $clone->quantity_transferred = 0;
+        $clone->items_transferred = 0;
+        $clone->items_ordered -= $model->items_transferred;
+        $clone->quantity -= $model->quantity_transferred;
+        $clone->net_value = 0;
+        $clone->gross_value = 0;
+
+        $clone->push();
+
+        // After cloning and saving the new model,
+        // we need to sync it's relations
+        foreach ($clone->getRelations() as $relation => $items) {
+            $relationType = $this->learnMethodType($clone, $relation);
+            if ($relationType === 'BelongsToMany') {
+                foreach ($items as $item) {
+                    // Now we get the extra attributes from the pivot tables, but
+                    // we intentionally leave out the foreignKey, as we already 
+                    // have it in the $clone
+                    $exclude = [$item->pivot->getForeignKey(), 'id'];
+                    $extra_attributes = array_except($item->pivot->getAttributes(), $exclude);
+
+                    // Detach all that has been fully shipped
+                    if ($extra_attributes['quantity'] === $extra_attributes['quantity_transferred']) {
+                        $clone->{$relation}()->detach($item);
+                        continue;
+                    }
+                    $extra_attributes['quantity'] -= $extra_attributes['quantity_transferred'] ?? 0;
+                    $extra_attributes['shipped_at'] = null;
+                    $clone->{$relation}()->attach($item, $extra_attributes);
+                }
+            } else if ($relationType === 'BelongsTo') {
+                $clone->{$relation}()->associate($items);
+            }
+        }
+
+        // Force reload relation for in-memory Object
+        $clone->load('products');
+        $clone->recalculateValues();
+        $clone->update();
+    }
+
+    /**
+     * Determine the type of the relation for the model.
+     *
+     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  string  $method
+     * @return string
+     */
+    private function learnMethodType($model, $method){
+        $oReflectionClass = new \ReflectionClass($model);
+        $method = $oReflectionClass->getMethod($method);
+        $type = get_class($method->invoke($model));
+        return substr($type, strrpos($type, '\\') + 1);
     }
 }

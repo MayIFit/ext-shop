@@ -16,6 +16,7 @@
     use MayIFit\Extension\Shop\Models\Order;
     use MayIFit\Extension\Shop\Models\Reseller;
     use MayIFit\Extension\Shop\Models\ResellerGroup;
+    use MayIFit\Extension\Shop\Models\ResellerShopCart;
     use MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot;
     use MayIFit\Extension\Shop\Policies\ProductPolicy;
     use MayIFit\Extension\Shop\Policies\ProductCategoryPolicy;
@@ -27,6 +28,7 @@
     use MayIFit\Extension\Shop\Policies\OrderProductPivotPolicy;
     use MayIFit\Extension\Shop\Policies\ResellerPolicy;
     use MayIFit\Extension\Shop\Policies\ResellerGroupPolicy;
+    use MayIFit\Extension\Shop\Policies\ResellerShopCartPolicy;
     use MayIFit\Extension\Shop\Observers\ProductObserver;
     use MayIFit\Extension\Shop\Observers\ProductPricingObserver;
     use MayIFit\Extension\Shop\Observers\ProductDiscountObserver;
@@ -54,7 +56,8 @@
             ProductDiscount::class => ProductDiscountPolicy::class,
             Reseller::class => ResellerPolicy::class,
             ResellerGroup::class => ResellerGroupPolicy::class,
-            OrderProductPivot::class => OrderProductPivotPolicy::class
+            OrderProductPivot::class => OrderProductPivotPolicy::class,
+            ResellerShopCart::class => ResellerShopCartPolicy::class
         ];
 
         /**

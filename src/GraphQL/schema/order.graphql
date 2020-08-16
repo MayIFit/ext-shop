@@ -18,6 +18,9 @@ extend type Query @guard(with: ["sanctum"]) {
     ): Order! 
         @can(ability: "view" find: "id") 
         @find
+
+    getResellerLastOpenOrder: Order
+        @field(resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\GetResellerLastOpenOrder")
 }
 
 extend type Mutation {

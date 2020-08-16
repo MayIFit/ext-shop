@@ -129,8 +129,9 @@ type Product @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Product") {
     documents: [Document]! @morphMany
     images: [Document]! @morphMany
     image: Document @morphOne
-    getPricingForReseller(reseller_id: ID): ProductPricing
+    getCurrentPricing: ProductPricing
         @method(passordered: true)
+
     getDiscountForDate(dateTime: DateTime!): ProductDiscount
         @method(passordered: true)
 }

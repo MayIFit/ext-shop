@@ -5,12 +5,15 @@ namespace MayIFit\Extension\Shop\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\hasOne;
+
 use Illuminate\Notifications\Notifiable;
 
 use MayIFit\Core\Permission\Traits\HasUsers;
 
 use MayIFit\Extension\Shop\Models\ResellerGroup;
 use MayIFit\Extension\Shop\Models\Order;
+use MayIFit\Extension\Shop\Models\ResellerShopCart;
 
 class Reseller extends Model
 {
@@ -30,5 +33,9 @@ class Reseller extends Model
 
     public function orders(): HasMany {
         return $this->hasMany(Order::class);
+    }
+
+    public function resellerShopCart(): hasOne {
+        return $this->hasOne(ResellerShopCart::class);
     }
 }
