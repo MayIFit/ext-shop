@@ -59,7 +59,9 @@ class OrderObserver
         if ($model->order_id_prefix === $orderPrefix->setting_value) {
             $model->order_id_prefix .= $model->id;
         }
-        $model->update();
+        if ($model->getDirty()) {
+            $model->update();
+        }
     }
 
     /**
@@ -172,8 +174,7 @@ class OrderObserver
         $clone->quantity -= $model->quantity_transferred;
         $clone->net_value = 0;
         $clone->gross_value = 0;
-
-        $clone->push();
+        $clone->save();
 
         // After cloning and saving the new model,
         // we need to sync it's relations

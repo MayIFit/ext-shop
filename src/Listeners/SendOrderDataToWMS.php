@@ -184,10 +184,11 @@ class SendOrderDataToWMS
                 $product->save();
                 $product->pivot->save();
             }
+            $event->order->quantity_transferred = $sentQuantity;
         } else {
             $event->order->orderStatus()->associate(1);
         }
-        $event->order->quantity_transferred += $sentQuantity;
+        
         $event->order->update();
     }
 }
