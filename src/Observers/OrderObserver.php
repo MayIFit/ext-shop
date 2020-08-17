@@ -29,17 +29,21 @@ class OrderObserver
         
         $model->token = Str::random(20);
         $model->orderStatus()->associate(OrderStatus::first());
-
-        $mergableTo = Order::where([
-            'shipping_address_id' => $model->shipping_address_id,
-            'reseller_id' => $model->reseller_id
-        ])->where('id', '!=', $model->id)
-        ->whereNull('sent_to_courier_service')->first();
-        if ($mergableTo) {
-            $model->mergable_to = $mergableTo->id; 
-            $model = $mergableTo;
-            $model->reseller->resellerShopCart()->delete();
-            return false;
+        if (!strpos($model->order_id_prefix, 'EXT')) {
+            $mergableTo = Order::where([
+                'shipping_address_id' => $model->shipping_address_id,
+                'reseller_id' => $model->reseller_id
+            ])->where('id', '!=', $model->id)
+            ->where('order_id_prefix', 'not like', "%EXT%")
+            ->whereNull('sent_to_courier_service')
+            ->orderBy('id', 'DESC')
+            ->first();
+            if ($mergableTo) {
+                $model->mergable_to = $mergableTo->id; 
+                $model = $mergableTo;
+                $model->reseller->resellerShopCart()->delete();
+                return false;
+            }
         }
     }
 
@@ -189,6 +193,7 @@ class OrderObserver
                         continue;
                     }
                     $extra_attributes['quantity'] -= $extra_attributes['quantity_transferred'] ?? 0;
+                    $extra_attributes['quantity_transferred'] = 0;
                     $extra_attributes['shipped_at'] = null;
                     $clone->{$relation}()->attach($item, $extra_attributes);
                 }

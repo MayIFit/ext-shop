@@ -30,6 +30,7 @@ class OrderProductPivotObserver
             $order = $mergeOrder;
         }
         $model->product_id = $product->id;
+        $model->quantity_transferred = 0;
         
         $reseller = $order->reseller;
         $product->calculated_stock -= $model->quantity;
@@ -79,7 +80,7 @@ class OrderProductPivotObserver
 
         $model->declined = false;
         $product->save();
-        if ($mergeTo) {
+        if ($mergeTo && $model->quantity > 0) {
             $model->order_id = $mergeOrder->id;
             $prevOrderedProduct = OrderProductPivot::firstWhere([
                 'order_id' => $mergeOrder->id,

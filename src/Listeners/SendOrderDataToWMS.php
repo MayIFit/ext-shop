@@ -5,6 +5,8 @@ namespace MayIFit\Extension\Shop\Listeners;
 use Carbon\Carbon;
 use SoapClient;
 
+use Illuminate\Support\Facades\DB;
+
 use MayIFit\Extension\Shop\Events\OrderAccepted;
 
 class SendOrderDataToWMS
@@ -53,7 +55,7 @@ class SendOrderDataToWMS
         $this->apiUserPassword = config('ext-shop.courier_api_password');
         $this->apiUserID = config('ext-shop.courier_api_userid');
 
-        $this->client = new SoapClient($this->apiWsdlUrl);
+        $this->client = new SoapClient($this->apiWsdlUrl, array('trace' => 1));
     }
 
     /**
@@ -118,11 +120,7 @@ class SendOrderDataToWMS
         }
 
         $sendableProducts = $event->order->products->filter(function($product) {
-            return $product->pivot->canBeShipped() && 
-                    !$product->pivot->shipped_at && 
-                    !$product->pivot->declined &&
-                    $product->pivot->quantity_transferred < $product->pivot->quantity  &&
-                    $product->pivot->quantity > 0;
+            return $product->pivot->canBeShipped();
         });
 
         $docDetails = $sendableProducts->map(function($product) use(&$sentItemCount, &$sentQuantity) {
@@ -161,9 +159,11 @@ class SendOrderDataToWMS
 
         $response = $this->client->CreateOrder($requestData);
 
+        DB::insert('insert into order_request_logs(order_id, request, response) values (?, ?, ?)', [$event->order->id, $this->client->__getLastRequest(), $this->client->__getLastResponse()]);
+
         if ($response->CreateOrderResult->MsgStatus === 0) {
             $event->order->sent_to_courier_service = Carbon::now();
-            if ($sentItemCount == $event->order->items_ordered) {
+            if ($sentQuantity == $event->order->quantity) {
                 $event->order->orderStatus()->associate(4);
             } else {
                 $event->order->orderStatus()->associate(6);

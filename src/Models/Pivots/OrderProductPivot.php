@@ -56,19 +56,29 @@ class OrderProductPivot extends Pivot
         return $this->belongsTo(Order::class);
     }
 
-    public function hasPreviousUnShippedOrder() {
+    public function hasPreviousUnShippedOrders() {
         return OrderProductPivot::where([
             ['product_id', '=', $this->product_id],
             ['order_id', '!=', $this->order_id],
-        ])->where('created_at', '<', $this->created_at)->whereNull('shipped_at')->first();
+            ['declined', false]
+        ])->where('created_at', '<', $this->created_at)->whereNull('shipped_at')->get();
     }
 
     public function canBeShipped(): bool {
-        if ($this->quantity === $this->quantity_transferred || $this->shipped_at) {
+        if ($this->quantity == $this->quantity_transferred || $this->quantity <= 0 || $this->shipped_at || $this->order->sent_to_courier_service || $this->declined) {
             return false;
         }
+        $prevShipments = $this->hasPreviousUnShippedOrders();
 
-        if ($this->hasPreviousUnShippedOrder()) {
+        $previouslyOrderedQuantity = 0;
+
+        if (!$prevShipments->isEmpty()) {
+            $prevShipments->map(function($orderProduct) use(&$previouslyOrderedQuantity) {
+                $previouslyOrderedQuantity += $orderProduct->quantity;
+            });
+        }
+
+        if ($this->product->stock - $previouslyOrderedQuantity <= 0) {
             return false;
         }
 
