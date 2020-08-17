@@ -196,7 +196,9 @@ class OrderObserver
                     $extra_attributes['quantity'] -= $extra_attributes['quantity_transferred'] ?? 0;
                     $extra_attributes['quantity_transferred'] = 0;
                     $extra_attributes['shipped_at'] = null;
-                    $clone->{$relation}()->attach($item, $extra_attributes);
+                    if ($extra_attributes['quantity'] != 0) {
+                        $clone->{$relation}()->attach($item, $extra_attributes);
+                    }
                 }
             } else if ($relationType === 'BelongsTo') {
                 $clone->{$relation}()->associate($items);
