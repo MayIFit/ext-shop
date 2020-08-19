@@ -20,7 +20,8 @@ class ProductPricing extends Model
         'vat',
         'currency',
         'wholesale_price',
-        'available_from'
+        'available_from',
+        'is_discounted'
     ];
 
     /**
@@ -36,7 +37,8 @@ class ProductPricing extends Model
         'base_price' => 0.00,
         'wholesale_price' => 0.00,
         'vat' => 0.00,
-        'currency' => 'HUF'
+        'currency' => 'HUF',
+        'is_discounted' => false
     ];
 
     public function getBaseGrossPriceAttribute(): float {

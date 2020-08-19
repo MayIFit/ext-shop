@@ -1,9 +1,12 @@
 <?php
     namespace MayIFit\Extension\Shop;
 
+    use Carbon\Carbon;
+
     use Illuminate\Contracts\Config\Repository as ConfigRepository;
     use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
     use Illuminate\Database\Eloquent\Relations\Relation;
+    use Illuminate\Console\Scheduling\Schedule;
 
     use MayIFit\Extension\Shop\Providers\EventServiceProvider;
     use MayIFit\Extension\Shop\Models\Product;
@@ -38,6 +41,10 @@
     use MayIFit\Extension\Shop\Observers\OrderProductPivotObserver;
     use MayIFit\Extension\Shop\Observers\ResellerObserver;
     use MayIFit\Extension\Shop\Observers\ResellerGroupObserver;
+
+    use MayIFit\Extension\Shop\Jobs\CollectSendableOrders;
+    use MayIFit\Extension\Shop\Jobs\ExportTransferredOrders;
+    
 
     class ShopServiceProvider extends ServiceProvider {
 
@@ -82,6 +89,11 @@
             $this->registerPolicies();
 
             $this->registerObservers();
+
+            $this->callAfterResolving(Schedule::class, function (Schedule $schedule) {
+                $schedule->call(new CollectSendableOrders)->weekdays()->dailyAt('14:00');
+                $schedule->call(new ExportTransferredOrders)->weekdays()->dailyAt('14:30');
+            });
         }
 
         public function register(): void {

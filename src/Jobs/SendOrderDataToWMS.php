@@ -1,30 +1,26 @@
 <?php
 
-namespace MayIFit\Extension\Shop\Listeners;
+namespace MayIFit\Extension\Shop\Jobs;
 
 use Carbon\Carbon;
 use SoapClient;
+use Exception;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
-use MayIFit\Extension\Shop\Events\OrderAccepted;
+use MayIFit\Extension\Shop\Models\Order;
 
-class SendOrderDataToWMS
+class SendOrderDataToWMS implements ShouldQueue
 {
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    /**
-     * The name of the queue the job should be sent to.
-     *
-     * @var string|null
-     */
-    public $queue = 'listeners';
-
-    /**
-     * The time (seconds) before the job should be processed.
-     *
-     * @var int
-     */
-    public $delay = 60;
+    protected $order;
 
     /**
      * SoapClient
@@ -42,14 +38,15 @@ class SendOrderDataToWMS
     private $apiUserName = '';
     private $apiUserPassword = '';
     private $apiUserID = '';
-    
+
     /**
-     * Create the event listener.
+     * Create a new job instance.
      *
+     * @param  Order  $Order
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct(Order $order) {
+        $this->order = $order;
         $this->apiWsdlUrl = config('ext-shop.courier_api_endpoint');
         $this->apiUserName = config('ext-shop.courier_api_username');
         $this->apiUserPassword = config('ext-shop.courier_api_password');
@@ -59,21 +56,19 @@ class SendOrderDataToWMS
     }
 
     /**
-     * Handle the event.
+     * Execute the job.
      *
-     * @param  \MayIFit\Extension\Shop\Events\OrderAccepted  $event
      * @return void
      */
-    public function handle(OrderAccepted $event)
-    {
-        $sentItemCount = $event->order->items_transferred;
-        $sentQuantity = $event->order->quantity_transferred;
-        $partnerData = $event->order->billingAddress;
-        $partnerReseller = $event->order->reseller;
+    public function handle() {
+        $sentItemCount = $this->order->items_transferred;
+        $sentQuantity = $this->order->quantity_transferred;
+        $partnerData = $this->order->billingAddress;
+        $partnerReseller = $this->order->reseller;
         
-        $recipientLocation = $event->order->shippingAddress;
+        $recipientLocation = $this->order->shippingAddress;
         
-        $orderShipmentId = $event->order->order_id_prefix;
+        $orderShipmentId = $this->order->order_id_prefix;
 
         $requestData = array(
             'Order' => [
@@ -82,11 +77,11 @@ class SendOrderDataToWMS
                 'ClientPWD' => $this->apiUserPassword,
                 'DocumentList' => [[
                     'DocumentHeader' => [
-                        'ClientReferenceNumber' => $event->order->order_id_prefix,
+                        'ClientReferenceNumber' => $this->order->order_id_prefix,
                         'ClientDocType' => 'Out',
                         'DocYear' => Carbon::now()->format('Y'),
                         'DocDate' => Carbon::now()->format('Y-m-d\TH:i:s'),
-                        'ShipmentCODValue' => $event->order->payment_type == 'bank_transfer' ? 0 : ($event->order->paid ? 0 : $event->order->gross_value + $event->order->transport_cost),
+                        'ShipmentCODValue' => $this->order->payment_type == 'bank_transfer' ? 0 : ($this->order->paid ? 0 : $this->order->gross_value + $this->order->transport_cost),
                         'Recipient' => [
                             'PartnerID' => $partnerReseller->supplier_customer_code,
                             'PartnerName' => $partnerReseller->company_name,
@@ -97,9 +92,9 @@ class SendOrderDataToWMS
                             'PartnerContact' => ($partnerReseller->phone_number ?? $partnerData->phone_number ?? ''). ' / '.($partnerReseller->email ?? $partnerData->email ?? ''),
                             'PartnerCountry' => 'HUN'
                         ],
-                        'DeliveryType' => $event->order->delivery_type,
-                        'DeliveryComment' => $event->order->extra_information,
-                        'ClientRef1' => $event->order->token,
+                        'DeliveryType' => $this->order->delivery_type,
+                        'DeliveryComment' => $this->order->extra_information,
+                        'ClientRef1' => $this->order->token,
                         'ClientRef2' => $orderShipmentId
                     ],
                 ]],
@@ -119,7 +114,7 @@ class SendOrderDataToWMS
             ];
         }
 
-        $sendableProducts = $event->order->products->filter(function($product) {
+        $sendableProducts = $this->order->products->filter(function($product) {
             return $product->pivot->canBeShipped();
         });
 
@@ -153,26 +148,32 @@ class SendOrderDataToWMS
         $requestData['Order']['DocumentList'][0]['DocumentDetails'] = $docDetails;
 
         if ($sentItemCount === 0) {
-            $event->order->orderStatus()->associate(1);
+            $this->order->orderStatus()->associate(1);
             return;
         }
 
+        Log::info('Order has shippable items: '. $this->order->order_id_prefix);
+
         $response = $this->client->CreateOrder($requestData);
 
+        Log::info('Request sent: '. $this->order->order_id_prefix);
+
         if ($response->CreateOrderResult->MsgStatus == 0) {
-            $event->order->sent_to_courier_service = Carbon::now();
-            if ($sentQuantity == $event->order->quantity) {
-                $event->order->orderStatus()->associate(4);
+            Log::info('Request success: '. $this->order->order_id_prefix);
+            $this->order->sent_to_courier_service = Carbon::now();
+            if ($sentQuantity == $this->order->quantity) {
+                $this->order->orderStatus()->associate(4);
             } else {
-                $event->order->orderStatus()->associate(6);
+                $this->order->orderStatus()->associate(6);
             }
+            
             foreach ($sendableProducts as $product) {
                 $transferrableQuantity = 0;
                 $quantityToBeSent = $product->pivot->quantity - $product->pivot->quantity_transferred;
                 $product->pivot->shipped_at = Carbon::now()->format('Y-m-d H:i:s');
+                $this->order->items_transferred++;
                 if ($product->stock >= $quantityToBeSent) {
                     $transferrableQuantity = $quantityToBeSent;
-                    $event->order->items_transferred++;
                 } else {
                     $transferrableQuantity = $product->stock;
                 }
@@ -182,13 +183,19 @@ class SendOrderDataToWMS
                 $product->save();
                 $product->pivot->save();
             }
-            $event->order->quantity_transferred = $sentQuantity;
+            $this->order->can_be_shipped = false;
+            $this->order->quantity_transferred = $sentQuantity;
         } else {
-            $event->order->orderStatus()->associate(1);
+            Log::info('Request failed: '. $this->order->order_id_prefix);
+            $this->order->orderStatus()->associate(1);
         }
 
-        DB::insert('insert into order_request_logs(order_id, request, response) values (?, ?, ?)', [$event->order->id, $this->client->__getLastRequest(), $this->client->__getLastResponse()]);
+        DB::insert('insert into order_request_logs(order_id, request, response) values (?, ?, ?)', [$this->order->id, $this->client->__getLastRequest(), $this->client->__getLastResponse()]);
         
-        $event->order->update();
+        $this->order->update();
+    }
+
+    public function failed(Exception $exception) {
+        // Send user notification of failure, etc...
     }
 }

@@ -55,22 +55,33 @@ class OrderProductPivotObserver
         
         $netPrice = 0;
         $grossPrice = 0;
-        if ($reseller && $reseller->resellerGroup) {
-            $resellerGroupDiscount = $reseller->resellerGroup->discount_value;
-            $netPrice = $model->pricing->wholesale_price * (1 - ($resellerGroupDiscount / 100));
-            $grossPrice = $model->pricing->getWholeSaleGrossPriceAttribute() * (1 - ($resellerGroupDiscount / 100));
-            $model->is_wholesale = true;
+        if (!$pricing->is_discounted) {
+            if ($reseller && $reseller->resellerGroup) {
+                $resellerGroupDiscount = $reseller->resellerGroup->discount_value;
+                $netPrice = $model->pricing->wholesale_price * (1 - ($resellerGroupDiscount / 100));
+                $grossPrice = $model->pricing->getWholeSaleGrossPriceAttribute() * (1 - ($resellerGroupDiscount / 100));
+                $model->is_wholesale = true;
+            } else if ($reseller) {
+                $model->discount()->associate($discount);
+                $netPrice = $model->pricing->wholesale_price * (1 - ($model->discount->discount_percentage ?? 0 / 100));
+                $grossPrice = $model->pricing->getWholeSaleGrossPriceAttribute() * (1 - ($model->discount->discount_percentage ?? 0 / 100));
+                $model->is_wholesale = true;
+            } else {
+                $model->discount()->associate($discount);
+                $netPrice = $model->pricing->base_price * (1 - ($model->discount->discount_percentage ?? 0 / 100));
+                $grossPrice = $model->pricing->getBaseGrossPriceAttribute() * (1 - ($model->discount->discount_percentage ?? 0 / 100));
+                $model->is_wholesale = false;
+            }
         } else if ($reseller) {
-            $model->discount()->associate($discount);
-            $netPrice = $model->pricing->wholesale_price * (1 - ($model->discount->discount_percentage ?? 0 / 100));
-            $grossPrice = $model->pricing->getWholeSaleGrossPriceAttribute() * (1 - ($model->discount->discount_percentage ?? 0 / 100));
+            $netPrice = $model->pricing->wholesale_price;
+            $grossPrice = $model->pricing->getWholeSaleGrossPriceAttribute();
             $model->is_wholesale = true;
         } else {
-            $model->discount()->associate($discount);
-            $netPrice = $model->pricing->base_price * (1 - ($model->discount->discount_percentage ?? 0 / 100));
-            $grossPrice = $model->pricing->getBaseGrossPriceAttribute() * (1 - ($model->discount->discount_percentage ?? 0 / 100));
+            $netPrice = $model->pricing->base_price;
+            $grossPrice = $model->pricing->getBaseGrossPriceAttribute();
             $model->is_wholesale = false;
         }
+
         $model->vat = $model->pricing->vat;
         $model->net_value = $netPrice;
         $model->gross_value = $grossPrice;

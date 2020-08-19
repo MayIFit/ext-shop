@@ -67,8 +67,12 @@ class Order extends Model
         $canBeShipped = $this->products->filter(function($product) {
             return $product->pivot->canBeShipped();
         });
-
-        return count($canBeShipped) > 0;
+        $this->can_be_shipped = $canBeShipped->count() > 0;
+        $dirty = $this->getDirty();
+        if (isset($dirty['can_be_shipped'])) {
+            $this->update();
+        }
+        return $canBeShipped->count() > 0;
     }
 
     public function getFullOrderCanBeShippedAttribute(): bool {

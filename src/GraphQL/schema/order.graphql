@@ -21,6 +21,13 @@ extend type Query @guard(with: ["sanctum"]) {
 
     getResellerLastOpenOrder: Order
         @field(resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\GetResellerLastOpenOrder")
+
+    getTransferredOrders(
+        date_from: Date
+        date_to: Date
+    ): String
+        @field(resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\GetTransferredOrders")
+
 }
 
 extend type Mutation {
@@ -40,6 +47,10 @@ extend type Mutation @guard(with: ["sanctum"]) {
     updateOrderProductPivot(input: UpdateOrderProductPivotInput! @spread): OrderProductPivot
         @can(ability: "update" find: "id") 
         @update
+
+    sendOrderEvent(id: ID!): Boolean
+        @can(ability: "update" find: "id") 
+        @field(resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Mutations\\SendOrderEvent")
 }
 
 input CreateOrderInput {
@@ -104,4 +115,5 @@ enum OrderColumns {
     CLOSED @enum(value: "closed")
     SENT_TO_COURIER_SERVICE @enum(value: "sent_to_courier_service")
     INVOICE_NUMBER @enum(value: "invoice_number")
+    CAN_BE_SHIPPED @enum(value: "can_be_shipped")
 }

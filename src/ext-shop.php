@@ -24,4 +24,5 @@ return [
     'courier_api_username' => env('COURIER_API_USERNAME', 'WMSAPI'),
     'courier_api_password' => env('COURIER_API_PASSWORD', 'Api83Wms'),
     'courier_api_userid' => env('COURIER_API_USERID', '8420'),
+    'warehouse_emails' => env('WAREHOUSE_EMAILS', 'logisztika@lamaxsp.hu;info@gude.hu;ertekesites@gude.hu')
 ];

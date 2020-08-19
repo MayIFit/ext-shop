@@ -10,7 +10,6 @@ use MayIFit\Core\Permission\Models\SystemSetting;
 
 use MayIFit\Extension\Shop\Models\Order;
 use MayIFit\Extension\Shop\Models\OrderStatus;
-use MayIFit\Extension\Shop\Events\OrderAccepted;
 
 class OrderObserver
 {
@@ -86,9 +85,7 @@ class OrderObserver
      * @return void
      */
     public function saved(Order $model): void {
-        if ($model->order_status_id == 3 && !$model->sent_to_courier_service) {
-            event(new OrderAccepted($model));
-        }
+        // 
     }
 
     /**
