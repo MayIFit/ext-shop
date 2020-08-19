@@ -30,19 +30,24 @@ class OrderObserver
         $model->token = Str::random(20);
         $model->orderStatus()->associate(OrderStatus::first());
         if (!strpos($model->order_id_prefix, 'EXT')) {
-            $mergableTo = Order::where([
+            $shippableOrders = Order::where([
                 'shipping_address_id' => $model->shipping_address_id,
                 'reseller_id' => $model->reseller_id
             ])->where('id', '!=', $model->id)
             ->where('order_id_prefix', 'not like', "%EXT%")
             ->whereNull('sent_to_courier_service')
-            ->orderBy('id', 'DESC')
-            ->first();
-            if ($mergableTo) {
-                $model->mergable_to = $mergableTo->id; 
-                $model = $mergableTo;
-                $model->reseller->resellerShopCart()->delete();
-                return false;
+            ->orderBy('id', 'DESC')->get();
+
+            if ($shippableOrders->count() > 0) {
+                $mergableTo = $shippableOrders->first(function($ord) {
+                    return $ord->getFullOrderCanBeShippedAttribute();
+                });
+                if ($mergableTo) {
+                    $model->mergable_to = $mergableTo->id; 
+                    $model = $mergableTo;
+                    $model->reseller->resellerShopCart()->delete();
+                    return false;
+                }
             }
         }
     }

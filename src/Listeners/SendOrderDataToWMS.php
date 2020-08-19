@@ -159,9 +159,7 @@ class SendOrderDataToWMS
 
         $response = $this->client->CreateOrder($requestData);
 
-        DB::insert('insert into order_request_logs(order_id, request, response) values (?, ?, ?)', [$event->order->id, $this->client->__getLastRequest(), $this->client->__getLastResponse()]);
-
-        if ($response->CreateOrderResult->MsgStatus === 0) {
+        if ($response->CreateOrderResult->MsgStatus == 0) {
             $event->order->sent_to_courier_service = Carbon::now();
             if ($sentQuantity == $event->order->quantity) {
                 $event->order->orderStatus()->associate(4);
@@ -188,6 +186,8 @@ class SendOrderDataToWMS
         } else {
             $event->order->orderStatus()->associate(1);
         }
+
+        DB::insert('insert into order_request_logs(order_id, request, response) values (?, ?, ?)', [$event->order->id, $this->client->__getLastRequest(), $this->client->__getLastResponse()]);
         
         $event->order->update();
     }

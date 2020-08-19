@@ -70,4 +70,16 @@ class Order extends Model
 
         return count($canBeShipped) > 0;
     }
+
+    public function getFullOrderCanBeShippedAttribute(): bool {
+        if ($this->sent_to_courier_service || $this->items_transferred === $this->items_ordered) {
+            return false;
+        }
+
+        $canBeShipped = $this->products->filter(function($product) {
+            return $product->pivot->canBeShipped();
+        });
+
+        return $canBeShipped->count() === $this->products->count();
+    }
 }
