@@ -91,8 +91,8 @@
             $this->registerObservers();
 
             $this->callAfterResolving(Schedule::class, function (Schedule $schedule) {
-                $schedule->call(new CollectSendableOrders)->weekdays()->dailyAt('14:00');
-                $schedule->call(new ExportTransferredOrders)->weekdays()->dailyAt('14:30');
+                $schedule->job(new CollectSendableOrders)->weekdays()->dailyAt('14:00');
+                $schedule->job(new ExportTransferredOrders)->weekdays()->dailyAt('14:30');
             });
         }
 
