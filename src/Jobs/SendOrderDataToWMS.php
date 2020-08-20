@@ -148,6 +148,8 @@ class SendOrderDataToWMS implements ShouldQueue
         $requestData['Order']['DocumentList'][0]['DocumentDetails'] = $docDetails;
 
         if ($sentItemCount === 0) {
+            Log::info('Order has no shippable items: '. $this->order->order_id_prefix);
+
             $this->order->orderStatus()->associate(1);
             return;
         }

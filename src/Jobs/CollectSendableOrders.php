@@ -27,6 +27,8 @@ class CollectSendableOrders implements ShouldQueue
             ['order_status_id', '=', 3]
         ])->whereNull('sent_to_courier_service')->get();
 
+        Log::info($orders->count().' order(s) found');
+
         if (!$orders->count()) {
             return false;
         }
@@ -34,7 +36,7 @@ class CollectSendableOrders implements ShouldQueue
         $orders->map(function($order) {
             Log::info('Checking order: '.$order->order_id_prefix);
             if ($order->getOrderCanBeShippedAttribute()) {
-                Log::info('Can be shipped');
+                Log::info('Can be shipped: '.$order->order_id_prefix);
                 SendOrderDataToWMS::dispatch($order);
             }
         });
