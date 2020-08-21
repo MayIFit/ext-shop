@@ -82,7 +82,6 @@ type Reseller @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Reseller") {
     house_nr: String
     floor: String
     door: String
-    orders: [Order]! @hasMany
 }
 
 "Subset of Reseller"

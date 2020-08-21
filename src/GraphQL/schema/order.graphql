@@ -27,7 +27,6 @@ extend type Query @guard(with: ["sanctum"]) {
         date_to: Date
     ): String
         @field(resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\GetTransferredOrders")
-
 }
 
 extend type Mutation {
@@ -98,6 +97,15 @@ type Order @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
     sent_to_courier_service: DateTime
     closed: Boolean
     can_be_shipped: Boolean @method(name: "getOrderCanBeShippedAttribute")
+}
+
+input DateRange {
+    from: Date!
+    to: Date!
+}
+
+extend type Reseller @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Reseller") {
+    orders(placed: DateRange @whereBetween): [Order]! @hasMany
 }
 
 "A list of filterable columns."
