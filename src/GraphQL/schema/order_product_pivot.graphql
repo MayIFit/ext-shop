@@ -43,4 +43,5 @@ type OrderProductPivot @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Piv
     shipped_at: DateTime
     declined: Boolean!
     can_be_shipped: Boolean @method(name: "canBeShipped")
+    created_at: DateTime
 }
