@@ -35,7 +35,8 @@ class OrderObserver
         if (!strpos($model->order_id_prefix, 'EXT')) {
             $shippableOrders = Order::where([
                 'shipping_address_id' => $model->shipping_address_id,
-                'reseller_id' => $model->reseller_id
+                'reseller_id' => $model->reseller_id,
+                'order_status_id' => 1,
             ])->where('id', '!=', $model->id)
             ->where('order_id_prefix', 'not like', "%EXT%")
             ->whereNull('sent_to_courier_service')
