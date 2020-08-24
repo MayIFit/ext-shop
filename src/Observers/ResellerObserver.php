@@ -6,6 +6,11 @@ use Illuminate\Support\Facades\Auth;
 
 use MayIFit\Extension\Shop\Models\Reseller;
 
+/**
+ * Class ResellerObserver
+ *
+ * @package MayIFit\Extension\Shop
+ */
 class ResellerObserver
 {
     /**

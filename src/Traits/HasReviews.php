@@ -9,7 +9,7 @@ use MayIFit\Extension\Shop\Models\ProductReview;
 /**
  * Trait HasReviews
  *
- * @package MayIFit\Extension\Shop\Traits
+ * @package MayIFit\Extension\Shop
  */
 trait HasReviews {
 

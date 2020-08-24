@@ -7,6 +7,11 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 use App\Models\User;
 use MayIFit\Extension\Shop\Models\Order;
 
+/**
+ * Class OrderPolicy
+ *
+ * @package MayIFit\Extension\Shop
+ */
 class OrderPolicy
 {
     use HandlesAuthorization;

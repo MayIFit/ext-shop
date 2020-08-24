@@ -7,6 +7,11 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 use MayIFit\Extension\Shop\Models\Order;
 
+/**
+ * Class GetResellerLastOpenOrder
+ *
+ * @package MayIFit\Extension\Shop
+ */
 class GetResellerLastOpenOrder
 {
     public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) {

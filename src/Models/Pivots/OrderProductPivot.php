@@ -13,6 +13,11 @@ use MayIFit\Extension\Shop\Models\ProductDiscount;
 use MayIFit\Extension\Shop\Traits\HasReseller;
 use MayIFit\Extension\Shop\Traits\HasProduct;
 
+/**
+ * Class OrderProductPivot
+ *
+ * @package MayIFit\Extension\Shop
+ */
 class OrderProductPivot extends Pivot
 {
     use HasUsers, HasReseller, HasProduct;

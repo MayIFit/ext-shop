@@ -9,7 +9,7 @@ use MayIFit\Extension\Shop\Models\OrderStatus;
 /**
  * Trait HasOrderStatus
  *
- * @package MayIFit\Extension\Shop\Traits
+ * @package MayIFit\Extension\Shop
  */
 trait HasOrderStatus {
 

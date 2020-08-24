@@ -2,15 +2,18 @@
 
 namespace MayIFit\Extension\Shop\Imports;
 
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Maatwebsite\Excel\Concerns\WithChunkReading;
 
 use MayIFit\Extension\Shop\Models\Product;
 use MayIFit\Extension\Shop\Models\ProductCategory;
 
+/**
+ * Class ProductsImport
+ *
+ * @package MayIFit\Extension\Shop
+ */
 class ProductsImport implements ToCollection, WithHeadingRow
 {
     /**

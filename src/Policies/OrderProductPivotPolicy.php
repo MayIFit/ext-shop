@@ -7,6 +7,11 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 use App\Models\User;
 use MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot;
 
+/**
+ * Class OrderProductPivotPolicy
+ *
+ * @package MayIFit\Extension\Shop
+ */
 class OrderProductPivotPolicy
 {
     use HandlesAuthorization;

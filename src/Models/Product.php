@@ -20,6 +20,11 @@ use MayIFit\Extension\Shop\Models\ProductCategory;
 use MayIFit\Extension\Shop\Traits\HasOrders;
 use MayIFit\Extension\Shop\Traits\HasReviews;
 
+/**
+ * Class Product
+ *
+ * @package MayIFit\Extension\Shop
+ */
 class Product extends Model
 {
     use SoftDeletes, HasUsers, HasOrders, HasReviews, HasDocuments;

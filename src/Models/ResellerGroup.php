@@ -10,6 +10,11 @@ use MayIFit\Core\Permission\Traits\HasUsers;
 
 use MayIFit\Extension\Shop\Models\Reseller;
 
+/**
+ * Class ResellerGroup
+ *
+ * @package MayIFit\Extension\Shop
+ */
 class ResellerGroup extends Model
 {
     use HasUsers, Notifiable;

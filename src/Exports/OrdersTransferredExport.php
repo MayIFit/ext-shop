@@ -7,8 +7,11 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-
-
+/**
+ * Class OrdersTransferredExport
+ *
+ * @package MayIFit\Extension\Shop
+ */
 class OrdersTransferredExport implements FromCollection, WithMapping, WithHeadings
 {
     protected $orderProductPivots;

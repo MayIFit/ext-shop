@@ -7,6 +7,11 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 use App\Models\User;
 use MayIFit\Extension\Shop\Models\ProductReview;
 
+/**
+ * Class ProductReviewPolicy
+ *
+ * @package MayIFit\Extension\Shop
+ */
 class ProductReviewPolicy
 {
     use HandlesAuthorization;

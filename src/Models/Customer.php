@@ -8,6 +8,11 @@ use Illuminate\Notifications\Notifiable;
 use MayIFit\Core\Permission\Traits\HasUsers;
 use MayIFit\Extension\Shop\Traits\HasOrders;
 
+/**
+ * Class Customer
+ *
+ * @package MayIFit\Extension\Shop
+ */
 class Customer extends Model
 {
     use Notifiable, HasUsers, HasOrders;

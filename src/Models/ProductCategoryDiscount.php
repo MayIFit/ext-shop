@@ -2,7 +2,6 @@
 
 namespace MayIFit\Extension\Shop\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -11,6 +10,11 @@ use MayIFit\Core\Permission\Traits\HasUsers;
 use MayIFit\Extension\Shop\Traits\HasReseller;
 use MayIFit\Extension\Shop\Models\ProductCategory;
 
+/**
+ * Class ProductCategoryDiscount
+ *
+ * @package MayIFit\Extension\Shop
+ */
 class ProductCategoryDiscount extends Model
 {
     use SoftDeletes, HasUsers, HasReseller;

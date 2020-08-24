@@ -14,6 +14,11 @@ use MayIFit\Extension\Shop\Imports\ProductPricingsImport;
 use MayIFit\Extension\Shop\Imports\ResellersImport;
 use MayIFit\Extension\Shop\Imports\UsersImport;
 
+/**
+ * Class ImportCSV
+ *
+ * @package MayIFit\Extension\Shop
+ */
 class ImportCSV
 {
     /**

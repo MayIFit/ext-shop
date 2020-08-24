@@ -7,6 +7,11 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 use App\Models\User;
 use MayIFit\Extension\Shop\Models\ResellerShopCart;
 
+/**
+ * Class ResellerShopCartPolicy
+ *
+ * @package MayIFit\Extension\Shop
+ */
 class ResellerShopCartPolicy
 {
     use HandlesAuthorization;

@@ -16,6 +16,11 @@ use Illuminate\Queue\SerializesModels;
 
 use MayIFit\Extension\Shop\Models\Order;
 
+/**
+ * Class SendOrderDataToWMS
+ *
+ * @package MayIFit\Extension\Shop
+ */
 class SendOrderDataToWMS implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;

@@ -6,6 +6,11 @@ use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Class AllCurrency
+ *
+ * @package MayIFit\Extension\Shop
+ */
 class AllCurrency
 {
     public function __invoke($rootValue,array $args, GraphQLContext $context, ResolveInfo $resolveInfo) {

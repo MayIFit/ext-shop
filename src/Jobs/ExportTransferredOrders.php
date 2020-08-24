@@ -10,7 +10,6 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 
 use MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot;
@@ -18,6 +17,11 @@ use MayIFit\Extension\Shop\Exports\OrdersTransferredExport;
 
 use MayIFit\Extension\Shop\Mails\ShippedOrdersWarehouseNotification;
 
+/**
+ * Class ExportTransferredOrders
+ *
+ * @package MayIFit\Extension\Shop
+ */
 class ExportTransferredOrders implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;

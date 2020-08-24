@@ -9,6 +9,11 @@ use MayIFit\Core\Permission\Traits\HasUsers;
 use MayIFit\Extension\Shop\Traits\HasReseller;
 use MayIFit\Extension\Shop\Traits\HasProduct;
 
+/**
+ * Class ProductPricing
+ *
+ * @package MayIFit\Extension\Shop
+ */
 class ProductPricing extends Model
 {
     use SoftDeletes, HasUsers, HasProduct, HasReseller;

@@ -10,11 +10,11 @@ use Illuminate\Notifications\Messages\MailMessage;
 use MayIFit\Core\Permission\Models\SystemSetting;
 
 /**
- * Class OrderStatusUpdate
+ * Class OrderPlaced
  *
  * @package MayIFit\Extension\Shop
  */
-class OrderStatusUpdate extends Notification implements ShouldQueue
+class OrderPlaced extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -55,7 +55,7 @@ class OrderStatusUpdate extends Notification implements ShouldQueue
         return (new MailMessage)
             ->from($this->senderEmail, $this->senderName)
             ->greeting(trans('global.hello', [], $locale)) 
-            ->line(trans('action.your_order_has_changed', [], $locale). ": ". trans('order.'.$this->order->orderStatus->name, [], $locale))
+            ->line(trans('global.we_got_your_order', [], $locale))
             ->action(trans('action.check_here', [], $locale), $url)
             ->line(trans('global.thank_you_for_ordering', [], $locale))
             ->salutation(trans('global.regards', [], $locale). " ". config('app.name'));

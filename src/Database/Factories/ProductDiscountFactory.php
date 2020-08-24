@@ -5,7 +5,6 @@
 use Faker\Generator as Faker;
 
 use MayIFit\Extension\Shop\Models\ProductDiscount;
-use MayIFit\Extension\Shop\Models\Product;
 
 $factory->define(ProductDiscount::class, function (Faker $faker) {
     $hasDiscount = $faker->boolean($chanceOfGettingTrue = 15); 

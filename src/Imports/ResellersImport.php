@@ -2,17 +2,18 @@
 
 namespace MayIFit\Extension\Shop\Imports;
 
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Maatwebsite\Excel\Concerns\WithChunkReading;
 
 use MayIFit\Extension\Shop\Models\Reseller;
 use MayIFit\Extension\Shop\Models\ResellerGroup;
 
+/**
+ * Class ResellersImport
+ *
+ * @package MayIFit\Extension\Shop
+ */
 class ResellersImport implements ToCollection, WithHeadingRow
 {
     /**

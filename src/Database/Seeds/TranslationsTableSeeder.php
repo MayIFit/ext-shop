@@ -103,6 +103,12 @@ class TranslationsTableSeeder extends Seeder
 			],
 			['text' => ['en' => 'reviews', 'hu' => 'értékelések']],
 		);
+		Translation::updateOrCreate([
+				'group' => 'global',
+				'key' => 'thank_you_for_ordering'
+			],
+			['text' => ['en' => 'Thank you for ordering!', 'hu' => 'Köszönjük hogy nálunk vásároltál!']],
+		);
 	}
 
     protected function addUnitTranslations() {
@@ -490,6 +496,12 @@ class TranslationsTableSeeder extends Seeder
 				'key' => 'order'
 			],
 			['text' => ['en' => 'order', 'hu' => 'rendelés']],
+		);
+		Translation::updateOrCreate([
+				'group' => 'action',
+				'key' => 'your_order_has_changed'
+			],
+			['text' => ['en' => 'your order has changed', 'hu' => 'rendelésed státusza megváltozott']],
 		);
 	}
 	

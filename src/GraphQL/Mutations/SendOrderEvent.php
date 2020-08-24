@@ -8,6 +8,11 @@ use GraphQL\Type\Definition\ResolveInfo;
 use MayIFit\Extension\Shop\Models\Order;
 use MayIFit\Extension\Shop\Jobs\SendOrderDataToWMS;
 
+/**
+ * Class SendOrderEvent
+ *
+ * @package MayIFit\Extension\Shop
+ */
 class SendOrderEvent
 {
     /**

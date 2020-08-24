@@ -7,6 +7,11 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 use MayIFit\Extension\Shop\Models\ResellerShopCart;
 
+/**
+ * Class AllResellerShopCart
+ *
+ * @package MayIFit\Extension\Shop
+ */
 class AllResellerShopCart
 {
     public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) {

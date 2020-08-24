@@ -10,6 +10,11 @@ use Maatwebsite\Excel\Facades\Excel;
 use MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot;
 use MayIFit\Extension\Shop\Exports\OrdersTransferredExport;
 
+/**
+ * Class GetTransferredOrders
+ *
+ * @package MayIFit\Extension\Shop
+ */
 class GetTransferredOrders
 {
     public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) {

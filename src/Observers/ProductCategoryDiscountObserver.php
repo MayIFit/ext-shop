@@ -7,6 +7,11 @@ use Illuminate\Support\Facades\Auth;
 
 use MayIFit\Extension\Shop\Models\ProductCategoryDiscount;
 
+/**
+ * Class ProductCategoryDiscountObserver
+ *
+ * @package MayIFit\Extension\Shop
+ */
 class ProductCategoryDiscountObserver
 {
     /**

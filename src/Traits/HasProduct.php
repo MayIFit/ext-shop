@@ -9,7 +9,7 @@ use MayIFit\Extension\Shop\Models\Product;
 /**
  * Trait HasProduct
  *
- * @package MayIFit\Extension\Shop\Traits
+ * @package MayIFit\Extension\Shop
  */
 trait HasProduct {
 

@@ -4,6 +4,11 @@ namespace MayIFit\Extension\Shop\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
+/**
+ * Class Product
+ *
+ * @package MayIFit\Extension\Shop
+ */
 class Product extends Facade
 {
     /**

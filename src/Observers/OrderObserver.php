@@ -2,15 +2,20 @@
 
 namespace MayIFit\Extension\Shop\Observers;
 
-use Carbon\Carbon;
-
 use Illuminate\Support\Str;
 
 use MayIFit\Core\Permission\Models\SystemSetting;
 
 use MayIFit\Extension\Shop\Models\Order;
 use MayIFit\Extension\Shop\Models\OrderStatus;
+use MayIFit\Extension\Shop\Notifications\OrderPlaced;
+use MayIFit\Extension\Shop\Notifications\OrderStatusUpdate;
 
+/**
+ * Class OrderObserver
+ *
+ * @package MayIFit\Extension\Shop
+ */
 class OrderObserver
 {
     /**
@@ -19,7 +24,6 @@ class OrderObserver
      * @param  \MayIFit\Extension\Shop\Models\Order  $model
      * @return void
      */
-    //TODO: merge orders for same customer
     public function creating(Order $model) {
         $orderPrefix = SystemSetting::where('setting_name', 'shop.orderIdPrefix')->first();
         if (!$model->order_id_prefix) {
@@ -63,9 +67,11 @@ class OrderObserver
         if ($model->order_id_prefix === $orderPrefix->setting_value) {
             $model->order_id_prefix .= $model->id;
         }
+        $model->reseller->notify(new OrderPlaced($model));
         if ($model->getDirty()) {
             $model->update();
         }
+
     }
 
     /**
@@ -95,6 +101,10 @@ class OrderObserver
      * @return mixed
      */
     public function updating(Order $model) {
+        $dirty = $model->getDirty();
+        if (isset($dirty['order_status_id']) && $dirty['order_status_id'] == 3) {
+            $model->reseller->notify(new OrderStatusUpdate($model));
+        }
         if ($model->getOriginal('closed')) {
             return false;
         }

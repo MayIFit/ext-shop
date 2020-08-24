@@ -9,7 +9,7 @@ use MayIFit\Extension\Shop\Models\Reseller;
 /**
  * Trait HasOrderer
  *
- * @package MayIFit\Extension\Shop\Traits
+ * @package MayIFit\Extension\Shop
  */
 trait HasReseller {
 

@@ -2,14 +2,17 @@
 
 namespace MayIFit\Extension\Shop\Imports;
 
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Maatwebsite\Excel\Concerns\WithChunkReading;
 
+/**
+ * Class UsersImport
+ *
+ * @package MayIFit\Extension\Shop
+ */
 class UsersImport implements ToCollection, WithHeadingRow
 {
     /**

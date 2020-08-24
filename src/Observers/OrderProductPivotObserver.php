@@ -9,6 +9,11 @@ use MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot;
 use MayIFit\Extension\Shop\Models\Product;
 use MayIFit\Extension\Shop\Models\Order;
 
+/**
+ * Class OrderProductPivotObserver
+ *
+ * @package MayIFit\Extension\Shop
+ */
 class OrderProductPivotObserver
 {
     /**

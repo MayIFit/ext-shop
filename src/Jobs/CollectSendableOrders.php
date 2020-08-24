@@ -12,6 +12,11 @@ use Illuminate\Support\Facades\Log;
 use MayIFit\Extension\Shop\Jobs\SendOrderDataToWMS;
 use MayIFit\Extension\Shop\Models\Order;
 
+/**
+ * Class CollectSendableOrders
+ *
+ * @package MayIFit\Extension\Shop
+ */
 class CollectSendableOrders implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;

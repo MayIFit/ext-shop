@@ -7,7 +7,12 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ShippedOrdersWarehouseNotification extends Mailable
+/**
+ * Class ShippedOrdersWarehouseNotification
+ *
+ * @package MayIFit\Extension\Shop
+ */
+class ShippedOrdersWarehouseNotification extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 

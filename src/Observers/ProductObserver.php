@@ -6,6 +6,11 @@ use Illuminate\Support\Facades\Auth;
 
 use MayIFit\Extension\Shop\Models\Product;
 
+/**
+ * Class ProductObserver
+ *
+ * @package MayIFit\Extension\Shop
+ */
 class ProductObserver
 {
     /**

@@ -3,10 +3,12 @@
 namespace MayIFit\Extension\Shop\Database\Seeds;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
+/**
+ * Class DatabaseSeeder
+ *
+ * @package MayIFit\Extension\Shop
+ */
 class DatabaseSeeder extends Seeder
 {
     /**
