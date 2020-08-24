@@ -27,7 +27,7 @@ class CollectSendableOrders implements ShouldQueue
      * @return void
      */
     public function handle() {
-        Log::info('Collecting sendable orders...');
+        Log::info('Collecting approved orders...');
         $orders = Order::where([
             ['order_status_id', '=', 3]
         ])->whereNull('sent_to_courier_service')->get();

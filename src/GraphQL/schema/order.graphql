@@ -47,7 +47,7 @@ extend type Mutation @guard(with: ["sanctum"]) {
         @can(ability: "update" find: "id") 
         @update
 
-    sendOrderEvent(id: ID!): Boolean
+    sendOrderEvent(id: ID!): Order
         @can(ability: "update" find: "id") 
         @field(resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Mutations\\SendOrderEvent")
 }

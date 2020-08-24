@@ -2,8 +2,10 @@
 
 namespace MayIFit\Extension\Shop\Jobs;
 
-use Carbon\Carbon;
 use SoapClient;
+
+use Carbon\Carbon;
+
 use Exception;
 
 use Illuminate\Support\Facades\DB;
@@ -28,18 +30,10 @@ class SendOrderDataToWMS implements ShouldQueue
     protected $order;
 
     /**
-     * SoapClient
-     *
-     * @var SoapClient
-     */
-    private $client;
-
-    /**
      * URL, username, password and ID for SoapClient
      *
      * @var string
      */
-    private $apiWsdlUrl;
     private $apiUserName = '';
     private $apiUserPassword = '';
     private $apiUserID = '';
@@ -51,13 +45,11 @@ class SendOrderDataToWMS implements ShouldQueue
      * @return void
      */
     public function __construct(Order $order) {
+        
         $this->order = $order;
-        $this->apiWsdlUrl = config('ext-shop.courier_api_endpoint');
         $this->apiUserName = config('ext-shop.courier_api_username');
         $this->apiUserPassword = config('ext-shop.courier_api_password');
         $this->apiUserID = config('ext-shop.courier_api_userid');
-
-        $this->client = new SoapClient($this->apiWsdlUrl, array('trace' => 1));
     }
 
     /**
@@ -66,6 +58,10 @@ class SendOrderDataToWMS implements ShouldQueue
      * @return void
      */
     public function handle() {
+
+        $apiWsdlUrl = config('ext-shop.courier_api_endpoint');
+        $client = new SoapClient($apiWsdlUrl, array('trace' => 1));
+
         $sentItemCount = $this->order->items_transferred;
         $sentQuantity = $this->order->quantity_transferred;
         $partnerData = $this->order->billingAddress;
@@ -161,7 +157,7 @@ class SendOrderDataToWMS implements ShouldQueue
 
         Log::info('Order has shippable items: '. $this->order->order_id_prefix);
 
-        $response = $this->client->CreateOrder($requestData);
+        $response = $client->CreateOrder($requestData);
 
         Log::info('Request sent: '. $this->order->order_id_prefix);
 

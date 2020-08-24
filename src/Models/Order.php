@@ -76,7 +76,7 @@ class Order extends Model
     }
 
     public function getOrderCanBeShippedAttribute(): bool {
-        if ($this->sent_to_courier_service || $this->items_transferred === $this->items_ordered) {
+        if ($this->sent_to_courier_service) {
             return false;
         }
 

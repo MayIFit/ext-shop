@@ -97,6 +97,8 @@ class ShopServiceProvider extends ServiceProvider {
         $this->callAfterResolving(Schedule::class, function (Schedule $schedule) {
             $schedule->job(new CollectSendableOrders)->weekdays()->dailyAt('14:00');
             $schedule->job(new ExportTransferredOrders)->weekdays()->dailyAt('14:30');
+            $schedule->command('queue:restart')->hourly();
+            $schedule->command('queue:work --sleep=3 --timeout=900 --queue=high,default,low')->runInBackground()->withoutOverlapping()->everyMinute();
         });
     }
 
