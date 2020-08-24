@@ -193,7 +193,7 @@ class SendOrderDataToWMS implements ShouldQueue
             $this->order->orderStatus()->associate(1);
         }
 
-        DB::insert('insert into order_request_logs(order_id, request, response) values (?, ?, ?)', [$this->order->id, $this->client->__getLastRequest(), $this->client->__getLastResponse()]);
+        DB::insert('insert into order_request_logs(order_id, request, response) values (?, ?, ?)', [$this->order->id, $client->__getLastRequest(), $client->__getLastResponse()]);
         
         $this->order->update();
     }
