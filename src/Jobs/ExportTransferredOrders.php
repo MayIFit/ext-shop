@@ -31,12 +31,13 @@ class ExportTransferredOrders implements ShouldQueue
     private $emailsTo;
 
     public function __construct($dateFrom = null, $dateTo = null) {
+        $now = Carbon::now();
         if (!$dateFrom) {
-            $dateFrom = Carbon::now()->toDateString();
+            $dateFrom = $now->copy()->startOfDay()->toDateTimeString();
         }
 
         if (!$dateTo) {
-            $dateTo = Carbon::now()->addDays(1)->toDateString();
+            $dateTo = $now->copy()->endOfDay()->toDateTimeString();
         }
 
         $this->dateFrom = $dateFrom;

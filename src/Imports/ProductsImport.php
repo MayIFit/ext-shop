@@ -84,11 +84,6 @@ class ProductsImport implements ToCollection, WithHeadingRow
 
             if (isset($parse['catalog_id']) && $parse['catalog_id']) {
                 ++$this->importedRows;
-                if (isset($parse['stock'])) {
-                    $prod = Product::firstWhere(['catalog_id' => $parse['catalog_id']]);
-                    $parse['stock'] = intval($parse['stock']) + intval($prod->stock ?? 0);
-                    $parse['calculated_stock'] = intval($parse['stock']) + intval($prod->calculated_stock ?? 0);
-                }
                 Product::updateOrCreate(['catalog_id' => $parse['catalog_id']], $parse);
             }
         }

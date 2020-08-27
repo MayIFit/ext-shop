@@ -36,6 +36,11 @@ extend type Query @guard(with: ["sanctum"]) {
         id: ID! @eq
     ): Product @find
     @can(ability: "view" find: "id") 
+
+    getStockMovement(
+        range: DateRange @spread
+    ): String
+        @field(resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\GetStockMovement")
 }
 
 extend type Mutation @guard(with: ["sanctum"]) {

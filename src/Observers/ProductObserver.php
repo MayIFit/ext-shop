@@ -3,6 +3,7 @@
 namespace MayIFit\Extension\Shop\Observers;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 use MayIFit\Extension\Shop\Models\Product;
 
@@ -34,7 +35,7 @@ class ProductObserver
         //
     }
 
-     /**
+    /**
      * Handle the Product "updating" event.
      *
      * @param  \MayIFit\Extension\Shop\Models\Product  $model
@@ -43,7 +44,24 @@ class ProductObserver
     public function updating(Product $model): void {
         $dirty = $model->getDirty();
         $original = $model->getOriginal();
+        
         if (isset($dirty['stock'])) {
+            $source = $model->source;
+            if (!$source) {
+                $source = 'manual_edit';
+            }
+            unset($model->source);
+            
+            if (intval($dirty['stock']) !== intval($original['stock'])) {
+                DB::insert('insert into stock_movements(product_id, original_quantity, incoming_quantity, difference, source) values (?, ?, ?, ?, ?)', [
+                        $model->id,
+                        $original['stock'],
+                        $dirty['stock'],
+                        intval($dirty['stock']) - intval($original['stock']),
+                        $source
+                    ]
+                );
+            }
             if ($dirty['stock'] > $original['stock']) {
                 $model->calculated_stock += $dirty['stock'] - $original['stock'];
             }

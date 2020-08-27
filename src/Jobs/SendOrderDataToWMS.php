@@ -45,11 +45,15 @@ class SendOrderDataToWMS implements ShouldQueue
      * @return void
      */
     public function __construct(Order $order) {
-        
         $this->order = $order;
         $this->apiUserName = config('ext-shop.courier_api_username');
         $this->apiUserPassword = config('ext-shop.courier_api_password');
         $this->apiUserID = config('ext-shop.courier_api_userid');
+
+        if (!$this->apiUserName || !$this->apiUserPassword || !$this->apiUserID) {
+            Log::critical('No API credentials were specified!');
+            return;
+        }
     }
 
     /**
@@ -58,8 +62,11 @@ class SendOrderDataToWMS implements ShouldQueue
      * @return void
      */
     public function handle() {
-
         $apiWsdlUrl = config('ext-shop.courier_api_endpoint');
+        if (!$apiWsdlUrl) {
+            Log::critical('No API endpoint was specified!');
+            return;
+        }
         $client = new SoapClient($apiWsdlUrl, array('trace' => 1));
 
         $sentItemCount = $this->order->items_transferred;
@@ -146,6 +153,7 @@ class SendOrderDataToWMS implements ShouldQueue
 
         $docDetails = array_values($docDetails);
 
+        
         $requestData['Order']['DocumentList'][0]['DocumentDetails'] = $docDetails;
 
         if ($sentItemCount === 0) {
@@ -157,7 +165,15 @@ class SendOrderDataToWMS implements ShouldQueue
 
         Log::info('Order has shippable items: '. $this->order->order_id_prefix);
 
-        $response = $client->CreateOrder($requestData);
+        $testSystem = config('ext-shop.courier_api_test');
+
+        if (!$testSystem) {
+            $response = $client->CreateOrder($requestData);
+        } else {
+            Log::debug($requestData);
+            return;
+        }
+
 
         Log::info('Request sent: '. $this->order->order_id_prefix);
 
@@ -183,13 +199,14 @@ class SendOrderDataToWMS implements ShouldQueue
 
                 $product->pivot->quantity_transferred += $transferrableQuantity;
                 $product->stock -= $transferrableQuantity;
+                $product['source'] = 'order_placed';
                 $product->save();
                 $product->pivot->save();
             }
             $this->order->can_be_shipped = false;
             $this->order->quantity_transferred = $sentQuantity;
         } else {
-            Log::info('Request failed: '. $this->order->order_id_prefix);
+            Log::warning('Request failed: '. $this->order->order_id_prefix);
             $this->order->orderStatus()->associate(1);
         }
 

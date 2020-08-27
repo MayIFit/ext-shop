@@ -23,8 +23,7 @@ extend type Query @guard(with: ["sanctum"]) {
         @field(resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\GetResellerLastOpenOrder")
 
     getTransferredOrders(
-        date_from: Date
-        date_to: Date
+        range: DateTimeRange @spread
     ): String
         @field(resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\GetTransferredOrders")
 }
@@ -100,8 +99,13 @@ type Order @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
 }
 
 input DateTimeRange {
-    from: DateTime!
-    to: DateTime!
+    datetime_from: DateTime!
+    datetime_to: DateTime!
+}
+
+input DateRange {
+    date_from: Date!
+    date_to: Date!
 }
 
 extend type Reseller @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Reseller") {

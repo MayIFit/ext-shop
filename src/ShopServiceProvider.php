@@ -43,6 +43,7 @@ use MayIFit\Extension\Shop\Observers\ResellerGroupObserver;
 
 use MayIFit\Extension\Shop\Jobs\CollectSendableOrders;
 use MayIFit\Extension\Shop\Jobs\ExportTransferredOrders;
+use MayIFit\Extension\Shop\Jobs\SyncWarehouseStockFromWMS;
 
 
 /**
@@ -97,6 +98,7 @@ class ShopServiceProvider extends ServiceProvider {
         $this->callAfterResolving(Schedule::class, function (Schedule $schedule) {
             $schedule->job(new CollectSendableOrders)->weekdays()->dailyAt('14:00');
             $schedule->job(new ExportTransferredOrders)->weekdays()->dailyAt('14:30');
+            $schedule->job(new SyncWarehouseStockFromWMS)->weekdays()->dailyAt('23:00');
             $schedule->command('queue:restart')->hourly();
             $schedule->command('queue:work --sleep=3 --timeout=900 --queue=high,default,low')->runInBackground()->withoutOverlapping()->everyMinute();
         });
