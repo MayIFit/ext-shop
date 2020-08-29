@@ -94,7 +94,7 @@ class SyncWarehouseStockFromWMS implements ShouldQueue
             $warehouseItems = $response->GetArticleQuantityResult->ArticleQuantity->ArticleQuantityResponse;
     
             foreach ($warehouseItems as $item) {
-                Log::info('Checking product'. $item->ItemCode);
+                Log::info('Checking product '. $item->ItemCode);
                 $prod = Product::firstWhere('catalog_id', $item->ItemCode);
                 if (intval($prod->stock) !== intval($item->AvailableQuantity)) {
                     Log::info('Updating product stock for:'. $item->ItemCode. ' warehouse quantity: '. $item->AvailableQuantity);
@@ -106,6 +106,9 @@ class SyncWarehouseStockFromWMS implements ShouldQueue
         } else {
             Log::warning('Request failed!');
         }
+
+
+        
     }
 
     public function failed(Exception $exception) {
