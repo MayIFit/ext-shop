@@ -1,80 +1,88 @@
 extend type Query @guard(with: ["sanctum"]) {
-    listProductPricing(
-        reseller_id: ID
-        hasProduct: _ @whereHasConditions(columnsEnum: ProductPricingColumns)
-    ): [ProductPricing]!
-    @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\ProductPricing") 
-    @paginate(type: "paginator")
+  listProductPricing(
+    reseller_id: ID
+    hasProduct: _ @whereHasConditions(columnsEnum: ProductPricingColumns)
+  ): [ProductPricing]!
+  @can(
+    ability: "viewAny"
+    model: "MayIFit\\Extension\\Shop\\Models\\ProductPricing"
+  )
+  @paginate(type: "paginator")
 
-    viewProductPricing(
-        id: ID! @eq
-    ): ProductPricing @find
-    @can(ability: "view" find: "id") 
+  viewProductPricing(id: ID! @eq): ProductPricing
+  @find
+  @can(ability: "view", find: "id")
 }
 
 extend type Mutation @guard(with: ["sanctum"]) {
-    updateProductPricing(input: UpdateProductPricingInput! @spread): ProductPricing
-        @can(ability: "update" find: "id") 
-        @update
+  updateProductPricing(
+    input: UpdateProductPricingInput! @spread
+  ): ProductPricing @can(ability: "update", find: "id") @update
 
-    createProductPricing(input: CreateProductPricingInput! @spread): ProductPricing 
-        @can(ability: "create" model: "MayIFit\\Extension\\Shop\\Models\\ProductPricing") 
-        @create
+  createProductPricing(
+    input: CreateProductPricingInput! @spread
+  ): ProductPricing
+  @can(
+    ability: "create"
+    model: "MayIFit\\Extension\\Shop\\Models\\ProductPricing"
+  )
+  @create
 
-    deleteProductPricing(id: ID! @rules(apply: ["required"])): ProductPricing 
-        @can(ability: "delete" find: "id") 
-        @delete
+  deleteProductPricing(id: ID! @rules(apply: ["required"])): ProductPricing
+  @can(ability: "delete", find: "id")
+  @delete
 }
 
 input ProductPricingRelation {
-    create: [CreateProductPricingInput!]
-    update: [UpdateProductPricingInput!]
-    connect: [ID!]
-    sync: [ID!]
+  create: [CreateProductPricingInput!]
+  update: [UpdateProductPricingInput!]
+  connect: [ID!]
+  sync: [ID!]
 }
 
 input CreateProductPricingInput {
-    base_price: Float!
-    wholesale_price: Float
-    vat: Float!
-    currency: String!
-    reseller: ResellerRelation
-    available_from: DateTime
-    product: ProductRelation!
-    is_discounted: Boolean
+  base_price: Float!
+  wholesale_price: Float
+  vat: Float!
+  currency: String!
+  reseller: ResellerRelation
+  available_from: DateTime
+  product: ProductRelation!
+  is_discounted: Boolean
 }
 
 input UpdateProductPricingInput {
-    id: ID!
-    base_price: Float!
-    wholesale_price: Float
-    vat: Float!
-    currency: String!
-    reseller: ResellerRelation
-    available_from: DateTime
-    product: ProductRelation!
-    is_discounted: Boolean
+  id: ID!
+  base_price: Float!
+  wholesale_price: Float
+  vat: Float!
+  currency: String!
+  reseller: ResellerRelation
+  available_from: DateTime
+  product: ProductRelation!
+  is_discounted: Boolean
 }
 
-type ProductPricing @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\ProductPricing") {
-    id: ID!
-    product: Product! @belongsTo
-    base_price: Float!
-    wholesale_price: Float
-    vat: Float!
-    available_from: DateTime
-    grossPrice: Float @method(name: "getBaseGrossPriceAttribute")
-    wholeSaleGrossPrice: Float @method(name: "getWholeSaleGrossPriceAttribute")
-    currency: String!
-    reseller: Reseller @belongsTo
-    is_discounted: Boolean!
+type ProductPricing
+@modelClass(class: "MayIFit\\Extension\\Shop\\Models\\ProductPricing") {
+  id: ID!
+  product: Product! @belongsTo
+  base_price: Float!
+  wholesale_price: Float
+  vat: Float!
+  available_from: DateTime
+  grossPrice: Float @method(name: "getBaseGrossPriceAttribute")
+  wholeSaleGrossPrice: Float @method(name: "getWholeSaleGrossPriceAttribute")
+  currency: String!
+  reseller: Reseller @belongsTo
+  is_discounted: Boolean!
 }
 
 "A list of filterable columns."
 enum ProductPricingColumns {
-    CATALOG_ID @enum(value: "catalog_id")
-    NAME @enum(value: "name")
-    BASE_PRICE @enum(value: "base_price")
-    WHOLESALE_PRICE @enum(value: "wholesale_price")
-    VAT @enum(value: "vat")
+  CATALOG_ID @enum(value: "catalog_id")
+  NAME @enum(value: "name")
+  BASE_PRICE @enum(value: "base_price")
+  WHOLESALE_PRICE @enum(value: "wholesale_price")
+  VAT @enum(value: "vat")
 }

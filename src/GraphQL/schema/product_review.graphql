@@ -1,41 +1,42 @@
 extend type Mutation @guard(with: ["sanctum"]) {
-    createProductReview(input: CreateProductReviewInput! @spread): ProductReview
-        @create
+  createProductReview(input: CreateProductReviewInput! @spread): ProductReview
+  @create
 
-    updateProductReview(input: UpdateProductReviewInput! @spread): ProductReview
-        @can(ability: "update" find: "id")
-        @update
+  updateProductReview(input: UpdateProductReviewInput! @spread): ProductReview
+  @can(ability: "update", find: "id")
+  @update
 
-    deleteProductReview(id: ID! @rules(apply: ["required"])): ProductReview 
-        @can(ability: "delete" find: "id") 
-        @delete
+  deleteProductReview(id: ID! @rules(apply: ["required"])): ProductReview
+  @can(ability: "delete", find: "id")
+  @delete
 }
 
 input ProductReviewRelation {
-    create: [CreateProductReviewInput!]
-    update: [UpdateProductReviewInput!]
+  create: [CreateProductReviewInput!]
+  update: [UpdateProductReviewInput!]
 }
 
 input CreateProductReviewInput {
-    product: ProductRelation!
-    title: String!
-    message: String
-    rating: Int!
-    createdBy: UserRelation!
+  product: ProductRelation!
+  title: String!
+  message: String
+  rating: Int!
+  createdBy: UserRelation!
 }
 
 input UpdateProductReviewInput {
-    id: ID!
-    title: String!
-    message: String
-    rating: Int!
+  id: ID!
+  title: String!
+  message: String
+  rating: Int!
 }
 
-type ProductReview @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\ProductReview") {
-    id: ID!
-    product: Product! @belongsTo
-    title: String!
-    message: String
-    rating: Int!
-    createdBy: User! @belongsTo
+type ProductReview
+@modelClass(class: "MayIFit\\Extension\\Shop\\Models\\ProductReview") {
+  id: ID!
+  product: Product! @belongsTo
+  title: String!
+  message: String
+  rating: Int!
+  createdBy: User! @belongsTo
 }

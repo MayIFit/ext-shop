@@ -1,65 +1,67 @@
 extend type Query @guard(with: ["sanctum"]) {
-    listOrderStatus: [OrderStatus!]!
-        @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\OrderStatus") 
-        @paginate(type: "paginator")
+  listOrderStatus: [OrderStatus!]!
+  @can(
+    ability: "viewAny"
+    model: "MayIFit\\Extension\\Shop\\Models\\OrderStatus"
+  )
+  @paginate(type: "paginator")
 
-    viewOrderStatus(
-        id: ID! @eq
-    ): OrderStatus! 
-        @can(ability: "view" find: "id") 
-        @find
+  viewOrderStatus(id: ID! @eq): OrderStatus!
+  @can(ability: "view", find: "id")
+  @find
 }
 
 extend type Query {
-    allOrderStatus: [OrderStatus!]! @all
+  allOrderStatus: [OrderStatus!]! @all
 }
 
 extend type Mutation @guard(with: ["sanctum"]) {
-    createOrderStatus(input: CreateOrderStatusInput! @spread): OrderStatus 
-        @create
+  createOrderStatus(input: CreateOrderStatusInput! @spread): OrderStatus @create
 
-    updateOrderStatus(input: UpdateOrderStatusInput! @spread): OrderStatus 
-        @can(ability: "update" find: "id") 
-        @update
+  updateOrderStatus(input: UpdateOrderStatusInput! @spread): OrderStatus
+  @can(ability: "update", find: "id")
+  @update
 
-    deleteOrderStatus(id: ID! @rules(apply: ["required"])): OrderStatus 
-        @can(ability: "delete" find: "id") 
-        @delete
+  deleteOrderStatus(id: ID! @rules(apply: ["required"])): OrderStatus
+  @can(ability: "delete", find: "id")
+  @delete
 }
 
 input UpdateOrderStatusInput {
-    id: ID
-    name: String!
-    icon: String!
-    send_notification: Boolean!
+  id: ID
+  name: String!
+  icon: String!
+  send_notification: Boolean!
 }
 
 input CreateOrderStatusInput {
-    name: String!
-    icon: String!
-    send_notification: Boolean!
+  name: String!
+  icon: String!
+  send_notification: Boolean!
 }
 
 input OrderStatusRelation {
-    connect: ID!
+  connect: ID!
 }
 
-type OrderStatus @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\OrderStatus") {
-    id: ID!
-    name: String!
-    icon: String!
-    "If it's marked as true, a notification will be sent out for the user"
-    send_notification: Boolean!
+type OrderStatus
+@modelClass(class: "MayIFit\\Extension\\Shop\\Models\\OrderStatus") {
+  id: ID!
+  name: String!
+  icon: String!
+  "If it's marked as true, a notification will be sent out for the user"
+  send_notification: Boolean!
 }
 
 extend input CreateOrderInput {
-    orderStatus: OrderStatusRelation
+  orderStatus: OrderStatusRelation
 }
 
 extend input UpdateOrderInput {
-    orderStatus: OrderStatusRelation
+  orderStatus: OrderStatusRelation
 }
 
-extend type Order @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
-    orderStatus: OrderStatus @belongsTo
+extend type Order
+@modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
+  orderStatus: OrderStatus @belongsTo
 }

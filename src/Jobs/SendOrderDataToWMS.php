@@ -203,7 +203,7 @@ class SendOrderDataToWMS implements ShouldQueue
 
                 $product->pivot->quantity_transferred += $transferrableQuantity;
                 $product->stock -= $transferrableQuantity;
-                $product['source'] = 'order_placed';
+                $product['source'] = 'order_transferred';
                 $product->save();
                 $product->pivot->save();
             }

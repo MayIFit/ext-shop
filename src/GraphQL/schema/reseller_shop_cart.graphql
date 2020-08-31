@@ -1,43 +1,51 @@
 extend type Query @guard(with: ["sanctum"]) {
-    allResellerShopCart: [ResellerShopCart]! 
-        @field(resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\AllResellerShopCart")
+  allResellerShopCart: [ResellerShopCart]!
+  @field(
+    resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\AllResellerShopCart"
+  )
 }
 
 extend type Mutation {
-    createResellerShopCart(input: CreateResellerShopCartInput! @spread): ResellerShopCart 
-        @can(ability: "create" model: "MayIFit\\Extension\\Shop\\Models\\ResellerShopCart") 
-        @create
+  createResellerShopCart(
+    input: CreateResellerShopCartInput! @spread
+  ): ResellerShopCart
+  @can(
+    ability: "create"
+    model: "MayIFit\\Extension\\Shop\\Models\\ResellerShopCart"
+  )
+  @create
 }
 
 extend type Mutation @guard(with: ["sanctum"]) {
-    updateResellerShopCart(input: UpdateResellerShopCartInput! @spread): ResellerShopCart
-        @can(ability: "update" find: "id")
-        @update
+  updateResellerShopCart(
+    input: UpdateResellerShopCartInput! @spread
+  ): ResellerShopCart @can(ability: "update", find: "id") @update
 
-    deleteResellerShopCart(id: ID! @rules(apply: ["required"])): ResellerShopCart 
-        @can(ability: "delete" find: "id") 
-        @delete
+  deleteResellerShopCart(id: ID! @rules(apply: ["required"])): ResellerShopCart
+  @can(ability: "delete", find: "id")
+  @delete
 }
 
-
 input CreateResellerShopCartInput {
-    reseller: ResellerRelation!
-    product: ProductRelation!
-    quantity: Int!
+  reseller: ResellerRelation!
+  product: ProductRelation!
+  quantity: Int!
 }
 
 input UpdateResellerShopCartInput {
-    id: ID!
-    quantity: Int 
+  id: ID!
+  quantity: Int
 }
 
-type ResellerShopCart @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\ResellerShopCart") {
-    id: ID!
-    reseller: Reseller! @belongsTo
-    product: Product! @belongsTo
-    quantity: Int!
+type ResellerShopCart
+@modelClass(class: "MayIFit\\Extension\\Shop\\Models\\ResellerShopCart") {
+  id: ID!
+  reseller: Reseller! @belongsTo
+  product: Product! @belongsTo
+  quantity: Int!
 }
 
-extend type Reseller @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Reseller") {
-    reseller_shop_cart: [ResellerShopCart!] @hasMany
+extend type Reseller
+@modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Reseller") {
+  reseller_shop_cart: [ResellerShopCart!] @hasMany
 }

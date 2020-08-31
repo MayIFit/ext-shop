@@ -1,10 +1,11 @@
 extend type Mutation @guard(with: ["sanctum"]) {
-    getImportFileHeaders(input: csvInput! @spread): ObjectScalar
-        @field(resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Mutations\\ImportCSV@getHeader")
+  getImportFileHeaders(input: csvInput! @spread): ObjectScalar
+  @field(
+    resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Mutations\\ImportCSV@getHeader"
+  )
 
-    importFile(
-        input: csvInput!
-        entity_mapping: ObjectScalar
-    ): ObjectScalar
-        @field(resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Mutations\\ImportCSV@import")
+  importFile(input: csvInput!, entity_mapping: ObjectScalar): ObjectScalar
+  @field(
+    resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Mutations\\ImportCSV@import"
+  )
 }

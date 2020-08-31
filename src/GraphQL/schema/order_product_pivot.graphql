@@ -1,47 +1,52 @@
 input UpdateOrderProductPivotInput {
-    id: ID!
-    net_value: Float
-    gross_value: Float
-    quantity: Int
+  id: ID!
+  net_value: Float
+  gross_value: Float
+  quantity: Int
 }
 
 extend input CreateOrderInput {
-    products: ProductsRelation!
+  products: ProductsRelation!
 }
 
 extend input UpdateOrderInput {
-    products: ProductsRelation
+  products: ProductsRelation
 }
 
 input ProductsRelation {
-    sync: [ProductPivotRelationData!]!
+  sync: [ProductPivotRelationData!]!
 }
 
 input ProductPivotRelationData {
-    id: ID!
-    quantity: Int!
+  id: ID!
+  quantity: Int!
 }
 
-extend type Product @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Product") {
-    pivot: OrderProductPivot
+extend type Product
+@modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Product") {
+  pivot: OrderProductPivot
 }
 
-extend type Order @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
-    products: [Product!]! @belongsToMany
+extend type Order
+@modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
+  products: [Product!]! @belongsToMany
 }
 
-type OrderProductPivot @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Pivots\\OrderProductPivot") {
-    id: ID!
-    "Ordered quantity of a product"
-    quantity: Int!
-    quantity_transferred: Int
-    pricing: ProductPricing! @belongsTo
-    discount: ProductDiscount @belongsTo
-    net_value: Float!
-    gross_value: Float!
-    is_wholesale: Boolean!
-    shipped_at: DateTime
-    declined: Boolean!
-    can_be_shipped: Boolean @method(name: "canBeShipped")
-    created_at: DateTime
+type OrderProductPivot
+@modelClass(
+  class: "MayIFit\\Extension\\Shop\\Models\\Pivots\\OrderProductPivot"
+) {
+  id: ID!
+  "Ordered quantity of a product"
+  quantity: Int!
+  quantity_transferred: Int
+  pricing: ProductPricing! @belongsTo
+  discount: ProductDiscount @belongsTo
+  net_value: Float!
+  gross_value: Float!
+  is_wholesale: Boolean!
+  shipped_at: DateTime
+  declined: Boolean!
+  can_be_shipped: Boolean @method(name: "canBeShipped")
+  created_at: DateTime
 }

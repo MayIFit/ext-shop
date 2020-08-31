@@ -27,7 +27,7 @@ class OrdersTransferredExport implements FromCollection, WithMapping, WithHeadin
     }
 
     /**
-     * @var Invoice $invoice
+     * @var @mixed $orderProductPivot
      */
     public function map($orderProductPivot): array
     {

@@ -1,130 +1,128 @@
 extend type Query @guard(with: ["sanctum"]) {
-    listCustomer(
-        filter: _ @whereConditions(columnsEnum: "CustomerWhereColumn")
-    ): [Customer]!
-        @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\Customer") 
-        @paginate(type: "paginator")
+  listCustomer(
+    filter: _ @whereConditions(columnsEnum: "CustomerWhereColumn")
+  ): [Customer]!
+  @can(ability: "viewAny", model: "MayIFit\\Extension\\Shop\\Models\\Customer")
+  @paginate(type: "paginator")
 
-    viewCustomer(
-        id: ID @eq
-    ): Customer @can(ability: "view" find: "id") @find
+  viewCustomer(id: ID @eq): Customer @can(ability: "view", find: "id") @find
 }
 
 extend type Mutation {
-    createCustomer(input: CreateCustomerInput! @spread): Customer 
-        @create
+  createCustomer(input: CreateCustomerInput! @spread): Customer @create
 }
 
 extend type Mutation @guard(with: ["sanctum"]) {
-    updateCustomer(input: UpdateCustomerInput! @spread): Customer 
-        @can(ability: "update" find: "id")
-        @update
+  updateCustomer(input: UpdateCustomerInput! @spread): Customer
+  @can(ability: "update", find: "id")
+  @update
 }
 
 input CustomerRelation {
-    create: CreateCustomerInput
-    update: UpdateCustomerInput
-    connect: ID
+  create: CreateCustomerInput
+  update: UpdateCustomerInput
+  connect: ID
 }
 
 input CreateCustomerInput {
-    title: String
-    first_name: String!
-    last_name: String!
-    country: String!
-    city: String!
-    zip_code: String!
-    address: String!
-    house_nr: String!
-    floor: String
-    door: String
-    phone_number: String!
-    email: String!
-    company_name: String
-    vat_id: String
-    primary_address: Boolean
-    shipping_address: Boolean
-    billing_address: Boolean
-    user: UserRelation
+  title: String
+  first_name: String!
+  last_name: String!
+  country: String!
+  city: String!
+  zip_code: String!
+  address: String!
+  house_nr: String!
+  floor: String
+  door: String
+  phone_number: String!
+  email: String!
+  company_name: String
+  vat_id: String
+  primary_address: Boolean
+  shipping_address: Boolean
+  billing_address: Boolean
+  user: UserRelation
 }
 
 input UpdateCustomerInput {
-    id: ID!
-    title: String
-    first_name: String!
-    last_name: String!
-    country: String!
-    city: String!
-    zip_code: String!
-    address: String!
-    house_nr: String!
-    floor: String
-    door: String
-    phone_number: String!
-    email: String!
-    company_name: String
-    vat_id: String
-    primary_address: Boolean
-    shipping_address: Boolean
-    billing_address: Boolean
-    user: UserRelation
+  id: ID!
+  title: String
+  first_name: String!
+  last_name: String!
+  country: String!
+  city: String!
+  zip_code: String!
+  address: String!
+  house_nr: String!
+  floor: String
+  door: String
+  phone_number: String!
+  email: String!
+  company_name: String
+  vat_id: String
+  primary_address: Boolean
+  shipping_address: Boolean
+  billing_address: Boolean
+  user: UserRelation
 }
 
 type Customer @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Customer") {
-    id: ID!
-    title: String
-    first_name: String!
-    last_name: String!
-    country: String!
-    city: String!
-    zip_code: String!
-    address: String!
-    house_nr: String!
-    floor: String
-    door: String
-    phone_number: String!
-    email: String!
-    company_name: String
-    vat_id: String
-    primary_address: Boolean
-    shipping_address: Boolean
-    billing_address: Boolean
+  id: ID!
+  title: String
+  first_name: String!
+  last_name: String!
+  country: String!
+  city: String!
+  zip_code: String!
+  address: String!
+  house_nr: String!
+  floor: String
+  door: String
+  phone_number: String!
+  email: String!
+  company_name: String
+  vat_id: String
+  primary_address: Boolean
+  shipping_address: Boolean
+  billing_address: Boolean
 }
 
 extend type Customer @guard(with: ["sanctum"]) {
-    orders: [Order]! @hasMany
-    user: User @belongsTo
+  orders: [Order]! @hasMany
+  user: User @belongsTo
 }
 
 extend type User @guard(with: ["sanctum"]) {
-    customers: [Customer] @hasMany
+  customers: [Customer] @hasMany
 }
 
 extend input UpdateUserInput {
-    customers: CustomerRelation
+  customers: CustomerRelation
 }
 
 extend input CreateOrderInput {
-    shippingAddress: CustomerRelation
-    billingAddress: CustomerRelation
+  shippingAddress: CustomerRelation
+  billingAddress: CustomerRelation
 }
 
 extend input UpdateOrderInput {
-    shippingAddress: CustomerRelation
-    billingAddress: CustomerRelation
+  shippingAddress: CustomerRelation
+  billingAddress: CustomerRelation
 }
 
-extend type Order @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
-    customer: Customer @belongsTo
-    shippingAddress: Customer @belongsTo
-    billingAddress: Customer @belongsTo
+extend type Order
+@modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
+  customer: Customer @belongsTo
+  shippingAddress: Customer @belongsTo
+  billingAddress: Customer @belongsTo
 }
 
 "A list of filterable columns."
 enum CustomerWhereColumn {
-    FIRST_NAME @enum(value: "first_name")
-    LAST_NAME @enum(value: "last_name")
-    ADDRESS @enum(value: "address")
-    PHONE_NUMBER @enum(value: "phone_number")
-    EMAIL @enum(value: "email")
+  FIRST_NAME @enum(value: "first_name")
+  LAST_NAME @enum(value: "last_name")
+  ADDRESS @enum(value: "address")
+  PHONE_NUMBER @enum(value: "phone_number")
+  EMAIL @enum(value: "email")
 }

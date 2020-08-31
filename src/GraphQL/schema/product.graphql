@@ -1,158 +1,149 @@
 extend type Query {
-    listProductWithPricing(
-        currency: String
-        dateTime: DateTime
-        filter: _ @whereConditions(columnsEnum: ProductColumns)
-        reseller_id: ID
-        category_id: ID @eq
-    ): [Product]!
-    @paginate(type: "paginator")
+  listProductWithPricing(
+    currency: String
+    dateTime: DateTime
+    filter: _ @whereConditions(columnsEnum: ProductColumns)
+    reseller_id: ID
+    category_id: ID @eq
+  ): [Product]! @paginate(type: "paginator")
 
-    viewProductWithPricing(
-        catalog_id: String! @eq
-        dateTime: DateTime!
-        currency: String!
-        reseller_id: ID
-    ): Product @find
+  viewProductWithPricing(
+    catalog_id: String! @eq
+    dateTime: DateTime!
+    currency: String!
+    reseller_id: ID
+  ): Product @find
 
-    cartProducts(
-        catalog_id: [String!] @in(key: "catalog_id")
-        reseller_id: ID
-        dateTime: DateTime!
-    ): [Product!]! @all
+  cartProducts(
+    catalog_id: [String!] @in(key: "catalog_id")
+    reseller_id: ID
+    dateTime: DateTime!
+  ): [Product!]! @all
 }
 
 extend type Query @guard(with: ["sanctum"]) {
-    allProduct: [ProductSelect]! @all
+  allProduct: [ProductSelect]! @all
 
-    listProduct(
-        filter: _ @whereConditions(columnsEnum: ProductColumns)
-        orderBy: _ @orderBy(columnsEnum: ProductColumns)
-    ): [Product]!
-    @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\Product") 
-    @paginate(type: "paginator")
+  listProduct(
+    filter: _ @whereConditions(columnsEnum: ProductColumns)
+    orderBy: _ @orderBy(columnsEnum: ProductColumns)
+  ): [Product]!
+  @can(ability: "viewAny", model: "MayIFit\\Extension\\Shop\\Models\\Product")
+  @paginate(type: "paginator")
 
-    viewProduct(
-        id: ID! @eq
-    ): Product @find
-    @can(ability: "view" find: "id") 
-
-    getStockMovement(
-        range: DateRange @spread
-    ): String
-        @field(resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\GetStockMovement")
+  viewProduct(id: ID! @eq): Product @find @can(ability: "view", find: "id")
 }
 
 extend type Mutation @guard(with: ["sanctum"]) {
-    updateProduct(input: UpdateProductInput! @spread): Product 
-        @can(ability: "update" find: "id") 
-        @update
+  updateProduct(input: UpdateProductInput! @spread): Product
+  @can(ability: "update", find: "id")
+  @update
 
-    createProduct(input: CreateProductInput! @spread): Product 
-        @can(ability: "create" model: "MayIFit\\Extension\\Shop\\Models\\Product") 
-        @create
+  createProduct(input: CreateProductInput! @spread): Product
+  @can(ability: "create", model: "MayIFit\\Extension\\Shop\\Models\\Product")
+  @create
 
-    deleteProduct(id: ID! @rules(apply: ["required"])): Product 
-        @can(ability: "delete" find: "id") 
-        @delete
+  deleteProduct(id: ID! @rules(apply: ["required"])): Product
+  @can(ability: "delete", find: "id")
+  @delete
 }
 
 input csvInput {
-    path: String!
-    type: String!
+  path: String!
+  type: String!
 }
 
 input CreateProductInput {
-    catalog_id: String!
-    name: String
-    description: String
-    technical_specs: ObjectScalar
-    supplied: ObjectScalar
-    stock: Int
-    ean_code: String
-    out_of_stock_text: String
-    quantity_unit_text: String
-    discount_percentage: Float
-    refurbished: Boolean!
-    varranty: String!
-    documents: UpdateDocumentHasMany
-    pricings: ProductPricingRelation
-    category: ProductCategoryRelation
-    discounts: ProductDiscountRelation
-    parentProduct: ParentProductRelation
+  catalog_id: String!
+  name: String
+  description: String
+  technical_specs: ObjectScalar
+  supplied: ObjectScalar
+  stock: Int
+  ean_code: String
+  out_of_stock_text: String
+  quantity_unit_text: String
+  discount_percentage: Float
+  refurbished: Boolean!
+  varranty: String!
+  documents: UpdateDocumentHasMany
+  pricings: ProductPricingRelation
+  category: ProductCategoryRelation
+  discounts: ProductDiscountRelation
+  parentProduct: ParentProductRelation
 }
 
 input UpdateProductInput {
-    id: ID!
-    catalog_id: String!
-    name: String
-    description: String
-    technical_specs: ObjectScalar
-    supplied: ObjectScalar
-    stock: Int
-    ean_code: String
-    out_of_stock_text: String
-    quantity_unit_text: String
-    discount_percentage: Float
-    refurbished: Boolean!
-    varranty: String!
-    documents: UpdateDocumentHasMany
-    pricings: ProductPricingRelation
-    category: ProductCategoryRelation
-    discounts: ProductDiscountRelation
-    parentProduct: ParentProductRelation
+  id: ID!
+  catalog_id: String!
+  name: String
+  description: String
+  technical_specs: ObjectScalar
+  supplied: ObjectScalar
+  stock: Int
+  ean_code: String
+  out_of_stock_text: String
+  quantity_unit_text: String
+  discount_percentage: Float
+  refurbished: Boolean!
+  varranty: String!
+  documents: UpdateDocumentHasMany
+  pricings: ProductPricingRelation
+  category: ProductCategoryRelation
+  discounts: ProductDiscountRelation
+  parentProduct: ParentProductRelation
 }
 
 input ParentProductRelation {
-    connect: ID
+  connect: ID
 }
 
 input ProductRelation {
-    connect: ID
+  connect: ID
 }
 
 type Product @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Product") {
-    id: ID!
-    catalog_id: String!
-    name: String!
-    description: String
-    technical_specs: ObjectScalar
-    supplied: ObjectScalar
-    stock: Int
-    calculated_stock: Int
-    ean_code: String
-    out_of_stock_text: String
-    quantity_unit_text: String
-    refurbished: Boolean!
-    varranty: String!
-    reviews: [ProductReview]! @hasMany
-    pricings: [ProductPricing]! @hasMany
-    discounts: [ProductDiscount]! @hasMany
-    category: ProductCategory @belongsTo
-    accessories: [Product]! @hasMany
-    parentProduct: Product @belongsTo
-    documents: [Document]! @morphMany
-    images: [Document]! @morphMany
-    image: Document @morphOne
-    getCurrentPricing: ProductPricing
-        @method(passordered: true)
+  id: ID!
+  catalog_id: String!
+  name: String!
+  description: String
+  technical_specs: ObjectScalar
+  supplied: ObjectScalar
+  stock: Int
+  calculated_stock: Int
+  ean_code: String
+  out_of_stock_text: String
+  quantity_unit_text: String
+  refurbished: Boolean!
+  varranty: String!
+  reviews: [ProductReview]! @hasMany
+  pricings: [ProductPricing]! @hasMany
+  discounts: [ProductDiscount]! @hasMany
+  category: ProductCategory @belongsTo
+  accessories: [Product]! @hasMany
+  parentProduct: Product @belongsTo
+  documents: [Document]! @morphMany
+  images: [Document]! @morphMany
+  image: Document @morphOne
+  getCurrentPricing: ProductPricing @method(passordered: true)
 
-    getDiscountForDate(dateTime: DateTime!): ProductDiscount
-        @method(passordered: true)
+  getDiscountForDate(dateTime: DateTime!): ProductDiscount
+  @method(passordered: true)
 }
 
 "Subset of Product"
-type ProductSelect @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Product") {
-    id: ID!
-    catalog_id: String!
+type ProductSelect
+@modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Product") {
+  id: ID!
+  catalog_id: String!
 }
 
 "A list of filterable columns."
 enum ProductColumns {
-    ID @enum(value: "id")
-    CATALOG_ID @enum(value: "catalog_id")
-    NAME @enum(value: "name")
-    STOCK @enum(value: "stock")
-    CALCULATED_STOCK @enum(value: "calculated_stock")
-    REFURBISHED @enum(value: "refurbished")
+  ID @enum(value: "id")
+  CATALOG_ID @enum(value: "catalog_id")
+  NAME @enum(value: "name")
+  STOCK @enum(value: "stock")
+  CALCULATED_STOCK @enum(value: "calculated_stock")
+  REFURBISHED @enum(value: "refurbished")
 }

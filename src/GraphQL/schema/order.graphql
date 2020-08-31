@@ -1,131 +1,123 @@
 extend type Query {
-    getOrderFromToken(
-        token: String! @eq
-        reseller_id: ID
-    ): Order @find
+  getOrderFromToken(token: String! @eq, reseller_id: ID): Order @find
 }
 
 extend type Query @guard(with: ["sanctum"]) {
-    listOrder(
-        hasReseller: _ @whereHasConditions(columnsEnum: OrderColumns)
-        orderBy: _ @orderBy(columnsEnum: OrderColumns)
-    ): [Order]!
-        @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\Order") 
-        @paginate(type: "paginator")
+  listOrder(
+    hasReseller: _ @whereHasConditions(columnsEnum: OrderColumns)
+    orderBy: _ @orderBy(columnsEnum: OrderColumns)
+  ): [Order]!
+  @can(ability: "viewAny", model: "MayIFit\\Extension\\Shop\\Models\\Order")
+  @paginate(type: "paginator")
 
-    viewOrder(
-        id: ID! @eq
-    ): Order! 
-        @can(ability: "view" find: "id") 
-        @find
+  viewOrder(id: ID! @eq): Order! @can(ability: "view", find: "id") @find
 
-    getResellerLastOpenOrder: Order
-        @field(resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\GetResellerLastOpenOrder")
-
-    getTransferredOrders(
-        range: DateTimeRange @spread
-    ): String
-        @field(resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\GetTransferredOrders")
+  getResellerLastOpenOrder: Order
+  @field(
+    resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\GetResellerLastOpenOrder"
+  )
 }
 
 extend type Mutation {
-    createOrder(input: CreateOrderInput! @spread): Order 
-        @create
+  createOrder(input: CreateOrderInput! @spread): Order @create
 }
 
 extend type Mutation @guard(with: ["sanctum"]) {
-    updateOrder(input: UpdateOrderInput! @spread): Order 
-        @can(ability: "update" find: "id") 
-        @update
+  updateOrder(input: UpdateOrderInput! @spread): Order
+  @can(ability: "update", find: "id")
+  @update
 
-    deleteOrder(id: ID! @rules(apply: ["required"])): Order 
-        @can(ability: "delete" find: "id") 
-        @delete
+  deleteOrder(id: ID! @rules(apply: ["required"])): Order
+  @can(ability: "delete", find: "id")
+  @delete
 
-    updateOrderProductPivot(input: UpdateOrderProductPivotInput! @spread): OrderProductPivot
-        @can(ability: "update" find: "id") 
-        @update
+  updateOrderProductPivot(
+    input: UpdateOrderProductPivotInput! @spread
+  ): OrderProductPivot @can(ability: "update", find: "id") @update
 
-    sendOrderEvent(id: ID!): Order
-        @can(ability: "update" find: "id") 
-        @field(resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Mutations\\SendOrderEvent")
+  sendOrderEvent(id: ID!): Order
+  @can(ability: "update", find: "id")
+  @field(
+    resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Mutations\\SendOrderEvent"
+  )
 }
 
 input CreateOrderInput {
-    extra_information: String
-    currency: String!
-    payment_type: String!
-    delivery_type: Int!
-    invoice_number: String
-    transport_cost: Float
+  extra_information: String
+  currency: String!
+  payment_type: String!
+  delivery_type: Int!
+  invoice_number: String
+  transport_cost: Float
 }
 
 input UpdateOrderInput {
-    id: ID!
-    token: String
-    discount_percentage: Float
-    extra_information: String
-    paid: Boolean
-    currency: String
-    payment_type: String
-    delivery_type: Int
-    invoice_number: String
-    transport_cost: Float
-    closed: Boolean
+  id: ID!
+  token: String
+  discount_percentage: Float
+  extra_information: String
+  paid: Boolean
+  currency: String
+  payment_type: String
+  delivery_type: Int
+  invoice_number: String
+  transport_cost: Float
+  closed: Boolean
 }
 
 type Order @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
-    id: ID!
-    token: String!
-    placed: DateTime!
-    quantity: Int!
-    quantity_transferred: Int
-    net_value: Float!
-    gross_value: Float!
-    currency: String!
-    discount_percentage: Float
-    extra_information: String
-    paid: Boolean!
-    payment_type: String!
-    delivery_type: Int!
-    invoice_number: String
-    order_id_prefix: String
-    items_ordered: Int
-    items_transferred: Int
-    transport_cost: Float
-    sent_to_courier_service: DateTime
-    closed: Boolean
-    can_be_shipped: Boolean @method(name: "getOrderCanBeShippedAttribute")
+  id: ID!
+  token: String!
+  placed: DateTime!
+  quantity: Int!
+  quantity_transferred: Int
+  net_value: Float!
+  gross_value: Float!
+  currency: String!
+  discount_percentage: Float
+  extra_information: String
+  paid: Boolean!
+  payment_type: String!
+  delivery_type: Int!
+  invoice_number: String
+  order_id_prefix: String
+  items_ordered: Int
+  items_transferred: Int
+  transport_cost: Float
+  sent_to_courier_service: DateTime
+  closed: Boolean
+  can_be_shipped: Boolean @method(name: "getOrderCanBeShippedAttribute")
 }
 
 input DateTimeRange {
-    datetime_from: DateTime!
-    datetime_to: DateTime!
+  datetime_from: DateTime!
+  datetime_to: DateTime!
 }
 
 input DateRange {
-    date_from: Date!
-    date_to: Date!
+  date_from: Date!
+  date_to: Date!
 }
 
-extend type Reseller @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Reseller") {
-    orders(placed: DateTimeRange @whereBetween): [Order]! @hasMany
+extend type Reseller
+@modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Reseller") {
+  orders(placed: DateTimeRange @whereBetween): [Order]! @hasMany
 }
 
 "A list of filterable columns."
 enum OrderColumns {
-    ID @enum(value: "id")
-    TOKEN @enum(value: "token")
-    PLACED @enum(value: "placed")
-    ORDER_ID_PREFIX @enum(value: "order_id_prefix")
-    COMPANY_NAME @enum(value: "company_name")
-    NET_VALUE @enum(value: "net_value")
-    GROSS_VALUE @enum(value: "gross_value")
-    QUANTITY @enum(value: "quantity")
-    ITEMS_SENT @enum(value: "items_sent")
-    ITEMS_ORDERED @enum(value: "items_ordered")
-    CLOSED @enum(value: "closed")
-    SENT_TO_COURIER_SERVICE @enum(value: "sent_to_courier_service")
-    INVOICE_NUMBER @enum(value: "invoice_number")
-    CAN_BE_SHIPPED @enum(value: "can_be_shipped")
+  ID @enum(value: "id")
+  TOKEN @enum(value: "token")
+  PLACED @enum(value: "placed")
+  ORDER_ID_PREFIX @enum(value: "order_id_prefix")
+  COMPANY_NAME @enum(value: "company_name")
+  NET_VALUE @enum(value: "net_value")
+  GROSS_VALUE @enum(value: "gross_value")
+  QUANTITY @enum(value: "quantity")
+  ITEMS_SENT @enum(value: "items_sent")
+  ITEMS_ORDERED @enum(value: "items_ordered")
+  CLOSED @enum(value: "closed")
+  SENT_TO_COURIER_SERVICE @enum(value: "sent_to_courier_service")
+  INVOICE_NUMBER @enum(value: "invoice_number")
+  CAN_BE_SHIPPED @enum(value: "can_be_shipped")
 }

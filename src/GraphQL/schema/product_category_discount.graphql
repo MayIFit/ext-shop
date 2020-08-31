@@ -1,26 +1,29 @@
 input ProductCategoryDiscountRelation {
-    create: [CreateProductCategoryDiscountInput!]
-    update: [UpdateProductCategoryDiscountInput!]
-    connect: [ID!]
+  create: [CreateProductCategoryDiscountInput!]
+  update: [UpdateProductCategoryDiscountInput!]
+  connect: [ID!]
 }
 
 input CreateProductCategoryDiscountInput {
-    discount_percentage: Float!
-    available_from: DateTime!
-    available_to: DateTime
+  discount_percentage: Float!
+  available_from: DateTime!
+  available_to: DateTime
 }
 
 input UpdateProductCategoryDiscountInput {
-    id: ID!
-    discount_percentage: Float!
-    available_from: DateTime!
-    available_to: DateTime
+  id: ID!
+  discount_percentage: Float!
+  available_from: DateTime!
+  available_to: DateTime
 }
 
-type ProductCategoryDiscount @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\ProductCategoryDiscount") {
-    id: ID!
-    product: Product! @belongsTo
-    discount_percentage: Float!
-    available_from: DateTime!
-    available_to: DateTime!
+type ProductCategoryDiscount
+@modelClass(
+  class: "MayIFit\\Extension\\Shop\\Models\\ProductCategoryDiscount"
+) {
+  id: ID!
+  product: Product! @belongsTo
+  discount_percentage: Float!
+  available_from: DateTime!
+  available_to: DateTime!
 }

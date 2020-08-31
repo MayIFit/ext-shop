@@ -1,81 +1,90 @@
 extend type Query {
-    allProductCategory: [ProductCategorySelect]! @all
+  allProductCategory: [ProductCategorySelect]! @all
 }
 
 extend type Query @guard(with: ["sanctum"]) {
-    listProductCategory(
-        filter: _ @whereConditions(columnsEnum: ProductCategoryColumns)
-        orderBy: _ @orderBy(columnsEnum: ProductCategoryColumns)
-    ): [ProductCategory]!
-    @can(ability: "viewAny" model: "MayIFit\\Extension\\Shop\\Models\\ProductCategory") 
-    @paginate(type: "paginator")
+  listProductCategory(
+    filter: _ @whereConditions(columnsEnum: ProductCategoryColumns)
+    orderBy: _ @orderBy(columnsEnum: ProductCategoryColumns)
+  ): [ProductCategory]!
+  @can(
+    ability: "viewAny"
+    model: "MayIFit\\Extension\\Shop\\Models\\ProductCategory"
+  )
+  @paginate(type: "paginator")
 
-    viewProductCategory(
-        id: ID! @eq
-    ): ProductCategory @find
-    @can(ability: "view" find: "id") 
+  viewProductCategory(id: ID! @eq): ProductCategory
+  @find
+  @can(ability: "view", find: "id")
 }
 
 extend type Mutation @guard(with: ["sanctum"]) {
-    updateProductCategory(input: UpdateProductCategoryInput! @spread): ProductCategory 
-        @can(ability: "update" find: "id") 
-        @update
+  updateProductCategory(
+    input: UpdateProductCategoryInput! @spread
+  ): ProductCategory @can(ability: "update", find: "id") @update
 
-    createProductCategory(input: CreateProductCategoryInput! @spread): ProductCategory 
-        @can(ability: "create" model: "MayIFit\\Extension\\Shop\\Models\\ProductCategory") 
-        @create
+  createProductCategory(
+    input: CreateProductCategoryInput! @spread
+  ): ProductCategory
+  @can(
+    ability: "create"
+    model: "MayIFit\\Extension\\Shop\\Models\\ProductCategory"
+  )
+  @create
 
-    deleteProductCategory(id: ID! @rules(apply: ["required"])): ProductCategory 
-        @can(ability: "delete" find: "id") 
-        @delete
+  deleteProductCategory(id: ID! @rules(apply: ["required"])): ProductCategory
+  @can(ability: "delete", find: "id")
+  @delete
 }
 
 input ProductCategoryRelation {
-    connect: ID
+  connect: ID
 }
 
 input CreateProductCategoryInput {
-    name: String!
-    description: String
-    parent: ProductCategoryRelation
-    image: UpdateDocumentHasOne
-    document: UpdateDocumentHasOne
-    discounts: ProductCategoryDiscountRelation
+  name: String!
+  description: String
+  parent: ProductCategoryRelation
+  image: UpdateDocumentHasOne
+  document: UpdateDocumentHasOne
+  discounts: ProductCategoryDiscountRelation
 }
 
 input UpdateProductCategoryInput {
-    id: ID!
-    name: String!
-    description: String
-    parent: ProductCategoryRelation
-    image: UpdateDocumentHasOne
-    document: UpdateDocumentHasOne
-    discounts: ProductCategoryDiscountRelation
+  id: ID!
+  name: String!
+  description: String
+  parent: ProductCategoryRelation
+  image: UpdateDocumentHasOne
+  document: UpdateDocumentHasOne
+  discounts: ProductCategoryDiscountRelation
 }
 
-type ProductCategory @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\ProductCategory") {
-    id: ID!
-    name: String!
-    description: String
-    children: [ProductCategory] @hasMany
-    parent: ProductCategory @belongsTo
-    image: Document @morphOne
-    document: Document @morphOne
-    discounts: [ProductCategoryDiscount]! @hasMany
-    getDiscountForDate(dateTime: DateTime!): ProductCategoryDiscount
-        @method(passordered: true)
+type ProductCategory
+@modelClass(class: "MayIFit\\Extension\\Shop\\Models\\ProductCategory") {
+  id: ID!
+  name: String!
+  description: String
+  children: [ProductCategory] @hasMany
+  parent: ProductCategory @belongsTo
+  image: Document @morphOne
+  document: Document @morphOne
+  discounts: [ProductCategoryDiscount]! @hasMany
+  getDiscountForDate(dateTime: DateTime!): ProductCategoryDiscount
+  @method(passordered: true)
 }
 
 "Subset of ProductCategory "
-type ProductCategorySelect @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\ProductCategory") {
-    id: ID!
-    name: String!
-    children: [ProductCategorySelect] @hasMany
-    parent: ProductCategorySelect @belongsTo
+type ProductCategorySelect
+@modelClass(class: "MayIFit\\Extension\\Shop\\Models\\ProductCategory") {
+  id: ID!
+  name: String!
+  children: [ProductCategorySelect] @hasMany
+  parent: ProductCategorySelect @belongsTo
 }
 
 "A list of filterable columns."
 enum ProductCategoryColumns {
-    ID @enum(value: "id")
-    NAME @enum(value: "name")
+  ID @enum(value: "id")
+  NAME @enum(value: "name")
 }
