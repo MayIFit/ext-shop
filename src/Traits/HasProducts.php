@@ -11,12 +11,14 @@ use MayIFit\Extension\Shop\Models\Product;
  *
  * @package MayIFit\Extension\Shop
  */
-trait HasProducts {
+trait HasProducts
+{
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongstoMany
      */
-    public function products(): BelongsToMany {
+    public function products(): BelongsToMany
+    {
         return $this->belongstoMany(Product::class);
     }
 }

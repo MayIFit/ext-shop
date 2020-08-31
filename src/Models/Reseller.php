@@ -21,7 +21,8 @@ use MayIFit\Extension\Shop\Models\ResellerShopCart;
  */
 class Reseller extends Model
 {
-    use HasUsers, Notifiable;
+    use HasUsers;
+    use Notifiable;
 
     protected $guarded = [];
 
@@ -31,15 +32,18 @@ class Reseller extends Model
         'supplier_customer_code' => ''
     ];
 
-    public function resellerGroup(): BelongsTo {
+    public function resellerGroup(): BelongsTo
+    {
         return $this->belongsTo(ResellerGroup::class);
     }
 
-    public function orders(): HasMany {
+    public function orders(): HasMany
+    {
         return $this->hasMany(Order::class);
     }
 
-    public function resellerShopCart(): HasOne {
+    public function resellerShopCart(): HasOne
+    {
         return $this->hasOne(ResellerShopCart::class);
     }
 }

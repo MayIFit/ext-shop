@@ -20,7 +20,8 @@ class ProductObserver
      * @param  \MayIFit\Extension\Shop\Models\Product  $model
      * @return void
      */
-    public function creating(Product $model): void {
+    public function creating(Product $model): void
+    {
         $model->calculated_stock = $model->stock;
         $model->createdBy()->associate(Auth::user());
     }
@@ -31,7 +32,8 @@ class ProductObserver
      * @param  \MayIFit\Extension\Shop\Models\Product  $model
      * @return void
      */
-    public function created(Product $model): void {
+    public function created(Product $model): void
+    {
         //
     }
 
@@ -41,29 +43,30 @@ class ProductObserver
      * @param  \MayIFit\Extension\Shop\Models\Product  $model
      * @return void
      */
-    public function updating(Product $model): void {
+    public function updating(Product $model): void
+    {
         $dirty = $model->getDirty();
         $original = $model->getOriginal();
-        
+
         if (isset($dirty['stock'])) {
             $source = $model->source;
             if (!$source) {
                 $source = 'manual_edit';
             }
             unset($model->source);
-            
+
             if (intval($dirty['stock']) !== intval($original['stock'])) {
-                DB::insert('insert into stock_movements(product_id, original_quantity, incoming_quantity, difference, source) values (?, ?, ?, ?, ?)', [
-                        $model->id,
-                        $original['stock'],
-                        $dirty['stock'],
-                        intval($dirty['stock']) - intval($original['stock']),
-                        $source
-                    ]
-                );
-            }
-            if ($dirty['stock'] > $original['stock']) {
-                $model->calculated_stock += $dirty['stock'] - $original['stock'];
+                if (intval($dirty['stock']) > intval($original['stock'])) {
+                    $model->calculated_stock += $dirty['stock'] - $original['stock'];
+                }
+                DB::insert('insert into stock_movements(product_id, original_quantity, incoming_quantity, difference, calculated_stock, source) values (?, ?, ?, ?, ?, ?)', [
+                    $model->id,
+                    $original['stock'],
+                    $dirty['stock'],
+                    intval($dirty['stock']) - intval($original['stock']),
+                    $model->calculated_stock,
+                    $source
+                ]);
             }
         }
     }
@@ -74,7 +77,8 @@ class ProductObserver
      * @param  \MayIFit\Extension\Shop\Models\Product  $model
      * @return void
      */
-    public function updated(Product $model): void {
+    public function updated(Product $model): void
+    {
         $model->updatedBy()->associate(Auth::user());
     }
 
@@ -84,7 +88,8 @@ class ProductObserver
      * @param  \MayIFit\Extension\Shop\Models\Product  $model
      * @return void
      */
-    public function deleted(Product $model): void {
+    public function deleted(Product $model): void
+    {
         //
     }
 
@@ -94,7 +99,8 @@ class ProductObserver
      * @param  \MayIFit\Extension\Shop\Models\Product  $model
      * @return void
      */
-    public function forceDeleted(Product $model): void {
+    public function forceDeleted(Product $model): void
+    {
         //
     }
 }

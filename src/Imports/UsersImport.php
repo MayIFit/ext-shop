@@ -19,7 +19,7 @@ class UsersImport implements ToCollection, WithHeadingRow
      *  The mapping hash for inserting
      */
     private $mapping;
-    
+
     /**
      * The total rowcount of the importable file
      */
@@ -30,7 +30,8 @@ class UsersImport implements ToCollection, WithHeadingRow
      */
     private $importedRows = 0;
 
-    public function __construct($mapping) {
+    public function __construct($mapping)
+    {
         $this->mapping = $mapping;
     }
 
@@ -39,7 +40,8 @@ class UsersImport implements ToCollection, WithHeadingRow
      *
      * @return void
      */
-    public function collection(Collection $rows): void {
+    public function collection(Collection $rows): void
+    {
         foreach ($rows as $row) {
             ++$this->rows;
             $parse = [];
@@ -59,18 +61,20 @@ class UsersImport implements ToCollection, WithHeadingRow
                 ++$this->importedRows;
                 $parse['approved'] = true;
                 config('auth.providers.users.model')::updateOrCreate(['email' => $parse['email']], $parse);
-            } 
+            }
         }
     }
 
-    public function getCsvSettings(): array {
+    public function getCsvSettings(): array
+    {
         return [
             'delimeter' => ',',
             'enclosure' => '"',
         ];
     }
 
-    public function getImportedRowCount(): string {
-        return $this->rows.'/'.$this->importedRows;
+    public function getImportedRowCount(): string
+    {
+        return $this->rows . '/' . $this->importedRows;
     }
 }

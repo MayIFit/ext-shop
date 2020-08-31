@@ -28,7 +28,8 @@ class ImportCSV
      * @param  mixed[]  $args
      * @return array|null
      */
-    public function import($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): JsonResponse {
+    public function import($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): JsonResponse
+    {
         $file = $args['input'];
         $import = [];
 
@@ -64,7 +65,8 @@ class ImportCSV
      * @param  mixed[]  $args
      * @return array|null
      */
-    public function getHeader($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): JsonResponse {
+    public function getHeader($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): JsonResponse
+    {
         $file = $args;
         $headings = (new HeadingRowImport)->toArray($file['path']);
 

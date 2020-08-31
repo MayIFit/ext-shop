@@ -19,7 +19,8 @@ class ResellerGroupObserver
      * @param  \MayIFit\Extension\Shop\Models\ResellerGroup  $model
      * @return void
      */
-    public function created(ResellerGroup $model): void {
+    public function created(ResellerGroup $model): void
+    {
         $model->createdBy()->associate(Auth::user());
     }
 
@@ -29,7 +30,8 @@ class ResellerGroupObserver
      * @param  \MayIFit\Extension\Shop\Models\ResellerGroup  $model
      * @return void
      */
-    public function updated(ResellerGroup $model): void {
+    public function updated(ResellerGroup $model): void
+    {
         $model->updatedBy()->associate(Auth::user());
     }
 
@@ -39,7 +41,8 @@ class ResellerGroupObserver
      * @param  \MayIFit\Extension\Shop\Models\ResellerGroup  $model
      * @return void
      */
-    public function deleted(ResellerGroup $model): void {
+    public function deleted(ResellerGroup $model): void
+    {
         //
     }
 
@@ -49,7 +52,8 @@ class ResellerGroupObserver
      * @param  \MayIFit\Extension\Shop\Models\ResellerGroup  $model
      * @return void
      */
-    public function forceDeleted(ResellerGroup $model): void {
+    public function forceDeleted(ResellerGroup $model): void
+    {
         //
     }
 }

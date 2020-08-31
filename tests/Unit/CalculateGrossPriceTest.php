@@ -13,7 +13,8 @@ class CalculateGrossPriceTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_can_calculate_gross_price(): void {
+    public function test_can_calculate_gross_price(): void
+    {
         parent::setUp();
 
         $product = factory(Product::class)->create();
@@ -22,7 +23,7 @@ class CalculateGrossPriceTest extends TestCase
             'base_price' => 100.00,
             'vat' => 27,
         ]);
-        
+
         $grossPrice = $pricing->getBaseGrossPriceAttribute();
 
         $this->assertEquals(127.00, $grossPrice);

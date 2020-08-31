@@ -24,12 +24,13 @@ class OrderObserver
      * @param  \MayIFit\Extension\Shop\Models\Order  $model
      * @return void
      */
-    public function creating(Order $model) {
+    public function creating(Order $model)
+    {
         $orderPrefix = SystemSetting::where('setting_name', 'shop.orderIdPrefix')->first();
         if (!$model->order_id_prefix) {
             $model->order_id_prefix = $orderPrefix->setting_value ?? '';
         }
-        
+
         $model->token = Str::random(20);
         $model->orderStatus()->associate(OrderStatus::first());
         if (!strpos($model->order_id_prefix, 'EXT')) {
@@ -38,16 +39,16 @@ class OrderObserver
                 'reseller_id' => $model->reseller_id,
                 'order_status_id' => 1,
             ])->where('id', '!=', $model->id)
-            ->where('order_id_prefix', 'not like', "%EXT%")
-            ->whereNull('sent_to_courier_service')
-            ->orderBy('id', 'DESC')->get();
+                ->where('order_id_prefix', 'not like', "%EXT%")
+                ->whereNull('sent_to_courier_service')
+                ->orderBy('id', 'DESC')->get();
 
             if ($shippableOrders->count() > 0) {
-                $mergableTo = $shippableOrders->first(function($ord) {
+                $mergableTo = $shippableOrders->first(function ($ord) {
                     return $ord->getFullOrderCanBeShippedAttribute();
                 });
                 if ($mergableTo) {
-                    $model->mergable_to = $mergableTo->id; 
+                    $model->mergable_to = $mergableTo->id;
                     $model = $mergableTo;
                     $model->reseller->resellerShopCart()->delete();
                     return false;
@@ -62,7 +63,8 @@ class OrderObserver
      * @param  \MayIFit\Extension\Shop\Models\Order  $model
      * @return void
      */
-    public function created(Order $model) {
+    public function created(Order $model)
+    {
         $model->reseller->resellerShopCart()->delete();
         $orderPrefix = SystemSetting::where('setting_name', 'shop.orderIdPrefix')->first();
         if ($model->order_id_prefix === $orderPrefix->setting_value) {
@@ -72,7 +74,6 @@ class OrderObserver
         if ($model->getDirty()) {
             $model->update();
         }
-
     }
 
     /**
@@ -81,7 +82,8 @@ class OrderObserver
      * @param  \MayIFit\Extension\Shop\Models\Order  $model
      * @return void
      */
-    public function saving(Order $model): void {
+    public function saving(Order $model): void
+    {
         //
     }
 
@@ -91,8 +93,9 @@ class OrderObserver
      * @param  \MayIFit\Extension\Shop\Models\Order  $model
      * @return void
      */
-    public function saved(Order $model): void {
-        // 
+    public function saved(Order $model): void
+    {
+        //
     }
 
     /**
@@ -101,7 +104,8 @@ class OrderObserver
      * @param  \MayIFit\Extension\Shop\Models\Order  $model
      * @return mixed
      */
-    public function updating(Order $model) {
+    public function updating(Order $model)
+    {
         $dirty = $model->getDirty();
         if (isset($dirty['order_status_id']) && $dirty['order_status_id'] == 3) {
             $model->reseller->notify(new OrderStatusUpdate($model));
@@ -117,11 +121,12 @@ class OrderObserver
      * @param  \MayIFit\Extension\Shop\Models\Order  $model
      * @return void
      */
-    public function updated(Order $model): void {
+    public function updated(Order $model): void
+    {
         if ($model->order_status_id == 5) {
             $model = $this->declineOrder($model);
         }
-        
+
         if ($model->sent_to_courier_service && $model->order_status_id == 6) {
             $this->cloneOrder($model);
         }
@@ -133,10 +138,11 @@ class OrderObserver
      * @param  \MayIFit\Extension\Shop\Models\Order  $model
      * @return mixed
      */
-    public function deleting(Order $model) {
-        if ($model->quantity_transferred > 0){
+    public function deleting(Order $model)
+    {
+        if ($model->quantity_transferred > 0) {
             return false;
-        } 
+        }
         $this->declineOrder($model);
     }
 
@@ -146,7 +152,8 @@ class OrderObserver
      * @param  \MayIFit\Extension\Shop\Models\Order  $model
      * @return void
      */
-    public function deleted(Order $model): void {
+    public function deleted(Order $model): void
+    {
         //
     }
 
@@ -156,7 +163,8 @@ class OrderObserver
      * @param  \MayIFit\Extension\Shop\Models\Order  $model
      * @return void
      */
-    public function forceDeleted(Order $model): void {
+    public function forceDeleted(Order $model): void
+    {
         //
     }
 
@@ -166,8 +174,9 @@ class OrderObserver
      * @param  \MayIFit\Extension\Shop\Models\Order  $model
      * @return void
      */
-    private function declineOrder(Order $model): Order {
-        $model->products->map(function($product) {
+    private function declineOrder(Order $model): Order
+    {
+        $model->products->map(function ($product) {
             if (!$product->pivot->shipped_at) {
                 $product->pivot->declined = true;
                 $product->pivot->save();
@@ -177,7 +186,8 @@ class OrderObserver
         return $model;
     }
 
-    private function cloneOrder(Order $model) {
+    private function cloneOrder(Order $model)
+    {
         $clone = $model->replicate();
         $clone->sent_to_courier_service = null;
         $clone->order_id_prefix .= '-EXT';
@@ -196,7 +206,7 @@ class OrderObserver
             if ($relationType === 'BelongsToMany') {
                 foreach ($items as $item) {
                     // Now we get the extra attributes from the pivot tables, but
-                    // we intentionally leave out the foreignKey, as we already 
+                    // we intentionally leave out the foreignKey, as we already
                     // have it in the $clone
                     $exclude = [$item->pivot->getForeignKey(), 'id'];
                     $extra_attributes = array_except($item->pivot->getAttributes(), $exclude);
@@ -231,7 +241,8 @@ class OrderObserver
      * @param  string  $method
      * @return string
      */
-    private function learnMethodType($model, $method){
+    private function learnMethodType($model, $method)
+    {
         $oReflectionClass = new \ReflectionClass($model);
         $method = $oReflectionClass->getMethod($method);
         $type = get_class($method->invoke($model));

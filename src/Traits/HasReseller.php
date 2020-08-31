@@ -11,12 +11,14 @@ use MayIFit\Extension\Shop\Models\Reseller;
  *
  * @package MayIFit\Extension\Shop
  */
-trait HasReseller {
+trait HasReseller
+{
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function reseller(): BelongsTo {
+    public function reseller(): BelongsTo
+    {
         return $this->belongsTo(Reseller::class);
     }
 }

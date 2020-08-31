@@ -20,7 +20,9 @@ use MayIFit\Extension\Shop\Traits\HasProduct;
  */
 class OrderProductPivot extends Pivot
 {
-    use HasUsers, HasReseller, HasProduct;
+    use HasUsers;
+    use HasReseller;
+    use HasProduct;
 
     protected $gaurded = [];
     protected $table = 'order_product';
@@ -43,25 +45,29 @@ class OrderProductPivot extends Pivot
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function pricing(): BelongsTo {
+    public function pricing(): BelongsTo
+    {
         return $this->belongsTo(ProductPricing::class, 'product_pricing_id');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function discount(): BelongsTo {
+    public function discount(): BelongsTo
+    {
         return $this->belongsTo(ProductDiscount::class, 'product_discount_id');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function order(): BelongsTo {
+    public function order(): BelongsTo
+    {
         return $this->belongsTo(Order::class);
     }
 
-    public function hasPreviousUnShippedOrders() {
+    public function hasPreviousUnShippedOrders()
+    {
         return OrderProductPivot::where([
             ['product_id', '=', $this->product_id],
             ['order_id', '!=', $this->order_id],
@@ -69,7 +75,8 @@ class OrderProductPivot extends Pivot
         ])->where('created_at', '<', $this->created_at)->whereNull('shipped_at')->get();
     }
 
-    public function canBeShipped(): bool {
+    public function canBeShipped(): bool
+    {
         if ($this->quantity == $this->quantity_transferred || $this->quantity <= 0 || $this->shipped_at || $this->order->sent_to_courier_service || $this->declined) {
             return false;
         }
@@ -78,7 +85,7 @@ class OrderProductPivot extends Pivot
         $previouslyOrderedQuantity = 0;
 
         if (!$prevShipments->isEmpty()) {
-            $prevShipments->map(function($orderProduct) use(&$previouslyOrderedQuantity) {
+            $prevShipments->map(function ($orderProduct) use (&$previouslyOrderedQuantity) {
                 $previouslyOrderedQuantity += $orderProduct->quantity;
             });
         }

@@ -22,7 +22,8 @@ class SendOrderEvent
      * @param  mixed[]  $args
      * @return array|null
      */
-    public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) {
+    public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
         if (!isset($args['id'])) {
             return false;
         }

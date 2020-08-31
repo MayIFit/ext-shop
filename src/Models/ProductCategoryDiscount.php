@@ -17,7 +17,9 @@ use MayIFit\Extension\Shop\Models\ProductCategory;
  */
 class ProductCategoryDiscount extends Model
 {
-    use SoftDeletes, HasUsers, HasReseller;
+    use SoftDeletes;
+    use HasUsers;
+    use HasReseller;
 
     /**
      * The attributes that should be cast.
@@ -41,7 +43,8 @@ class ProductCategoryDiscount extends Model
         'discount_percentage' => 0.00,
     ];
 
-    public function categories(): HasMany {
+    public function categories(): HasMany
+    {
         return $this->hasMany(ProductCategory::class);
     }
 }

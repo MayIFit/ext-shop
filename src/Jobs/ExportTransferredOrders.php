@@ -14,7 +14,6 @@ use Maatwebsite\Excel\Facades\Excel;
 
 use MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot;
 use MayIFit\Extension\Shop\Exports\OrdersTransferredExport;
-
 use MayIFit\Extension\Shop\Mails\ShippedOrdersWarehouseNotification;
 
 /**
@@ -24,13 +23,17 @@ use MayIFit\Extension\Shop\Mails\ShippedOrdersWarehouseNotification;
  */
 class ExportTransferredOrders implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     protected $dateFrom;
     protected $dateTo;
     private $emailsTo;
 
-    public function __construct($dateFrom = null, $dateTo = null) {
+    public function __construct($dateFrom = null, $dateTo = null)
+    {
         $now = Carbon::now();
         if (!$dateFrom) {
             $dateFrom = $now->copy()->startOfDay()->toDateTimeString();
@@ -50,21 +53,22 @@ class ExportTransferredOrders implements ShouldQueue
      *
      * @return void
      */
-    public function handle() {
+    public function handle()
+    {
         Log::info('Collecting data...');
 
         $export = OrderProductPivot::whereBetween('shipped_at', [$this->dateFrom, $this->dateTo])
-        ->with('order', 'order.shippingAddress', 'product')
-        ->get();
+            ->with('order', 'order.shippingAddress', 'product')
+            ->get();
 
         Log::info('Generating report...');
 
-        $filename = 'orders_transferred_'.$this->dateFrom.'_'.$this->dateTo.'.xlsx';
+        $filename = 'orders_transferred_' . $this->dateFrom . '_' . $this->dateTo . '.xlsx';
         $result = Excel::store(new OrdersTransferredExport($export), $filename);
 
         if ($result) {
-            Log::info('Sending email to: '.implode(';', $this->emailsTo));
-            Mail::to($this->emailsTo)->send(new ShippedOrdersWarehouseNotification('storage/app/'.$filename, $filename));
+            Log::info('Sending email to: ' . implode(';', $this->emailsTo));
+            Mail::to($this->emailsTo)->send(new ShippedOrdersWarehouseNotification('storage/app/' . $filename, $filename));
         }
     }
 }

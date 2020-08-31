@@ -9,10 +9,10 @@ use MayIFit\Extension\Shop\Models\Product;
 $factory->define(Product::class, function (Faker $faker) {
 
     $technicalSpecs = array(
-        'weight' => $faker->numberBetween($min = 0, $max = 500).' kg',
-        'width' => $faker->numberBetween($min = 0, $max = 1870).' mm',
-        'height' => $faker->numberBetween($min = 0, $max = 920).' mm',
-        'length' => $faker->numberBetween($min = 0, $max = 1230).' mm',
+        'weight' => $faker->numberBetween($min = 0, $max = 500) . ' kg',
+        'width' => $faker->numberBetween($min = 0, $max = 1870) . ' mm',
+        'height' => $faker->numberBetween($min = 0, $max = 920) . ' mm',
+        'length' => $faker->numberBetween($min = 0, $max = 1230) . ' mm',
     );
 
     return [

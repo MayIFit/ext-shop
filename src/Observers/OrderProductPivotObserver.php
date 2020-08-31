@@ -4,6 +4,7 @@ namespace MayIFit\Extension\Shop\Observers;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 use MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot;
 use MayIFit\Extension\Shop\Models\Product;
@@ -23,7 +24,8 @@ class OrderProductPivotObserver
      * @return void
      */
     //TODO: merge orders for same customer
-    public function creating(OrderProductPivot $model) {
+    public function creating(OrderProductPivot $model)
+    {
         $product = Product::where('catalog_id', $model->product_id)->first();
         if (!$product) {
             return;
@@ -36,9 +38,20 @@ class OrderProductPivotObserver
         }
         $model->product_id = $product->id;
         $model->quantity_transferred = 0;
-        
+
         $reseller = $order->reseller;
         $product->calculated_stock -= $model->quantity;
+
+        DB::insert('insert into stock_movements(product_id, original_quantity, incoming_quantity, difference, calculated_stock, order_id, source) values (?, ?, ?, ?, ?, ?, ?)', [
+            $product->id,
+            $product->stock,
+            $product->stock,
+            0,
+            $product->calculated_stock,
+            $order->id,
+            'order_placed'
+        ]);
+
         $order->quantity += $model->quantity;
         $order->items_ordered++;
         $now = Carbon::now();
@@ -51,13 +64,13 @@ class OrderProductPivotObserver
         $model->pricing()->associate($pricing);
 
         $discount = $product->discounts()
-            ->where(function($query) use($now) {
+            ->where(function ($query) use ($now) {
                 return $query->where('available_to', '>=', $now)
                     ->orWhereNull('available_to');
             })
             ->where('available_from', '<=', $now)
             ->first();
-        
+
         $netPrice = 0;
         $grossPrice = 0;
         if (!$pricing->is_discounted) {
@@ -120,7 +133,8 @@ class OrderProductPivotObserver
      * @param  \MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot  $model
      * @return void
      */
-    public function created(OrderProductPivot $model): void {
+    public function created(OrderProductPivot $model): void
+    {
         //
     }
 
@@ -130,7 +144,8 @@ class OrderProductPivotObserver
      * @param  \MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot  $model
      * @return void
      */
-    public function updating(OrderProductPivot $model): void {
+    public function updating(OrderProductPivot $model): void
+    {
         $dirty = $model->getDirty();
         $orig = $model->getOriginal();
         if (isset($dirty['gross_value']) || isset($dirty['net_value'])) {
@@ -155,10 +170,29 @@ class OrderProductPivotObserver
             if (!isset($dirty['shipped_at'])) {
                 $model->order->update();
             }
+
+            DB::insert('insert into stock_movements(product_id, original_quantity, incoming_quantity, difference, calculated_stock, order_id, source) values (?, ?, ?, ?, ?, ?, ?)', [
+                $model->product->id,
+                $model->product->stock,
+                $model->product->stock,
+                0,
+                $model->product->calculated_stock,
+                $model->order->id,
+                'order_modified'
+            ]);
         }
 
         if (isset($dirty['declined'])) {
             $model->product->calculated_stock += $model->quantity;
+            DB::insert('insert into stock_movements(product_id, original_quantity, incoming_quantity, difference, calculated_stock, order_id, source) values (?, ?, ?, ?, ?, ?, ?)', [
+                $model->product->id,
+                $model->product->stock,
+                $model->product->stock,
+                0,
+                $model->product->calculated_stock,
+                $model->order->id,
+                'order_declined'
+            ]);
         }
 
         if (!isset($dirty['shipped_at'])) {
@@ -168,7 +202,7 @@ class OrderProductPivotObserver
         if (isset($dirty['quantity']) && $dirty['quantity'] <= 0) {
             $model->delete();
         }
-        
+
 
         $model->updatedBy()->associate(Auth::id());
     }
@@ -179,7 +213,8 @@ class OrderProductPivotObserver
      * @param  \MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot  $model
      * @return void
      */
-    public function updated(OrderProductPivot $model): void {
+    public function updated(OrderProductPivot $model): void
+    {
         $dirty = $model->getDirty();
 
         if (isset($dirty['net_value']) || isset($dirty['gross_value']) || isset($dirty['quantity'])) {
@@ -194,7 +229,8 @@ class OrderProductPivotObserver
      * @param  \MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot  $model
      * @return void
      */
-    public function saving(OrderProductPivot $model): void {
+    public function saving(OrderProductPivot $model): void
+    {
         //
     }
 
@@ -204,7 +240,8 @@ class OrderProductPivotObserver
      * @param  \MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot  $model
      * @return void
      */
-    public function saved(OrderProductPivot $model): void {
+    public function saved(OrderProductPivot $model): void
+    {
         //
     }
 
@@ -214,7 +251,8 @@ class OrderProductPivotObserver
      * @param  \MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot  $model
      * @return void
      */
-    public function deleted(OrderProductPivot $model): void {
+    public function deleted(OrderProductPivot $model): void
+    {
         //
     }
 
@@ -224,7 +262,8 @@ class OrderProductPivotObserver
      * @param  \MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot  $model
      * @return void
      */
-    public function forceDeleted(OrderProductPivot $model): void {
+    public function forceDeleted(OrderProductPivot $model): void
+    {
         //
     }
 }

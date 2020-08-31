@@ -23,16 +23,16 @@ class OrdersTableSeeder extends Seeder
     public function run()
     {
         factory(Order::class, 20)->make()
-        ->each(function($order) {
-            $products = Product::all()->random(5);
-            $randomCustomer = Customer::all()->random();
-            $order->customer()->associate($randomCustomer->id);
-            $order->save();
-            foreach ($products as $product) {
-                $data = array('quantity' => rand(1, 100));
-                $order->products()->attach($product->id, $data);
-            }
-            $order->save();
-        });
+            ->each(function ($order) {
+                $products = Product::all()->random(5);
+                $randomCustomer = Customer::all()->random();
+                $order->customer()->associate($randomCustomer->id);
+                $order->save();
+                foreach ($products as $product) {
+                    $data = array('quantity' => rand(1, 100));
+                    $order->products()->attach($product->id, $data);
+                }
+                $order->save();
+            });
     }
 }

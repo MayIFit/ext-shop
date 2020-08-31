@@ -27,7 +27,8 @@ class OrderStatusUpdate extends Notification implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($order) {
+    public function __construct($order)
+    {
         $this->order = $order;
         $this->senderEmail = (SystemSetting::where('setting_name', 'shop.emailFrom')->first())->setting_value;
         $this->senderName = (SystemSetting::where('setting_name', 'shop.emailFromName')->first())->setting_value;
@@ -39,7 +40,8 @@ class OrderStatusUpdate extends Notification implements ShouldQueue
      * @param  mixed  $notifiable
      * @return array
      */
-    public function via($notifiable) {
+    public function via($notifiable)
+    {
         return ['mail'];
     }
 
@@ -49,16 +51,17 @@ class OrderStatusUpdate extends Notification implements ShouldQueue
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable) {
+    public function toMail($notifiable)
+    {
         $locale = $this->order->reseller->user->language;
-        $url = url(rtrim(config('app.url')).'/order?token='.$this->order->token);
+        $url = url(rtrim(config('app.url')) . '/order?token=' . $this->order->token);
         return (new MailMessage)
             ->from($this->senderEmail, $this->senderName)
-            ->greeting(trans('global.hello', [], $locale)) 
-            ->line(trans('action.your_order_has_changed', [], $locale). ": ". trans('order.'.$this->order->orderStatus->name, [], $locale))
+            ->greeting(trans('global.hello', [], $locale))
+            ->line(trans('action.your_order_has_changed', [], $locale) . ": " . trans('order.' . $this->order->orderStatus->name, [], $locale))
             ->action(trans('action.check_here', [], $locale), $url)
             ->line(trans('global.thank_you_for_ordering', [], $locale))
-            ->salutation(trans('global.regards', [], $locale). " ". config('app.name'));
+            ->salutation(trans('global.regards', [], $locale) . " " . config('app.name'));
     }
 
     /**
@@ -67,7 +70,8 @@ class OrderStatusUpdate extends Notification implements ShouldQueue
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toArray($notifiable) {
+    public function toArray($notifiable)
+    {
         return [
             //
         ];

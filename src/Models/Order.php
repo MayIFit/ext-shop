@@ -18,7 +18,10 @@ use MayIFit\Extension\Shop\Traits\HasOrderStatus;
  */
 class Order extends Model
 {
-    use SoftDeletes, HasCustomers, HasReseller, HasOrderStatus;
+    use SoftDeletes;
+    use HasCustomers;
+    use HasReseller;
+    use HasOrderStatus;
 
     public $fillable = [
         'order_id_prefix',
@@ -47,40 +50,43 @@ class Order extends Model
         'items_ordered' => 0,
         'quantity_transferred' => 0
     ];
-    
-    public function products(): BelongsToMany {
+
+    public function products(): BelongsToMany
+    {
         return $this->belongstoMany(Product::class)
-        ->using(OrderProductPivot::class)
-        ->withPivot([
-            'id',
-            'product_pricing_id',
-            'product_discount_id',
-            'is_wholesale',
-            'net_value',
-            'gross_value',
-            'vat',
-            'quantity',
-            'shipped_at',
-            'declined',
-            'quantity_transferred',
-        ])->withTimestamps();
+            ->using(OrderProductPivot::class)
+            ->withPivot([
+                'id',
+                'product_pricing_id',
+                'product_discount_id',
+                'is_wholesale',
+                'net_value',
+                'gross_value',
+                'vat',
+                'quantity',
+                'shipped_at',
+                'declined',
+                'quantity_transferred',
+            ])->withTimestamps();
     }
 
-    public function recalculateValues(): void {
+    public function recalculateValues(): void
+    {
         $this->net_value = 0;
         $this->gross_value = 0;
-        $this->products->map(function($product) {
+        $this->products->map(function ($product) {
             $this->net_value += round($product->pivot->net_value * $product->pivot->quantity, 2, PHP_ROUND_HALF_EVEN);
             $this->gross_value += round($product->pivot->gross_value * $product->pivot->quantity, 2, PHP_ROUND_HALF_EVEN);
         });
     }
 
-    public function getOrderCanBeShippedAttribute(): bool {
+    public function getOrderCanBeShippedAttribute(): bool
+    {
         if ($this->sent_to_courier_service) {
             return false;
         }
 
-        $canBeShipped = $this->products->filter(function($product) {
+        $canBeShipped = $this->products->filter(function ($product) {
             return $product->pivot->canBeShipped();
         });
         $this->can_be_shipped = $canBeShipped->count() > 0;
@@ -91,12 +97,13 @@ class Order extends Model
         return $canBeShipped->count() > 0;
     }
 
-    public function getFullOrderCanBeShippedAttribute(): bool {
+    public function getFullOrderCanBeShippedAttribute(): bool
+    {
         if ($this->sent_to_courier_service || $this->items_transferred === $this->items_ordered) {
             return false;
         }
 
-        $canBeShipped = $this->products->filter(function($product) {
+        $canBeShipped = $this->products->filter(function ($product) {
             return $product->pivot->canBeShipped();
         });
 

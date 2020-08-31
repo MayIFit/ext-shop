@@ -18,18 +18,19 @@ use Maatwebsite\Excel\Facades\Excel;
  */
 class GetStockMovement
 {
-    public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) {
+    public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
         $export = DB::table('stock_movements')
             ->join('products', 'products.id', '=', 'stock_movements.product_id')
             ->select('products.catalog_id', 'original_quantity', 'incoming_quantity', 'difference', 'source')
             ->whereBetween('created_at', [$args['datetime_from'], $args['datetime_to']])
             ->get();
 
-        $fileName = 'stock_movement'.$args['datetime_from']->format('Y-m-d').'_'.$args['datetime_to']->format('Y-m-d').'.xlsx';
+        $fileName = 'stock_movement' . $args['datetime_from']->format('Y-m-d') . '_' . $args['datetime_to']->format('Y-m-d') . '.xlsx';
 
         Excel::store($export, $fileName);
 
-        $path = 'public/exports/'.$fileName;
+        $path = 'public/exports/' . $fileName;
 
         if (Storage::exists($path)) {
             Storage::delete($path);
@@ -37,6 +38,6 @@ class GetStockMovement
 
         Storage::move($fileName, $path);
 
-        return 'storage/exports/'.$fileName;
+        return 'storage/exports/' . $fileName;
     }
 }

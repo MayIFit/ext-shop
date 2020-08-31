@@ -20,7 +20,7 @@ class ProductsImport implements ToCollection, WithHeadingRow
      *  The mapping hash for inserting
      */
     private $mapping;
-    
+
     /**
      * The total rowcount of the importable file
      */
@@ -31,7 +31,8 @@ class ProductsImport implements ToCollection, WithHeadingRow
      */
     private $importedRows = 0;
 
-    public function __construct($mapping) {
+    public function __construct($mapping)
+    {
         $this->mapping = $mapping;
     }
 
@@ -40,7 +41,8 @@ class ProductsImport implements ToCollection, WithHeadingRow
      *
      * @return void
      */
-    public function collection(Collection $rows): void {
+    public function collection(Collection $rows): void
+    {
         foreach ($rows as $row) {
             ++$this->rows;
             $parse = [];
@@ -48,7 +50,7 @@ class ProductsImport implements ToCollection, WithHeadingRow
             foreach ($this->mapping as $key => $value) {
                 $value = iconv('UTF-8', 'ASCII//TRANSLIT', $value);
                 if ($key === 'category' && isset($row[$value])) {
-                    $categoryNames = explode('>',trim($row[$value]));
+                    $categoryNames = explode('>', trim($row[$value]));
                     foreach ($categoryNames as $category) {
                         $categoryToInsert = [
                             'name' => $category,
@@ -57,7 +59,7 @@ class ProductsImport implements ToCollection, WithHeadingRow
                         $insert = ProductCategory::updateOrCreate(['name' => $category], $categoryToInsert);
                         $previousCategoryID = $insert->id;
                     }
-                } 
+                }
 
                 if (isset($row[$value])) {
                     if ($key === 'technical_specs' || $key === 'supplied') {
@@ -92,14 +94,16 @@ class ProductsImport implements ToCollection, WithHeadingRow
         }
     }
 
-    public function getCsvSettings(): array {
+    public function getCsvSettings(): array
+    {
         return [
             'delimeter' => ',',
             'enclosure' => '"',
         ];
     }
 
-    public function getImportedRowCount(): string {
-        return $this->rows.'/'.$this->importedRows;
+    public function getImportedRowCount(): string
+    {
+        return $this->rows . '/' . $this->importedRows;
     }
 }

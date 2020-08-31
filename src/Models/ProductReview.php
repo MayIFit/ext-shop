@@ -15,7 +15,9 @@ use MayIFit\Extension\Shop\Traits\HasProduct;
  */
 class ProductReview extends Model
 {
-    use SoftDeletes, HasProduct, HasUsers;
+    use SoftDeletes;
+    use HasProduct;
+    use HasUsers;
 
     protected $fillable = [
         'title',

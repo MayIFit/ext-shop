@@ -18,11 +18,12 @@ class TestCase extends \Orchestra\Testbench\TestCase
     /**
      * Setup the test environment.
      */
-    public function setUp(): void {
+    public function setUp(): void
+    {
         parent::setUp();
         $this->publishResources();
         // $this->loadLaravelMigrations(['--database' => 'testbench']);
-        $this->withFactories(__DIR__.'../src/Database/Factories');
+        $this->withFactories(__DIR__ . '../src/Database/Factories');
         $this->artisan('migrate', ['--database' => 'testbench'])->run();
     }
 
@@ -36,7 +37,8 @@ class TestCase extends \Orchestra\Testbench\TestCase
      *
      * @return array
      */
-    protected function getPackageProviders($app) {
+    protected function getPackageProviders($app)
+    {
         return [
             SanctumServiceProvider::class,
             LighthouseServiceProvider::class,
@@ -54,7 +56,8 @@ class TestCase extends \Orchestra\Testbench\TestCase
      *
      * @return void
      */
-    protected function getEnvironmentSetUp($app): void {
+    protected function getEnvironmentSetUp($app): void
+    {
         $app['config']->set('database.default', 'testbench');
         $app['config']->set('database.connections.testbench', [
             'driver'   => 'sqlite',
@@ -65,7 +68,8 @@ class TestCase extends \Orchestra\Testbench\TestCase
         $app['config']->push('app.providers', 'Nuwave\\Lighthouse\\WhereConditions\\WhereConditionsServiceProvider');
     }
 
-    protected function publishResources(): void {
+    protected function publishResources(): void
+    {
         $this->artisan('vendor:publish', [
             '--provider' => LighthouseServiceProvider::class,
             '--force' => true
@@ -87,14 +91,17 @@ class TestCase extends \Orchestra\Testbench\TestCase
         ])->execute();
 
 
-        file_put_contents($this->app['config']->get('lighthouse.schema.register'), 
-        '
+        file_put_contents(
+            $this->app['config']->get('lighthouse.schema.register'),
+            '
 #import core/*.graphql
 #import extensions/*.graphql
 
 type Query
 
 type Mutation
-        ', FILE_APPEND);
+        ',
+            FILE_APPEND
+        );
     }
 }

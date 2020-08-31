@@ -14,7 +14,8 @@ use MayIFit\Extension\Shop\Models\Order;
  */
 class GetResellerLastOpenOrder
 {
-    public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) {
+    public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
         return Order::where('reseller_id', $context->user->reseller->id)
             ->whereNull('sent_to_courier_service')
             ->where('order_id_prefix', 'NOT LIKE', '%EXT%')

@@ -26,14 +26,14 @@ class ProductsTableSeeder extends Seeder
     public function run()
     {
         factory(Product::class, 200)->make()
-            ->each(function($product) {
+            ->each(function ($product) {
                 $product->createdBy()->associate(1);
                 $product->category()->associate(ProductCategory::all()->random());
 
                 $product->save();
 
                 $product->reviews()->saveMany(
-                    factory(ProductReview::class, rand(1,10))->make()->each(function($review) use ($product) {
+                    factory(ProductReview::class, rand(1, 10))->make()->each(function ($review) use ($product) {
                         $review->createdBy()->associate(User::all()->random());
                     })
                 );

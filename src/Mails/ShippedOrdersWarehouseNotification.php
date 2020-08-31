@@ -14,7 +14,8 @@ use Illuminate\Queue\SerializesModels;
  */
 class ShippedOrdersWarehouseNotification extends Mailable implements ShouldQueue
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     public $attachment;
     public $subject;
@@ -24,7 +25,8 @@ class ShippedOrdersWarehouseNotification extends Mailable implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($attachment, $subject) {
+    public function __construct($attachment, $subject)
+    {
         $this->attachment = $attachment;
         $this->subject = $subject;
     }
@@ -34,7 +36,8 @@ class ShippedOrdersWarehouseNotification extends Mailable implements ShouldQueue
      *
      * @return $this
      */
-    public function build() {
+    public function build()
+    {
         return $this->view('emails.wms.transferred')
             ->subject($this->subject)
             ->attach($this->attachment);

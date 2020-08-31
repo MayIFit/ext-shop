@@ -17,19 +17,20 @@ use MayIFit\Extension\Shop\Exports\OrdersTransferredExport;
  */
 class GetTransferredOrders
 {
-    public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) {
+    public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
         $export = new OrdersTransferredExport(
             OrderProductPivot::whereBetween('shipped_at', [$args['datetime_from'], $args['datetime_to']])
-            ->with('order', 'order.shippingAddress', 'product')
-            ->orderBy('shipped_at')
-            ->get()
+                ->with('order', 'order.shippingAddress', 'product')
+                ->orderBy('shipped_at')
+                ->get()
         );
 
-        $fileName = 'orders_transferred_'.$args['datetime_from']->format('Y-m-d').'_'.$args['datetime_to']->format('Y-m-d').'.xlsx';
+        $fileName = 'orders_transferred_' . $args['datetime_from']->format('Y-m-d') . '_' . $args['datetime_to']->format('Y-m-d') . '.xlsx';
 
         Excel::store($export, $fileName);
 
-        $path = 'public/exports/'.$fileName;
+        $path = 'public/exports/' . $fileName;
 
         if (Storage::exists($path)) {
             Storage::delete($path);
@@ -37,6 +38,6 @@ class GetTransferredOrders
 
         Storage::move($fileName, $path);
 
-        return 'storage/exports/'.$fileName;
+        return 'storage/exports/' . $fileName;
     }
 }

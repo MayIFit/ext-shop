@@ -19,7 +19,8 @@ class ProductCategoryObserver
      * @param  \MayIFit\Extension\Shop\Models\ProductCategory  $model
      * @return void
      */
-    public function creating(ProductCategory $model): void {
+    public function creating(ProductCategory $model): void
+    {
         $model->createdBy()->associate(Auth::user());
     }
 
@@ -29,7 +30,8 @@ class ProductCategoryObserver
      * @param  \MayIFit\Extension\Shop\Models\ProductCategory  $model
      * @return void
      */
-    public function created(ProductCategory $model): void {
+    public function created(ProductCategory $model): void
+    {
         //
     }
 
@@ -39,7 +41,8 @@ class ProductCategoryObserver
      * @param  \MayIFit\Extension\Shop\Models\ProductCategory  $model
      * @return void
      */
-    public function updated(ProductCategory $model): void {
+    public function updated(ProductCategory $model): void
+    {
         $model->updatedBy()->associate(Auth::user());
     }
 
@@ -49,7 +52,8 @@ class ProductCategoryObserver
      * @param  \MayIFit\Extension\Shop\Models\ProductCategory  $model
      * @return void
      */
-    public function deleted(ProductCategory $model): void {
+    public function deleted(ProductCategory $model): void
+    {
         //
     }
 
@@ -59,7 +63,8 @@ class ProductCategoryObserver
      * @param  \MayIFit\Extension\Shop\Models\ProductCategory  $model
      * @return void
      */
-    public function forceDeleted(ProductCategory $model): void {
+    public function forceDeleted(ProductCategory $model): void
+    {
         //
     }
 }

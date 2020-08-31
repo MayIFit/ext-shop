@@ -17,14 +17,16 @@ use MayIFit\Extension\Shop\Models\Reseller;
  */
 class ResellerGroup extends Model
 {
-    use HasUsers, Notifiable;
+    use HasUsers;
+    use Notifiable;
 
     protected $fillable = [
         'name',
         'discount_value',
     ];
 
-    public function resellers(): HasMany {
+    public function resellers(): HasMany
+    {
         return $this->hasMany(Reseller::class);
     }
 }

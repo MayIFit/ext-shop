@@ -16,7 +16,9 @@ use MayIFit\Extension\Shop\Traits\HasProduct;
  */
 class ResellerShopCart extends Model
 {
-    use HasUsers, HasReseller, HasProduct;
+    use HasUsers;
+    use HasReseller;
+    use HasProduct;
 
     protected $guarded = [];
 }

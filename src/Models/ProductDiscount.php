@@ -16,7 +16,10 @@ use MayIFit\Extension\Shop\Traits\HasProduct;
  */
 class ProductDiscount extends Model
 {
-    use SoftDeletes, HasUsers, HasProduct, HasReseller;
+    use SoftDeletes;
+    use HasUsers;
+    use HasProduct;
+    use HasReseller;
 
     /**
      * The attributes that should be cast.

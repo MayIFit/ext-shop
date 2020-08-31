@@ -22,7 +22,10 @@ use MayIFit\Extension\Shop\Models\Product;
  */
 class SyncWarehouseStockFromWMS implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * URL, username, password and ID for SoapClient
@@ -39,7 +42,8 @@ class SyncWarehouseStockFromWMS implements ShouldQueue
      * @param  Order  $Order
      * @return void
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->apiUserName = config('ext-shop.courier_api_username');
         $this->apiUserPassword = config('ext-shop.courier_api_password');
         $this->apiUserID = config('ext-shop.courier_api_userid');
@@ -55,7 +59,8 @@ class SyncWarehouseStockFromWMS implements ShouldQueue
      *
      * @return void
      */
-    public function handle() {
+    public function handle()
+    {
         $apiWsdlUrl = config('ext-shop.courier_api_endpoint');
         if (!$apiWsdlUrl) {
             Log::critical('No API endpoint was specified!');
@@ -74,13 +79,13 @@ class SyncWarehouseStockFromWMS implements ShouldQueue
 
         Log::info('Collecting products...');
 
-        $docDetails = Product::pluck('catalog_id')->map(function($catalogID) {
+        $docDetails = Product::pluck('catalog_id')->map(function ($catalogID) {
             return [
                 'ArticleCode' => $catalogID
             ];
         })->toArray();
 
-        Log::info(count($docDetails). ' product(s) found');
+        Log::info(count($docDetails) . ' product(s) found');
 
         $docDetails = array_values($docDetails);
 
@@ -92,12 +97,12 @@ class SyncWarehouseStockFromWMS implements ShouldQueue
         if ($response->GetArticleQuantityResult->MsgStatus == 0) {
             Log::info('Request success');
             $warehouseItems = $response->GetArticleQuantityResult->ArticleQuantity->ArticleQuantityResponse;
-    
+
             foreach ($warehouseItems as $item) {
-                Log::info('Checking product '. $item->ItemCode);
+                Log::info('Checking product ' . $item->ItemCode);
                 $prod = Product::firstWhere('catalog_id', $item->ItemCode);
                 if (intval($prod->stock) !== intval($item->AvailableQuantity)) {
-                    Log::info('Updating product stock for:'. $item->ItemCode. ' warehouse quantity: '. $item->AvailableQuantity);
+                    Log::info('Updating product stock for:' . $item->ItemCode . ' warehouse quantity: ' . $item->AvailableQuantity);
                     $prod->stock = $item->AvailableQuantity;
                     $prod['source'] = 'warehouse_sync';
                     $prod->update();
@@ -106,12 +111,10 @@ class SyncWarehouseStockFromWMS implements ShouldQueue
         } else {
             Log::warning('Request failed!');
         }
-
-
-        
     }
 
-    public function failed(Exception $exception) {
+    public function failed(Exception $exception)
+    {
         // Send user notification of failure, etc...
     }
 }

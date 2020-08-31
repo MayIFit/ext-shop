@@ -12,14 +12,14 @@ use MayIFit\Extension\Shop\Models\OrderStatus;
  */
 class OrderStatusesTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
-    {
-        OrderStatus::updateOrCreate([
+	/**
+	 * Run the database seeds.
+	 *
+	 * @return void
+	 */
+	public function run()
+	{
+		OrderStatus::updateOrCreate([
 			'name' => 'placed',
 			'icon' => '',
 			'send_notification' => true
@@ -48,5 +48,5 @@ class OrderStatusesTableSeeder extends Seeder
 			'icon' => '',
 			'send_notification' => true
 		]);
-    }
+	}
 }

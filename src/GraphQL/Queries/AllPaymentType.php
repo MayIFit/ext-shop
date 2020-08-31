@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\DB;
  */
 class AllPaymentType
 {
-    public function __invoke($rootValue,array $args, GraphQLContext $context, ResolveInfo $resolveInfo) {
+    public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
         $currencies = DB::table('payment_types')->get();
         return $currencies ?? [];
     }

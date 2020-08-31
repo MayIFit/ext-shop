@@ -46,7 +46,8 @@ class ProductPricingsImport implements ToCollection, WithHeadingRow
 
 
 
-    public function __construct($mapping) {
+    public function __construct($mapping)
+    {
         $this->mapping = $mapping;
         $this->defaultVatAmount = SystemSetting::where('setting_name', 'shop.defaultVatAmount')->first();
         $this->defaultCurrency = SystemSetting::where('setting_name', 'shop.defaultCurrency')->first();
@@ -57,7 +58,8 @@ class ProductPricingsImport implements ToCollection, WithHeadingRow
      *
      * @return void
      */
-    public function collection(Collection $rows): void {
+    public function collection(Collection $rows): void
+    {
         foreach ($rows as $row) {
             ++$this->rows;
             $parse = [];
@@ -90,14 +92,16 @@ class ProductPricingsImport implements ToCollection, WithHeadingRow
         }
     }
 
-    public function getCsvSettings(): array {
+    public function getCsvSettings(): array
+    {
         return [
             'delimeter' => ',',
             'enclosure' => '"',
         ];
     }
 
-    public function getImportedRowCount(): string {
-        return $this->rows.'/'.$this->importedRows;
+    public function getImportedRowCount(): string
+    {
+        return $this->rows . '/' . $this->importedRows;
     }
 }

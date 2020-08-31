@@ -25,7 +25,7 @@ class CurrenciesTableSeeder extends Seeder
      */
     public function run()
     {
-        foreach($this->currencyArray as $currency) {
+        foreach ($this->currencyArray as $currency) {
             if (!DB::table('currencies')->where('iso_code', $currency['iso_code'])->first()) {
                 DB::table('currencies')->insert([
                     'iso_code' => $currency['iso_code'],

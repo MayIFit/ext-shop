@@ -27,7 +27,11 @@ use MayIFit\Extension\Shop\Traits\HasReviews;
  */
 class Product extends Model
 {
-    use SoftDeletes, HasUsers, HasOrders, HasReviews, HasDocuments;
+    use SoftDeletes;
+    use HasUsers;
+    use HasOrders;
+    use HasReviews;
+    use HasDocuments;
 
     protected $guarded = [];
     protected $casts = [
@@ -46,43 +50,51 @@ class Product extends Model
         'out_of_stock_text' => ''
     ];
 
-    protected function asJson($value) {
+    protected function asJson($value)
+    {
         return json_encode($value, JSON_UNESCAPED_UNICODE);
     }
 
-    public function parentProduct(): BelongsTo {
+    public function parentProduct(): BelongsTo
+    {
         return $this->belongsTo(Product::class, 'parent_id', 'id');
     }
 
-    public function accessories(): HasMany {
+    public function accessories(): HasMany
+    {
         return $this->hasMany(Product::class, 'parent_id', 'id');
     }
 
-    public function category(): BelongsTo {
+    public function category(): BelongsTo
+    {
         return $this->belongsTo(ProductCategory::class);
     }
 
-    public function pricings(): HasMany {
+    public function pricings(): HasMany
+    {
         return $this->hasMany(ProductPricing::class);
     }
 
-    public function discounts(): HasMany {
+    public function discounts(): HasMany
+    {
         return $this->hasMany(ProductDiscount::class);
     }
 
-    public function getCurrentPricing($rootValue = null, array $args = [], GraphQLContext $context = null, ResolveInfo $resolveInfo = null): ?ProductPricing {
+    public function getCurrentPricing($rootValue = null, array $args = [], GraphQLContext $context = null, ResolveInfo $resolveInfo = null): ?ProductPricing
+    {
         $reseller = $context->user->reseller->id ?? null;
         return $this->hasOne(ProductPricing::class)
-            ->where(function($query) use($reseller) {
+            ->where(function ($query) use ($reseller) {
                 return $query->where('reseller_id', $reseller)
-                ->orWhereNull('reseller_id');
+                    ->orWhereNull('reseller_id');
             })
             ->where([['available_from', '<=', Carbon::now()]])
             ->orderBy('id', 'DESC')
             ->first();
     }
 
-    public function getDiscountForDate($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): ?ProductDiscount {
+    public function getDiscountForDate($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): ?ProductDiscount
+    {
         return $this->hasOne(ProductDiscount::class)
             ->where(function ($query) use ($args) {
                 $query->where('available_from', '<=', $args['dateTime']);

@@ -15,7 +15,9 @@ use MayIFit\Extension\Shop\Traits\HasOrders;
  */
 class Customer extends Model
 {
-    use Notifiable, HasUsers, HasOrders;
+    use Notifiable;
+    use HasUsers;
+    use HasOrders;
 
     protected $fillable = [
         'title',

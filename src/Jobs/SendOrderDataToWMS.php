@@ -3,10 +3,9 @@
 namespace MayIFit\Extension\Shop\Jobs;
 
 use SoapClient;
+use Exception;
 
 use Carbon\Carbon;
-
-use Exception;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -25,7 +24,10 @@ use MayIFit\Extension\Shop\Models\Order;
  */
 class SendOrderDataToWMS implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     protected $order;
 
@@ -44,7 +46,8 @@ class SendOrderDataToWMS implements ShouldQueue
      * @param  Order  $Order
      * @return void
      */
-    public function __construct(Order $order) {
+    public function __construct(Order $order)
+    {
         $this->order = $order;
         $this->apiUserName = config('ext-shop.courier_api_username');
         $this->apiUserPassword = config('ext-shop.courier_api_password');
@@ -61,7 +64,8 @@ class SendOrderDataToWMS implements ShouldQueue
      *
      * @return void
      */
-    public function handle() {
+    public function handle()
+    {
         $apiWsdlUrl = config('ext-shop.courier_api_endpoint');
         if (!$apiWsdlUrl) {
             Log::critical('No API endpoint was specified!');
@@ -73,9 +77,9 @@ class SendOrderDataToWMS implements ShouldQueue
         $sentQuantity = $this->order->quantity_transferred;
         $partnerData = $this->order->billingAddress;
         $partnerReseller = $this->order->reseller;
-        
+
         $recipientLocation = $this->order->shippingAddress;
-        
+
         $orderShipmentId = $this->order->order_id_prefix;
 
         $requestData = array(
@@ -95,9 +99,9 @@ class SendOrderDataToWMS implements ShouldQueue
                             'PartnerName' => $partnerReseller->company_name,
                             'PartnerZip' => $partnerReseller->zip_code ?? $partnerData->zip_code,
                             'PartnerCity' => $partnerReseller->city ?? $partnerData->city,
-                            'PartnerStreet1' => ($partnerReseller->address ?? $partnerData->address).' '.($partnerReseller->house_nr ?? $partnerData->house_nr),
-                            'PartnerStreet2' => ($partnerReseller->floor ?? $partnerData->floor ?? '').'/'.($partnerReseller->door ?? $partnerData->door ?? ''),
-                            'PartnerContact' => ($partnerReseller->phone_number ?? $partnerData->phone_number ?? ''). ' / '.($partnerReseller->email ?? $partnerData->email ?? ''),
+                            'PartnerStreet1' => ($partnerReseller->address ?? $partnerData->address) . ' ' . ($partnerReseller->house_nr ?? $partnerData->house_nr),
+                            'PartnerStreet2' => ($partnerReseller->floor ?? $partnerData->floor ?? '') . '/' . ($partnerReseller->door ?? $partnerData->door ?? ''),
+                            'PartnerContact' => ($partnerReseller->phone_number ?? $partnerData->phone_number ?? '') . ' / ' . ($partnerReseller->email ?? $partnerData->email ?? ''),
                             'PartnerCountry' => 'HUN'
                         ],
                         'DeliveryType' => $this->order->delivery_type,
@@ -112,21 +116,21 @@ class SendOrderDataToWMS implements ShouldQueue
         if ($recipientLocation) {
             $requestData['Order']['DocumentList'][0]['DocumentHeader']['DeliveryLocation'] = [
                 'PartnerID' => $partnerReseller->supplier_customer_code,
-                'PartnerName' => $recipientLocation->first_name.' '.$recipientLocation->last_name,
+                'PartnerName' => $recipientLocation->first_name . ' ' . $recipientLocation->last_name,
                 'PartnerZip' => $recipientLocation->zip_code,
                 'PartnerCity' => $recipientLocation->city,
-                'PartnerStreet1' => $recipientLocation->address.' '.$recipientLocation->house_nr,
-                'PartnerStreet2' => ($recipientLocation->floor ?? '').'/'.($recipientLocation->door ?? ''),
-                'PartnerContact' => $recipientLocation->phone_number.' / '.$recipientLocation->email,
+                'PartnerStreet1' => $recipientLocation->address . ' ' . $recipientLocation->house_nr,
+                'PartnerStreet2' => ($recipientLocation->floor ?? '') . '/' . ($recipientLocation->door ?? ''),
+                'PartnerContact' => $recipientLocation->phone_number . ' / ' . $recipientLocation->email,
                 'PartnerCountry' => 'HUN'
             ];
         }
 
-        $sendableProducts = $this->order->products->filter(function($product) {
+        $sendableProducts = $this->order->products->filter(function ($product) {
             return $product->pivot->canBeShipped();
         });
 
-        $docDetails = $sendableProducts->map(function($product) use(&$sentItemCount, &$sentQuantity) {
+        $docDetails = $sendableProducts->map(function ($product) use (&$sentItemCount, &$sentQuantity) {
             $transferrableQuantity = 0;
             $quantityToBeSent = $product->pivot->quantity - $product->pivot->quantity_transferred;
             ++$sentItemCount;
@@ -153,17 +157,17 @@ class SendOrderDataToWMS implements ShouldQueue
 
         $docDetails = array_values($docDetails);
 
-        
+
         $requestData['Order']['DocumentList'][0]['DocumentDetails'] = $docDetails;
 
         if ($sentItemCount === 0) {
-            Log::info('Order has no shippable items: '. $this->order->order_id_prefix);
+            Log::info('Order has no shippable items: ' . $this->order->order_id_prefix);
 
             $this->order->orderStatus()->associate(1);
             return;
         }
 
-        Log::info('Order has shippable items: '. $this->order->order_id_prefix);
+        Log::info('Order has shippable items: ' . $this->order->order_id_prefix);
 
         $testSystem = config('ext-shop.courier_api_test');
 
@@ -175,17 +179,17 @@ class SendOrderDataToWMS implements ShouldQueue
         }
 
 
-        Log::info('Request sent: '. $this->order->order_id_prefix);
+        Log::info('Request sent: ' . $this->order->order_id_prefix);
 
         if ($response->CreateOrderResult->MsgStatus == 0) {
-            Log::info('Request success: '. $this->order->order_id_prefix);
+            Log::info('Request success: ' . $this->order->order_id_prefix);
             $this->order->sent_to_courier_service = Carbon::now();
             if ($sentQuantity == $this->order->quantity) {
                 $this->order->orderStatus()->associate(4);
             } else {
                 $this->order->orderStatus()->associate(6);
             }
-            
+
             foreach ($sendableProducts as $product) {
                 $transferrableQuantity = 0;
                 $quantityToBeSent = $product->pivot->quantity - $product->pivot->quantity_transferred;
@@ -206,16 +210,17 @@ class SendOrderDataToWMS implements ShouldQueue
             $this->order->can_be_shipped = false;
             $this->order->quantity_transferred = $sentQuantity;
         } else {
-            Log::warning('Request failed: '. $this->order->order_id_prefix);
+            Log::warning('Request failed: ' . $this->order->order_id_prefix);
             $this->order->orderStatus()->associate(1);
         }
 
         DB::insert('insert into order_request_logs(order_id, request, response) values (?, ?, ?)', [$this->order->id, $client->__getLastRequest(), $client->__getLastResponse()]);
-        
+
         $this->order->update();
     }
 
-    public function failed(Exception $exception) {
+    public function failed(Exception $exception)
+    {
         // Send user notification of failure, etc...
     }
 }

@@ -19,29 +19,33 @@ use MayIFit\Extension\Shop\Models\Order;
  */
 class CollectSendableOrders implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * Execute the job.
      *
      * @return void
      */
-    public function handle() {
+    public function handle()
+    {
         Log::info('Collecting approved orders...');
         $orders = Order::where([
             ['order_status_id', '=', 3]
         ])->whereNull('sent_to_courier_service')->get();
 
-        Log::info($orders->count().' order(s) found');
+        Log::info($orders->count() . ' order(s) found');
 
         if (!$orders->count()) {
             return false;
         }
 
-        $orders->map(function($order) {
-            Log::info('Checking order: '.$order->order_id_prefix);
+        $orders->map(function ($order) {
+            Log::info('Checking order: ' . $order->order_id_prefix);
             if ($order->getOrderCanBeShippedAttribute()) {
-                Log::info('Can be shipped: '.$order->order_id_prefix);
+                Log::info('Can be shipped: ' . $order->order_id_prefix);
                 SendOrderDataToWMS::dispatch($order);
             }
         });

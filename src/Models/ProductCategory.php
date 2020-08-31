@@ -17,31 +17,38 @@ use MayIFit\Extension\Shop\Models\ProductCategoryDiscount;
 
 class ProductCategory extends Model
 {
-    use SoftDeletes, HasUsers, HasDocuments;
-    
+    use SoftDeletes;
+    use HasUsers;
+    use HasDocuments;
+
     public $fillable = [
         'name',
         'description',
         'parent_id'
     ];
 
-    public function parent(): BelongsTo {
+    public function parent(): BelongsTo
+    {
         return $this->belongsTo(ProductCategory::class, 'parent_id', 'id');
     }
 
-    public function children(): HasMany {
+    public function children(): HasMany
+    {
         return $this->hasMany(ProductCategory::class, 'parent_id');
     }
 
-    public function categoryRecursive() {
+    public function categoryRecursive()
+    {
         return $this->children()->with('categoryRecursive');
     }
 
-    public function products(): HasMany {
+    public function products(): HasMany
+    {
         return $this->hasMany(Product::class);
     }
 
-    public function getDiscountForDate($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): ?ProductCategoryDiscount {
+    public function getDiscountForDate($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): ?ProductCategoryDiscount
+    {
         return $this->hasOne(ProductCategoryDiscount::class)
             ->where(function ($query) use ($args) {
                 $query->where('available_from', '<=', $args['dateTime']);

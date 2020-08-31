@@ -16,13 +16,14 @@ class CanCreateOrderTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_can_create_order(): void {
+    public function test_can_create_order(): void
+    {
         parent::setUp();
-        
+
         $user = new User;
         $user->id = 1;
         Sanctum::actingAs($user, ['*']);
-        
+
         $product = factory(Product::class)->create();
         $pricing = factory(ProductPricing::class)->create([
             'product_id' => $product->id
@@ -76,7 +77,7 @@ class CanCreateOrderTest extends TestCase
                 }
             }
         '));
-        
+
         // ->assertJSON([
         //     'data' => [
         //         'createOrder' => [
@@ -84,6 +85,6 @@ class CanCreateOrderTest extends TestCase
         //         ]
         //     ]
         // ]);
-        
+
     }
 }

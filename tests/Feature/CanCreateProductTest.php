@@ -13,13 +13,14 @@ class CanCreateProductTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_can_create_product(): void {
+    public function test_can_create_product(): void
+    {
         parent::setUp();
-        
+
         $user = new User;
         $user->id = 1;
         Sanctum::actingAs($user, ['*']);
-        
+
         $this->graphQL('
             mutation {
                 createProduct(input: {

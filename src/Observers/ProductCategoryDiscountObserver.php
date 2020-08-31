@@ -20,7 +20,8 @@ class ProductCategoryDiscountObserver
      * @param  \MayIFit\Extension\Shop\Models\ProductCategoryDiscount  $model
      * @return void
      */
-    public function creating(ProductCategoryDiscount $model): void {
+    public function creating(ProductCategoryDiscount $model): void
+    {
         $model->createdBy()->associate(Auth::user());
         if (!$model->available_from) {
             $model->available_from = Carbon::now();
@@ -33,7 +34,8 @@ class ProductCategoryDiscountObserver
      * @param  \MayIFit\Extension\Shop\Models\ProductCategoryDiscount  $model
      * @return void
      */
-    public function created(ProductCategoryDiscount $model): void {
+    public function created(ProductCategoryDiscount $model): void
+    {
         //
     }
 
@@ -43,7 +45,8 @@ class ProductCategoryDiscountObserver
      * @param  \MayIFit\Extension\Shop\Models\ProductCategoryDiscount  $model
      * @return void
      */
-    public function updated(ProductCategoryDiscount $model): void {
+    public function updated(ProductCategoryDiscount $model): void
+    {
         $model->updatedBy()->associate(Auth::user());
     }
 
@@ -53,7 +56,8 @@ class ProductCategoryDiscountObserver
      * @param  \MayIFit\Extension\Shop\Models\ProductCategoryDiscount  $model
      * @return void
      */
-    public function deleted(ProductCategoryDiscount $model): void {
+    public function deleted(ProductCategoryDiscount $model): void
+    {
         //
     }
 
@@ -63,7 +67,8 @@ class ProductCategoryDiscountObserver
      * @param  \MayIFit\Extension\Shop\Models\ProductCategoryDiscount  $model
      * @return void
      */
-    public function forceDeleted(ProductCategoryDiscount $model): void {
+    public function forceDeleted(ProductCategoryDiscount $model): void
+    {
         //
     }
 }

@@ -14,7 +14,8 @@ use MayIFit\Extension\Shop\Models\ResellerShopCart;
  */
 class AllResellerShopCart
 {
-    public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) {
+    public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
         return ResellerShopCart::where('reseller_id', $context->user->reseller->id ?? null)->get();
     }
 }

@@ -11,12 +11,14 @@ use MayIFit\Extension\Shop\Models\ProductReview;
  *
  * @package MayIFit\Extension\Shop
  */
-trait HasReviews {
+trait HasReviews
+{
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function reviews(): HasMany {
+    public function reviews(): HasMany
+    {
         return $this->hasMany(ProductReview::class);
     }
 }

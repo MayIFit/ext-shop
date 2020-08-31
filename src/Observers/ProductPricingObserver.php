@@ -20,7 +20,8 @@ class ProductPricingObserver
      * @param  \MayIFit\Extension\Shop\Models\ProductPricing  $model
      * @return void
      */
-    public function creating(ProductPricing $model): void {
+    public function creating(ProductPricing $model): void
+    {
         $model->createdBy()->associate(Auth::user());
         if (!$model->available_from) {
             $model->available_from = Carbon::now();
@@ -36,7 +37,8 @@ class ProductPricingObserver
      * @param  \MayIFit\Extension\Shop\Models\ProductPricing  $model
      * @return void
      */
-    public function created(ProductPricing $model): void {
+    public function created(ProductPricing $model): void
+    {
         //
     }
 
@@ -46,7 +48,8 @@ class ProductPricingObserver
      * @param  \MayIFit\Extension\Shop\Models\ProductPricing  $model
      * @return void
      */
-    public function updated(ProductPricing $model): void {
+    public function updated(ProductPricing $model): void
+    {
         $model->updatedBy()->associate(Auth::user());
     }
 
@@ -56,7 +59,8 @@ class ProductPricingObserver
      * @param  \MayIFit\Extension\Shop\Models\ProductPricing  $model
      * @return void
      */
-    public function deleted(ProductPricing $model): void {
+    public function deleted(ProductPricing $model): void
+    {
         //
     }
 
@@ -66,7 +70,8 @@ class ProductPricingObserver
      * @param  \MayIFit\Extension\Shop\Models\ProductPricing  $model
      * @return void
      */
-    public function forceDeleted(ProductPricing $model): void {
+    public function forceDeleted(ProductPricing $model): void
+    {
         //
     }
 }

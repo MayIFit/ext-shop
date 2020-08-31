@@ -16,7 +16,10 @@ use MayIFit\Extension\Shop\Traits\HasProduct;
  */
 class ProductPricing extends Model
 {
-    use SoftDeletes, HasUsers, HasProduct, HasReseller;
+    use SoftDeletes;
+    use HasUsers;
+    use HasProduct;
+    use HasReseller;
 
     public $fillable = [
         'product_id',
@@ -46,11 +49,13 @@ class ProductPricing extends Model
         'is_discounted' => false
     ];
 
-    public function getBaseGrossPriceAttribute(): float {
+    public function getBaseGrossPriceAttribute(): float
+    {
         return round($this->base_price * (1 + ($this->vat / 100)), 2, PHP_ROUND_HALF_EVEN);
     }
 
-    public function getWholeSaleGrossPriceAttribute(): float {
+    public function getWholeSaleGrossPriceAttribute(): float
+    {
         return round($this->wholesale_price * (1 + ($this->vat / 100)), 2, PHP_ROUND_HALF_EVEN);
     }
 }

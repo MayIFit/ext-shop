@@ -11,12 +11,14 @@ use MayIFit\Extension\Shop\Models\Order;
  *
  * @package MayIFit\Extension\Shop
  */
-trait HasOrders {
+trait HasOrders
+{
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function orders(): BelongsToMany {
+    public function orders(): BelongsToMany
+    {
         return $this->belongsToMany(Order::class);
     }
 }

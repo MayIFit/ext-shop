@@ -21,7 +21,7 @@ class PaymentTypesTableSeeder extends Seeder
      */
     public function run()
     {
-        foreach($this->paymentTypeArray as $paymentType) {
+        foreach ($this->paymentTypeArray as $paymentType) {
             if (!DB::table('payment_types')->where('name', $paymentType)->first()) {
                 DB::table('payment_types')->insert([
                     'name' => $paymentType,
