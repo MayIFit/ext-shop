@@ -105,9 +105,9 @@ class TranslationsTableSeeder extends Seeder
 		Translation::updateOrCreate(
 			[
 				'group' => 'order',
-				'key' => 'placed'
+				'key' => 'created_at'
 			],
-			['text' => ['en' => 'placed', 'hu' => 'leadva']],
+			['text' => ['en' => 'created_at', 'hu' => 'leadva']],
 		);
 		Translation::updateOrCreate(
 			[

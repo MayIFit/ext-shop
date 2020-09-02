@@ -19,12 +19,22 @@ class ProductReview extends Model
     use HasProduct;
     use HasUsers;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'title',
         'message',
         'rating'
     ];
 
+    /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
     protected $attributes = [
         'rating' => 0
     ];

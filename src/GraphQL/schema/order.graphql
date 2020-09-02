@@ -16,6 +16,18 @@ extend type Query @guard(with: ["sanctum"]) {
   @field(
     resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\GetResellerLastOpenOrder"
   )
+
+  getOrderTrend(range: DateTimeRange @spread): [ObjectScalar]!
+  @field(resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\GetOrderTrend")
+
+  getTransferredOrderTrend(range: DateTimeRange @spread): [ObjectScalar]!
+  @field(
+    resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\GetOrderTrend@transferredOrders"
+  )
+
+  getOrderValueTrend
+
+  getOrderCount: Int! @count(model: "MayIFit\\Extension\\Shop\\Models\\Order")
 }
 
 extend type Mutation {
@@ -68,7 +80,7 @@ input UpdateOrderInput {
 type Order @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
   id: ID!
   token: String!
-  placed: DateTime!
+  created_at: DateTime!
   quantity: Int!
   quantity_transferred: Int
   net_value: Float!
@@ -101,14 +113,14 @@ input DateRange {
 
 extend type Reseller
 @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Reseller") {
-  orders(placed: DateTimeRange @whereBetween): [Order]! @hasMany
+  orders(created_at: DateTimeRange @whereBetween): [Order]! @hasMany
 }
 
 "A list of filterable columns."
 enum OrderColumns {
   ID @enum(value: "id")
   TOKEN @enum(value: "token")
-  PLACED @enum(value: "placed")
+  CREATED_AT @enum(value: "created_at")
   ORDER_ID_PREFIX @enum(value: "order_id_prefix")
   COMPANY_NAME @enum(value: "company_name")
   NET_VALUE @enum(value: "net_value")

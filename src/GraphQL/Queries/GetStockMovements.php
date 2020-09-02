@@ -2,8 +2,6 @@
 
 namespace MayIFit\Extension\Shop\GraphQL\Queries;
 
-use Carbon\Carbon;
-
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Collection;

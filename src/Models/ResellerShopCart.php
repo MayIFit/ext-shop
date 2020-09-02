@@ -20,5 +20,10 @@ class ResellerShopCart extends Model
     use HasReseller;
     use HasProduct;
 
+    /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */
     protected $guarded = [];
 }

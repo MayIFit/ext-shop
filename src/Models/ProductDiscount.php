@@ -22,6 +22,19 @@ class ProductDiscount extends Model
     use HasReseller;
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    public $fillable = [
+        'product_id',
+        'reseller_id',
+        'discount_percentage',
+        'available_from',
+        'available_to'
+    ];
+
+    /**
      * The attributes that should be cast.
      *
      * @var array
@@ -31,14 +44,11 @@ class ProductDiscount extends Model
         'available_to' => 'datetime:Y-m-d h:i:s',
     ];
 
-    public $fillable = [
-        'product_id',
-        'reseller_id',
-        'discount_percentage',
-        'available_from',
-        'available_to'
-    ];
-
+    /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
     protected $attributes = [
         'discount_percentage' => 0.00,
         'quantity_based' => false

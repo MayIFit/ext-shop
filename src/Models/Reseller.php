@@ -24,8 +24,18 @@ class Reseller extends Model
     use HasUsers;
     use Notifiable;
 
+    /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */
     protected $guarded = [];
 
+    /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
     protected $attributes = [
         'floor' => '',
         'door' => '',

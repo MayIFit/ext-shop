@@ -33,12 +33,28 @@ class Product extends Model
     use HasReviews;
     use HasDocuments;
 
+    /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */
     protected $guarded = [];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
     protected $casts = [
         'technical_specs' => 'array',
         'supplied' => 'array'
     ];
 
+    /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
     protected $attributes = [
         'stock' => 0,
         'calculated_stock' => 0,

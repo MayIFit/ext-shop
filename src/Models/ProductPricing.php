@@ -21,6 +21,11 @@ class ProductPricing extends Model
     use HasProduct;
     use HasReseller;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     public $fillable = [
         'product_id',
         'reseller_id',
@@ -41,6 +46,11 @@ class ProductPricing extends Model
         'available_from' => 'datetime:Y-m-d h:i:s'
     ];
 
+    /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
     protected $attributes = [
         'base_price' => 0.00,
         'wholesale_price' => 0.00,

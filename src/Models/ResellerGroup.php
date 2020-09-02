@@ -20,6 +20,11 @@ class ResellerGroup extends Model
     use HasUsers;
     use Notifiable;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'name',
         'discount_value',

@@ -24,12 +24,14 @@ class OrderProductPivot extends Pivot
     use HasReseller;
     use HasProduct;
 
-    protected $gaurded = [];
     protected $table = 'order_product';
 
-    protected $attributes = [
-        'quantity_transferred' => 0
-    ];
+    /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */
+    protected $guarded = [];
 
     /**
      * The attributes that should be cast.
@@ -40,6 +42,15 @@ class OrderProductPivot extends Pivot
         'created_at' => 'datetime:Y-m-d h:i:s',
         'updated_at' => 'datetime:Y-m-d h:i:s',
         'shipped_at' => 'datetime:Y-m-d h:i:s',
+    ];
+
+    /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'quantity_transferred' => 0
     ];
 
     /**

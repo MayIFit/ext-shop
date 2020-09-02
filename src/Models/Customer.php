@@ -19,6 +19,11 @@ class Customer extends Model
     use HasUsers;
     use HasOrders;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'title',
         'first_name',
@@ -39,6 +44,11 @@ class Customer extends Model
         'billing_address',
     ];
 
+    /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
     protected $attributes = [
         'primary_address' => false,
         'shipping_address' => false,

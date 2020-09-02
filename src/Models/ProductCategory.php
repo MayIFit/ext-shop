@@ -21,6 +21,11 @@ class ProductCategory extends Model
     use HasUsers;
     use HasDocuments;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     public $fillable = [
         'name',
         'description',

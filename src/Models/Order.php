@@ -11,6 +11,8 @@ use MayIFit\Extension\Shop\Traits\HasCustomers;
 use MayIFit\Extension\Shop\Traits\HasReseller;
 use MayIFit\Extension\Shop\Traits\HasOrderStatus;
 
+use MayIFit\Extension\Shop\Scopes\DescendingIdOrderScope;
+
 /**
  * Class Order
  *
@@ -23,6 +25,11 @@ class Order extends Model
     use HasReseller;
     use HasOrderStatus;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     public $fillable = [
         'order_id_prefix',
         'transport_cost',
@@ -36,6 +43,21 @@ class Order extends Model
         'invoice_number'
     ];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d h:i:s',
+        'updated_at' => 'datetime:Y-m-d h:i:s',
+    ];
+
+    /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
     protected $attributes = [
         'net_value' => 0.00,
         'gross_value' => 0.00,
@@ -51,6 +73,19 @@ class Order extends Model
         'quantity_transferred' => 0
     ];
 
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        static::addGlobalScope(new DescendingIdOrderScope);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function products(): BelongsToMany
     {
         return $this->belongstoMany(Product::class)
@@ -99,7 +134,7 @@ class Order extends Model
 
     public function getFullOrderCanBeShippedAttribute(): bool
     {
-        if ($this->sent_to_courier_service || $this->items_transferred === $this->items_ordered) {
+        if ($this->sent_to_courier_service) {
             return false;
         }
 

@@ -124,7 +124,7 @@ class OrderProductPivotObserver
                 $model = $model->newPivot($mergeOrder, $model->attributesToArray(), 'order_product', false);
             }
         }
-        $order->update();
+        $order->save();
     }
 
     /**

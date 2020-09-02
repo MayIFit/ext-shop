@@ -14,6 +14,11 @@ class OrderStatus extends Model
 {
     use SoftDeletes;
 
+    /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
     protected $attributes = [
         'send_notification' => false
     ];
