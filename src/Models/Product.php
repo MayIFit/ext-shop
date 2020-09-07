@@ -63,6 +63,7 @@ class Product extends Model
         'supplied' => '{"":""}',
         'varranty' => '1 year',
         'refurbished' => false,
+        'orderable' => true,
         'out_of_stock_text' => ''
     ];
 
