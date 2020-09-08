@@ -113,6 +113,14 @@ class OrderObserver
         if ($model->getOriginal('closed')) {
             return false;
         }
+
+        if (isset($dirty['sent_to_courier_service']) && isset($dirty['order_status_id']) && $dirty['order_status_id'] == 6) {
+            $this->cloneOrder($model);
+        }
+
+        if (isset($dirty['order_status_id']) && $dirty['order_status_id'] == 5) {
+            $model = $this->declineOrder($model);
+        }
     }
 
     /**
@@ -123,13 +131,6 @@ class OrderObserver
      */
     public function updated(Order $model): void
     {
-        if ($model->order_status_id == 5) {
-            $model = $this->declineOrder($model);
-        }
-
-        if ($model->sent_to_courier_service && $model->order_status_id == 6) {
-            $this->cloneOrder($model);
-        }
     }
 
     /**
