@@ -26,7 +26,7 @@ class OrderProductPivotObserver
     //TODO: merge orders for same customer
     public function creating(OrderProductPivot $model)
     {
-        $product = Product::where('catalog_id', $model->product_id)->first();
+        $product = Product::find($model->product_id);
         if (!$product) {
             return;
         }

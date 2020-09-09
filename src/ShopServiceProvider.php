@@ -51,7 +51,8 @@ use MayIFit\Extension\Shop\Jobs\SyncWarehouseStockFromWMS;
  *
  * @package MayIFit\Extension\Shop
  */
-class ShopServiceProvider extends ServiceProvider {
+class ShopServiceProvider extends ServiceProvider
+{
 
     /**
      * The policy mappings for the application.
@@ -82,14 +83,15 @@ class ShopServiceProvider extends ServiceProvider {
     /**
      * Bootstrap any application services.
      */
-    public function boot(ConfigRepository $configRepository): void {
+    public function boot(ConfigRepository $configRepository): void
+    {
         Relation::morphMap([
             'product' => 'MayIFit\Extension\Shop\Models\Product',
             'product_category' => 'MayIFit\Extension\Shop\Models\ProductCategory',
         ]);
-        $this->mergeConfigFrom(__DIR__.'/ext-shop.php', 'ext-shop');
-        $this->loadMigrationsFrom(__DIR__.$this->database_folder.'/migrations');
-        $this->loadFactoriesFrom(__DIR__.$this->database_folder.'/Factories');
+        $this->mergeConfigFrom(__DIR__ . '/ext-shop.php', 'ext-shop');
+        $this->loadMigrationsFrom(__DIR__ . $this->database_folder . '/migrations');
+        $this->loadFactoriesFrom(__DIR__ . $this->database_folder . '/Factories');
         $this->publishResources($configRepository);
         $this->registerPolicies();
 
@@ -104,7 +106,8 @@ class ShopServiceProvider extends ServiceProvider {
         });
     }
 
-    public function register(): void {
+    public function register(): void
+    {
         $this->app->register(EventServiceProvider::class);
     }
 
@@ -113,21 +116,22 @@ class ShopServiceProvider extends ServiceProvider {
      *
      * @return void
      */
-    protected function publishResources(ConfigRepository $configRepository): void {
+    protected function publishResources(ConfigRepository $configRepository): void
+    {
         $this->publishes([
-            __DIR__.'/ext-shop.php' => $this->app->configPath().'/ext-shop.php',
+            __DIR__ . '/ext-shop.php' => $this->app->configPath() . '/ext-shop.php',
         ], 'config');
 
         $this->publishes([
-            __DIR__.'/GraphQL/schema' => $configRepository->get('ext-shop.schema.register'),
+            __DIR__ . '/GraphQL/schema' => $configRepository->get('ext-shop.schema.register'),
         ], 'schema');
 
         $this->publishes([
-            __DIR__.'/GraphQL/Queries' => $configRepository->get('ext-shop.queries.register'),
+            __DIR__ . '/GraphQL/Queries' => $configRepository->get('ext-shop.queries.register'),
         ], 'graphql');
 
         $this->publishes([
-            __DIR__.'/GraphQL/Mutations' => $configRepository->get('ext-shop.mutations.register'),
+            __DIR__ . '/GraphQL/Mutations' => $configRepository->get('ext-shop.mutations.register'),
         ], 'graphql');
     }
 
@@ -136,7 +140,8 @@ class ShopServiceProvider extends ServiceProvider {
      *
      * @return void
      */
-    private function registerObservers(): void {
+    private function registerObservers(): void
+    {
         Product::observe(ProductObserver::class);
         ProductPricing::observe(ProductPricingObserver::class);
         ProductDiscount::observe(ProductDiscountObserver::class);

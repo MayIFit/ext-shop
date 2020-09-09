@@ -3,9 +3,11 @@
 namespace MayIFit\Extension\Shop\Observers;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 use MayIFit\Core\Permission\Models\SystemSetting;
 
+use MayIFit\Extension\Shop\Models\Product;
 use MayIFit\Extension\Shop\Models\Order;
 use MayIFit\Extension\Shop\Models\OrderStatus;
 use MayIFit\Extension\Shop\Notifications\OrderPlaced;
@@ -115,6 +117,7 @@ class OrderObserver
         }
 
         if (isset($dirty['sent_to_courier_service']) && isset($dirty['order_status_id']) && $dirty['order_status_id'] == 6) {
+            Log::info('Cloning order: ' . $model->order_id_prefix);
             $this->cloneOrder($model);
         }
 
@@ -202,8 +205,8 @@ class OrderObserver
 
         // After cloning and saving the new model,
         // we need to sync it's relations
-        foreach ($clone->getRelations() as $relation => $items) {
-            $relationType = $this->learnMethodType($clone, $relation);
+        foreach ($model->getRelations() as $relation => $items) {
+            $relationType = $this->learnMethodType($model, $relation);
             if ($relationType === 'BelongsToMany') {
                 foreach ($items as $item) {
                     // Now we get the extra attributes from the pivot tables, but
@@ -211,12 +214,12 @@ class OrderObserver
                     // have it in the $clone
                     $exclude = [$item->pivot->getForeignKey(), 'id'];
                     $extra_attributes = array_except($item->pivot->getAttributes(), $exclude);
-
                     // Detach all that has been fully shipped
                     if ($extra_attributes['quantity'] === $extra_attributes['quantity_transferred']) {
                         $clone->{$relation}()->detach($item);
                         continue;
                     }
+
                     $extra_attributes['quantity'] -= $extra_attributes['quantity_transferred'] ?? 0;
                     $extra_attributes['quantity_transferred'] = 0;
                     $extra_attributes['shipped_at'] = null;
@@ -228,6 +231,7 @@ class OrderObserver
                 $clone->{$relation}()->associate($items);
             }
         }
+
 
         // Force reload relation for in-memory Object
         $clone->load('products');
