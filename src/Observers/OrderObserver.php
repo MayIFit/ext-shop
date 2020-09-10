@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Log;
 
 use MayIFit\Core\Permission\Models\SystemSetting;
 
-use MayIFit\Extension\Shop\Models\Product;
 use MayIFit\Extension\Shop\Models\Order;
 use MayIFit\Extension\Shop\Models\OrderStatus;
 use MayIFit\Extension\Shop\Notifications\OrderPlaced;
