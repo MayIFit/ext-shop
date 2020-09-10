@@ -19,6 +19,6 @@ trait HasProduct
      */
     public function product(): Belongsto
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class)->withTrashed();
     }
 }

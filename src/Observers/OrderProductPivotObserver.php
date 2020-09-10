@@ -40,7 +40,7 @@ class OrderProductPivotObserver
         $model->quantity_transferred = 0;
 
         $reseller = $order->reseller;
-        if (!strpos($model->order->order_id_prefix, 'EXT')) {
+        if (!strpos($order->order_id_prefix, 'EXT')) {
             $product->calculated_stock -= $model->quantity;
             DB::insert('insert into stock_movements(product_id, original_quantity, incoming_quantity, difference, calculated_stock, order_id, source) values (?, ?, ?, ?, ?, ?, ?)', [
                 $product->id,
