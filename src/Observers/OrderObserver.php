@@ -46,7 +46,7 @@ class OrderObserver
 
             if ($shippableOrders->count() > 0) {
                 $mergableTo = $shippableOrders->first(function ($ord) {
-                    return $ord->getFullOrderCanBeShippedAttribute();
+                    return $ord->getOrderCanBeShippedAttribute();
                 });
                 if ($mergableTo) {
                     $model->mergable_to = $mergableTo->id;
