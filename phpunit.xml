@@ -12,6 +12,9 @@
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./src</directory>
+            <exclude>
+                <directory>src/Database/Factories</directory>
+            </exclude>
         </whitelist>
     </filter>
     <php>
@@ -24,10 +27,4 @@
         <server name="QUEUE_CONNECTION" value="sync"/>
         <server name="SESSION_DRIVER" value="array"/>
     </php>
-    <whitelist processUncoveredFilesFromWhitelist="true">
-        <directory suffix=".php">./src</directory>
-        <exclude>
-            <directory>src/Database/Factories</directory>
-        </exclude>
-    </whitelist>
 </phpunit>
