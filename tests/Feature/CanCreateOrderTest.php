@@ -51,10 +51,10 @@ class CanCreateOrderTest extends TestCase
             mutation {
                 createOrder(input: {
                     products: {
-                        sync: [{id: 1, quantity: 10}]
+                        sync: [{id: ' . $product->id . ', quantity: 10}]
                     }
                     reseller: {
-                        connect: 1
+                        connect: ' . $reseller->id . '
                     }
                     currency: "HUF"
                     payment_type: "cod_cash"
@@ -88,13 +88,15 @@ class CanCreateOrderTest extends TestCase
                         }
                     }
                 }) {
-                    id
+                    id,
+                    gross_value
                 }
             }
         ')->assertJSON([
             'data' => [
                 'createOrder' => [
-                    'id' => 1
+                    'id' => 1,
+                    'gross_value' => $pricing->getWholeSaleGrossPriceAttribute() * 10
                 ]
             ]
         ]);
