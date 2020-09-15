@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
 use MayIFit\Core\Permission\Traits\HasUsers;
@@ -23,6 +24,7 @@ class Reseller extends Model
 {
     use HasUsers;
     use Notifiable;
+    use SoftDeletes;
 
     /**
      * The attributes that aren't mass assignable.
