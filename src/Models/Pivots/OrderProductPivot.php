@@ -58,7 +58,7 @@ class OrderProductPivot extends Pivot
      */
     public function pricing(): BelongsTo
     {
-        return $this->belongsTo(ProductPricing::class, 'product_pricing_id');
+        return $this->belongsTo(ProductPricing::class, 'product_pricing_id')->withTrashed();
     }
 
     /**
@@ -66,7 +66,7 @@ class OrderProductPivot extends Pivot
      */
     public function discount(): BelongsTo
     {
-        return $this->belongsTo(ProductDiscount::class, 'product_discount_id');
+        return $this->belongsTo(ProductDiscount::class, 'product_discount_id')->withTrashed();
     }
 
     /**

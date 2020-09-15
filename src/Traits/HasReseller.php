@@ -19,6 +19,6 @@ trait HasReseller
      */
     public function reseller(): BelongsTo
     {
-        return $this->belongsTo(Reseller::class);
+        return $this->belongsTo(Reseller::class)->withTrashed();
     }
 }
