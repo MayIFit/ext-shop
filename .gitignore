@@ -13,6 +13,7 @@
 /app/GraphQL
 .env
 .env.backup
+coverage.xml
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
