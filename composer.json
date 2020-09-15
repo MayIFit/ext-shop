@@ -1,7 +1,13 @@
 {
     "name": "mayifit/ext-shop",
     "description": "MayIFit E-Commerce extension",
-    "keywords": ["E-Commerce", "laravel", "php", "shop", "webshop"],
+    "keywords": [
+        "E-Commerce",
+        "laravel",
+        "php",
+        "shop",
+        "webshop"
+    ],
     "type": "project",
     "authors": [
         {
@@ -32,7 +38,7 @@
         "mayifit/core-translation": "^1.0",
         "mll-lab/graphql-php-scalars": "^3.0",
         "nesbot/carbon": "^1.26.0 || ^2.0",
-        "nuwave/lighthouse": "^4.12"
+        "nuwave/lighthouse": "^4.16"
     },
     "require-dev": {
         "orchestra/testbench": "^4.0 || ^5.0",

@@ -28,6 +28,7 @@ class CanCreateProductTest extends TestCase
                     name: "asd"
                     refurbished: false
                     varranty: "1 year"
+                    orderable: true
                 }) {
                     catalog_id
                 }
@@ -48,8 +49,11 @@ use Illuminate\Foundation\Auth\User as BaseUser;
 use Laravel\Sanctum\HasApiTokens;
 
 use MayIFit\Core\Permission\Traits\HasPermissions;
+use MayIFit\Extension\Shop\Traits\HasReseller;
 
 class User extends BaseUser
 {
-    use HasApiTokens, HasPermissions;
+    use HasApiTokens;
+    use HasPermissions;
+    use HasReseller;
 }

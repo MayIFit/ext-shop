@@ -15,8 +15,12 @@ class DropOrderProductShippableIndexInOrderProductTable extends Migration
     {
         if (Schema::hasTable('order_product')) {
             Schema::table('order_product', function (Blueprint $table) {
-                $table->renameIndex('order_product_shipped_unique', 'order_product_shipped');
-                $table->dropIndex('order_product_shippable_unique');
+                $sm = Schema::getConnection()->getDoctrineSchemaManager();
+                $indexesFound = $sm->listTableIndexes('order_product');
+
+                if (array_key_exists("order_product_shipped_unique", $indexesFound)) {
+                    $table->renameIndex('order_product_shipped_unique', 'order_product_shipped');
+                }
             });
         }
     }
@@ -30,8 +34,12 @@ class DropOrderProductShippableIndexInOrderProductTable extends Migration
     {
         if (Schema::hasTable('order_product')) {
             Schema::table('order_product', function (Blueprint $table) {
-                // This name differs for a reason as this type of index is NOT unique
-                $table->index(['product_id', 'can_be_shipped'], 'order_product_shippable');
+                $sm = Schema::getConnection()->getDoctrineSchemaManager();
+                $indexesFound = $sm->listTableIndexes('order_product');
+
+                if (array_key_exists("order_product_shippable", $indexesFound)) {
+                    $table->renameIndex('order_product_shipped', 'order_product_shipped_unique');
+                }
             });
         }
     }

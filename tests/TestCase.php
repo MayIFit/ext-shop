@@ -10,6 +10,7 @@ use Nuwave\Lighthouse\Testing\MakesGraphQLRequests;
 use MayIFit\Core\Permission\PermissionServiceProvider;
 use MayIFit\Core\Translation\TranslationServiceProvider;
 use MayIFit\Extension\Shop\ShopServiceProvider;
+use Nuwave\Lighthouse\OrderBy\OrderByServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -21,10 +22,11 @@ class TestCase extends \Orchestra\Testbench\TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->publishResources();
-        // $this->loadLaravelMigrations(['--database' => 'testbench']);
-        $this->withFactories(__DIR__ . '../src/Database/Factories');
         $this->artisan('migrate', ['--database' => 'testbench'])->run();
+        $this->artisan('db:seed', ['--database' => 'testbench', '--class' => 'MayIFit\\Extension\\Shop\\Database\\Seeds\\DatabaseSeeder'])->run();
+        $this->loadLaravelMigrations(['--database' => 'testbench']);
+        $this->publishResources();
+        $this->withFactories(__DIR__ . '../src/Database/Factories');
     }
 
     /**
@@ -41,8 +43,9 @@ class TestCase extends \Orchestra\Testbench\TestCase
     {
         return [
             SanctumServiceProvider::class,
-            LighthouseServiceProvider::class,
             WhereConditionsServiceProvider::class,
+            OrderByServiceProvider::class,
+            LighthouseServiceProvider::class,
             PermissionServiceProvider::class,
             TranslationServiceProvider::class,
             ShopServiceProvider::class

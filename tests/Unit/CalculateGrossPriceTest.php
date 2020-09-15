@@ -2,7 +2,6 @@
 
 namespace MayIFit\Extension\Shop\Tests\Feature;
 
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use MayIFit\Extension\Shop\Tests\TestCase;
