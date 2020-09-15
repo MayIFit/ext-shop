@@ -44,6 +44,6 @@ class OrdersTransferredExtendedExport implements FromCollection, WithMapping, Wi
 
     public function headings(): array
     {
-        return [trans('order.order_id_prefix'), trans('reseller.company_name'), trans('product.catalog_id'), trans('product.quantity'), trans('product.quantity_transferred'), trans('product.remaining_quantity'), trans('pivot.shipped_at')];
+        return [trans('order.order_id_prefix'), trans('reseller.company_name'), trans('product.catalog_id'), trans('pivot.quantity'), trans('pivot.quantity_transferred'), trans('pivot.remaining_quantity'), trans('pivot.shipped_at')];
     }
 }

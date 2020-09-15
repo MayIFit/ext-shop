@@ -41,6 +41,6 @@ class OrdersTransferredExport implements FromCollection, WithMapping, WithHeadin
 
     public function headings(): array
     {
-        return [trans('order.order_id_prefix'), trans('product.catalog_id'), trans('product.quantity'), trans('pivot.shipped_at')];
+        return [trans('order.order_id_prefix'), trans('product.catalog_id'), trans('pivot.quantity'), trans('pivot.shipped_at')];
     }
 }
