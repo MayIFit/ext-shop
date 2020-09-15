@@ -11,6 +11,6 @@ extend type Query @guard(with: ["sanctum"]) {
 
   getTransferredOrdersExtended(range: DateTimeRange @spread): String
   @field(
-    resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\GetTransferredOrders"
+    resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\GetTransferredOrdersExtended"
   )
 }
