@@ -38,12 +38,13 @@ class OrdersTransferredExtendedExport implements FromCollection, WithMapping, Wi
             'quantity' => $orderProductPivot->quantity,
             'quantity_transferred' => $orderProductPivot->quantity_transferred,
             'remaining_quantity' => $orderProductPivot->quantity - $orderProductPivot->quantity_transferred,
+            'created_at' => $orderProductPivot->shipped_at,
             'shipped_at' => $orderProductPivot->shipped_at,
         ];
     }
 
     public function headings(): array
     {
-        return [trans('order.order_id_prefix'), trans('reseller.company_name'), trans('product.catalog_id'), trans('pivot.quantity'), trans('pivot.quantity_transferred'), trans('pivot.remaining_quantity'), trans('pivot.shipped_at')];
+        return [trans('order.order_id_prefix'), trans('reseller.company_name'), trans('product.catalog_id'), trans('pivot.quantity'), trans('pivot.quantity_transferred'), trans('pivot.remaining_quantity'), trans('pivot.created_at'), trans('pivot.shipped_at')];
     }
 }
