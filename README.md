@@ -1,8 +1,8 @@
 # ![MayIFit](https://mayifit.net/uploads/1/3/1/4/131406101/published/mif-1.png)
 
+![example workflow name](https://github.com/MayIFit/ext-shop/workflows/Laravel/badge.svg) [![codecov](https://codecov.io/gh/MayIFit/ext-shop/branch/master/graph/badge.svg)](https://codecov.io/gh/MayIFit/ext-shop)
+
 > ### E-commerce extension for any [Laravel](https://laravel.com) based MayIFit system.
-
-
 
 ## Folders
 

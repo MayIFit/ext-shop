@@ -20,7 +20,7 @@ class GetTransferredOrdersExtended
     public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         $export = new OrdersTransferredExtendedExport(
-            OrderProductPivot::whereBetween('shipped_at', [$args['datetime_from'], $args['datetime_to']])
+            OrderProductPivot::whereBetween('created_at', [$args['datetime_from'], $args['datetime_to']])
                 ->with('order', 'order.shippingAddress', 'order.reseller', 'product')
                 ->orderBy('shipped_at')
                 ->get()
