@@ -76,7 +76,7 @@ input CreateProductInput {
 
 input UpdateProductInput {
   id: ID!
-  catalog_id: String!
+  catalog_id: String
   name: String
   description: String
   technical_specs: ObjectScalar
@@ -86,9 +86,9 @@ input UpdateProductInput {
   out_of_stock_text: String
   quantity_unit_text: String
   discount_percentage: Float
-  refurbished: Boolean!
-  orderable: Boolean!
-  varranty: String!
+  refurbished: Boolean
+  orderable: Boolean
+  varranty: String
   documents: UpdateDocumentHasMany
   pricings: ProductPricingRelation
   category: ProductCategoryRelation

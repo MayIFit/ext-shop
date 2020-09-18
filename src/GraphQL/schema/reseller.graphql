@@ -47,12 +47,12 @@ input CreateResellerInput {
 
 input UpdateResellerInput {
   id: ID!
-  user: UserRelation!
-  phone_number: String!
-  email: String!
-  company_name: String!
-  vat_id: String!
-  contact_person: String!
+  user: UserRelation
+  phone_number: String
+  email: String
+  company_name: String
+  vat_id: String
+  contact_person: String
   supplier_customer_code: String
   country: String
   city: String
