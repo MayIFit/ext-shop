@@ -25,7 +25,7 @@ class CanUpdateProductTest extends TestCase
             mutation {
                 createProduct(input: {
                     catalog_id: "20001"
-                    name: "asd"
+                    name: "Test"
                     refurbished: false
                     varranty: "1 year"
                     orderable: true
