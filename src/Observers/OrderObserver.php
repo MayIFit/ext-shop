@@ -42,16 +42,16 @@ class OrderObserver
             ])->where('id', '!=', $model->id)
                 ->where('order_id_prefix', 'not like', "%EXT%")
                 ->whereNull('sent_to_courier_service')
-                ->orderBy('id', 'DESC')->get();
+                ->orderBy('id', 'DESC')
+                ->get();
 
             if ($shippableOrders->count() > 0) {
                 $mergableTo = $shippableOrders->first(function ($ord) {
                     return $ord->getOrderCanBeShippedAttribute();
                 });
                 if ($mergableTo) {
-                    $model->mergable_to = $mergableTo->id;
-                    $model = $mergableTo;
                     $model->reseller->resellerShopCart()->delete();
+                    $model->mergable_to = $mergableTo->id;
                     return false;
                 }
             }
@@ -188,6 +188,7 @@ class OrderObserver
 
         return $model;
     }
+
 
     private function cloneOrder(Order $model)
     {

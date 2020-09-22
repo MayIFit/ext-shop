@@ -1,3 +1,9 @@
+extend type Mutation @guard(with: ["sanctum"]) {
+  updateOrderProductPivot(
+    input: UpdateOrderProductPivotInput! @spread
+  ): OrderProductPivot @can(ability: "update", find: "id") @update
+}
+
 input UpdateOrderProductPivotInput {
   id: ID!
   net_value: Float

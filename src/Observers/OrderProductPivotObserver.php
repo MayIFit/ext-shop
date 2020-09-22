@@ -17,6 +17,9 @@ use MayIFit\Extension\Shop\Models\Order;
  */
 class OrderProductPivotObserver
 {
+
+    private $isMergedOrder = false;
+
     /**
      * Handle the OrderProductPivot "creating" event.
      *
@@ -30,18 +33,21 @@ class OrderProductPivotObserver
         if (!$product) {
             return;
         }
+
         $order = $model->pivotParent;
-        $mergeTo = $order->mergable_to;
         if ($order->mergable_to) {
-            $mergeOrder = Order::find($order->mergable_to);
-            $order = $mergeOrder;
+            $this->isMergedOrder = true;
+            $order = Order::find($order->mergable_to);
+            $model->pivotParent = $order;
         }
+
         $model->product_id = $product->id;
         $model->quantity_transferred = 0;
 
         $reseller = $order->reseller;
         if (!strpos($order->order_id_prefix, 'EXT')) {
             $product->calculated_stock -= $model->quantity;
+            $product->save();
             DB::insert('insert into stock_movements(product_id, original_quantity, incoming_quantity, difference, calculated_stock, order_id, source) values (?, ?, ?, ?, ?, ?, ?)', [
                 $product->id,
                 $product->stock,
@@ -53,9 +59,6 @@ class OrderProductPivotObserver
             ]);
         }
 
-
-        $order->quantity += $model->quantity;
-        $order->items_ordered++;
         $now = Carbon::now();
 
         $pricing = $product->getCurrentPricing();
@@ -106,27 +109,21 @@ class OrderProductPivotObserver
         $model->net_value = $netPrice;
         $model->gross_value = $grossPrice;
 
-        $order->net_value += $netPrice * $model->quantity;
-        $order->gross_value += $grossPrice * $model->quantity;
-
         $model->declined = false;
-        $product->save();
-        if ($mergeTo && $model->quantity > 0) {
-            $model->order_id = $mergeOrder->id;
+        if ($this->isMergedOrder) {
             $prevOrderedProduct = OrderProductPivot::firstWhere([
-                'order_id' => $mergeOrder->id,
+                'order_id' => $order->id,
                 'product_id' => $product->id
             ]);
             if ($prevOrderedProduct) {
                 $prevOrderedProduct->quantity += $model->quantity;
-                $prevOrderedProduct->update();
-                $order->update();
+                $prevOrderedProduct->save();
+                unset($model);
                 return false;
             } else {
-                $model = $model->newPivot($mergeOrder, $model->attributesToArray(), 'order_product', false);
+                return $model->newPivot($order, $model->attributesToArray(), 'order_product', false);
             }
         }
-        $order->save();
     }
 
     /**
@@ -137,7 +134,7 @@ class OrderProductPivotObserver
      */
     public function created(OrderProductPivot $model): void
     {
-        //
+        $model->order->recalculateValues();
     }
 
     /**

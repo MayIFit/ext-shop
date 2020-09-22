@@ -41,10 +41,6 @@ extend type Mutation @guard(with: ["sanctum"]) {
   @can(ability: "delete", find: "id")
   @delete
 
-  updateOrderProductPivot(
-    input: UpdateOrderProductPivotInput! @spread
-  ): OrderProductPivot @can(ability: "update", find: "id") @update
-
   sendOrderEvent(id: ID!): Order
   @can(ability: "update", find: "id")
   @field(

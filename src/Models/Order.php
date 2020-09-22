@@ -109,10 +109,15 @@ class Order extends Model
     {
         $this->net_value = 0;
         $this->gross_value = 0;
+        $this->quantity = 0;
+        $this->items_ordered = 0;
         $this->products->map(function ($product) {
             $this->net_value += round($product->pivot->net_value * $product->pivot->quantity, 2, PHP_ROUND_HALF_EVEN);
             $this->gross_value += round($product->pivot->gross_value * $product->pivot->quantity, 2, PHP_ROUND_HALF_EVEN);
+            $this->quantity += $product->pivot->quantity;
+            $this->items_ordered++;
         });
+        $this->save();
     }
 
     public function getOrderCanBeShippedAttribute(): bool
