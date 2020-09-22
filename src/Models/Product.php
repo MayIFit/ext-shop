@@ -110,7 +110,7 @@ class Product extends Model
             ->first();
     }
 
-    public function getDiscountForDate($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): ?ProductDiscount
+    public function getDiscountForDate($rootValue, array $args, ?GraphQLContext $context, ?ResolveInfo $resolveInfo): ?ProductDiscount
     {
         return $this->hasOne(ProductDiscount::class)
             ->where(function ($query) use ($args) {
