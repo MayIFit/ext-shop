@@ -56,6 +56,7 @@ class Product extends Model
      * @var array
      */
     protected $attributes = [
+        'name' => '',
         'stock' => 0,
         'calculated_stock' => 0,
         'waste_stock' => 0,

@@ -31,6 +31,8 @@ class ProductsImport implements ToCollection, WithHeadingRow
      */
     private $importedRows = 0;
 
+    private $errorCatalogs = '';
+
     public function __construct($mapping)
     {
         $this->mapping = $mapping;
@@ -88,6 +90,10 @@ class ProductsImport implements ToCollection, WithHeadingRow
                 ++$this->importedRows;
                 if (isset($parse['stock'])) {
                     $prod = Product::firstWhere(['catalog_id' => $parse['catalog_id']]);
+                    if (!$prod) {
+                        $this->errorCatalogs .= '\n' . $parse['catalog_id'];
+                        continue;
+                    }
                     $parse['stock'] = intval($parse['stock']) + intval($prod->stock ?? 0);
                 }
                 Product::updateOrCreate(['catalog_id' => $parse['catalog_id']], $parse);
@@ -105,6 +111,6 @@ class ProductsImport implements ToCollection, WithHeadingRow
 
     public function getImportedRowCount(): string
     {
-        return $this->rows . '/' . $this->importedRows;
+        return $this->rows . '/' . $this->importedRows . ($this->errorCatalogs != '' ? ' Errors: ' . $this->errorCatalogs : '');
     }
 }

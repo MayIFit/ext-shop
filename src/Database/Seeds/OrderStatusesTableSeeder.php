@@ -40,7 +40,13 @@ class OrderStatusesTableSeeder extends Seeder
 		OrderStatus::updateOrCreate([
 			'name' => 'handed_over_for_shipping',
 			'icon' => '',
-			'send_notification' => false
+			'send_notification' => true
+		]);
+
+		OrderStatus::updateOrCreate([
+			'name' => 'in_transit',
+			'icon' => '',
+			'send_notification' => true
 		]);
 
 		OrderStatus::updateOrCreate([

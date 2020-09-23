@@ -44,6 +44,8 @@ class ProductPricingsImport implements ToCollection, WithHeadingRow
      */
     private $defaultCurrency;
 
+    private $errorCatalogs = '';
+
 
 
     public function __construct($mapping)
@@ -87,6 +89,8 @@ class ProductPricingsImport implements ToCollection, WithHeadingRow
                         'wholesale_price' => $parse['wholesale_price'] ?? 0.0,
                         'vat' => $parse['vat'] ?? $this->defaultVatAmount->setting_value
                     ]);
+                } else {
+                    $this->errorCatalogs .= '\n' . $parse['catalog_id'];
                 }
             }
         }
@@ -102,6 +106,6 @@ class ProductPricingsImport implements ToCollection, WithHeadingRow
 
     public function getImportedRowCount(): string
     {
-        return $this->rows . '/' . $this->importedRows;
+        return $this->rows . '/' . $this->importedRows . ($this->errorCatalogs != '' ? ' Errors: ' . $this->errorCatalogs : '');
     }
 }
