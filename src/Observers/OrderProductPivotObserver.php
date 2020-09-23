@@ -35,6 +35,9 @@ class OrderProductPivotObserver
         }
 
         $order = $model->pivotParent;
+        if (!$order) {
+            return false;
+        }
         if ($order->mergable_to) {
             $this->isMergedOrder = true;
             $order = Order::find($order->mergable_to);

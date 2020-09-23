@@ -50,7 +50,9 @@ class OrderObserver
                     return $ord->getOrderCanBeShippedAttribute();
                 });
                 if ($mergableTo) {
-                    $model->reseller->resellerShopCart()->delete();
+                    if ($model->reseller) {
+                        $model->reseller->resellerShopCart()->delete();
+                    }
                     $model->mergable_to = $mergableTo->id;
                     return false;
                 }
@@ -66,12 +68,14 @@ class OrderObserver
      */
     public function created(Order $model)
     {
-        $model->reseller->resellerShopCart()->delete();
         $orderPrefix = SystemSetting::where('setting_name', 'shop.orderIdPrefix')->first();
         if ($model->order_id_prefix === $orderPrefix->setting_value) {
             $model->order_id_prefix .= $model->id;
         }
-        $model->reseller->notify(new OrderPlaced($model));
+        if ($model->reseller) {
+            $model->reseller->resellerShopCart()->delete();
+            $model->reseller->notify(new OrderPlaced($model));
+        }
         if ($model->getDirty()) {
             $model->update();
         }

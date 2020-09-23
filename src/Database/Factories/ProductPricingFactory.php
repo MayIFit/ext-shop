@@ -13,6 +13,7 @@ $factory->define(ProductPricing::class, function (Faker $faker) {
         'base_price' => round($base_price, -3),
         'wholesale_price' => round($base_price * 0.78, -3),
         'vat' => $vat,
-        'currency' => 'HUF'
+        'currency' => 'HUF',
+        'is_discounted' => false
     ];
 });

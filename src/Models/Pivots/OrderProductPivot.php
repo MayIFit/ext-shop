@@ -74,7 +74,7 @@ class OrderProductPivot extends Pivot
      */
     public function order(): BelongsTo
     {
-        return $this->belongsTo(Order::class)->withTrashed();
+        return $this->belongsTo(Order::class);
     }
 
     public function hasPreviousUnShippedOrders()
@@ -83,7 +83,9 @@ class OrderProductPivot extends Pivot
             ['product_id', '=', $this->product_id],
             ['order_id', '!=', $this->order_id],
             ['declined', false]
-        ])->where('created_at', '<', $this->created_at)->whereNull('shipped_at')->get();
+        ])->where('created_at', '<', $this->created_at)
+            ->whereNull('shipped_at')
+            ->get();
     }
 
     public function canBeShipped(): bool
