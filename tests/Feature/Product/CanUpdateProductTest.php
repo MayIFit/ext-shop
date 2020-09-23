@@ -17,8 +17,7 @@ class CanUpdateProductTest extends TestCase
     {
         parent::setUp();
 
-        $user = new User;
-        $user->id = 1;
+        $user = factory(User::class)->create();
         Sanctum::actingAs($user, ['*']);
 
         $this->graphQL('

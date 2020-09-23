@@ -3,15 +3,14 @@
 namespace MayIFit\Extension\Shop\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-use MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot;
 use MayIFit\Extension\Shop\Traits\HasCustomers;
 use MayIFit\Extension\Shop\Traits\HasReseller;
 use MayIFit\Extension\Shop\Traits\HasOrderStatus;
-
 use MayIFit\Extension\Shop\Scopes\DescendingIdOrderScope;
+use MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot;
 
 /**
  * Class Order

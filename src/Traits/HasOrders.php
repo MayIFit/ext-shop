@@ -2,8 +2,8 @@
 
 namespace MayIFit\Extension\Shop\Traits;
 
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 use MayIFit\Extension\Shop\Models\Order;
 
@@ -16,18 +16,18 @@ trait HasOrders
 {
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function orders(): BelongsToMany
+    public function orders(): HasMany
     {
-        return $this->belongsToMany(Order::class);
+        return $this->hasMany(Order::class);
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function order(): BelongsTo
+    public function getRecentOrders(): HasMany
     {
-        return $this->belongsTo(Order::class);
+        return $this->orders()->where('created_at', '>=', Carbon::now()->subDays(5));
     }
 }

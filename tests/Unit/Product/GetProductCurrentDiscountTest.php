@@ -1,15 +1,13 @@
 <?php
 
-namespace MayIFit\Extension\Shop\Tests\Feature;
+namespace MayIFit\Extension\Shop\Tests\Unit\Product;
 
 use Carbon\Carbon;
-use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use MayIFit\Extension\Shop\Tests\TestCase;
 use MayIFit\Extension\Shop\Models\Product;
 use MayIFit\Extension\Shop\Models\ProductDiscount;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class GetProductCurrentDiscountTest extends TestCase
 {

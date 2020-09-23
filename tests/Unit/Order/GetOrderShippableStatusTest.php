@@ -1,14 +1,11 @@
 <?php
 
-namespace MayIFit\Extension\Shop\Tests\Feature;
+namespace MayIFit\Extension\Shop\Tests\Unit\Order;
 
-use Guzzle\Common\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use MayIFit\Extension\Shop\Tests\TestCase;
 use MayIFit\Extension\Shop\Models\Order;
-use MayIFit\Extension\Shop\Models\Reseller;
-use MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot;
 
 use App\Models\User;
 

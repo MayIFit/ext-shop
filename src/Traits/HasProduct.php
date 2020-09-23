@@ -2,9 +2,11 @@
 
 namespace MayIFit\Extension\Shop\Traits;
 
-use Illuminate\Database\Eloquent\Relations\Belongsto;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 use MayIFit\Extension\Shop\Models\Product;
+use MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot;
 
 /**
  * Trait HasProduct
@@ -15,10 +17,12 @@ trait HasProduct
 {
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\Belongsto
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function product(): Belongsto
+    public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class)->withTrashed();
     }
+
+    
 }

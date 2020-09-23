@@ -24,21 +24,15 @@ class MergeOrdersTest extends TestCase
 
         parent::setUp();
 
-        $user = new User;
-        $user->id = 1;
-        $user->name = 'Test';
-        $user->email = 'test@test.com';
-        $user->password = 'test';
-        $user->save();
+        $user = factory(User::class)->create();
+        Sanctum::actingAs($user, ['*']);
 
         $reseller = factory(Reseller::class)->create([
             'user_id' => $user->id
         ]);
 
-        Sanctum::actingAs($user, ['*']);
-
         $product = factory(Product::class)->create();
-        $pricing = factory(ProductPricing::class)->create([
+        factory(ProductPricing::class)->create([
             'product_id' => $product->id
         ]);
 

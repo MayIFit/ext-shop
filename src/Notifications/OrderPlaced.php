@@ -29,6 +29,7 @@ class OrderPlaced extends Notification implements ShouldQueue
      */
     public function __construct($order)
     {
+        $this->onQueue('email');
         $this->order = $order;
         $this->senderEmail = (SystemSetting::where('setting_name', 'shop.emailFrom')->first())->setting_value;
         $this->senderName = (SystemSetting::where('setting_name', 'shop.emailFromName')->first())->setting_value;

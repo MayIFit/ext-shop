@@ -46,7 +46,7 @@ class CollectSendableOrders implements ShouldQueue
             Log::info('Checking order: ' . $order->order_id_prefix);
             if ($order->getOrderCanBeShippedAttribute()) {
                 Log::info('Can be shipped: ' . $order->order_id_prefix);
-                SendOrderDataToWMS::dispatch($order);
+                SendOrderDataToWMS::dispatch($order)->onQueue('order_transfer');;
             }
         });
     }

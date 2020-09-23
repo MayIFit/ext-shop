@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 use MayIFit\Core\Permission\Traits\HasUsers;
 
-use MayIFit\Extension\Shop\Models\Order;
 use MayIFit\Extension\Shop\Models\ProductPricing;
 use MayIFit\Extension\Shop\Models\ProductDiscount;
 use MayIFit\Extension\Shop\Traits\HasReseller;
 use MayIFit\Extension\Shop\Traits\HasProduct;
+use MayIFit\Extension\Shop\Traits\HasOrder;
 
 /**
  * Class OrderProductPivot
@@ -23,6 +23,7 @@ class OrderProductPivot extends Pivot
     use HasUsers;
     use HasReseller;
     use HasProduct;
+    use HasOrder;
 
     protected $table = 'order_product';
 
@@ -67,14 +68,6 @@ class OrderProductPivot extends Pivot
     public function discount(): BelongsTo
     {
         return $this->belongsTo(ProductDiscount::class, 'product_discount_id')->withTrashed();
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function order(): BelongsTo
-    {
-        return $this->belongsTo(Order::class);
     }
 
     public function hasPreviousUnShippedOrders()

@@ -1,6 +1,6 @@
 <?php
 
-namespace MayIFit\Extension\Shop\Tests\Feature;
+namespace MayIFit\Extension\Shop\Tests\Unit\ResellerGroup;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -11,7 +11,6 @@ use MayIFit\Extension\Shop\Models\Product;
 use MayIFit\Extension\Shop\Models\ProductPricing;
 
 use App\Models\User;
-
 
 class CalculateResellerGroupDiscountTest extends TestCase
 {

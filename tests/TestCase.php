@@ -5,12 +5,12 @@ namespace MayIFit\Extension\Shop\Tests;
 use Laravel\Sanctum\SanctumServiceProvider;
 use Nuwave\Lighthouse\LighthouseServiceProvider;
 use Nuwave\Lighthouse\WhereConditions\WhereConditionsServiceProvider;
+use Nuwave\Lighthouse\OrderBy\OrderByServiceProvider;
 use Nuwave\Lighthouse\Testing\MakesGraphQLRequests;
 
 use MayIFit\Core\Permission\PermissionServiceProvider;
 use MayIFit\Core\Translation\TranslationServiceProvider;
 use MayIFit\Extension\Shop\ShopServiceProvider;
-use Nuwave\Lighthouse\OrderBy\OrderByServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -27,6 +27,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
         $this->loadLaravelMigrations(['--database' => 'testbench']);
         $this->publishResources();
         $this->withFactories(__DIR__ . '../src/Database/Factories');
+        $this->withFactories(__DIR__ . '/Factories');
     }
 
     /**
@@ -67,8 +68,6 @@ class TestCase extends \Orchestra\Testbench\TestCase
             'database' => ':memory:',
             'prefix'   => '',
         ]);
-
-        $app['config']->push('app.providers', 'Nuwave\\Lighthouse\\WhereConditions\\WhereConditionsServiceProvider');
     }
 
     protected function publishResources(): void
@@ -107,4 +106,19 @@ type Mutation
             FILE_APPEND
         );
     }
+}
+
+namespace App\Models;
+
+use Illuminate\Foundation\Auth\User as BaseUser;
+use Laravel\Sanctum\HasApiTokens;
+
+use MayIFit\Core\Permission\Traits\HasPermissions;
+use MayIFit\Extension\Shop\Traits\HasReseller;
+
+class User extends BaseUser
+{
+    use HasApiTokens;
+    use HasPermissions;
+    use HasReseller;
 }

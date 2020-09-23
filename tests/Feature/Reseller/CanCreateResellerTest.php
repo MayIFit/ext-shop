@@ -17,11 +17,7 @@ class CanCreateResellerTest extends TestCase
     {
         parent::setUp();
 
-        $user = new User;
-        $user->name = 'John Doe';
-        $user->email = 'john@doe.test';
-        $user->password = '123456789';
-        $user->save();
+        $user = factory(User::class)->create();
         Sanctum::actingAs($user, ['*']);
 
         $this->graphQL('

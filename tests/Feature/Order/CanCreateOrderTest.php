@@ -23,13 +23,7 @@ class CanCreateOrderTest extends TestCase
         Notification::fake();
 
         parent::setUp();
-
-        $user = new User;
-        $user->id = 1;
-        $user->name = 'Test';
-        $user->email = 'test@test.com';
-        $user->password = 'test';
-        $user->save();
+        $user = factory(User::class)->create();
 
         $reseller = factory(Reseller::class)->create([
             'user_id' => $user->id

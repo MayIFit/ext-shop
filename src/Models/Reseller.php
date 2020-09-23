@@ -14,6 +14,7 @@ use MayIFit\Core\Permission\Traits\HasUsers;
 use MayIFit\Extension\Shop\Models\ResellerGroup;
 use MayIFit\Extension\Shop\Models\Order;
 use MayIFit\Extension\Shop\Models\ResellerShopCart;
+use MayIFit\Extension\Shop\Traits\HasOrders;
 
 /**
  * Class Reseller
@@ -25,6 +26,7 @@ class Reseller extends Model
     use HasUsers;
     use Notifiable;
     use SoftDeletes;
+    use HasOrders;
 
     /**
      * The attributes that aren't mass assignable.
@@ -47,11 +49,6 @@ class Reseller extends Model
     public function resellerGroup(): BelongsTo
     {
         return $this->belongsTo(ResellerGroup::class);
-    }
-
-    public function orders(): HasMany
-    {
-        return $this->hasMany(Order::class);
     }
 
     public function resellerShopCart(): HasOne

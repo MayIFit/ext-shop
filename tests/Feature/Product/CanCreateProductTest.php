@@ -17,8 +17,7 @@ class CanCreateProductTest extends TestCase
     {
         parent::setUp();
 
-        $user = new User;
-        $user->id = 1;
+        $user = factory(User::class)->create();
         Sanctum::actingAs($user, ['*']);
 
         $this->graphQL('
@@ -41,19 +40,4 @@ class CanCreateProductTest extends TestCase
             ]
         ]);
     }
-}
-
-namespace App\Models;
-
-use Illuminate\Foundation\Auth\User as BaseUser;
-use Laravel\Sanctum\HasApiTokens;
-
-use MayIFit\Core\Permission\Traits\HasPermissions;
-use MayIFit\Extension\Shop\Traits\HasReseller;
-
-class User extends BaseUser
-{
-    use HasApiTokens;
-    use HasPermissions;
-    use HasReseller;
 }

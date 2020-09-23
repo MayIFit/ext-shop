@@ -17,8 +17,7 @@ class CanCreateProductPricingTest extends TestCase
     {
         parent::setUp();
 
-        $user = new User;
-        $user->id = 1;
+        $user = factory(User::class)->create();
         Sanctum::actingAs($user, ['*']);
 
         $product = $this->graphQL('

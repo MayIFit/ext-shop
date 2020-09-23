@@ -1,6 +1,6 @@
 <?php
 
-namespace MayIFit\Extension\Shop\Tests\Feature;
+namespace MayIFit\Extension\Shop\Tests\Unit\Order;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Notification;

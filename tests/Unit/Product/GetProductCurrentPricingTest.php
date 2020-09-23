@@ -1,6 +1,6 @@
 <?php
 
-namespace MayIFit\Extension\Shop\Tests\Feature;
+namespace MayIFit\Extension\Shop\Tests\Unit\Product;
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
