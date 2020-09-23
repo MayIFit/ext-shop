@@ -3,6 +3,7 @@
 namespace MayIFit\Extension\Shop\Tests\Feature;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use MayIFit\Extension\Shop\Tests\TestCase;
@@ -17,6 +18,9 @@ class CanSplitOrderTest extends TestCase
     public function test_can_split_order(): void
     {
         parent::setUp();
+
+        Notification::fake();
+        Notification::assertNothingSent();
 
         $user = new User;
         $user->name = 'John Doe';
@@ -47,8 +51,6 @@ class CanSplitOrderTest extends TestCase
         });
         $order->update();
 
-        $remainingQuantity = $order->quantity - $order->quantity_transferred;
-
         $split = Order::where('id', '!=', $order->id)->first();
 
         $this->assertEquals(2, $split->id);
@@ -57,6 +59,9 @@ class CanSplitOrderTest extends TestCase
     public function test_split_order_has_correct_quantity(): void
     {
         parent::setUp();
+
+        Notification::fake();
+        Notification::assertNothingSent();
 
         $user = new User;
         $user->name = 'John Doe';
@@ -97,6 +102,9 @@ class CanSplitOrderTest extends TestCase
     public function test_split_makes_no_empty_order(): void
     {
         parent::setUp();
+
+        Notification::fake();
+        Notification::assertNothingSent();
 
         $user = new User;
         $user->name = 'John Doe';
