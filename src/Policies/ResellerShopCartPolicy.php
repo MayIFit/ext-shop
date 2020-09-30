@@ -4,7 +4,6 @@ namespace MayIFit\Extension\Shop\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-use App\Models\User;
 use MayIFit\Extension\Shop\Models\ResellerShopCart;
 
 /**
@@ -17,86 +16,87 @@ class ResellerShopCartPolicy
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can view any reseller-shop-carts.
+     * Determine whether the can view any reseller-shop-carts.
      *
-     * @param  \App\Models\User  $user
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
      * @return mixed
      */
-    public function viewAny(User $user)
+    public function viewAny($authModel)
     {
-        return $user->tokenCan('reseller-shop-cart.list');
+        return $authModel->hasPermission('reseller-shop-cart.list');
     }
 
     /**
-     * Determine whether the user can view the resellerShopCart.
+     * Determine whether the can view the resellerShopCart.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ResellerShopCart  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\ResellerShopCart  $resellerShopCart
      * @return mixed
      */
-    public function view(User $user, ResellerShopCart $model)
+    public function view($authModel, ResellerShopCart $resellerShopCart)
     {
-        return $user->tokenCan('reseller-shop-cart.view') ||
-            $user->reseller->id === $model->reseller->id;
+        return $authModel->hasPermission('reseller-shop-cart.view') ||
+            $resellerShopCart->reseller->id === $authModel->reseller->id;
     }
 
     /**
-     * Determine whether the user can create reseller-shop-carts.
+     * Determine whether the can create reseller-shop-carts.
      *
-     * @param  \App\Models\User  $user
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
      * @return mixed
      */
-    public function create(User $user)
+    public function create($authModel)
     {
-        return $user->tokenCan('reseller-shop-cart.create') || $user->is_reseller;
+        return $authModel->hasPermission('reseller-shop-cart.create') ||
+            $authModel->is_reseller;
     }
 
     /**
-     * Determine whether the user can update the reseller-shop-cart.
+     * Determine whether the can update the reseller-shop-cart.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ResellerShopCart  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\ResellerShopCart  $resellerShopCart
      * @return mixed
      */
-    public function update(User $user, ResellerShopCart $model)
+    public function update($authModel, ResellerShopCart $resellerShopCart)
     {
-        return $user->tokenCan('reseller-shop-cart.update') ||
-            $user->reseller->id === $model->reseller->id;
+        return $authModel->hasPermission('reseller-shop-cart.update') ||
+            $authModel->reseller->id === $resellerShopCart->reseller->id;
     }
 
     /**
-     * Determine whether the user can delete the reseller-shop-cart.
+     * Determine whether the can delete the reseller-shop-cart.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ResellerShopCart  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\ResellerShopCart  $resellerShopCart
      * @return mixed
      */
-    public function delete(User $user, ResellerShopCart $model)
+    public function delete($authModel, ResellerShopCart $resellerShopCart)
     {
-        return $user->tokenCan('reseller-shop-cart.delete') ||
-            $user->reseller->id === $model->reseller->id;
+        return $authModel->hasPermission('reseller-shop-cart.delete') ||
+            $authModel->reseller->id === $resellerShopCart->reseller->id;
     }
 
     /**
-     * Determine whether the user can restore the reseller-shop-cart.
+     * Determine whether the can restore the reseller-shop-cart.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ResellerShopCart  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\ResellerShopCart  $resellerShopCart
      * @return mixed
      */
-    public function restore(User $user, ResellerShopCart $model)
+    public function restore($authModel, ResellerShopCart $resellerShopCart)
     {
         return false;
     }
 
     /**
-     * Determine whether the user can permanently delete the reseller-shop-cart.
+     * Determine whether the can permanently delete the reseller-shop-cart.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ResellerShopCart  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\ResellerShopCart  $resellerShopCart
      * @return mixed
      */
-    public function forceDelete(User $user, ResellerShopCart $model)
+    public function forceDelete($authModel, ResellerShopCart $resellerShopCart)
     {
         return false;
     }

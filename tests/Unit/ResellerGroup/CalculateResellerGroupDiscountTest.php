@@ -2,6 +2,7 @@
 
 namespace MayIFit\Extension\Shop\Tests\Unit\ResellerGroup;
 
+use Laravel\Sanctum\Sanctum;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use MayIFit\Extension\Shop\Tests\TestCase;
@@ -10,7 +11,7 @@ use MayIFit\Extension\Shop\Models\ResellerGroup;
 use MayIFit\Extension\Shop\Models\Product;
 use MayIFit\Extension\Shop\Models\ProductPricing;
 
-use App\Models\User;
+use MayIFit\Extension\Shop\Tests\User;
 
 class CalculateResellerGroupDiscountTest extends TestCase
 {
@@ -20,12 +21,8 @@ class CalculateResellerGroupDiscountTest extends TestCase
     {
         parent::setUp();
 
-        $user = new User;
-        $user->id = 1;
-        $user->name = 'Test';
-        $user->email = 'test@test.com';
-        $user->password = 'test';
-        $user->save();
+        $user = factory(User::class)->create();
+        Sanctum::actingAs($user, ['*']);
 
         $resellerGroup = new ResellerGroup();
         $resellerGroup->name = 'test';

@@ -4,8 +4,11 @@ extend type Query @guard(with: ["sanctum"]) {
   listReseller(
     filter: _ @whereConditions(columnsEnum: ResellerColumns)
   ): [Reseller]!
-  @can(ability: "viewAny", model: "MayIFit\\Extension\\Shop\\Models\\Reseller")
-  @paginate(type: "paginator")
+    @can(
+      ability: "viewAny"
+      model: "MayIFit\\Extension\\Shop\\Models\\Reseller"
+    )
+    @paginate(type: "paginator")
 
   viewReseller(id: ID @eq): Reseller @can(ability: "view", find: "id") @find
 
@@ -18,8 +21,8 @@ extend type Mutation {
 
 extend type Mutation @guard(with: ["sanctum"]) {
   updateReseller(input: UpdateResellerInput! @spread): Reseller
-  @can(ability: "update", find: "id")
-  @update
+    @can(ability: "update", find: "id")
+    @update
 }
 
 input ResellerRelation {
@@ -63,9 +66,10 @@ input UpdateResellerInput {
   door: String
 }
 
+"Reller information."
 type Reseller @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Reseller") {
   id: ID!
-  user: User @belongsTo
+  user: User @morphOne
   phone_number: String!
   email: String!
   company_name: String!
@@ -83,8 +87,8 @@ type Reseller @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Reseller") {
 
 "Subset of Reseller"
 type ResellerSelect
-@guard(with: ["sanctum"])
-@modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Reseller") {
+  @guard(with: ["sanctum"])
+  @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Reseller") {
   id: ID!
   company_name: String!
 }
@@ -109,7 +113,7 @@ extend input CreateOrderInput {
 }
 
 extend type Order
-@modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
+  @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
   reseller: Reseller @belongsTo
 }
 

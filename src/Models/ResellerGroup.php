@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 
-use MayIFit\Core\Permission\Traits\HasUsers;
+use MayIFit\Core\Permission\Traits\HasCreators;
 
 use MayIFit\Extension\Shop\Models\Reseller;
 
@@ -17,7 +17,7 @@ use MayIFit\Extension\Shop\Models\Reseller;
  */
 class ResellerGroup extends Model
 {
-    use HasUsers;
+    use HasCreators;
     use Notifiable;
 
     /**

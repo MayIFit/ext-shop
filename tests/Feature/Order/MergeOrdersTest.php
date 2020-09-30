@@ -11,7 +11,7 @@ use MayIFit\Extension\Shop\Models\Product;
 use MayIFit\Extension\Shop\Models\ProductPricing;
 use MayIFit\Extension\Shop\Models\OrderStatus;
 
-use App\Models\User;
+use MayIFit\Extension\Shop\Tests\User;
 use MayIFit\Extension\Shop\Models\Reseller;
 
 class MergeOrdersTest extends TestCase
@@ -52,7 +52,7 @@ class MergeOrdersTest extends TestCase
                     }
                     currency: "HUF"
                     payment_type: "cod_cash"
-                    delivery_type: 10
+                    delivery_type: PERSONAL_DELIVERY
                     shippingAddress: {
                         create: {
                             first_name: "test"
@@ -107,7 +107,7 @@ class MergeOrdersTest extends TestCase
                     }
                     currency: "HUF"
                     payment_type: "cod_cash"
-                    delivery_type: 10
+                    delivery_type: PERSONAL_DELIVERY
                     shippingAddress: {
                         connect: ' . $firstOrder->original['data']['createOrder']['shippingAddress']['id'] . '
                     },

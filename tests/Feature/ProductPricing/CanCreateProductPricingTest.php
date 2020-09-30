@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use MayIFit\Extension\Shop\Tests\TestCase;
 
-use App\Models\User;
+use MayIFit\Extension\Shop\Tests\User;
 
 class CanCreateProductPricingTest extends TestCase
 {

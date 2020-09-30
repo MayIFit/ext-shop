@@ -3,9 +3,11 @@
 namespace MayIFit\Extension\Shop\Tests\Unit\Product;
 
 use Carbon\Carbon;
+use Laravel\Sanctum\Sanctum;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use MayIFit\Extension\Shop\Tests\TestCase;
+use MayIFit\Extension\Shop\Tests\User;
 use MayIFit\Extension\Shop\Models\Product;
 use MayIFit\Extension\Shop\Models\ProductPricing;
 
@@ -30,7 +32,6 @@ class GetProductCurrentPricingTest extends TestCase
             'base_price' => 100.00,
             'vat' => 27,
         ]);
-
 
         $this->assertEquals($product->getCurrentPricing()->id, $pricing->id);
     }

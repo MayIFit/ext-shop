@@ -5,28 +5,28 @@ extend type Query @guard(with: ["sanctum"]) {
     filter: _ @whereConditions(columnsEnum: ResellerGroupColumns)
     orderBy: _ @orderBy(columnsEnum: ResellerGroupColumns)
   ): [ResellerGroup]!
-  @can(
-    ability: "viewAny"
-    model: "MayIFit\\Extension\\Shop\\Models\\ResellerGroup"
-  )
-  @paginate(type: "paginator")
+    @can(
+      ability: "viewAny"
+      model: "MayIFit\\Extension\\Shop\\Models\\ResellerGroup"
+    )
+    @paginate(type: "paginator")
 
   viewResellerGroup(id: ID @eq): ResellerGroup
-  @can(ability: "view", find: "id")
-  @find
+    @can(ability: "view", find: "id")
+    @find
 
   allResellerGroup: [ResellerGroup]! @all
 }
 
 extend type Mutation {
   createResellerGroup(input: CreateResellerGroupInput! @spread): ResellerGroup
-  @create
+    @create
 }
 
 extend type Mutation @guard(with: ["sanctum"]) {
   updateResellerGroup(input: UpdateResellerGroupInput! @spread): ResellerGroup
-  @can(ability: "update", find: "id")
-  @update
+    @can(ability: "update", find: "id")
+    @update
 }
 
 input ResellerGroupRelation {
@@ -44,9 +44,10 @@ input UpdateResellerGroupInput {
   discount_value: Float!
 }
 
+"A group of Resellers, can be used to add discounts"
 type ResellerGroup
-@guard(with: ["sanctum"])
-@modelClass(class: "MayIFit\\Extension\\Shop\\Models\\ResellerGroup") {
+  @guard(with: ["sanctum"])
+  @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\ResellerGroup") {
   id: ID!
   name: String!
   discount_value: Float!
@@ -55,8 +56,8 @@ type ResellerGroup
 
 "Subset of ResellerGroup"
 type ResellerGroupSelect
-@guard(with: ["sanctum"])
-@modelClass(class: "MayIFit\\Extension\\Shop\\Models\\ResellerGroup") {
+  @guard(with: ["sanctum"])
+  @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\ResellerGroup") {
   id: ID!
   name: String!
 }

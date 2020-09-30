@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use MayIFit\Extension\Shop\Tests\TestCase;
 
-use App\Models\User;
+use MayIFit\Extension\Shop\Tests\User;
 use MayIFit\Extension\Shop\Models\Order;
 use MayIFit\Extension\Shop\Models\Reseller;
 use MayIFit\Extension\Shop\Models\Customer;

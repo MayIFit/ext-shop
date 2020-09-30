@@ -22,8 +22,8 @@ class CreateProductPricingsTable extends Migration
             $table->double('vat');
             $table->string('currency');
             $table->dateTime('available_from')->nullable();
-            $table->unsignedBigInteger('created_by')->nullable()->references('id')->on('users');
-            $table->unsignedBigInteger('updated_by')->nullable()->references('id')->on('users');
+            $table->morphs('created_by');
+            $table->nullableMorphs('updated_by');
             $table->timestamps();
             $table->softDeletes();
             $table->unique(['product_id', 'currency', 'reseller_id'], 'product_pricing_unique');

@@ -1,6 +1,6 @@
 <?php
 
-namespace MayIFit\Extension\Shop\Tests\Unit\Order;
+namespace MayIFit\Extension\Shop\Tests\Feature\Order;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Notification;
@@ -8,8 +8,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use MayIFit\Extension\Shop\Tests\TestCase;
 use MayIFit\Extension\Shop\Models\Order;
-
-use App\Models\User;
 
 class CanSplitOrderTest extends TestCase
 {
@@ -21,12 +19,6 @@ class CanSplitOrderTest extends TestCase
 
         Notification::fake();
         Notification::assertNothingSent();
-
-        $user = new User;
-        $user->name = 'John Doe';
-        $user->email = 'john@doe.test';
-        $user->password = '123456789';
-        $user->save();
 
         $order = factory(Order::class)->states('partially_shippable')->create();
         $order->recalculateValues();
@@ -62,12 +54,6 @@ class CanSplitOrderTest extends TestCase
 
         Notification::fake();
         Notification::assertNothingSent();
-
-        $user = new User;
-        $user->name = 'John Doe';
-        $user->email = 'john@doe.test';
-        $user->password = '123456789';
-        $user->save();
 
         $order = factory(Order::class)->states('partially_shippable')->create();
         $order->recalculateValues();
@@ -105,12 +91,6 @@ class CanSplitOrderTest extends TestCase
 
         Notification::fake();
         Notification::assertNothingSent();
-
-        $user = new User;
-        $user->name = 'John Doe';
-        $user->email = 'john@doe.test';
-        $user->password = '123456789';
-        $user->save();
 
         $order = factory(Order::class)->states('partially_shippable')->create();
         $order->recalculateValues();

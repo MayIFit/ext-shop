@@ -2,12 +2,9 @@
 
 namespace MayIFit\Extension\Shop\Tests\Feature;
 
-use Laravel\Sanctum\Sanctum;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use MayIFit\Extension\Shop\Tests\TestCase;
-
-use App\Models\User;
 
 class CanCreateProductTest extends TestCase
 {
@@ -16,9 +13,6 @@ class CanCreateProductTest extends TestCase
     public function test_can_create_product(): void
     {
         parent::setUp();
-
-        $user = factory(User::class)->create();
-        Sanctum::actingAs($user, ['*']);
 
         $this->graphQL('
             mutation {

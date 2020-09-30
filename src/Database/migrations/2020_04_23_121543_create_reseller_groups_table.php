@@ -17,8 +17,8 @@ class CreateResellerGroupsTable extends Migration
             $table->id();
             $table->string('name');
             $table->float('discount_value');
-            $table->foreignId('created_by')->nullable()->references('id')->on('users');
-            $table->foreignId('updated_by')->nullable()->references('id')->on('users');
+            $table->morphs('created_by');
+            $table->nullableMorphs('updated_by');
             $table->timestamps();
         });
     }

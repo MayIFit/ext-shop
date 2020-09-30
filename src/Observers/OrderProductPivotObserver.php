@@ -124,7 +124,7 @@ class OrderProductPivotObserver
                 unset($model);
                 return false;
             } else {
-                return $model->newPivot($order, $model->attributesToArray(), 'order_product', false);
+                $model->order_id = $order->id;
             }
         }
     }

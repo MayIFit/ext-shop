@@ -13,6 +13,18 @@ use MayIFit\Extension\Shop\Models\ResellerGroup;
  */
 class ResellerGroupObserver
 {
+
+    /**
+     * Handle the ResellerGroup "creating" event.
+     *
+     * @param  \MayIFit\Extension\Shop\Models\ResellerGroup  $model
+     * @return void
+     */
+    public function creating(ResellerGroup $model): void
+    {
+        $model->createdBy()->associate(Auth::user());
+    }
+
     /**
      * Handle the ResellerGroup "created" event.
      *
@@ -21,7 +33,7 @@ class ResellerGroupObserver
      */
     public function created(ResellerGroup $model): void
     {
-        $model->createdBy()->associate(Auth::user());
+        //
     }
 
     /**

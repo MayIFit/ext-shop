@@ -2,7 +2,9 @@
 
 namespace MayIFit\Extension\Shop\Tests;
 
+use Laravel\Sanctum\Sanctum;
 use Laravel\Sanctum\SanctumServiceProvider;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Nuwave\Lighthouse\LighthouseServiceProvider;
 use Nuwave\Lighthouse\WhereConditions\WhereConditionsServiceProvider;
 use Nuwave\Lighthouse\OrderBy\OrderByServiceProvider;
@@ -11,6 +13,7 @@ use Nuwave\Lighthouse\Testing\MakesGraphQLRequests;
 use MayIFit\Core\Permission\PermissionServiceProvider;
 use MayIFit\Core\Translation\TranslationServiceProvider;
 use MayIFit\Extension\Shop\ShopServiceProvider;
+use MayIFit\Extension\Shop\Tests\User;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -22,12 +25,23 @@ class TestCase extends \Orchestra\Testbench\TestCase
     public function setUp(): void
     {
         parent::setUp();
+
         $this->artisan('migrate', ['--database' => 'testbench'])->run();
-        $this->artisan('db:seed', ['--database' => 'testbench', '--class' => 'MayIFit\\Extension\\Shop\\Database\\Seeds\\DatabaseSeeder'])->run();
         $this->loadLaravelMigrations(['--database' => 'testbench']);
         $this->publishResources();
         $this->withFactories(__DIR__ . '../src/Database/Factories');
         $this->withFactories(__DIR__ . '/Factories');
+
+        // As almost every model has a createdBy or updatedBy relation
+        // it makes sense to create a mock user here, globally
+        $user = factory(User::class)->create();
+        Sanctum::actingAs($user, ['*']);
+
+        Relation::morphMap([
+            'user' => 'MayIFit\Extension\Shop\Tests\User',
+        ]);
+
+        $this->artisan('db:seed', ['--database' => 'testbench', '--class' => 'MayIFit\\Extension\\Shop\\Database\\Seeds\\DatabaseSeeder'])->run();
     }
 
     /**
@@ -68,6 +82,8 @@ class TestCase extends \Orchestra\Testbench\TestCase
             'database' => ':memory:',
             'prefix'   => '',
         ]);
+
+        $app['config']->push('lighthouse.namespaces.models', 'MayIFit\\Extension\\Shop\\Tests');
     }
 
     protected function publishResources(): void
@@ -79,17 +95,20 @@ class TestCase extends \Orchestra\Testbench\TestCase
 
         $this->artisan('vendor:publish', [
             '--provider' => PermissionServiceProvider::class,
-            '--tag' => 'schema'
+            '--tag' => 'schema',
+            '--force' => true,
         ])->execute();
 
         $this->artisan('vendor:publish', [
             '--provider' => TranslationServiceProvider::class,
-            '--tag' => 'schema'
+            '--tag' => 'schema',
+            '--force' => true,
         ])->execute();
 
         $this->artisan('vendor:publish', [
             '--provider' => ShopServiceProvider::class,
-            '--tag' => 'schema'
+            '--tag' => 'schema',
+            '--force' => true,
         ])->execute();
 
 
@@ -99,6 +118,25 @@ class TestCase extends \Orchestra\Testbench\TestCase
 #import core/*.graphql
 #import extensions/*.graphql
 
+type User {
+    id: ID!
+    name: String
+    email: String!
+}
+
+input CreateUserInput {
+    name: String!
+    email: String!
+    password: String! @hash
+}
+
+input UpdateUserInput {
+    id: ID!
+    name: String
+    email: String
+    password: String @hash
+}
+
 type Query
 
 type Mutation
@@ -106,19 +144,4 @@ type Mutation
             FILE_APPEND
         );
     }
-}
-
-namespace App\Models;
-
-use Illuminate\Foundation\Auth\User as BaseUser;
-use Laravel\Sanctum\HasApiTokens;
-
-use MayIFit\Core\Permission\Traits\HasPermissions;
-use MayIFit\Extension\Shop\Traits\HasReseller;
-
-class User extends BaseUser
-{
-    use HasApiTokens;
-    use HasPermissions;
-    use HasReseller;
 }

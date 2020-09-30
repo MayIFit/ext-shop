@@ -8,7 +8,21 @@
         "shop",
         "webshop"
     ],
-    "type": "project",
+    "type": "package",
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../ext-shop"
+        },
+        {
+            "type": "path",
+            "url": "../core-permission"
+        },
+        {
+            "type": "path",
+            "url": "../core-translation"
+        }
+    ],
     "authors": [
         {
             "name": "MayIFit",

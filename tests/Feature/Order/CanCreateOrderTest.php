@@ -7,11 +7,11 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use MayIFit\Extension\Shop\Tests\TestCase;
+use MayIFit\Extension\Shop\Tests\User;
+
 use MayIFit\Extension\Shop\Models\Product;
 use MayIFit\Extension\Shop\Models\ProductPricing;
 use MayIFit\Extension\Shop\Models\OrderStatus;
-
-use App\Models\User;
 use MayIFit\Extension\Shop\Models\Reseller;
 
 class CanCreateOrderTest extends TestCase
@@ -20,16 +20,16 @@ class CanCreateOrderTest extends TestCase
 
     public function test_can_create_order(): void
     {
+        parent::setUp();
+
         Notification::fake();
 
-        parent::setUp();
         $user = factory(User::class)->create();
+        Sanctum::actingAs($user, ['*']);
 
         $reseller = factory(Reseller::class)->create([
             'user_id' => $user->id
         ]);
-
-        Sanctum::actingAs($user, ['*']);
 
         $product = factory(Product::class)->create();
         $pricing = factory(ProductPricing::class)->create([
@@ -52,7 +52,7 @@ class CanCreateOrderTest extends TestCase
                     }
                     currency: "HUF"
                     payment_type: "cod_cash"
-                    delivery_type: 10
+                    delivery_type: PERSONAL_DELIVERY
                     shippingAddress: {
                         create: {
                             first_name: "test"

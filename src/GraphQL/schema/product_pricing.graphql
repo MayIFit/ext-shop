@@ -3,15 +3,15 @@ extend type Query @guard(with: ["sanctum"]) {
     reseller_id: ID
     hasProduct: _ @whereHasConditions(columnsEnum: ProductPricingColumns)
   ): [ProductPricing]!
-  @can(
-    ability: "viewAny"
-    model: "MayIFit\\Extension\\Shop\\Models\\ProductPricing"
-  )
-  @paginate(type: "paginator")
+    @can(
+      ability: "viewAny"
+      model: "MayIFit\\Extension\\Shop\\Models\\ProductPricing"
+    )
+    @paginate(type: "paginator")
 
   viewProductPricing(id: ID! @eq): ProductPricing
-  @find
-  @can(ability: "view", find: "id")
+    @find
+    @can(ability: "view", find: "id")
 }
 
 extend type Mutation @guard(with: ["sanctum"]) {
@@ -22,15 +22,15 @@ extend type Mutation @guard(with: ["sanctum"]) {
   createProductPricing(
     input: CreateProductPricingInput! @spread
   ): ProductPricing
-  @can(
-    ability: "create"
-    model: "MayIFit\\Extension\\Shop\\Models\\ProductPricing"
-  )
-  @create
+    @can(
+      ability: "create"
+      model: "MayIFit\\Extension\\Shop\\Models\\ProductPricing"
+    )
+    @create
 
   deleteProductPricing(id: ID! @rules(apply: ["required"])): ProductPricing
-  @can(ability: "delete", find: "id")
-  @delete
+    @can(ability: "delete", find: "id")
+    @delete
 }
 
 input ProductPricingRelation {
@@ -64,7 +64,7 @@ input UpdateProductPricingInput {
 }
 
 type ProductPricing
-@modelClass(class: "MayIFit\\Extension\\Shop\\Models\\ProductPricing") {
+  @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\ProductPricing") {
   id: ID!
   product: Product! @belongsTo
   base_price: Float!

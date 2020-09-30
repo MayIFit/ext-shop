@@ -1,6 +1,6 @@
 extend type Query {
   allCurrency: [Currency!]!
-  @field(resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\AllCurrency")
+    @field(resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\AllCurrency")
 }
 
 type Currency {

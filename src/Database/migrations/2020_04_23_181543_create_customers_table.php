@@ -32,7 +32,9 @@ class CreateCustomersTable extends Migration
             $table->boolean('primary_address');
             $table->boolean('billing_address');
             $table->boolean('shipping_address');
-            $table->foreignId('user_id')->nullable()->references('id')->on('users');
+            $table->nullableMorphs('user');
+            $table->nullableMorphs('created_by');
+            $table->nullableMorphs('updated_by');
             $table->timestamps();
         });
     }

@@ -4,7 +4,6 @@ namespace MayIFit\Extension\Shop\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-use App\Models\User;
 use MayIFit\Extension\Shop\Models\Order;
 
 /**
@@ -17,86 +16,86 @@ class OrderPolicy
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can view any orders.
+     * Determine whether the can view any orders.
      *
-     * @param  \App\Models\User  $user
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
      * @return mixed
      */
-    public function viewAny(User $user)
+    public function viewAny($authModel)
     {
-        return $user->tokenCan('order.list');
+        return $authModel->hasPermission('order.list');
     }
 
     /**
-     * Determine whether the user can view the order.
+     * Determine whether the can view the order.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Order  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\Order  $order
      * @return mixed
      */
-    public function view(User $user, Order $model)
+    public function view($authModel, Order $order)
     {
-        return $user->tokenCan('order.view') ||
-            $user->id === $model->customer->user->id;
+        return $authModel->hasPermission('order.view') ||
+            $authModel->id === $order->customer->user->id;
     }
 
     /**
-     * Determine whether the user can create orders.
+     * Determine whether the can create orders.
      *
-     * @param  \App\Models\User  $user
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
      * @return mixed
      */
-    public function create(User $user)
+    public function create($authModel)
     {
         return true;
     }
 
     /**
-     * Determine whether the user can update the order.
+     * Determine whether the can update the order.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Order  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\Order  $order
      * @return mixed
      */
-    public function update(User $user, Order $model)
+    public function update($authModel, Order $order)
     {
-        return $user->tokenCan('order.update') ||
-            $user->id === $model->customer->user->id;
+        return $authModel->hasPermission('order.update') ||
+            $authModel->id === $order->customer->user->id;
     }
 
     /**
-     * Determine whether the user can delete the order.
+     * Determine whether the can delete the order.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Order  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\Order  $order
      * @return mixed
      */
-    public function delete(User $user, Order $model)
+    public function delete($authModel, Order $order)
     {
-        return $user->tokenCan('order.delete')  ||
-            $user->id === $model->customer->user->id;
+        return $authModel->hasPermission('order.delete')  ||
+            $authModel->id === $order->customer->user->id;
     }
 
     /**
-     * Determine whether the user can restore the order.
+     * Determine whether the can restore the order.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Order  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\Order  $order
      * @return mixed
      */
-    public function restore(User $user, Order $model)
+    public function restore($authModel, Order $order)
     {
         return false;
     }
 
     /**
-     * Determine whether the user can permanently delete the order.
+     * Determine whether the can permanently delete the order.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Order  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\Order  $order
      * @return mixed
      */
-    public function forceDelete(User $user, Order $model)
+    public function forceDelete($authModel, Order $order)
     {
         return false;
     }

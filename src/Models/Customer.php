@@ -3,9 +3,10 @@
 namespace MayIFit\Extension\Shop\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Notifications\Notifiable;
 
-use MayIFit\Core\Permission\Traits\HasUsers;
+use MayIFit\Core\Permission\Traits\HasCreators;
 use MayIFit\Extension\Shop\Traits\HasOrders;
 
 /**
@@ -16,7 +17,7 @@ use MayIFit\Extension\Shop\Traits\HasOrders;
 class Customer extends Model
 {
     use Notifiable;
-    use HasUsers;
+    use HasCreators;
     use HasOrders;
 
     /**
@@ -54,4 +55,12 @@ class Customer extends Model
         'shipping_address' => false,
         'billing_address' => false
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     */
+    public function user(): MorphTo
+    {
+        return $this->morphTo();
+    }
 }

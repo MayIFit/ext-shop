@@ -7,23 +7,25 @@ extend type Query @guard(with: ["sanctum"]) {
     hasReseller: _ @whereHasConditions(columnsEnum: OrderColumns)
     orderBy: _ @orderBy(columnsEnum: OrderColumns)
   ): [Order]!
-  @can(ability: "viewAny", model: "MayIFit\\Extension\\Shop\\Models\\Order")
-  @paginate(type: "paginator")
+    @can(ability: "viewAny", model: "MayIFit\\Extension\\Shop\\Models\\Order")
+    @paginate(type: "paginator")
 
   viewOrder(id: ID! @eq): Order! @can(ability: "view", find: "id") @find
 
   getResellerLastOpenOrder: Order
-  @field(
-    resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\GetResellerLastOpenOrder"
-  )
+    @field(
+      resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\GetResellerLastOpenOrder"
+    )
 
   getOrderTrend(range: DateTimeRange @spread): [ObjectScalar]!
-  @field(resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\GetOrderTrend")
+    @field(
+      resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\GetOrderTrend"
+    )
 
   getTransferredOrderTrend(range: DateTimeRange @spread): [ObjectScalar]!
-  @field(
-    resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\GetOrderTrend@transferredOrders"
-  )
+    @field(
+      resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\GetOrderTrend@transferredOrders"
+    )
 
   getOrderCount: Int! @count(model: "MayIFit\\Extension\\Shop\\Models\\Order")
 }
@@ -34,25 +36,25 @@ extend type Mutation {
 
 extend type Mutation @guard(with: ["sanctum"]) {
   updateOrder(input: UpdateOrderInput! @spread): Order
-  @can(ability: "update", find: "id")
-  @update
+    @can(ability: "update", find: "id")
+    @update
 
   deleteOrder(id: ID! @rules(apply: ["required"])): Order
-  @can(ability: "delete", find: "id")
-  @delete
+    @can(ability: "delete", find: "id")
+    @delete
 
   sendOrderEvent(id: ID!): Order
-  @can(ability: "update", find: "id")
-  @field(
-    resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Mutations\\SendOrderEvent"
-  )
+    @can(ability: "update", find: "id")
+    @field(
+      resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Mutations\\SendOrderEvent"
+    )
 }
 
 input CreateOrderInput {
   extra_information: String
   currency: String!
   payment_type: String!
-  delivery_type: Int!
+  delivery_type: DeliveryType!
   invoice_number: String
   transport_cost: Float
 }
@@ -65,7 +67,7 @@ input UpdateOrderInput {
   paid: Boolean
   currency: String
   payment_type: String
-  delivery_type: Int
+  delivery_type: DeliveryType
   invoice_number: String
   transport_cost: Float
   closed: Boolean
@@ -75,23 +77,37 @@ type Order @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
   id: ID!
   token: String!
   created_at: DateTime!
+  "The sum quantity of the ordered Products."
   quantity: Int!
+  "The sum quantity of the transferred Products."
   quantity_transferred: Int
+  "The sum net value of the ordered Products."
   net_value: Float!
+  "The sum gross value of the ordered Products."
   gross_value: Float!
+  "The currency of the net and gross values."
   currency: String!
   discount_percentage: Float
+  "Extra information for shipping e.g. `Drop a phone call if the courier is here!`."
   extra_information: String
+  "Marks the Order as already paid"
   paid: Boolean!
+  "Can either be `cod_cash, cod_card or bank_transfer`."
   payment_type: String!
-  delivery_type: Int!
+  "The type of the delivery."
+  delivery_type: DeliveryType
   invoice_number: String
+  "A prefix for the Order, this is used in the external Warehouse system"
   order_id_prefix: String
+  "The sum quantity of each distinct product."
   items_ordered: Int
+  "The sum quantity of each distinct product what was transferred for shipping."
   items_transferred: Int
   transport_cost: Float
+  "Timestamp for when the Order was sent to the Courier Service"
   sent_to_courier_service: DateTime
   closed: Boolean
+  "A dynamic field what determines if any Product in the Order is shippable"
   can_be_shipped: Boolean @method(name: "getOrderCanBeShippedAttribute")
 }
 
@@ -106,7 +122,7 @@ input DateRange {
 }
 
 extend type Reseller
-@modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Reseller") {
+  @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Reseller") {
   orders(created_at: DateTimeRange @whereBetween): [Order]! @hasMany
 }
 
@@ -126,4 +142,9 @@ enum OrderColumns {
   SENT_TO_COURIER_SERVICE @enum(value: "sent_to_courier_service")
   INVOICE_NUMBER @enum(value: "invoice_number")
   CAN_BE_SHIPPED @enum(value: "can_be_shipped")
+}
+
+enum DeliveryType {
+  PERSONAL_DELIVERY @enum(value: "10")
+  HOME_DELIVERY @enum(value: "5")
 }

@@ -4,7 +4,6 @@ namespace MayIFit\Extension\Shop\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-use App\Models\User;
 use MayIFit\Extension\Shop\Models\ProductCategory;
 
 /**
@@ -17,83 +16,85 @@ class ProductCategoryPolicy
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can view any product categories.
+     * Determine whether the can view any product categories.
      *
-     * @param  \App\Models\User  $user
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
      * @return mixed
      */
-    public function viewAny(User $user)
+    public function viewAny($authModel)
     {
-        return $user->tokenCan('product-category.list');
+        return $authModel->hasPermission('product-category.list');
     }
 
     /**
-     * Determine whether the user can view the product category.
+     * Determine whether the can view the product category.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductCategory  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\ProductCategory  $productCategory
      * @return mixed
      */
-    public function view(User $user, ProductCategory $model)
+    public function view($authModel, ProductCategory $productCategory)
     {
-        return $user->tokenCan('product-category.view');
+        return $authModel->hasPermission('product-category.view');
     }
 
     /**
-     * Determine whether the user can create product categories.
+     * Determine whether the can create product categories.
      *
-     * @param  \App\Models\User  $user
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
      * @return mixed
      */
-    public function create(User $user)
+    public function create($authModel)
     {
-        return $user->tokenCan('product-category.create');
+        return $authModel->hasPermission('product-category.create');
     }
 
     /**
-     * Determine whether the user can update the product category.
+     * Determine whether the can update the product category.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductCategory  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\ProductCategory  $productCategory
      * @return mixed
      */
-    public function update(User $user, ProductCategory $model)
+    public function update($authModel, ProductCategory $productCategory)
     {
-        return $user->tokenCan('product-category.update');
+        return $authModel->hasPermission('product-category.update') ||
+            $productCategory->createdBy->id === $authModel->id;
     }
 
     /**
-     * Determine whether the user can delete the product category.
+     * Determine whether the can delete the product category.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductCategory  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\ProductCategory  $productCategory
      * @return mixed
      */
-    public function delete(User $user, ProductCategory $model)
+    public function delete($authModel, ProductCategory $productCategory)
     {
-        return $user->tokenCan('product-category.delete');
+        return $authModel->hasPermission('product-category.delete') ||
+            $productCategory->createdBy->id === $authModel->id;;
     }
 
     /**
-     * Determine whether the user can restore the product category.
+     * Determine whether the can restore the product category.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductCategory  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\ProductCategory  $productCategory
      * @return mixed
      */
-    public function restore(User $user, ProductCategory $model)
+    public function restore($authModel, ProductCategory $productCategory)
     {
         return false;
     }
 
     /**
-     * Determine whether the user can permanently delete the product category.
+     * Determine whether the can permanently delete the product category.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductCategory  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\ProductCategory  $productCategory
      * @return mixed
      */
-    public function forceDelete(User $user, ProductCategory $model)
+    public function forceDelete($authModel, ProductCategory $productCategory)
     {
         return false;
     }

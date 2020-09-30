@@ -4,7 +4,6 @@ namespace MayIFit\Extension\Shop\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-use App\Models\User;
 use MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot;
 
 /**
@@ -17,83 +16,83 @@ class OrderProductPivotPolicy
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can view any order product-pivots.
+     * Determine whether the can view any order product-pivots.
      *
-     * @param  \App\Models\User  $user
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
      * @return mixed
      */
-    public function viewAny(User $user)
+    public function viewAny($authModel)
     {
-        return $user->tokenCan('order-product-pivot.list');
+        return $authModel->hasPermission('order-product-pivot.list');
     }
 
     /**
-     * Determine whether the user can view the order product pivot.
+     * Determine whether the can view the order product pivot.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot  $orderProductPivot
      * @return mixed
      */
-    public function view(User $user, OrderProductPivot $model)
+    public function view($authModel, OrderProductPivot $orderProductPivot)
     {
-        return $user->tokenCan('order-product-pivot.view');
+        return $authModel->hasPermission('order-product-pivot.view');
     }
 
     /**
-     * Determine whether the user can create orders.
+     * Determine whether the can create orders.
      *
-     * @param  \App\Models\User  $user
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
      * @return mixed
      */
-    public function create(User $user)
+    public function create($authModel)
     {
         return true;
     }
 
     /**
-     * Determine whether the user can update the order product pivot.
+     * Determine whether the can update the order product pivot.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot  $orderProductPivot
      * @return mixed
      */
-    public function update(User $user, OrderProductPivot $model)
+    public function update($authModel, OrderProductPivot $orderProductPivot)
     {
-        return $user->tokenCan('order-product-pivot.update');
+        return $authModel->hasPermission('order-product-pivot.update');
     }
 
     /**
-     * Determine whether the user can delete the order product pivot.
+     * Determine whether the can delete the order product pivot.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot  $orderProductPivot
      * @return mixed
      */
-    public function delete(User $user, OrderProductPivot $model)
+    public function delete($authModel, OrderProductPivot $orderProductPivot)
     {
-        return $user->tokenCan('order-product-pivot.delete');
+        return $authModel->hasPermission('order-product-pivot.delete');
     }
 
     /**
-     * Determine whether the user can restore the order product pivot.
+     * Determine whether the can restore the order product pivot.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot  $orderProductPivot
      * @return mixed
      */
-    public function restore(User $user, OrderProductPivot $model)
+    public function restore($authModel, OrderProductPivot $orderProductPivot)
     {
         return false;
     }
 
     /**
-     * Determine whether the user can permanently delete the order product pivot.
+     * Determine whether the can permanently delete the order product pivot.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot  $orderProductPivot
      * @return mixed
      */
-    public function forceDelete(User $user, OrderProductPivot $model)
+    public function forceDelete($authModel, OrderProductPivot $orderProductPivot)
     {
         return false;
     }

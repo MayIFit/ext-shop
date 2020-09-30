@@ -2,23 +2,17 @@
 
 namespace MayIFit\Extension\Shop\Tests\Feature;
 
-use Laravel\Sanctum\Sanctum;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use MayIFit\Extension\Shop\Tests\TestCase;
-
-use App\Models\User;
 
 class CanUpdateProductTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_can_update(): void
+    public function test_can_update_product(): void
     {
         parent::setUp();
-
-        $user = factory(User::class)->create();
-        Sanctum::actingAs($user, ['*']);
 
         $this->graphQL('
             mutation {
@@ -32,7 +26,13 @@ class CanUpdateProductTest extends TestCase
                     catalog_id
                 }
             }
-        ');
+        ')->assertJSON([
+            'data' => [
+                'createProduct' => [
+                    'catalog_id' => 20001
+                ]
+            ]
+        ]);
 
         $this->graphQL('
             mutation {

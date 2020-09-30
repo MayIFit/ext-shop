@@ -4,7 +4,7 @@ namespace MayIFit\Extension\Shop\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-use MayIFit\Core\Permission\Traits\HasUsers;
+use MayIFit\Core\Permission\Traits\HasCreators;
 
 use MayIFit\Extension\Shop\Traits\HasReseller;
 use MayIFit\Extension\Shop\Traits\HasProduct;
@@ -16,7 +16,7 @@ use MayIFit\Extension\Shop\Traits\HasProduct;
  */
 class ResellerShopCart extends Model
 {
-    use HasUsers;
+    use HasCreators;
     use HasReseller;
     use HasProduct;
 

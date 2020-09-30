@@ -6,15 +6,15 @@ extend type Mutation @guard(with: ["sanctum"]) {
   createProductDiscount(
     input: CreateProductDiscountInput! @spread
   ): ProductDiscount
-  @can(
-    ability: "create"
-    model: "MayIFit\\Extension\\Shop\\Models\\ProductDiscount"
-  )
-  @create
+    @can(
+      ability: "create"
+      model: "MayIFit\\Extension\\Shop\\Models\\ProductDiscount"
+    )
+    @create
 
   deleteProducDiscount(id: ID! @rules(apply: ["required"])): ProductDiscount
-  @can(ability: "delete", find: "id")
-  @delete
+    @can(ability: "delete", find: "id")
+    @delete
 }
 
 extend type Query @guard(with: ["sanctum"]) {
@@ -22,15 +22,15 @@ extend type Query @guard(with: ["sanctum"]) {
     hasProduct: _ @whereHasConditions(columns: ["catalog_id", "name"])
     user_id: ID
   ): [ProductDiscount]!
-  @can(
-    ability: "viewAny"
-    model: "MayIFit\\Extension\\Shop\\Models\\ProductDiscount"
-  )
-  @paginate(type: "paginator")
+    @can(
+      ability: "viewAny"
+      model: "MayIFit\\Extension\\Shop\\Models\\ProductDiscount"
+    )
+    @paginate(type: "paginator")
 
   viewProductDiscount(id: ID! @eq, user_id: ID @eq): ProductDiscount
-  @find
-  @can(ability: "view", find: "id")
+    @find
+    @can(ability: "view", find: "id")
 }
 
 input ProductDiscountRelation {
@@ -55,7 +55,7 @@ input UpdateProductDiscountInput {
 }
 
 type ProductDiscount
-@modelClass(class: "MayIFit\\Extension\\Shop\\Models\\ProductDiscount") {
+  @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\ProductDiscount") {
   id: ID!
   product: Product! @belongsTo
   discount_percentage: Float!

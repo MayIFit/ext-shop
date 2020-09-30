@@ -49,7 +49,7 @@ type OrderStatus
   id: ID!
   name: String!
   icon: String!
-  "If it's marked as true, a notification will be sent out for the user"
+  "If it's marked as true, a notification will be sent out for the Customer"
   send_notification: Boolean!
 }
 

@@ -4,7 +4,6 @@ namespace MayIFit\Extension\Shop\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-use App\Models\User;
 use MayIFit\Extension\Shop\Models\ResellerGroup;
 
 /**
@@ -17,83 +16,85 @@ class ResellerGroupPolicy
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can view any resellerGroups.
+     * Determine whether the can view any resellerGroups.
      *
-     * @param  \App\Models\User  $user
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
      * @return mixed
      */
-    public function viewAny(User $user)
+    public function viewAny($authModel)
     {
-        return $user->tokenCan('reseller-group.list');
+        return $authModel->hasPermission('reseller-group.list');
     }
 
     /**
-     * Determine whether the user can view the resellerGroup.
+     * Determine whether the can view the resellerGroup.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ResellerGroup  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\ResellerGroup  $resellerGroup
      * @return mixed
      */
-    public function view(User $user, ResellerGroup $model)
+    public function view($authModel, ResellerGroup $resellerGroup)
     {
-        return $user->tokenCan('reseller-group.view');
+        return $authModel->hasPermission('reseller-group.view');
     }
 
     /**
-     * Determine whether the user can create resellerGroups.
+     * Determine whether the can create resellerGroups.
      *
-     * @param  \App\Models\User  $user
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
      * @return mixed
      */
-    public function create(User $user)
+    public function create($authModel)
     {
-        return $user->tokenCan('reseller-group.create');
+        return $authModel->hasPermission('reseller-group.create');
     }
 
     /**
-     * Determine whether the user can update the resellerGroup.
+     * Determine whether the can update the resellerGroup.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ResellerGroup  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\ResellerGroup  $resellerGroup
      * @return mixed
      */
-    public function update(User $user, ResellerGroup $model)
+    public function update($authModel, ResellerGroup $resellerGroup)
     {
-        return $user->tokenCan('reseller-group.update');
+        return $authModel->hasPermission('reseller-group.update') ||
+            $resellerGroup->createdBy->id === $authModel->id;
     }
 
     /**
-     * Determine whether the user can delete the resellerGroup.
+     * Determine whether the can delete the resellerGroup.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ResellerGroup  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\ResellerGroup  $resellerGroup
      * @return mixed
      */
-    public function delete(User $user, ResellerGroup $model)
+    public function delete($authModel, ResellerGroup $resellerGroup)
     {
-        return $user->tokenCan('reseller-group.delete');
+        return $authModel->hasPermission('reseller-group.delete') ||
+            $resellerGroup->createdBy->id === $authModel->id;;
     }
 
     /**
-     * Determine whether the user can restore the resellerGroup.
+     * Determine whether the can restore the resellerGroup.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ResellerGroup  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\ResellerGroup  $resellerGroup
      * @return mixed
      */
-    public function restore(User $user, ResellerGroup $model)
+    public function restore($authModel, ResellerGroup $resellerGroup)
     {
         return false;
     }
 
     /**
-     * Determine whether the user can permanently delete the resellerGroup.
+     * Determine whether the can permanently delete the resellerGroup.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ResellerGroup  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\ResellerGroup  $resellerGroup
      * @return mixed
      */
-    public function forceDelete(User $user, ResellerGroup $model)
+    public function forceDelete($authModel, ResellerGroup $resellerGroup)
     {
         return false;
     }

@@ -19,8 +19,8 @@ class CreateProductReviewsTable extends Migration
             $table->string('title');
             $table->text('message')->nullable();
             $table->unsignedBigInteger('product_id')->references('id')->on('products');
-            $table->foreignId('created_by')->references('id')->on('users');
-            $table->foreignId('updated_by')->nullable()->references('id')->on('users');
+            $table->morphs('created_by');
+            $table->nullableMorphs('updated_by');
             $table->timestamps();
             $table->softDeletes();
             $table->index('product_id');

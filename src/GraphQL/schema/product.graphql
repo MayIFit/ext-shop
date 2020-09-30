@@ -28,24 +28,24 @@ extend type Query @guard(with: ["sanctum"]) {
     filter: _ @whereConditions(columnsEnum: ProductColumns)
     orderBy: _ @orderBy(columnsEnum: ProductColumns)
   ): [Product]!
-  @can(ability: "viewAny", model: "MayIFit\\Extension\\Shop\\Models\\Product")
-  @paginate(type: "paginator")
+    @can(ability: "viewAny", model: "MayIFit\\Extension\\Shop\\Models\\Product")
+    @paginate(type: "paginator")
 
   viewProduct(id: ID! @eq): Product @find @can(ability: "view", find: "id")
 }
 
 extend type Mutation @guard(with: ["sanctum"]) {
   updateProduct(input: UpdateProductInput! @spread): Product
-  @can(ability: "update", find: "id")
-  @update
+    @can(ability: "update", find: "id")
+    @update
 
   createProduct(input: CreateProductInput! @spread): Product
-  @can(ability: "create", model: "MayIFit\\Extension\\Shop\\Models\\Product")
-  @create
+    @can(ability: "create", model: "MayIFit\\Extension\\Shop\\Models\\Product")
+    @create
 
   deleteProduct(id: ID! @rules(apply: ["required"])): Product
-  @can(ability: "delete", find: "id")
-  @delete
+    @can(ability: "delete", find: "id")
+    @delete
 }
 
 input csvInput {
@@ -111,12 +111,15 @@ type Product @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Product") {
   description: String
   technical_specs: ObjectScalar
   supplied: ObjectScalar
+  "The warehouse stock of the Product"
   stock: Int
+  "Dynamic field what decrements each time an Order was placed for the Product"
   calculated_stock: Int
   ean_code: String
   out_of_stock_text: String
   quantity_unit_text: String
   refurbished: Boolean!
+  "Determines if the Product currently is sold"
   orderable: Boolean!
   varranty: String!
   reviews: [ProductReview]! @hasMany
@@ -128,15 +131,16 @@ type Product @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Product") {
   documents: [Document]! @morphMany
   images: [Document]! @morphMany
   image: Document @morphOne
+  "Gets the currently used pricing"
   getCurrentPricing: ProductPricing @method(passordered: true)
-
+  "Gets the discount of the Product for a given time"
   getDiscountForDate(dateTime: DateTime!): ProductDiscount
-  @method(passordered: true)
+    @method(passordered: true)
 }
 
 "Subset of Product"
 type ProductSelect
-@modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Product") {
+  @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Product") {
   id: ID!
   catalog_id: String!
 }

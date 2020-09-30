@@ -4,7 +4,6 @@ namespace MayIFit\Extension\Shop\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-use App\Models\User;
 use MayIFit\Extension\Shop\Models\ProductReview;
 
 /**
@@ -17,83 +16,85 @@ class ProductReviewPolicy
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can view any product reviews.
+     * Determine whether the can view any product reviews.
      *
-     * @param  \App\Models\User  $user
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
      * @return mixed
      */
-    public function viewAny(User $user)
+    public function viewAny($authModel)
     {
         return true;
     }
 
     /**
-     * Determine whether the user can view the product review.
+     * Determine whether the can view the product review.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductReview  $product-review
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\ProductReview  $productReview
      * @return mixed
      */
-    public function view(User $user, ProductReview $model)
+    public function view($authModel, ProductReview $productReview)
     {
         return true;
     }
 
     /**
-     * Determine whether the user can create product reviews.
+     * Determine whether the can create product reviews.
      *
-     * @param  \App\Models\User  $user
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
      * @return mixed
      */
-    public function create(User $user)
+    public function create($authModel)
     {
         return true;
     }
 
     /**
-     * Determine whether the user can update the product review.
+     * Determine whether the can update the product review.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductReview  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\ProductReview  $productReview
      * @return mixed
      */
-    public function update(User $user, ProductReview $model)
+    public function update($authModel, ProductReview $productReview)
     {
-        return $user->tokenCan('product-review.update') || $model->createdBy->id === $user->id;
+        return $authModel->hasPermission('product-review.update') ||
+            $productReview->createdBy->id === $authModel->id;
     }
 
     /**
-     * Determine whether the user can delete the product review.
+     * Determine whether the can delete the product review.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductReview  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\ProductReview  $productReview
      * @return mixed
      */
-    public function delete(User $user, ProductReview $model)
+    public function delete($authModel, ProductReview $productReview)
     {
-        return $user->tokenCan('product-review.delete') || $model->createdBy->id === $user->id;
+        return $authModel->hasPermission('product-review.delete') ||
+            $productReview->createdBy->id === $authModel->id;
     }
 
     /**
-     * Determine whether the user can restore the product review.
+     * Determine whether the can restore the product review.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductReview  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\ProductReview  $productReview
      * @return mixed
      */
-    public function restore(User $user, ProductReview $model)
+    public function restore($authModel, ProductReview $productReview)
     {
         return false;
     }
 
     /**
-     * Determine whether the user can permanently delete the product review.
+     * Determine whether the can permanently delete the product review.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductReview  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\ProductReview  $productReview
      * @return mixed
      */
-    public function forceDelete(User $user, ProductReview $model)
+    public function forceDelete($authModel, ProductReview $productReview)
     {
         return false;
     }

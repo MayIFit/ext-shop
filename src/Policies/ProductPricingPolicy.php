@@ -4,7 +4,6 @@ namespace MayIFit\Extension\Shop\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-use App\Models\User;
 use MayIFit\Extension\Shop\Models\ProductPricing;
 
 /**
@@ -17,83 +16,85 @@ class ProductPricingPolicy
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can view any product reviews.
+     * Determine whether the can view any product reviews.
      *
-     * @param  \App\Models\User  $user
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
      * @return mixed
      */
-    public function viewAny(User $user)
+    public function viewAny($authModel)
     {
-        return $user->tokenCan('product-pricing.list');
+        return $authModel->hasPermission('product-pricing.list');
     }
 
     /**
-     * Determine whether the user can view the product pricing.
+     * Determine whether the can view the product pricing.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductPricing  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\ProductPricing  $productPricing
      * @return mixed
      */
-    public function view(User $user, ProductPricing $model)
+    public function view($authModel, ProductPricing $productPricing)
     {
-        return $user->tokenCan('product-pricing.view');
+        return $authModel->hasPermission('product-pricing.view');
     }
 
     /**
-     * Determine whether the user can create product reviews.
+     * Determine whether the can create product reviews.
      *
-     * @param  \App\Models\User  $user
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
      * @return mixed
      */
-    public function create(User $user)
+    public function create($authModel)
     {
-        return $user->tokenCan('product-pricing.create');
+        return $authModel->hasPermission('product-pricing.create');
     }
 
     /**
-     * Determine whether the user can update the product pricing.
+     * Determine whether the can update the product pricing.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductPricing  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\ProductPricing  $productPricing
      * @return mixed
      */
-    public function update(User $user, ProductPricing $model)
+    public function update($authModel, ProductPricing $productPricing)
     {
-        return $user->tokenCan('product-pricing.update') || $model->createdBy->id === $user->id;
+        return $authModel->hasPermission('product-pricing.update') ||
+            $productPricing->createdBy->id === $authModel->id;
     }
 
     /**
-     * Determine whether the user can delete the product pricing.
+     * Determine whether the can delete the product pricing.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductPricing  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\ProductPricing  $productPricing
      * @return mixed
      */
-    public function delete(User $user, ProductPricing $model)
+    public function delete($authModel, ProductPricing $productPricing)
     {
-        return $user->tokenCan('product-pricing.delete') || $model->createdBy->id === $user->id;
+        return $authModel->hasPermission('product-pricing.delete') ||
+            $productPricing->createdBy->id === $authModel->id;
     }
 
     /**
-     * Determine whether the user can restore the product pricing.
+     * Determine whether the can restore the product pricing.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductPricing  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\ProductPricing  $productPricing
      * @return mixed
      */
-    public function restore(User $user, ProductPricing $model)
+    public function restore($authModel, ProductPricing $productPricing)
     {
         return false;
     }
 
     /**
-     * Determine whether the user can permanently delete the product pricing.
+     * Determine whether the can permanently delete the product pricing.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductPricing  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\ProductPricing  $productPricing
      * @return mixed
      */
-    public function forceDelete(User $user, ProductPricing $model)
+    public function forceDelete($authModel, ProductPricing $productPricing)
     {
         return false;
     }

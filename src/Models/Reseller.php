@@ -4,15 +4,14 @@ namespace MayIFit\Extension\Shop\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
-use MayIFit\Core\Permission\Traits\HasUsers;
+use MayIFit\Core\Permission\Traits\HasCreators;
 
 use MayIFit\Extension\Shop\Models\ResellerGroup;
-use MayIFit\Extension\Shop\Models\Order;
 use MayIFit\Extension\Shop\Models\ResellerShopCart;
 use MayIFit\Extension\Shop\Traits\HasOrders;
 
@@ -23,9 +22,9 @@ use MayIFit\Extension\Shop\Traits\HasOrders;
  */
 class Reseller extends Model
 {
-    use HasUsers;
     use Notifiable;
     use SoftDeletes;
+    use HasCreators;
     use HasOrders;
 
     /**
@@ -54,5 +53,13 @@ class Reseller extends Model
     public function resellerShopCart(): HasOne
     {
         return $this->hasOne(ResellerShopCart::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     */
+    public function user(): MorphTo
+    {
+        return $this->morphTo();
     }
 }

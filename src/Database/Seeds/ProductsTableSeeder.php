@@ -27,7 +27,6 @@ class ProductsTableSeeder extends Seeder
     {
         factory(Product::class, 200)->make()
             ->each(function ($product) {
-                $product->createdBy()->associate(1);
                 $product->category()->associate(ProductCategory::all()->random());
 
                 $product->save();

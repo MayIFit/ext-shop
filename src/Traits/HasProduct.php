@@ -3,10 +3,9 @@
 namespace MayIFit\Extension\Shop\Traits;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 use MayIFit\Extension\Shop\Models\Product;
-use MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot;
 
 /**
  * Trait HasProduct
@@ -23,6 +22,4 @@ trait HasProduct
     {
         return $this->belongsTo(Product::class)->withTrashed();
     }
-
-    
 }

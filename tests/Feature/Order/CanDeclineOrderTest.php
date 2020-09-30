@@ -1,15 +1,12 @@
 <?php
 
-namespace MayIFit\Extension\Shop\Tests\Unit\Order;
+namespace MayIFit\Extension\Shop\Tests\Feature\Order;
 
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use MayIFit\Extension\Shop\Tests\TestCase;
 use MayIFit\Extension\Shop\Models\Order;
-
-use App\Models\User;
 
 class CanDeclineOrderTest extends TestCase
 {

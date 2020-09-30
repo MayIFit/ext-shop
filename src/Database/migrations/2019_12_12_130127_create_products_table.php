@@ -30,8 +30,8 @@ class CreateProductsTable extends Migration
             $table->boolean('refurbished');
             $table->foreignId('category_id')->nullable()->references('id')->on('product_categories');
             $table->foreignId('parent_id')->nullable()->references('id')->on('products');
-            $table->foreignId('created_by')->nullable()->references('id')->on('users');
-            $table->foreignId('updated_by')->nullable()->references('id')->on('users');
+            $table->morphs('created_by');
+            $table->nullableMorphs('updated_by');
             $table->timestamps();
             $table->softDeletes();
         });

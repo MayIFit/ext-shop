@@ -4,7 +4,6 @@ namespace MayIFit\Extension\Shop\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-use App\Models\User;
 use MayIFit\Extension\Shop\Models\Product;
 
 /**
@@ -19,69 +18,71 @@ class ProductPolicy
     /**
      * Determine whether the user can view any products.
      *
-     * @param  \App\Models\User  $user
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
      * @return mixed
      */
-    public function viewAny(User $user)
+    public function viewAny($authModel)
     {
-        return $user->tokenCan('product.list');
+        return $authModel->hasPermission('product.list');
     }
 
     /**
      * Determine whether the user can view the product.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Product  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\Product  $product
      * @return mixed
      */
-    public function view(User $user, Product $model)
+    public function view($authModel, Product $product)
     {
-        return $user->tokenCan('product.view');
+        return $authModel->hasPermission('product.view');
     }
 
     /**
      * Determine whether the user can create products.
      *
-     * @param  \App\Models\User  $user
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
      * @return mixed
      */
-    public function create(User $user)
+    public function create($authModel)
     {
-        return $user->tokenCan('product.create');
+        return $authModel->hasPermission('product.create');
     }
 
     /**
      * Determine whether the user can update the product.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Product  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\Product  $product
      * @return mixed
      */
-    public function update(User $user, Product $model)
+    public function update($authModel, Product $product)
     {
-        return $user->tokenCan('product.update');
+        return $authModel->hasPermission('product.update') ||
+            $product->createdBy->id === $authModel->id;
     }
 
     /**
      * Determine whether the user can delete the product.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Product  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\Product  $product
      * @return mixed
      */
-    public function delete(User $user, Product $model)
+    public function delete($authModel, Product $product)
     {
-        return $user->tokenCan('product.delete');
+        return $authModel->hasPermission('product.delete') ||
+            $product->createdBy->id === $authModel->id;
     }
 
     /**
      * Determine whether the user can restore the product.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Product  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\Product  $product
      * @return mixed
      */
-    public function restore(User $user, Product $model)
+    public function restore($authModel, Product $product)
     {
         return false;
     }
@@ -89,11 +90,11 @@ class ProductPolicy
     /**
      * Determine whether the user can permanently delete the product.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Product  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\Product  $product
      * @return mixed
      */
-    public function forceDelete(User $user, Product $model)
+    public function forceDelete($authModel, Product $product)
     {
         return false;
     }

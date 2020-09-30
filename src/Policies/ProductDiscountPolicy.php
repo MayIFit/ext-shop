@@ -4,7 +4,6 @@ namespace MayIFit\Extension\Shop\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-use App\Models\User;
 use MayIFit\Extension\Shop\Models\ProductDiscount;
 
 /**
@@ -17,83 +16,83 @@ class ProductDiscountPolicy
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can view any product reviews.
+     * Determine whether the can view any product reviews.
      *
-     * @param  \App\Models\User  $user
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
      * @return mixed
      */
-    public function viewAny(User $user)
+    public function viewAny($authModel)
     {
-        return $user->tokenCan('product-discount.list');
+        return $authModel->hasPermission('product-discount.list');
     }
 
     /**
-     * Determine whether the user can view the product discount.
+     * Determine whether the can view the product discount.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductDiscount  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\ProductDiscount  $productDiscount
      * @return mixed
      */
-    public function view(User $user, ProductDiscount $model)
+    public function view($authModel, ProductDiscount $productDiscount)
     {
-        return $user->tokenCan('product-discount.view');
+        return $authModel->hasPermission('product-discount.view');
     }
 
     /**
-     * Determine whether the user can create product reviews.
+     * Determine whether the can create product reviews.
      *
-     * @param  \App\Models\User  $user
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
      * @return mixed
      */
-    public function create(User $user)
+    public function create($authModel)
     {
-        return $user->tokenCan('product-discount.create');
+        return $authModel->hasPermission('product-discount.create');
     }
 
     /**
-     * Determine whether the user can update the product discount.
+     * Determine whether the can update the product discount.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductDiscount  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\ProductDiscount  $productDiscount
      * @return mixed
      */
-    public function update(User $user, ProductDiscount $model)
+    public function update($authModel, ProductDiscount $productDiscount)
     {
-        return $user->tokenCan('product-discount.update') || $model->createdBy->id === $user->id;
+        return $authModel->hasPermission('product-discount.update') || $productDiscount->createdBy->id === $authModel->id;
     }
 
     /**
-     * Determine whether the user can delete the product discount.
+     * Determine whether the can delete the product discount.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductDiscount  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\ProductDiscount  $productDiscount
      * @return mixed
      */
-    public function delete(User $user, ProductDiscount $model)
+    public function delete($authModel, ProductDiscount $productDiscount)
     {
-        return $user->tokenCan('product-discount.delete') || $model->createdBy->id === $user->id;
+        return $authModel->hasPermission('product-discount.delete') || $productDiscount->createdBy->id === $authModel->id;
     }
 
     /**
-     * Determine whether the user can restore the product discount.
+     * Determine whether the can restore the product discount.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductDiscount  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\ProductDiscount  $productDiscount
      * @return mixed
      */
-    public function restore(User $user, ProductDiscount $model)
+    public function restore($authModel, ProductDiscount $productDiscount)
     {
         return false;
     }
 
     /**
-     * Determine whether the user can permanently delete the product discount.
+     * Determine whether the can permanently delete the product discount.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\ProductDiscount  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\ProductDiscount  $productDiscount
      * @return mixed
      */
-    public function forceDelete(User $user, ProductDiscount $model)
+    public function forceDelete($authModel, ProductDiscount $productDiscount)
     {
         return false;
     }

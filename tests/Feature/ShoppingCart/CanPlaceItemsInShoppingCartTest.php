@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use MayIFit\Extension\Shop\Tests\TestCase;
 
-use App\Models\User;
+use MayIFit\Extension\Shop\Tests\User;
 use MayIFit\Extension\Shop\Models\Reseller;
 use MayIFit\Extension\Shop\Models\Product;
 use MayIFit\Extension\Shop\Models\ProductPricing;
@@ -20,12 +20,7 @@ class CanPlaceItemsInShoppingCartTest extends TestCase
     {
         parent::setUp();
 
-        $user = new User;
-        $user->id = 1;
-        $user->name = 'Test';
-        $user->email = 'test@test.com';
-        $user->password = 'test';
-        $user->save();
+        $user = factory(User::class)->create();
 
         $product = factory(Product::class)->create();
         factory(ProductPricing::class)->create([

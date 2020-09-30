@@ -7,15 +7,15 @@ extend type Query @guard(with: ["sanctum"]) {
     filter: _ @whereConditions(columnsEnum: ProductCategoryColumns)
     orderBy: _ @orderBy(columnsEnum: ProductCategoryColumns)
   ): [ProductCategory]!
-  @can(
-    ability: "viewAny"
-    model: "MayIFit\\Extension\\Shop\\Models\\ProductCategory"
-  )
-  @paginate(type: "paginator")
+    @can(
+      ability: "viewAny"
+      model: "MayIFit\\Extension\\Shop\\Models\\ProductCategory"
+    )
+    @paginate(type: "paginator")
 
   viewProductCategory(id: ID! @eq): ProductCategory
-  @find
-  @can(ability: "view", find: "id")
+    @find
+    @can(ability: "view", find: "id")
 }
 
 extend type Mutation @guard(with: ["sanctum"]) {
@@ -26,15 +26,15 @@ extend type Mutation @guard(with: ["sanctum"]) {
   createProductCategory(
     input: CreateProductCategoryInput! @spread
   ): ProductCategory
-  @can(
-    ability: "create"
-    model: "MayIFit\\Extension\\Shop\\Models\\ProductCategory"
-  )
-  @create
+    @can(
+      ability: "create"
+      model: "MayIFit\\Extension\\Shop\\Models\\ProductCategory"
+    )
+    @create
 
   deleteProductCategory(id: ID! @rules(apply: ["required"])): ProductCategory
-  @can(ability: "delete", find: "id")
-  @delete
+    @can(ability: "delete", find: "id")
+    @delete
 }
 
 input ProductCategoryRelation {
@@ -61,7 +61,7 @@ input UpdateProductCategoryInput {
 }
 
 type ProductCategory
-@modelClass(class: "MayIFit\\Extension\\Shop\\Models\\ProductCategory") {
+  @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\ProductCategory") {
   id: ID!
   name: String!
   description: String
@@ -71,12 +71,12 @@ type ProductCategory
   document: Document @morphOne
   discounts: [ProductCategoryDiscount]! @hasMany
   getDiscountForDate(dateTime: DateTime!): ProductCategoryDiscount
-  @method(passordered: true)
+    @method(passordered: true)
 }
 
 "Subset of ProductCategory "
 type ProductCategorySelect
-@modelClass(class: "MayIFit\\Extension\\Shop\\Models\\ProductCategory") {
+  @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\ProductCategory") {
   id: ID!
   name: String!
   children: [ProductCategorySelect] @hasMany

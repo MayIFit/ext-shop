@@ -6,6 +6,7 @@ extend type Mutation @guard(with: ["sanctum"]) {
 
 input UpdateOrderProductPivotInput {
   id: ID!
+  declined: Boolean
   net_value: Float
   gross_value: Float
   quantity: Int
@@ -29,30 +30,37 @@ input ProductPivotRelationData {
 }
 
 extend type Product
-@modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Product") {
+  @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Product") {
   pivot: OrderProductPivot
 }
 
 extend type Order
-@modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
+  @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
   products: [Product!]! @belongsToMany
 }
 
+"Pivot data for Order <--> Product relation"
 type OrderProductPivot
-@modelClass(
-  class: "MayIFit\\Extension\\Shop\\Models\\Pivots\\OrderProductPivot"
-) {
+  @modelClass(
+    class: "MayIFit\\Extension\\Shop\\Models\\Pivots\\OrderProductPivot"
+  ) {
   id: ID!
   "Ordered quantity of a product"
   quantity: Int!
+  "Transferred quantity for shipping"
   quantity_transferred: Int
+  "The ProductPricing what was used to calculate the net and gross values"
   pricing: ProductPricing! @belongsTo
+  "The ProductDiscount what was used to calculate the net and gross values"
   discount: ProductDiscount @belongsTo
   net_value: Float!
   gross_value: Float!
+  "A flag used to determine which net and gross price was used for the net and gross values"
   is_wholesale: Boolean!
+  "Transferred for shipping at"
   shipped_at: DateTime
   declined: Boolean!
+  "A dynamic field what determines if a given Product in a given Order can be transferred to shipping or not"
   can_be_shipped: Boolean @method(name: "canBeShipped")
   created_at: DateTime
 }

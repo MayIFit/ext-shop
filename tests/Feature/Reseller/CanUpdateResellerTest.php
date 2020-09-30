@@ -6,8 +6,7 @@ use Laravel\Sanctum\Sanctum;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use MayIFit\Extension\Shop\Tests\TestCase;
-
-use App\Models\User;
+use MayIFit\Extension\Shop\Tests\User;
 
 class CanUpdateResellerTest extends TestCase
 {
@@ -24,7 +23,7 @@ class CanUpdateResellerTest extends TestCase
             mutation {
                 createReseller(input: {
                     user: {
-                        connect: ' . $user->id . '
+                        connect: {type: "user" id:' . $user->id . '}
                     }
                     phone_number: "0123456789"
                     email: "test@test.com"

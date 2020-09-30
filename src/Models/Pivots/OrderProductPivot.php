@@ -5,7 +5,7 @@ namespace MayIFit\Extension\Shop\Models\Pivots;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-use MayIFit\Core\Permission\Traits\HasUsers;
+use MayIFit\Core\Permission\Traits\HasCreators;
 
 use MayIFit\Extension\Shop\Models\ProductPricing;
 use MayIFit\Extension\Shop\Models\ProductDiscount;
@@ -20,7 +20,7 @@ use MayIFit\Extension\Shop\Traits\HasOrder;
  */
 class OrderProductPivot extends Pivot
 {
-    use HasUsers;
+    use HasCreators;
     use HasReseller;
     use HasProduct;
     use HasOrder;

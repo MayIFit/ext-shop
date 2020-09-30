@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Nuwave\Lighthouse\Schema\Context as GraphQLContext;
 use GraphQL\Type\Definition\ResolveInfo;
 
-use MayIFit\Core\Permission\Traits\HasUsers;
+use MayIFit\Core\Permission\Traits\HasCreators;
 use MayIFit\Core\Permission\Traits\HasDocuments;
 
 use MayIFit\Extension\Shop\Models\ProductPricing;
@@ -28,7 +28,7 @@ use MayIFit\Extension\Shop\Traits\HasReviews;
 class Product extends Model
 {
     use SoftDeletes;
-    use HasUsers;
+    use HasCreators;
     use HasOrders;
     use HasReviews;
     use HasDocuments;

@@ -18,9 +18,9 @@ input UpdateProductCategoryDiscountInput {
 }
 
 type ProductCategoryDiscount
-@modelClass(
-  class: "MayIFit\\Extension\\Shop\\Models\\ProductCategoryDiscount"
-) {
+  @modelClass(
+    class: "MayIFit\\Extension\\Shop\\Models\\ProductCategoryDiscount"
+  ) {
   id: ID!
   product: Product! @belongsTo
   discount_percentage: Float!

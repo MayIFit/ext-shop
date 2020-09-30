@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-use MayIFit\Core\Permission\Traits\HasUsers;
+use MayIFit\Core\Permission\Traits\HasCreators;
 use MayIFit\Extension\Shop\Traits\HasReseller;
 use MayIFit\Extension\Shop\Models\ProductCategory;
 
@@ -18,7 +18,7 @@ use MayIFit\Extension\Shop\Models\ProductCategory;
 class ProductCategoryDiscount extends Model
 {
     use SoftDeletes;
-    use HasUsers;
+    use HasCreators;
     use HasReseller;
 
     /**

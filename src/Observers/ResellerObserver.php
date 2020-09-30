@@ -14,6 +14,17 @@ use MayIFit\Extension\Shop\Models\Reseller;
 class ResellerObserver
 {
     /**
+     * Handle the Reseller "creating" event.
+     *
+     * @param  \MayIFit\Extension\Shop\Models\Reseller  $model
+     * @return void
+     */
+    public function creating(Reseller $model): void
+    {
+        $model->user()->associate(Auth::user());
+    }
+
+    /**
      * Handle the Reseller "created" event.
      *
      * @param  \MayIFit\Extension\Shop\Models\Reseller  $model

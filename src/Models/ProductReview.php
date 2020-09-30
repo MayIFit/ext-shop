@@ -5,7 +5,7 @@ namespace MayIFit\Extension\Shop\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-use MayIFit\Core\Permission\Traits\HasUsers;
+use MayIFit\Core\Permission\Traits\HasCreators;
 use MayIFit\Extension\Shop\Traits\HasProduct;
 
 /**
@@ -17,7 +17,7 @@ class ProductReview extends Model
 {
     use SoftDeletes;
     use HasProduct;
-    use HasUsers;
+    use HasCreators;
 
     /**
      * The attributes that are mass assignable.

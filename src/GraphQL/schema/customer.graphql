@@ -2,8 +2,11 @@ extend type Query @guard(with: ["sanctum"]) {
   listCustomer(
     filter: _ @whereConditions(columnsEnum: "CustomerWhereColumn")
   ): [Customer]!
-  @can(ability: "viewAny", model: "MayIFit\\Extension\\Shop\\Models\\Customer")
-  @paginate(type: "paginator")
+    @can(
+      ability: "viewAny"
+      model: "MayIFit\\Extension\\Shop\\Models\\Customer"
+    )
+    @paginate(type: "paginator")
 
   viewCustomer(id: ID @eq): Customer @can(ability: "view", find: "id") @find
 }
@@ -14,8 +17,8 @@ extend type Mutation {
 
 extend type Mutation @guard(with: ["sanctum"]) {
   updateCustomer(input: UpdateCustomerInput! @spread): Customer
-  @can(ability: "update", find: "id")
-  @update
+    @can(ability: "update", find: "id")
+    @update
 }
 
 input CustomerRelation {
@@ -67,6 +70,7 @@ input UpdateCustomerInput {
   user: UserRelation
 }
 
+"Holds the shipping and/or billing informations"
 type Customer @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Customer") {
   id: ID!
   title: String
@@ -112,7 +116,7 @@ extend input UpdateOrderInput {
 }
 
 extend type Order
-@modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
+  @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
   customer: Customer @belongsTo
   shippingAddress: Customer @belongsTo
   billingAddress: Customer @belongsTo

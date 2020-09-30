@@ -4,7 +4,6 @@ namespace MayIFit\Extension\Shop\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-use App\Models\User;
 use MayIFit\Extension\Shop\Models\Customer;
 
 /**
@@ -17,86 +16,86 @@ class CustomerPolicy
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can view any customers.
+     * Determine whether the can view any customers.
      *
-     * @param  \App\Models\User  $user
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
      * @return mixed
      */
-    public function viewAny(User $user)
+    public function viewAny($authModel)
     {
-        return $user->tokenCan('customer.list');
+        return $authModel->hasPermission('customer.list');
     }
 
     /**
-     * Determine whether the user can view the customer.
+     * Determine whether the can view the customer.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Customer  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\Customer  $authModel
      * @return mixed
      */
-    public function view(User $user, Customer $model)
+    public function view($authModel, Customer $customer)
     {
-        return $user->tokenCan('customer.view') ||
-            $user->id === $model->user->id;
+        return $authModel->hasPermission('customer.view') ||
+            $authModel->id === $customer->user->id;
     }
 
     /**
-     * Determine whether the user can create customers.
+     * Determine whether the can create customers.
      *
-     * @param  \App\Models\User  $user
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
      * @return mixed
      */
-    public function create(User $user)
+    public function create($authModel)
     {
         return true;
     }
 
     /**
-     * Determine whether the user can update the customer.
+     * Determine whether the can update the customer.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Customer  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\Customer  $authModel
      * @return mixed
      */
-    public function update(User $user, Customer $model)
+    public function update($authModel, Customer $customer)
     {
-        return $user->tokenCan('customer.update') ||
-            $user->id === $model->user->id;
+        return $authModel->hasPermission('customer.update') ||
+            $authModel->id === $customer->user->id;
     }
 
     /**
-     * Determine whether the user can delete the customer.
+     * Determine whether the can delete the customer.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Customer  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\Customer  $authModel
      * @return mixed
      */
-    public function delete(User $user, Customer $model)
+    public function delete($authModel, Customer $customer)
     {
-        return $user->tokenCan('customer.delete') ||
-            $user->id === $model->user->id;
+        return $authModel->hasPermission('customer.delete') ||
+            $authModel->id === $customer->user->id;
     }
 
     /**
-     * Determine whether the user can restore the customer.
+     * Determine whether the can restore the customer.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Customer  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\Customer  $authModel
      * @return mixed
      */
-    public function restore(User $user, Customer $model)
+    public function restore($authModel, Customer $customer)
     {
         return false;
     }
 
     /**
-     * Determine whether the user can permanently delete the customer.
+     * Determine whether the can permanently delete the customer.
      *
-     * @param  \App\Models\User  $user
-     * @param  \MayIFit\Extension\Shop\Models\Customer  $model
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $authModel
+     * @param  \MayIFit\Extension\Shop\Models\Customer  $authModel
      * @return mixed
      */
-    public function forceDelete(User $user, Customer $model)
+    public function forceDelete($authModel, Customer $customer)
     {
         return false;
     }

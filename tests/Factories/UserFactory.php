@@ -1,11 +1,10 @@
-
 <?php
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use Faker\Generator as Faker;
 
-use App\Models\User;
+use MayIFit\Extension\Shop\Tests\User;
 
 $factory->define(User::class, function (Faker $faker) {
     return [

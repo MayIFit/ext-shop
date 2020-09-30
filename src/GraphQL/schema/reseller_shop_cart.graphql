@@ -1,19 +1,19 @@
 extend type Query @guard(with: ["sanctum"]) {
   allResellerShopCart: [ResellerShopCart]!
-  @field(
-    resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\AllResellerShopCart"
-  )
+    @field(
+      resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\AllResellerShopCart"
+    )
 }
 
 extend type Mutation {
   createResellerShopCart(
     input: CreateResellerShopCartInput! @spread
   ): ResellerShopCart
-  @can(
-    ability: "create"
-    model: "MayIFit\\Extension\\Shop\\Models\\ResellerShopCart"
-  )
-  @create
+    @can(
+      ability: "create"
+      model: "MayIFit\\Extension\\Shop\\Models\\ResellerShopCart"
+    )
+    @create
 }
 
 extend type Mutation @guard(with: ["sanctum"]) {
@@ -22,8 +22,8 @@ extend type Mutation @guard(with: ["sanctum"]) {
   ): ResellerShopCart @can(ability: "update", find: "id") @update
 
   deleteResellerShopCart(id: ID! @rules(apply: ["required"])): ResellerShopCart
-  @can(ability: "delete", find: "id")
-  @delete
+    @can(ability: "delete", find: "id")
+    @delete
 }
 
 input CreateResellerShopCartInput {
@@ -37,8 +37,9 @@ input UpdateResellerShopCartInput {
   quantity: Int
 }
 
+"This can only be used for registered Resellers, holds the Products that were added to the shopping cart."
 type ResellerShopCart
-@modelClass(class: "MayIFit\\Extension\\Shop\\Models\\ResellerShopCart") {
+  @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\ResellerShopCart") {
   id: ID!
   reseller: Reseller! @belongsTo
   product: Product! @belongsTo
@@ -46,6 +47,6 @@ type ResellerShopCart
 }
 
 extend type Reseller
-@modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Reseller") {
+  @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Reseller") {
   reseller_shop_cart: [ResellerShopCart!] @hasMany
 }

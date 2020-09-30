@@ -57,20 +57,25 @@ class ProductObserver
 
             if (intval($dirty['stock']) !== intval($original['stock'])) {
                 if (intval($dirty['stock']) > intval($original['stock'])) {
-                    $model->calculated_stock += $dirty['stock'] - $original['stock'];
+                    $model->calculated_stock += intval($dirty['stock']) - intval($original['stock']);
                 } else if (intval($dirty['stock']) < intval($original['stock']) && $source !== 'order_transferred') {
-                    $model->calculated_stock -= $original['stock'] - $dirty['stock'];
+                    if (intval($original['stock']) - intval($dirty['stock']) === 0) {
+                        $model->calculated_stock = 0;
+                    } else {
+                        $model->calculated_stock -= intval($original['stock']) - intval($dirty['stock']);
+                    }
                 }
                 DB::insert('insert into stock_movements(product_id, original_quantity, incoming_quantity, difference, calculated_stock, source) values (?, ?, ?, ?, ?, ?)', [
                     $model->id,
-                    $original['stock'],
-                    $dirty['stock'],
+                    intval($original['stock']),
+                    intval($dirty['stock']),
                     intval($dirty['stock']) - intval($original['stock']),
                     $model->calculated_stock,
                     $source
                 ]);
             }
         }
+        $model->updatedBy()->associate(Auth::user());
     }
 
     /**
@@ -81,7 +86,7 @@ class ProductObserver
      */
     public function updated(Product $model): void
     {
-        $model->updatedBy()->associate(Auth::user());
+        //
     }
 
     /**

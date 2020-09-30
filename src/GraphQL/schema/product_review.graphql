@@ -1,14 +1,14 @@
 extend type Mutation @guard(with: ["sanctum"]) {
   createProductReview(input: CreateProductReviewInput! @spread): ProductReview
-  @create
+    @create
 
   updateProductReview(input: UpdateProductReviewInput! @spread): ProductReview
-  @can(ability: "update", find: "id")
-  @update
+    @can(ability: "update", find: "id")
+    @update
 
   deleteProductReview(id: ID! @rules(apply: ["required"])): ProductReview
-  @can(ability: "delete", find: "id")
-  @delete
+    @can(ability: "delete", find: "id")
+    @delete
 }
 
 input ProductReviewRelation {
@@ -31,8 +31,9 @@ input UpdateProductReviewInput {
   rating: Int!
 }
 
+"A review for a given Product"
 type ProductReview
-@modelClass(class: "MayIFit\\Extension\\Shop\\Models\\ProductReview") {
+  @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\ProductReview") {
   id: ID!
   product: Product! @belongsTo
   title: String!
