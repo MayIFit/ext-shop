@@ -1,10 +1,11 @@
 <?php
 
-namespace MayIFit\Extension\Shop\Tests\Feature;
+namespace MayIFit\Extension\Shop\Tests\Feature\Api;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use MayIFit\Extension\Shop\Tests\TestCase;
+use MayIFit\Extension\Shop\Models\Product;
 
 class CanUpdateProductTest extends TestCase
 {
@@ -14,30 +15,12 @@ class CanUpdateProductTest extends TestCase
     {
         parent::setUp();
 
-        $this->graphQL('
-            mutation {
-                createProduct(input: {
-                    catalog_id: "20001"
-                    name: "Test"
-                    refurbished: false
-                    varranty: "1 year"
-                    orderable: true
-                }) {
-                    catalog_id
-                }
-            }
-        ')->assertJSON([
-            'data' => [
-                'createProduct' => [
-                    'catalog_id' => 20001
-                ]
-            ]
-        ]);
+        $product = factory(Product::class)->create();
 
         $this->graphQL('
             mutation {
                 updateProduct(input: {
-                    id: 1
+                    id: ' . $product->id . '
                     catalog_id: "22222"
                 }) {
                     catalog_id

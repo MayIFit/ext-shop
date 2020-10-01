@@ -1,12 +1,13 @@
 <?php
 
-namespace MayIFit\Extension\Shop\Tests\Feature;
+namespace MayIFit\Extension\Shop\Tests\Feature\Api;
 
 use Laravel\Sanctum\Sanctum;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use MayIFit\Extension\Shop\Tests\TestCase;
 use MayIFit\Extension\Shop\Tests\User;
+use MayIFit\Extension\Shop\Models\Reseller;
 
 class CanUpdateResellerTest extends TestCase
 {
@@ -19,30 +20,12 @@ class CanUpdateResellerTest extends TestCase
         $user = factory(User::class)->create();
         Sanctum::actingAs($user, ['*']);
 
-        $this->graphQL('
-            mutation {
-                createReseller(input: {
-                    user: {
-                        connect: {type: "user" id:' . $user->id . '}
-                    }
-                    phone_number: "0123456789"
-                    email: "test@test.com"
-                    company_name: "Best company inc."
-                    vat_id: "0123456789"
-                    contact_person: "John Doe"
-                }) {
-                    vat_id
-                    user {
-                        id
-                    }
-                }
-            }
-        ');
+        $reseller = factory(Reseller::class)->create();
 
         $this->graphQL('
             mutation {
                 updateReseller(input: {
-                    id: 1
+                    id: ' . $reseller->id . '
                     phone_number: "9876543210"
                     email: "test@test.com"
                     company_name: "Best company inc."

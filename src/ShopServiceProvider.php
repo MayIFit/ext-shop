@@ -37,7 +37,7 @@ use MayIFit\Extension\Shop\Observers\ProductDiscountObserver;
 use MayIFit\Extension\Shop\Observers\ProductCategoryObserver;
 use MayIFit\Extension\Shop\Observers\ProductCategoryDiscountObserver;
 use MayIFit\Extension\Shop\Observers\OrderObserver;
-use MayIFit\Extension\Shop\Observers\OrderProductPivotObserver;
+use MayIFit\Extension\Shop\Observers\Pivot\OrderProductPivotObserver;
 use MayIFit\Extension\Shop\Observers\ResellerObserver;
 use MayIFit\Extension\Shop\Observers\ResellerGroupObserver;
 

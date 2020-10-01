@@ -1,6 +1,6 @@
 <?php
 
-namespace MayIFit\Extension\Shop\Observers;
+namespace MayIFit\Extension\Shop\Observers\Pivot;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -40,7 +40,9 @@ class OrderProductPivotObserver
         }
         if ($order->mergable_to) {
             $this->isMergedOrder = true;
-            $order = Order::find($order->mergable_to);
+            $merge = $order->mergable_to;
+            unset($order);
+            $order = $merge;
             $model->pivotParent = $order;
         }
 
@@ -48,19 +50,6 @@ class OrderProductPivotObserver
         $model->quantity_transferred = 0;
 
         $reseller = $order->reseller;
-        if (!strpos($order->order_id_prefix, 'EXT')) {
-            $product->calculated_stock -= $model->quantity;
-            $product->save();
-            DB::insert('insert into stock_movements(product_id, original_quantity, incoming_quantity, difference, calculated_stock, order_id, source) values (?, ?, ?, ?, ?, ?, ?)', [
-                $product->id,
-                $product->stock,
-                $product->stock,
-                0,
-                $product->calculated_stock,
-                $order->id,
-                'order_placed'
-            ]);
-        }
 
         $now = Carbon::now();
 
@@ -120,11 +109,19 @@ class OrderProductPivotObserver
             ]);
             if ($prevOrderedProduct) {
                 $prevOrderedProduct->quantity += $model->quantity;
-                $prevOrderedProduct->save();
+                $prevOrderedProduct->update();
                 unset($model);
                 return false;
             } else {
+                $product->calculated_stock -= $model->quantity;
+                $product->update();
                 $model->order_id = $order->id;
+                return $model;
+            }
+        } else {
+            if (!strpos($order->order_id_prefix, 'EXT')) {
+                $product->calculated_stock -= $model->quantity;
+                $product->update();
             }
         }
     }
@@ -159,15 +156,15 @@ class OrderProductPivotObserver
         }
 
         if (isset($dirty['quantity'])) {
-            if ($orig['quantity'] >= $dirty['quantity'] && $dirty['quantity'] > 0) {
-                $model->product->calculated_stock += abs($orig['quantity'] - $dirty['quantity']);
-                $model->order->quantity -= abs($orig['quantity'] - $dirty['quantity']);
-            } else if ($dirty['quantity'] > 0) {
-                $model->product->calculated_stock -= abs($orig['quantity'] - $dirty['quantity']);
-                $model->order->quantity += abs($orig['quantity'] - $dirty['quantity']);
+            if (intval($orig['quantity']) >= intval($dirty['quantity']) && intval($dirty['quantity']) > 0) {
+                $model->product->calculated_stock += abs(intval($orig['quantity']) - intval($dirty['quantity']));
+                $model->order->quantity -= abs(intval($orig['quantity']) - intval($dirty['quantity']));
+            } else if (intval($dirty['quantity']) > 0) {
+                $model->product->calculated_stock -= abs(intval($orig['quantity']) - intval($dirty['quantity']));
+                $model->order->quantity += abs(intval($orig['quantity']) - intval($dirty['quantity']));
             } else {
-                $model->product->calculated_stock += $orig['quantity'];
-                $model->order->quantity -= $orig['quantity'];
+                $model->product->calculated_stock += intval($orig['quantity']);
+                $model->order->quantity -= intval($orig['quantity']);
             }
             if (!isset($dirty['shipped_at'])) {
                 $model->order->update();
@@ -201,7 +198,7 @@ class OrderProductPivotObserver
             $model->product->save();
         }
 
-        if (isset($dirty['quantity']) && $dirty['quantity'] <= 0) {
+        if (isset($dirty['quantity']) && intval($dirty['quantity']) <= 0) {
             $model->delete();
         }
 

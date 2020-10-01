@@ -70,7 +70,7 @@ class OrderProductPivot extends Pivot
         return $this->belongsTo(ProductDiscount::class, 'product_discount_id')->withTrashed();
     }
 
-    public function hasPreviousUnShippedOrders()
+    public function previousUnShippedOrders()
     {
         return OrderProductPivot::where([
             ['product_id', '=', $this->product_id],
@@ -86,17 +86,14 @@ class OrderProductPivot extends Pivot
         if ($this->quantity == $this->quantity_transferred || $this->quantity <= 0 || $this->shipped_at || $this->order->sent_to_courier_service || $this->declined) {
             return false;
         }
-        $prevShipments = $this->hasPreviousUnShippedOrders();
 
-        $previouslyOrderedQuantity = 0;
+        $sumQuantity = 0;
 
-        if (!$prevShipments->isEmpty()) {
-            $prevShipments->map(function ($orderProduct) use (&$previouslyOrderedQuantity) {
-                $previouslyOrderedQuantity += $orderProduct->quantity;
-            });
-        }
+        $this->previousUnShippedOrders()->map(function ($pivot) use (&$sumQuantity) {
+            $sumQuantity += $pivot->quantity;
+        });
 
-        if ($this->product->stock - $previouslyOrderedQuantity <= 0) {
+        if ($this->product->stock - $sumQuantity <= 0) {
             return false;
         }
 

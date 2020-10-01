@@ -27,7 +27,7 @@ trait HasCustomers
      */
     public function billingAddress(): BelongsTo
     {
-        return $this->belongsTo(Customer::class, 'billing_address_id', 'id');
+        return $this->belongsTo(Customer::class);
     }
 
     /**
@@ -35,6 +35,6 @@ trait HasCustomers
      */
     public function shippingAddress(): BelongsTo
     {
-        return $this->belongsTo(Customer::class, 'shipping_address_id', 'id');
+        return $this->belongsTo(Customer::class);
     }
 }

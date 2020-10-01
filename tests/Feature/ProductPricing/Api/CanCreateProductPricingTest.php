@@ -1,13 +1,13 @@
 <?php
 
-namespace MayIFit\Extension\Shop\Tests\Feature;
+namespace MayIFit\Extension\Shop\Tests\Feature\Api;
 
 use Laravel\Sanctum\Sanctum;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use MayIFit\Extension\Shop\Tests\TestCase;
-
 use MayIFit\Extension\Shop\Tests\User;
+use MayIFit\Extension\Shop\Models\Product;
 
 class CanCreateProductPricingTest extends TestCase
 {
@@ -20,25 +20,13 @@ class CanCreateProductPricingTest extends TestCase
         $user = factory(User::class)->create();
         Sanctum::actingAs($user, ['*']);
 
-        $product = $this->graphQL('
-            mutation {
-                createProduct(input: {
-                    catalog_id: "20001"
-                    name: "Test"
-                    refurbished: false
-                    varranty: "1 year"
-                    orderable: true
-                }) {
-                    id
-                }
-            }
-        ');
+        $product = factory(Product::class)->create();
 
         $this->graphQL('
             mutation {
                 createProductPricing(input: {
                     product: {
-                        connect: ' . $product->original['data']['createProduct']['id'] . '
+                        connect: ' . $product->id . '
                     }
                     base_price: 1000
                     vat: 27.00

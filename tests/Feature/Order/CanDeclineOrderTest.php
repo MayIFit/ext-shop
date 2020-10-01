@@ -32,7 +32,7 @@ class CanDeclineOrderTest extends TestCase
             }
         });
 
-        $this->assertEquals(true, $productsAreDeclined);
+        $this->assertTrue($productsAreDeclined);
     }
 
     public function test_order_decline_restocks_product(): void
@@ -50,12 +50,12 @@ class CanDeclineOrderTest extends TestCase
         $productsAreRestocked = true;
 
         $order->products->map(function ($product) use (&$productsAreRestocked) {
-            if (intval($product->calculated_stock) <= intval($product->pivot->quantity)) {
+            if (intval($product->calculated_stock) < intval($product->pivot->quantity)) {
                 $productsAreRestocked = false;
             }
         });
 
-        $this->assertEquals(true, $productsAreRestocked);
+        $this->assertTrue($productsAreRestocked);
     }
 
     public function test_deleting_order_declines_order(): void
@@ -77,6 +77,6 @@ class CanDeclineOrderTest extends TestCase
             }
         });
 
-        $this->assertEquals(true, $productsAreDeclined);
+        $this->assertTrue($productsAreDeclined);
     }
 }

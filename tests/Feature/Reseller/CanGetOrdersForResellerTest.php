@@ -30,11 +30,8 @@ class CanGetOrdersForResellerTest extends TestCase
             'user_id' => $user->id
         ]);
 
-        $address = factory(Customer::class)->create();
 
-        $orders = factory(Order::class, 5)->create([
-            'shipping_address_id' => $address->id,
-            'billing_address_id' => $address->id,
+        $orders = factory(Order::class, 5)->states('shippable')->create([
             'reseller_id' => $reseller->id
         ]);
 

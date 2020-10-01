@@ -39,7 +39,9 @@ class Order extends Model
         'paid',
         'closed',
         'sent_to_courier_service',
-        'invoice_number'
+        'invoice_number',
+        'shipping_address_id',
+        'billing_address_id'
     ];
 
     /**
@@ -119,6 +121,35 @@ class Order extends Model
         $this->save();
     }
 
+    public function getPreviousUnShippedOrder(): ?Order
+    {
+        if ($this->order_id_prefix === 'test') {
+            $query = Order::where([
+                'shipping_address_id' => $this->shipping_address_id,
+                'reseller_id' => $this->reseller_id,
+                'order_status_id' => OrderStatus::where('name', '=', 'placed')->first()->id,
+                ['order_id_prefix', 'not like', '%EXT%'],
+
+            ])->when($this->id, function ($query) {
+                return $query->where('id', '!=', $this->id);
+            })
+                ->whereNull('sent_to_courier_service');
+            dump($query->toSql(), $query->getBindings());
+            dump(Order::first()->attributesToArray());
+        }
+
+        return Order::where([
+            'shipping_address_id' => $this->shipping_address_id,
+            'reseller_id' => $this->reseller_id,
+            'order_status_id' => OrderStatus::where('name', '=', 'placed')->first()->id,
+            ['order_id_prefix', 'not like', '%EXT%'],
+        ])->when($this->id, function ($query) {
+            return $query->where('id', '!=', $this->id);
+        })
+            ->whereNull('sent_to_courier_service')
+            ->first();
+    }
+
     public function getOrderCanBeShippedAttribute(): bool
     {
         if ($this->sent_to_courier_service) {
@@ -127,13 +158,16 @@ class Order extends Model
 
         $canBeShipped = $this->products->filter(function ($product) {
             return $product->pivot->canBeShipped();
-        });
-        $this->can_be_shipped = $canBeShipped->count() > 0;
+        })->count();
+
+        $this->can_be_shipped = $canBeShipped > 0;
         $dirty = $this->getDirty();
+
         if (isset($dirty['can_be_shipped'])) {
             $this->update();
         }
-        return $canBeShipped->count() > 0;
+
+        return $canBeShipped > 0;
     }
 
     public function getFullOrderCanBeShippedAttribute(): bool
