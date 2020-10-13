@@ -28,16 +28,21 @@ class AddMorphColumns extends Migration
         foreach ($this->tableList as $t) {
             if (Schema::hasTable($t)) {
                 Schema::table($t, function (Blueprint $table) use ($t) {
+                    $sm = Schema::getConnection()->getDoctrineSchemaManager();
+                    $indexes = $sm->listTableIndexes($t);
+
                     if (!Schema::hasColumns($t, ['created_by_type', 'updated_by_type']) && Schema::hasColumns($t, ['created_by', 'updated_by'])) {
-                        $table->dropForeign(['created_by', 'updated_by']);
+                        if (array_key_exists($t . '_created_by_foreign', $indexes)) {
+                            $table->dropForeign('created_by');
+                        }
+
+                        if (array_key_exists($t . '_updated_by_foreign', $indexes)) {
+                            $table->dropForeign('updated_by');
+                        }
+
                         $table->dropColumn(['created_by', 'updated_by']);
                         $table->morphs('created_by');
                         $table->nullableMorphs('updated_by');
-                    }
-                    if (!Schema::hasColumns($t, ['user_type']) && Schema::hasColumns($t, ['user_id'])) {
-                        $table->dropForeign(['user_id']);
-                        $table->dropColumn(['user_id']);
-                        $table->nullableMorphs('user');
                     }
                 });
             }
@@ -58,11 +63,6 @@ class AddMorphColumns extends Migration
                         $table->dropMorphs(['created_by', 'updated_by']);
                         $table->foreignId('created_by')->nullable()->references('id')->on('users');
                         $table->foreignId('updated_by')->nullable()->references('id')->on('users');
-                    }
-
-                    if (Schema::hasColumns($t, ['user_type'])) {
-                        $table->dropMorphs('user');
-                        $table->foreignId('user_id')->nullable()->references('id')->on('users');
                     }
                 });
             }
