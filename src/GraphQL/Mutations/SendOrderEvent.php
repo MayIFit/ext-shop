@@ -28,6 +28,6 @@ class SendOrderEvent
             return false;
         }
         $order = Order::find($args['id']);
-        dispatch(new SendOrderDataToWMS($order));
+        dispatch(new SendOrderDataToWMS($order))->onQueue('order_transfer');
     }
 }

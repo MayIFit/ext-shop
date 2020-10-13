@@ -29,9 +29,7 @@ class AddIsDiscountedToProductPricingsTable extends Migration
     {
         if (Schema::hasTable('product_pricings')) {
             Schema::table('product_pricings', function (Blueprint $table) {
-                $table->dropColumn([
-                    'is_discounted',
-                ]);
+                $table->dropColumn(['is_discounted']);
             });
         }
     }

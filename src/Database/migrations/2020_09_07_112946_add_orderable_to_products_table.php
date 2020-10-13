@@ -29,9 +29,7 @@ class AddOrderableToProductsTable extends Migration
     {
         if (Schema::hasTable('products')) {
             Schema::table('products', function (Blueprint $table) {
-                $table->dropColumn([
-                    'orderable',
-                ]);
+                $table->dropColumn(['orderable']);
             });
         }
     }

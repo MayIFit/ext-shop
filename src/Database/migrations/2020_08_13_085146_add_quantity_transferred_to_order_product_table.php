@@ -29,9 +29,7 @@ class AddQuantityTransferredToOrderProductTable extends Migration
     {
         if (Schema::hasTable('order_product')) {
             Schema::table('order_product', function (Blueprint $table) {
-                $table->dropColumn([
-                    'quantity_transferred',
-                ]);
+                $table->dropColumn(['quantity_transferred']);
             });
         }
     }
