@@ -33,11 +33,11 @@ class AddMorphColumns extends Migration
 
                     if (!Schema::hasColumns($t, ['created_by_type', 'updated_by_type']) && Schema::hasColumns($t, ['created_by', 'updated_by'])) {
                         if (array_key_exists($t . '_created_by_foreign', $indexes)) {
-                            $table->dropForeign('created_by');
+                            $table->dropForeign($t . '_created_by_foreign');
                         }
 
                         if (array_key_exists($t . '_updated_by_foreign', $indexes)) {
-                            $table->dropForeign('updated_by');
+                            $table->dropForeign($t . '_updated_by_foreign');
                         }
 
                         $table->dropColumn(['created_by', 'updated_by']);
