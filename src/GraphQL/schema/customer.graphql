@@ -94,11 +94,11 @@ type Customer @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Customer") {
 
 extend type Customer @guard(with: ["sanctum"]) {
   orders: [Order]! @hasMany
-  user: User @belongsTo
+  user: User @morphTo
 }
 
 extend type User @guard(with: ["sanctum"]) {
-  customers: [Customer] @hasMany
+  customers: [Customer] @morphMany
 }
 
 extend input UpdateUserInput {

@@ -59,7 +59,6 @@ class ExportTransferredOrders implements ShouldQueue
 
         $export = OrderProductPivot::whereBetween('shipped_at', [$this->dateFrom, $this->dateTo])
             ->with('order', 'order.shippingAddress', 'product')
-            ->withTrashed()
             ->get();
 
         Log::info('Generating report...');
