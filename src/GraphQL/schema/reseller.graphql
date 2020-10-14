@@ -69,7 +69,7 @@ input UpdateResellerInput {
 "Reller information."
 type Reseller @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Reseller") {
   id: ID!
-  user: User @morphOne
+  user: User @morphTo
   phone_number: String!
   email: String!
   company_name: String!
@@ -94,7 +94,7 @@ type ResellerSelect
 }
 
 extend type User @guard(with: ["sanctum"]) {
-  reseller: Reseller @hasOne
+  reseller: Reseller @morphOne
   is_reseller: Boolean
 }
 
@@ -128,3 +128,5 @@ enum ResellerColumns {
   ZIP_CODE @enum(value: "zip_code")
   SUPPLIER_CUSTOMER_CODE @enum(value: "supplier_customer_code")
 }
+
+union User = User

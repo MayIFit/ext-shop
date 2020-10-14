@@ -16,6 +16,7 @@ class AddMorphColumns extends Migration
         'reseller_groups',
         'resellers',
         'customers',
+        'order_product'
     ];
 
     /**
@@ -34,15 +35,15 @@ class AddMorphColumns extends Migration
                     if (!Schema::hasColumns($t, ['created_by_type', 'updated_by_type']) && Schema::hasColumns($t, ['created_by', 'updated_by'])) {
                         if (array_key_exists($t . '_created_by_foreign', $indexes)) {
                             $table->dropForeign($t . '_created_by_foreign');
+                            $table->dropColumn('created_by');
+                            $table->morphs('created_by');
                         }
 
                         if (array_key_exists($t . '_updated_by_foreign', $indexes)) {
                             $table->dropForeign($t . '_updated_by_foreign');
+                            $table->dropColumn('updated_by');
+                            $table->nullableMorphs('updated_by');
                         }
-
-                        $table->dropColumn(['created_by', 'updated_by']);
-                        $table->morphs('created_by');
-                        $table->nullableMorphs('updated_by');
                     }
                 });
             }
