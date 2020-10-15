@@ -76,9 +76,10 @@ class OrderProductPivot extends Pivot
             ['product_id', '=', $this->product_id],
             ['order_id', '!=', $this->order_id],
             ['declined', false]
-        ])->where('created_at', '<', $this->created_at)
-            ->whereNull('shipped_at')
-            ->get();
+        ])->whereHas('order', function ($query) {
+            return $query->whereNull('sent_to_courier_service');
+        })->where('created_at', '<', $this->created_at)
+            ->whereNull('shipped_at')->get();
     }
 
     public function canBeShipped(): bool
