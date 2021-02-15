@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Nuwave\Lighthouse\Schema\Context as GraphQLContext;
 use GraphQL\Type\Definition\ResolveInfo;
@@ -73,14 +74,9 @@ class Product extends Model
         return json_encode($value, JSON_UNESCAPED_UNICODE);
     }
 
-    public function parentProduct(): BelongsTo
+    public function accessories(): BelongsToMany
     {
-        return $this->belongsTo(Product::class, 'parent_id', 'id');
-    }
-
-    public function accessories(): HasMany
-    {
-        return $this->hasMany(Product::class, 'parent_id', 'id');
+        return $this->belongsToMany(Product::class, 'product_accessory', 'product_id', 'accesory_id');
     }
 
     public function category(): BelongsTo

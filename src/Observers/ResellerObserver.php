@@ -21,7 +21,7 @@ class ResellerObserver
      */
     public function creating(Reseller $model): void
     {
-        $model->user()->associate(Auth::user());
+        $model->supplier_customer_code = $model->vat_id;
     }
 
     /**

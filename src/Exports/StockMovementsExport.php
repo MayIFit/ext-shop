@@ -4,14 +4,18 @@ namespace MayIFit\Extension\Shop\Exports;
 
 use Illuminate\Database\Eloquent\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithStyles;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+
 
 /**
  * Class StockMovementsExport
  *
  * @package MayIFit\Extension\Shop
  */
-class StockMovementsExport implements FromCollection, WithHeadings
+class StockMovementsExport implements FromCollection, WithHeadings, ShouldAutoSize, WithStyles
 {
     protected $stockeMovements;
 
@@ -37,5 +41,10 @@ class StockMovementsExport implements FromCollection, WithHeadings
             trans('order.order_id_prefix'),
             trans('global.created_at'),
         ];
+    }
+
+    public function styles(Worksheet $sheet)
+    {
+        $sheet->freezePane('A2');
     }
 }

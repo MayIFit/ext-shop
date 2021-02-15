@@ -62,5 +62,6 @@ type OrderProductPivot
   declined: Boolean!
   "A dynamic field what determines if a given Product in a given Order can be transferred to shipping or not"
   can_be_shipped: Boolean @method(name: "canBeShipped")
+  amount_can_be_shipped: Int! @method(name: "getAmountCanBeShipped")
   created_at: DateTime
 }

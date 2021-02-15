@@ -10,6 +10,14 @@ extend type Query @guard(with: ["sanctum"]) {
     @can(ability: "viewAny", model: "MayIFit\\Extension\\Shop\\Models\\Order")
     @paginate(type: "paginator")
 
+  listTransferrableOrder(
+    orderBy: _ @orderBy(columnsEnum: OrderColumns)
+  ): [Order]!
+    @field(
+      resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\GetTransferrableOrders"
+    )
+    @can(ability: "viewAny", model: "MayIFit\\Extension\\Shop\\Models\\Order")
+
   viewOrder(id: ID! @eq): Order! @can(ability: "view", find: "id") @find
 
   getResellerLastOpenOrder: Order

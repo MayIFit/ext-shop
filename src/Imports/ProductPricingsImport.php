@@ -85,12 +85,12 @@ class ProductPricingsImport implements ToCollection, WithHeadingRow
                         'product_id' => $product->id,
                         'currency' => $parse['currency'] ?? 'HUF',
                         'available_from' => $parse['available_from'] ?? Carbon::now(),
-                        'base_price' => $parse['base_price'] ?? 0.0,
+                        'base_price' => ($parse['base_gross_price'] ?? 0.0) / (1 + ($this->defaultVatAmount->setting_value / 100)),
                         'wholesale_price' => $parse['wholesale_price'] ?? 0.0,
                         'vat' => $parse['vat'] ?? $this->defaultVatAmount->setting_value
                     ]);
                 } else {
-                    $this->errorCatalogs .= '\n' . $parse['catalog_id'];
+                    $this->errorCatalogs .= '<br>' . $parse['catalog_id'];
                 }
             }
         }

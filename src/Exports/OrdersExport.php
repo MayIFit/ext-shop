@@ -12,12 +12,15 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 
 /**
- * Class OrdersTransferredExtendedExport
+ * Class OrdersExport
  *
  * @package MayIFit\Extension\Shop
  */
-class OrdersTransferredExtendedExport implements FromCollection, WithMapping, WithHeadings, ShouldAutoSize, WithStyles
+class OrdersExport implements FromCollection, WithMapping, WithHeadings, ShouldAutoSize, WithStyles
 {
+    /**
+     * @var @mixed $orderProductPivots
+     */
     protected $orderProductPivots;
 
     public function __construct(Collection $orderProductPivots)
@@ -30,9 +33,6 @@ class OrdersTransferredExtendedExport implements FromCollection, WithMapping, Wi
         return $this->orderProductPivots;
     }
 
-    /**
-     * @var @mixed $orderProductPivot
-     */
     public function map($orderProductPivot): array
     {
         if (!$orderProductPivot->order) {

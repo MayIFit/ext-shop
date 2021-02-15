@@ -5,6 +5,7 @@ namespace MayIFit\Extension\Shop\Imports;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use PhpOffice\PhpSpreadsheet\Shared\Date as ExcelDate;
 
 use MayIFit\Extension\Shop\Models\Product;
 use MayIFit\Extension\Shop\Models\ProductCategory;
@@ -77,7 +78,17 @@ class ProductsImport implements ToCollection, WithHeadingRow
                         }
                         $parse[$key] = $attributes ?? json_decode('{"":""}');
                     } else {
-                        $parse[$key] = trim($row[$value]);
+                        $raw = trim($row[$value]);
+
+                        $isBool = strtolower($raw) === 'igen' || strtolower($raw) === 'nem';
+
+                        if ($isBool) {
+                            $parse[$key] = strtolower($raw) === 'igen' ? true : false;
+                        } else if ($key === 'out_of_stock_text' && is_numeric($raw)) {
+                            $parse[$key] = ExcelDate::excelToDateTimeObject($raw)->format('Y.m.d');
+                        } else {
+                            $parse[$key] = $raw;
+                        }
                     }
                 }
                 if (isset($previousCategoryID)) {

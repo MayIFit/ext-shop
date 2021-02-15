@@ -85,7 +85,7 @@ class SyncOrderStatusFromWMS implements ShouldQueue
 
         $docDetails = Order::whereIn(
             'order_status_id',
-            [3, 6]
+            [3, 6, 4]
         )->whereNotNull('sent_to_courier_service')
             ->pluck('order_id_prefix')->map(function ($orderIdPrefix) {
                 return $orderIdPrefix;

@@ -34,17 +34,6 @@ class OrderObserver
 
         $model->token = Str::random(20);
         $model->orderStatus()->associate(OrderStatus::where('name', '=', 'placed')->first());
-        if (strrpos($model->order_id_prefix, 'EXT', -3)) {
-            return;
-        }
-
-        $shippableOrder = $model->getPreviousUnShippedOrder();
-        if ($shippableOrder) {
-            $model->mergable_to = $shippableOrder;
-            if ($model->order_id_prefix === 'test') {
-            }
-            return false;
-        }
     }
 
     /**
@@ -87,7 +76,9 @@ class OrderObserver
      */
     public function saved(Order $model): void
     {
-        //
+        if ($model->reseller) {
+            $model->reseller->resellerShopCart()->delete();
+        }
     }
 
     /**
@@ -107,8 +98,10 @@ class OrderObserver
         }
 
         if (isset($dirty['sent_to_courier_service']) && isset($dirty['order_status_id']) && $dirty['order_status_id'] == 6) {
-            Log::info('Cloning order: ' . $model->order_id_prefix);
-            $this->cloneOrder($model);
+            if ($model->quantity > $model->quantity_transferred) {
+                Log::info('Cloning order: ' . $model->order_id_prefix);
+                $this->cloneOrder($model);
+            }
         }
 
         if (isset($dirty['order_status_id']) && $dirty['order_status_id'] == 5) {
@@ -188,7 +181,6 @@ class OrderObserver
         $clone->order_id_prefix .= '-EXT';
         $clone->quantity_transferred = 0;
         $clone->items_transferred = 0;
-        $clone->items_ordered -= $model->items_transferred;
         $clone->quantity -= $model->quantity_transferred;
         $clone->net_value = 0;
         $clone->gross_value = 0;

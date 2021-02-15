@@ -22,6 +22,7 @@ class GetTransferredOrdersExtended
         $export = new OrdersTransferredExtendedExport(
             OrderProductPivot::whereBetween('created_at', [$args['datetime_from'], $args['datetime_to']])
                 ->with('order', 'order.shippingAddress', 'order.reseller', 'product')
+                ->whereNotNull('shipped_at')
                 ->orderBy('shipped_at')
                 ->get()
         );

@@ -94,10 +94,26 @@ class OrderProductPivot extends Pivot
             $sumQuantity += $pivot->quantity;
         });
 
+
         if ($this->product->stock - $sumQuantity <= 0) {
             return false;
         }
 
         return $this->product->stock > 0;
+    }
+
+
+    public function getAmountCanBeShipped(): int
+    {
+        $sumQuantity = 0;
+
+        $this->previousUnShippedOrders()->map(function ($pivot) use (&$sumQuantity) {
+            $sumQuantity += $pivot->quantity;
+        });
+
+        $diff = $this->product->stock - $sumQuantity;
+        $shippable = $diff >= $this->quantity ? $this->quantity : $diff;
+
+        return  $shippable > 0 ? $shippable : 0;
     }
 }

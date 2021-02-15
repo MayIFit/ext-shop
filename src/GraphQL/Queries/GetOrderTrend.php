@@ -7,8 +7,6 @@ use Illuminate\Support\Facades\DB;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-
-
 /**
  * Class GetOrderTrend
  *

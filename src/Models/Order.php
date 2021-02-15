@@ -160,13 +160,6 @@ class Order extends Model
             return $product->pivot->canBeShipped();
         })->count();
 
-        $this->can_be_shipped = $canBeShipped > 0;
-        $dirty = $this->getDirty();
-
-        if (isset($dirty['can_be_shipped'])) {
-            $this->update();
-        }
-
         return $canBeShipped > 0;
     }
 

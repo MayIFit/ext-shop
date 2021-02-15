@@ -1,4 +1,10 @@
 extend type Query @guard(with: ["sanctum"]) {
+  getStocks: String
+    @field(resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\GetStocks")
+
+  getPricings: String
+    @field(resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\GetPricings")
+
   getStockMovements(range: DateTimeRange @spread): String
     @field(
       resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\GetStockMovements"
@@ -12,5 +18,20 @@ extend type Query @guard(with: ["sanctum"]) {
   getTransferredOrdersExtended(range: DateTimeRange @spread): String
     @field(
       resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\GetTransferredOrdersExtended"
+    )
+
+  getStocksWithDetails: String
+    @field(
+      resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\GetStocksWithDetails"
+    )
+
+  getWaitingOrdersForReseller(reseller_id: Int!): String
+    @field(
+      resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\GetOrdersForReseller@waitingOrders"
+    )
+
+  getOrdersForReseller(range: DateTimeRange, reseller_id: Int! @spread): String
+    @field(
+      resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\GetOrdersForReseller"
     )
 }
