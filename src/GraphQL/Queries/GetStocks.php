@@ -19,7 +19,7 @@ class GetStocks
 {
     public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $export = new StockExport(Product::all());
+        $export = new StockExport(Product::orderByRaw('catalog_id * 1 asc, catalog_id asc')->get());
 
         $fileName = 'stocks_' . date("Y-m-d") . '.xlsx';
 

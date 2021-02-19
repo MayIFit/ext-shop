@@ -19,7 +19,7 @@ class GetStocksWithDetails
 {
     public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $export = new FullStockExport(Product::with(['category', 'images'])->get());
+        $export = new FullStockExport(Product::with(['category', 'images'])->orderByRaw('catalog_id * 1 asc, catalog_id asc')->get());
 
         $fileName = 'stocks_' . date("Y-m-d") . '.xlsx';
 

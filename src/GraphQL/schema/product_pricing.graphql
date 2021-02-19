@@ -1,88 +1,177 @@
-extend type Query @guard(with: ["sanctum"]) {
-  listProductPricing(
+extend type Query {
+  listProductWithPricing(
+    currency: String
+    dateTime: DateTime
+    filter: _ @whereConditions(columnsEnum: ProductColumns)
     reseller_id: ID
-    hasProduct: _ @whereHasConditions(columnsEnum: ProductPricingColumns)
-  ): [ProductPricing]!
-    @can(
-      ability: "viewAny"
-      model: "MayIFit\\Extension\\Shop\\Models\\ProductPricing"
-    )
+    category_id: ID @eq
+  ): [Product]! @paginate(type: "paginator")
+
+  viewProductWithPricing(
+    catalog_id: String! @eq
+    dateTime: DateTime!
+    currency: String!
+    reseller_id: ID
+  ): Product @find
+
+  cartProducts(
+    catalog_id: [String!] @in(key: "catalog_id")
+    reseller_id: ID
+    dateTime: DateTime!
+  ): [Product!]! @all
+}
+
+extend type Query @guard(with: ["sanctum"]) {
+  allProduct: [ProductSelect]! @all
+
+  listProduct(
+    filter: _ @whereConditions(columnsEnum: ProductColumns)
+    trashed: Trashed @trashed
+    orderBy: _ @orderBy(columnsEnum: ProductColumns)
+  ): [Product]!
+    @can(ability: "viewAny", model: "MayIFit\\Extension\\Shop\\Models\\Product")
     @paginate(type: "paginator")
 
-  viewProductPricing(id: ID! @eq): ProductPricing
-    @find
-    @can(ability: "view", find: "id")
+  viewProduct(id: ID! @eq): Product @find @can(ability: "view", find: "id")
 }
 
 extend type Mutation @guard(with: ["sanctum"]) {
-  updateProductPricing(
-    input: UpdateProductPricingInput! @spread
-  ): ProductPricing @can(ability: "update", find: "id") @update
+  updateProduct(input: UpdateProductInput! @spread): Product
+    @can(ability: "update", find: "id")
+    @update
 
-  createProductPricing(
-    input: CreateProductPricingInput! @spread
-  ): ProductPricing
-    @can(
-      ability: "create"
-      model: "MayIFit\\Extension\\Shop\\Models\\ProductPricing"
-    )
+  createProduct(input: CreateProductInput! @spread): Product
+    @can(ability: "create", model: "MayIFit\\Extension\\Shop\\Models\\Product")
     @create
 
-  deleteProductPricing(id: ID! @rules(apply: ["required"])): ProductPricing
+  deleteProduct(id: ID! @rules(apply: ["required"])): Product
     @can(ability: "delete", find: "id")
     @delete
 }
 
-input ProductPricingRelation {
-  create: [CreateProductPricingInput!]
-  update: [UpdateProductPricingInput!]
-  connect: [ID!]
+input csvInput {
+  path: String!
+  type: String!
+}
+
+input ProductAccesoryRelation {
   sync: [ID!]
 }
 
-input CreateProductPricingInput {
-  base_price: Float!
-  wholesale_price: Float
-  vat: Float!
-  currency: String!
-  reseller: ResellerRelation
-  available_from: DateTime
-  product: ProductRelation!
-  is_discounted: Boolean
+input CreateProductInput {
+  catalog_id: String!
+  name: String
+  description: String
+  technical_specs: ObjectScalar
+  supplied: ObjectScalar
+  stock: Int
+  ean_code: String
+  upc_code: String
+  heading: String
+  out_of_stock_text: String
+  quantity_unit_text: String
+  discount_percentage: Float
+  refurbished: Boolean!
+  orderable: Boolean!
+  varranty: String!
+  documents: UpdateDocumentHasMany
+  pricings: ProductPricingRelation
+  category: ProductCategoryRelation
+  discounts: ProductDiscountRelation
+  parentProduct: ParentProductRelation
+  accessories: ProductAccesoryRelation
 }
 
-input UpdateProductPricingInput {
+input UpdateProductInput {
   id: ID!
-  base_price: Float!
-  wholesale_price: Float
-  vat: Float!
-  currency: String!
-  reseller: ResellerRelation
-  available_from: DateTime
-  product: ProductRelation!
-  is_discounted: Boolean
+  catalog_id: String
+  name: String
+  description: String
+  technical_specs: ObjectScalar
+  supplied: ObjectScalar
+  stock: Int
+  ean_code: String
+  upc_code: String
+  heading: String
+  out_of_stock_text: String
+  quantity_unit_text: String
+  discount_percentage: Float
+  refurbished: Boolean
+  orderable: Boolean
+  varranty: String
+  documents: UpdateDocumentHasMany
+  pricings: ProductPricingRelation
+  category: ProductCategoryRelation
+  discounts: ProductDiscountRelation
+  parentProduct: ParentProductRelation
+  accessories: ProductAccesoryRelation
 }
 
-type ProductPricing
-  @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\ProductPricing") {
+input UpdateProductAccessoryHasMany {
+  update: [UpdateAccesoryInput!]
+}
+
+input UpdateAccesoryInput {
   id: ID!
-  product: Product! @belongsTo
-  base_price: Float!
-  wholesale_price: Float
-  vat: Float!
-  available_from: DateTime
-  grossPrice: Float @method(name: "getBaseGrossPriceAttribute")
-  wholeSaleGrossPrice: Float @method(name: "getWholeSaleGrossPriceAttribute")
-  currency: String!
-  reseller: Reseller @belongsTo
-  is_discounted: Boolean!
+}
+
+input ParentProductRelation {
+  connect: ID
+}
+
+input ProductRelation {
+  connect: ID
+}
+
+type Product @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Product") {
+  id: ID!
+  catalog_id: String!
+  name: String!
+  description: String
+  technical_specs: ObjectScalar
+  supplied: ObjectScalar
+  "The warehouse stock of the Product"
+  stock: Int
+  "Dynamic field what decrements each time an Order was placed for the Product"
+  calculated_stock: Int
+  ean_code: String
+  upc_code: String
+  heading: String
+  out_of_stock_text: String
+  quantity_unit_text: String
+  refurbished: Boolean!
+  "Determines if the Product currently is sold"
+  orderable: Boolean!
+  varranty: String!
+  reviews: [ProductReview]! @hasMany
+  pricings: [ProductPricing]! @hasMany
+  discounts: [ProductDiscount]! @hasMany
+  category: ProductCategory @belongsTo
+  accessories: [Product]! @belongsToMany
+  documents: [Document]! @morphMany
+  images: [Document]! @morphMany
+  image: Document @morphOne
+  "Gets the currently used pricing"
+  getCurrentPricing: ProductPricing @method(passordered: true)
+  "Gets the discount of the Product for a given time"
+  getDiscountForDate(dateTime: DateTime!): ProductDiscount
+    @method(passordered: true)
+  deleted_at: DateTime
+}
+
+"Subset of Product"
+type ProductSelect
+  @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Product") {
+  id: ID!
+  catalog_id: String!
 }
 
 "A list of filterable columns."
-enum ProductPricingColumns {
+enum ProductColumns {
+  ID @enum(value: "id")
   CATALOG_ID @enum(value: "catalog_id")
   NAME @enum(value: "name")
-  BASE_PRICE @enum(value: "base_price")
-  WHOLESALE_PRICE @enum(value: "wholesale_price")
-  VAT @enum(value: "vat")
+  STOCK @enum(value: "stock")
+  CALCULATED_STOCK @enum(value: "calculated_stock")
+  REFURBISHED @enum(value: "refurbished")
 }
