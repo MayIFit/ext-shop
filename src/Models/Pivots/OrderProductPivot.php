@@ -88,28 +88,15 @@ class OrderProductPivot extends Pivot
             return false;
         }
 
-        $sumQuantity = 0;
+        $sumQuantity = $this->previousUnShippedOrders()->sum('quantity');
 
-        $this->previousUnShippedOrders()->map(function ($pivot) use (&$sumQuantity) {
-            $sumQuantity += $pivot->quantity;
-        });
-
-
-        if ($this->product->stock - $sumQuantity <= 0) {
-            return false;
-        }
-
-        return $this->product->stock > 0;
+        return $this->product->stock - $sumQuantity > 0;
     }
 
 
     public function getAmountCanBeShipped(): int
     {
-        $sumQuantity = 0;
-
-        $this->previousUnShippedOrders()->map(function ($pivot) use (&$sumQuantity) {
-            $sumQuantity += $pivot->quantity;
-        });
+        $sumQuantity = $this->previousUnShippedOrders()->sum('quantity');
 
         $diff = $this->product->stock - $sumQuantity;
         $shippable = $diff >= $this->quantity ? $this->quantity : $diff;

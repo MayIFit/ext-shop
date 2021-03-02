@@ -85,8 +85,8 @@ class SyncOrderStatusFromWMS implements ShouldQueue
 
         $docDetails = Order::whereIn(
             'order_status_id',
-            [3, 6, 4]
-        )->whereNotNull('sent_to_courier_service')
+            [4, 6]
+        )->whereNotNull('sent_to_courier_service')->take(150)
             ->pluck('order_id_prefix')->map(function ($orderIdPrefix) {
                 return $orderIdPrefix;
             })->toArray();
@@ -96,7 +96,6 @@ class SyncOrderStatusFromWMS implements ShouldQueue
         $docDetails = array_values($docDetails);
 
         $requestData['Order']['ClientReferenceNumberList'] = $docDetails;
-
 
         Log::info('Request sent');
         $response = $client->GetOrderData($requestData);

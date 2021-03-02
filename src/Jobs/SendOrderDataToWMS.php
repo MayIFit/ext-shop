@@ -49,6 +49,10 @@ class SendOrderDataToWMS implements ShouldQueue
     public function __construct(Order $order)
     {
         $this->order = $order;
+        if ($this->order->sent_to_courier_service) {
+            Log::error('Order already transferred: ' . $this->order->order_id_prefix);
+            return;
+        }
         $this->apiUserName = config('ext-shop.courier_api_username');
         $this->apiUserPassword = config('ext-shop.courier_api_password');
         $this->apiUserID = config('ext-shop.courier_api_userid');
@@ -131,17 +135,10 @@ class SendOrderDataToWMS implements ShouldQueue
         });
 
         $docDetails = $sendableProducts->map(function ($product) use (&$sentItemCount, &$sentQuantity) {
-            $transferrableQuantity = 0;
-            $quantityToBeSent = $product->pivot->quantity - $product->pivot->quantity_transferred;
+            $transferrableQuantity = $product->pivot->getAmountCanBeShipped();
             ++$sentItemCount;
-            if ($product->stock >= $quantityToBeSent) {
-                $transferrableQuantity = $quantityToBeSent;
-            } else {
-                $transferrableQuantity = $product->stock;
-            }
 
             $sentQuantity += $transferrableQuantity;
-
 
             return [
                 'ItemSKU' => [
@@ -161,9 +158,8 @@ class SendOrderDataToWMS implements ShouldQueue
         $requestData['Order']['DocumentList'][0]['DocumentDetails'] = $docDetails;
 
         if ($sentItemCount === 0) {
-            Log::info('Order has no shippable items: ' . $this->order->order_id_prefix);
-
-            $this->order->orderStatus()->associate(1);
+            Log::error('Order has no shippable items: ' . $this->order->order_id_prefix);
+            $this->order->orderStatus()->associate(8);
             return;
         }
 
@@ -180,6 +176,11 @@ class SendOrderDataToWMS implements ShouldQueue
 
 
         Log::info('Request sent: ' . $this->order->order_id_prefix);
+
+        if ($this->order->sent_to_courier_service) {
+            Log::error('Order already transferred: ' . $this->order->order_id_prefix);
+            return;
+        }
 
         if ($response->CreateOrderResult->MsgStatus == 0) {
             Log::info('Request success: ' . $this->order->order_id_prefix);
@@ -211,7 +212,7 @@ class SendOrderDataToWMS implements ShouldQueue
             $this->order->quantity_transferred = $sentQuantity;
         } else {
             Log::warning('Request failed: ' . $this->order->order_id_prefix);
-            $this->order->orderStatus()->associate(1);
+            $this->order->orderStatus()->associate(8);
         }
 
         DB::insert('insert into order_request_logs(order_id, request, response) values (?, ?, ?)', [$this->order->id, $client->__getLastRequest(), $client->__getLastResponse()]);
