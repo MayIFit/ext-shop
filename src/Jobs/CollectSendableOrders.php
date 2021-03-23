@@ -42,11 +42,15 @@ class CollectSendableOrders implements ShouldQueue
             return false;
         }
 
-        $orders->map(function ($order) {
+        $apiUserName = config('ext-shop.courier_api_username');
+        $apiUserPassword = config('ext-shop.courier_api_password');
+        $apiUserID = config('ext-shop.courier_api_userid');
+
+        $orders->map(function ($order) use ($apiUserName, $apiUserPassword, $apiUserID) {
             Log::info('Checking order: ' . $order->order_id_prefix);
-            if ($order->getOrderCanBeShippedAttribute()) {
+            if ($order->can_be_shipped) {
                 Log::info('Can be shipped: ' . $order->order_id_prefix);
-                SendOrderDataToWMS::dispatch($order)->onQueue('order_transfer');;
+                SendOrderDataToWMS::dispatch($order, $apiUserName, $apiUserPassword, $apiUserID)->onQueue('order_transfer');
             }
         });
     }

@@ -38,13 +38,6 @@ class OrderProductPivotObserver
         if (!$order) {
             return false;
         }
-        if ($order->mergable_to) {
-            $this->isMergedOrder = true;
-            $merge = $order->mergable_to;
-            unset($order);
-            $order = $merge;
-            $model->pivotParent = $order;
-        }
 
         $model->product_id = $product->id;
         $model->quantity_transferred = 0;
@@ -73,18 +66,18 @@ class OrderProductPivotObserver
         if (!$pricing->is_discounted) {
             if ($reseller && $reseller->resellerGroup) {
                 $resellerGroupDiscount = $reseller->resellerGroup->discount_value;
-                $netPrice = $model->pricing->wholesale_price * (1 - ($resellerGroupDiscount / 100));
-                $grossPrice = $model->pricing->getWholeSaleGrossPriceAttribute() * (1 - ($resellerGroupDiscount / 100));
+                $netPrice = round($model->pricing->wholesale_price * (1 - ($resellerGroupDiscount / 100)), 0, PHP_ROUND_HALF_EVEN);
+                $grossPrice = round($model->pricing->getWholeSaleGrossPriceAttribute() * (1 - ($resellerGroupDiscount / 100)), 0, PHP_ROUND_HALF_EVEN);
                 $model->is_wholesale = true;
             } else if ($reseller) {
                 $model->discount()->associate($discount);
-                $netPrice = $model->pricing->wholesale_price * (1 - ($model->discount->discount_percentage ?? 0 / 100));
-                $grossPrice = $model->pricing->getWholeSaleGrossPriceAttribute() * (1 - ($model->discount->discount_percentage ?? 0 / 100));
+                $netPrice = round($model->pricing->wholesale_price * (1 - ($model->discount->discount_percentage ?? 0 / 100)), 0, PHP_ROUND_HALF_EVEN);
+                $grossPrice = round($model->pricing->getWholeSaleGrossPriceAttribute() * (1 - ($model->discount->discount_percentage ?? 0 / 100)), 0, PHP_ROUND_HALF_EVEN);
                 $model->is_wholesale = true;
             } else {
                 $model->discount()->associate($discount);
-                $netPrice = $model->pricing->base_price * (1 - ($model->discount->discount_percentage ?? 0 / 100));
-                $grossPrice = $model->pricing->getBaseGrossPriceAttribute() * (1 - ($model->discount->discount_percentage ?? 0 / 100));
+                $netPrice = round($model->pricing->base_price * (1 - ($model->discount->discount_percentage ?? 0 / 100)), 0, PHP_ROUND_HALF_EVEN);
+                $grossPrice = round($model->pricing->getBaseGrossPriceAttribute() * (1 - ($model->discount->discount_percentage ?? 0 / 100)), 0, PHP_ROUND_HALF_EVEN);
                 $model->is_wholesale = false;
             }
         } else if ($reseller) {
@@ -113,15 +106,8 @@ class OrderProductPivotObserver
                 unset($model);
                 return false;
             } else {
-                $product->calculated_stock -= $model->quantity;
-                $product->update();
                 $model->order_id = $order->id;
                 return $model;
-            }
-        } else {
-            if (!strpos($order->order_id_prefix, 'EXT')) {
-                $product->calculated_stock -= $model->quantity;
-                $product->update();
             }
         }
     }
@@ -157,13 +143,10 @@ class OrderProductPivotObserver
 
         if (isset($dirty['quantity'])) {
             if (intval($orig['quantity']) >= intval($dirty['quantity']) && intval($dirty['quantity']) > 0) {
-                $model->product->calculated_stock += abs(intval($orig['quantity']) - intval($dirty['quantity']));
                 $model->order->quantity -= abs(intval($orig['quantity']) - intval($dirty['quantity']));
             } else if (intval($dirty['quantity']) > 0) {
-                $model->product->calculated_stock -= abs(intval($orig['quantity']) - intval($dirty['quantity']));
                 $model->order->quantity += abs(intval($orig['quantity']) - intval($dirty['quantity']));
             } else {
-                $model->product->calculated_stock += intval($orig['quantity']);
                 $model->order->quantity -= intval($orig['quantity']);
             }
             if (!isset($dirty['shipped_at'])) {
@@ -182,7 +165,6 @@ class OrderProductPivotObserver
         }
 
         if (isset($dirty['declined'])) {
-            $model->product->calculated_stock += $model->quantity;
             DB::insert('insert into stock_movements(product_id, original_quantity, incoming_quantity, difference, calculated_stock, order_id, source) values (?, ?, ?, ?, ?, ?, ?)', [
                 $model->product->id,
                 $model->product->stock,

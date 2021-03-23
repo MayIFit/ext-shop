@@ -34,7 +34,8 @@ class ProductPricing extends Model
         'currency',
         'wholesale_price',
         'available_from',
-        'is_discounted'
+        'is_discounted',
+        'while_stock_lasts',
     ];
 
     /**
@@ -43,7 +44,9 @@ class ProductPricing extends Model
      * @var array
      */
     protected $casts = [
-        'available_from' => 'datetime:Y-m-d h:i:s'
+        'available_from' => 'datetime:Y-m-d h:i:s',
+        'is_discounted' => 'boolean',
+        'while_stock_lasts' => 'boolean',
     ];
 
     /**
@@ -56,7 +59,8 @@ class ProductPricing extends Model
         'wholesale_price' => 0.00,
         'vat' => 0.00,
         'currency' => 'HUF',
-        'is_discounted' => false
+        'is_discounted' => false,
+        'while_stock_lasts' => false
     ];
 
     public function getBaseGrossPriceAttribute(): float

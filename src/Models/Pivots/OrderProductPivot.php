@@ -96,6 +96,7 @@ class OrderProductPivot extends Pivot
 
     public function getAmountCanBeShipped(): int
     {
+
         $sumQuantity = $this->previousUnShippedOrders()->sum('quantity');
 
         $diff = $this->product->stock - $sumQuantity;

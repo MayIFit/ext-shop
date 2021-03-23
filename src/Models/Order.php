@@ -74,6 +74,12 @@ class Order extends Model
         'quantity_transferred' => 0
     ];
 
+    protected $appends = [
+        'can_be_shipped',
+        'full_can_be_shipped',
+        'can_be_shipped_text',
+    ];
+
     /**
      * The "booted" method of the model.
      *
@@ -134,8 +140,6 @@ class Order extends Model
                 return $query->where('id', '!=', $this->id);
             })
                 ->whereNull('sent_to_courier_service');
-            dump($query->toSql(), $query->getBindings());
-            dump(Order::first()->attributesToArray());
         }
 
         return Order::where([
@@ -150,7 +154,7 @@ class Order extends Model
             ->first();
     }
 
-    public function getOrderCanBeShippedAttribute(): bool
+    public function getCanBeShippedAttribute(): bool
     {
         if ($this->sent_to_courier_service) {
             return false;
@@ -163,7 +167,7 @@ class Order extends Model
         return $canBeShipped > 0;
     }
 
-    public function getFullOrderCanBeShippedAttribute(): bool
+    public function getFullCanBeShippedAttribute(): bool
     {
         if ($this->sent_to_courier_service) {
             return false;
@@ -174,5 +178,11 @@ class Order extends Model
         });
 
         return $canBeShipped->count() === $this->products->count();
+    }
+
+    public function getCanBeShippedTextAttribute(): string
+    {
+        return $this->full_can_be_shipped ?
+            trans('global.yes') : ($this->can_be_shipped ? trans('global.partially') : trans('global.no'));
     }
 }

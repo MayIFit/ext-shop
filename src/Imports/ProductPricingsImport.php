@@ -85,15 +85,25 @@ class ProductPricingsImport implements ToCollection, WithHeadingRow
                         'product_id' => $product->id,
                         'currency' => $parse['currency'] ?? 'HUF',
                         'available_from' => $parse['available_from'] ?? Carbon::now(),
-                        'base_price' => ($parse['base_gross_price'] ?? 0.0) / (1 + ($this->defaultVatAmount->setting_value / 100)),
+                        'base_price' => round(($parse['base_gross_price'] ?? 0.0) / (1 + ($this->defaultVatAmount->setting_value / 100)), 2, PHP_ROUND_HALF_EVEN),
                         'wholesale_price' => $parse['wholesale_price'] ?? 0.0,
-                        'vat' => $parse['vat'] ?? $this->defaultVatAmount->setting_value
+                        'vat' => $parse['vat'] ?? $this->defaultVatAmount->setting_value,
+                        'is_discounted' => $this->contains($parse['is_discounted'], ['igen', 'x']),
+                        'while_stock_lasts' => $this->contains($parse['while_stock_lasts'], ['igen', 'x']),
                     ]);
                 } else {
                     $this->errorCatalogs .= '<br>' . $parse['catalog_id'];
                 }
             }
         }
+    }
+
+    protected function contains($str, array $arr)
+    {
+        foreach ($arr as $a) {
+            if (stripos($str, $a) !== false) return true;
+        }
+        return false;
     }
 
     public function getCsvSettings(): array

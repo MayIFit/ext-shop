@@ -22,7 +22,6 @@ class ProductObserver
      */
     public function creating(Product $model): void
     {
-        $model->calculated_stock = $model->stock;
         $model->createdBy()->associate(Auth::user());
     }
 
@@ -56,15 +55,6 @@ class ProductObserver
             unset($model->source);
 
             if (intval($dirty['stock']) !== intval($original['stock'])) {
-                if (intval($dirty['stock']) > intval($original['stock'])) {
-                    $model->calculated_stock += intval($dirty['stock']) - intval($original['stock']);
-                } else if (intval($dirty['stock']) < intval($original['stock']) && $source !== 'order_transferred') {
-                    if (intval($original['stock']) - intval($dirty['stock']) === 0) {
-                        $model->calculated_stock = 0;
-                    } else {
-                        $model->calculated_stock -= intval($original['stock']) - intval($dirty['stock']);
-                    }
-                }
                 DB::insert('insert into stock_movements(product_id, original_quantity, incoming_quantity, difference, calculated_stock, source) values (?, ?, ?, ?, ?, ?)', [
                     $model->id,
                     intval($original['stock']),

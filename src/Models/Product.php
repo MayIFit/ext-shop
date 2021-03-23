@@ -15,6 +15,7 @@ use GraphQL\Type\Definition\ResolveInfo;
 use MayIFit\Core\Permission\Traits\HasCreators;
 use MayIFit\Core\Permission\Traits\HasDocuments;
 
+use MayIFit\Extension\Shop\Models\Pivots\OrderProductPivot;
 use MayIFit\Extension\Shop\Models\ProductPricing;
 use MayIFit\Extension\Shop\Models\ProductDiscount;
 use MayIFit\Extension\Shop\Models\ProductCategory;
@@ -66,7 +67,8 @@ class Product extends Model
         'varranty' => '1 year',
         'refurbished' => false,
         'orderable' => true,
-        'out_of_stock_text' => ''
+        'out_of_stock_text' => '',
+        'heading' => ''
     ];
 
     protected function asJson($value)
@@ -92,6 +94,16 @@ class Product extends Model
     public function discounts(): HasMany
     {
         return $this->hasMany(ProductDiscount::class);
+    }
+
+    public function getCalculatedStockAttribute()
+    {
+        return $this->stock - OrderProductPivot::where([
+            ['product_id', '=', $this->id],
+            ['declined', false]
+        ])->whereHas('order', function ($query) {
+            return $query->whereNull('sent_to_courier_service');
+        })->whereNull('shipped_at')->sum('quantity');
     }
 
     public function getCurrentPricing($rootValue = null, array $args = [], GraphQLContext $context = null, ResolveInfo $resolveInfo = null): ?ProductPricing

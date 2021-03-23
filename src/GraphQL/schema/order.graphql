@@ -12,6 +12,7 @@ extend type Query @guard(with: ["sanctum"]) {
 
   listTransferrableOrder(
     orderBy: _ @orderBy(columnsEnum: OrderColumns)
+    hasReseller: _ @whereConditions(columnsEnum: OrderColumns)
   ): [Order]!
     @field(
       resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\GetTransferrableOrders"
@@ -116,7 +117,9 @@ type Order @modelClass(class: "MayIFit\\Extension\\Shop\\Models\\Order") {
   sent_to_courier_service: DateTime
   closed: Boolean
   "A dynamic field what determines if any Product in the Order is shippable"
-  can_be_shipped: Boolean @method(name: "getOrderCanBeShippedAttribute")
+  can_be_shipped: Boolean
+  full_can_be_shipped: Boolean
+  can_be_shipped_text: String
 }
 
 input DateTimeRange {
