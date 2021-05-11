@@ -49,7 +49,7 @@ class ProductCategory extends Model
 
     public function products(): HasMany
     {
-        return $this->hasMany(Product::class);
+        return $this->hasMany(Product::class, 'category_id')->where('orderable', 1);
     }
 
     public function getDiscountForDate($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): ?ProductCategoryDiscount

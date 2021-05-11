@@ -25,13 +25,21 @@ extend type Query @guard(with: ["sanctum"]) {
       resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\GetStocksWithDetails"
     )
 
-  getWaitingOrdersForReseller(reseller_id: Int!): String
+  getWaitingOrdersForReseller(reseller_id: Int): String
     @field(
       resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\GetOrdersForReseller@waitingOrders"
     )
 
-  getOrdersForReseller(range: DateTimeRange, reseller_id: Int! @spread): String
+  getOrdersForReseller(
+    range: DateTimeRange @spread
+    reseller_id: Int @spread
+  ): String
     @field(
       resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\GetOrdersForReseller"
+    )
+
+  getResellers(): String
+    @field(
+      resolver: "MayIFit\\Extension\\Shop\\GraphQL\\Queries\\GetResellers"
     )
 }

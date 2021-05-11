@@ -89,6 +89,7 @@ class ShopServiceProvider extends ServiceProvider
         Relation::morphMap([
             'product' => 'MayIFit\Extension\Shop\Models\Product',
             'product_category' => 'MayIFit\Extension\Shop\Models\ProductCategory',
+            'user' => 'App\Models\User',
         ]);
         $this->mergeConfigFrom(__DIR__ . '/ext-shop.php', 'ext-shop');
         $this->loadMigrationsFrom(__DIR__ . $this->database_folder . '/migrations');
