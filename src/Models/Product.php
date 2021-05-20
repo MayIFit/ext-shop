@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Nuwave\Lighthouse\Schema\Context as GraphQLContext;
 use GraphQL\Type\Definition\ResolveInfo;
 
@@ -42,6 +43,10 @@ class Product extends Model
      * @var array
      */
     protected $guarded = [];
+
+    protected $with = [
+        'currentPricing'
+    ];
 
     /**
      * The attributes that should be cast.
@@ -145,9 +150,7 @@ class Product extends Model
 
     public function currentPricing()
     {
-        return $this->hasOne(ProductPricing::class)
-            ->where('available_from', '<=', Carbon::now())
-            ->orderBy('id', 'DESC')->limit(1);
+        return $this->hasOne(ProductPricing::class)->latest();
     }
 
     public function getCurrentPricing($rootValue = null, array $args = [], GraphQLContext $context = null, ResolveInfo $resolveInfo = null): ?ProductPricing

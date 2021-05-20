@@ -3,12 +3,9 @@
 namespace MayIFit\Extension\Shop\Models\Pivots;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\DB;
 
 use MayIFit\Core\Permission\Traits\HasCreators;
-
-use MayIFit\Extension\Shop\Models\ProductPricing;
-use MayIFit\Extension\Shop\Models\ProductDiscount;
 use MayIFit\Extension\Shop\Traits\HasReseller;
 use MayIFit\Extension\Shop\Traits\HasProduct;
 use MayIFit\Extension\Shop\Traits\HasOrder;
@@ -24,6 +21,12 @@ class OrderProductPivot extends Pivot
     use HasReseller;
     use HasProduct;
     use HasOrder;
+
+    protected $with = [
+        'product',
+    ];
+
+    protected $hidden = ['order'];
 
     protected $table = 'order_product';
 
@@ -54,54 +57,33 @@ class OrderProductPivot extends Pivot
         'quantity_transferred' => 0
     ];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function pricing(): BelongsTo
+    public function getFifoAttribute(): int
     {
-        return $this->belongsTo(ProductPricing::class, 'product_pricing_id')->withTrashed();
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function discount(): BelongsTo
-    {
-        return $this->belongsTo(ProductDiscount::class, 'product_discount_id')->withTrashed();
-    }
-
-    public function previousUnShippedOrders()
-    {
-        return OrderProductPivot::where([
+        return DB::table('order_product')->where([
             ['product_id', '=', $this->product_id],
             ['order_id', '!=', $this->order_id],
-            ['declined', false]
-        ])->whereHas('order', function ($query) {
-            return $query->whereNull('sent_to_courier_service');
-        })->where('created_at', '<', $this->created_at)
-            ->whereNull('shipped_at')->get();
+            ['order_product.declined', false],
+            ['order_product.created_at', '<', $this->created_at]
+        ])->join('orders', 'orders.id', 'order_product.order_id')
+            ->whereNull('orders.sent_to_courier_service')
+            ->sum('order_product.quantity');
     }
 
     public function canBeShipped(): bool
     {
-        if ($this->quantity == $this->quantity_transferred || $this->quantity <= 0 || $this->shipped_at || $this->order->sent_to_courier_service || $this->declined) {
+        if ($this->shipped_at || $this->declined || $this->order->sent_to_courier_service) {
             return false;
         }
 
-        $sumQuantity = $this->previousUnShippedOrders()->sum('quantity');
-
-        return $this->product->stock - $sumQuantity > 0;
+        return $this->product->stock - $this->fifo > 0;
     }
 
 
     public function getAmountCanBeShipped(): int
     {
-
-        $sumQuantity = $this->previousUnShippedOrders()->sum('quantity');
-
-        $diff = $this->product->stock - $sumQuantity;
+        $diff = $this->product->stock - $this->fifo;
         $shippable = $diff >= $this->quantity ? $this->quantity : $diff;
 
-        return  $shippable > 0 ? $shippable : 0;
+        return $shippable > 0 ? $shippable : 0;
     }
 }

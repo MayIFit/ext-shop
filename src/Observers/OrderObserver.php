@@ -27,9 +27,10 @@ class OrderObserver
      */
     public function creating(Order $model)
     {
-        $orderPrefix = SystemSetting::where('setting_name', 'shop.orderIdPrefix')->first();
-        if (!$model->order_id_prefix) {
-            $model->order_id_prefix = $orderPrefix->setting_value ?? '';
+        if ($model->reseller) {
+            $model->order_id_prefix = $model->order_id_prefix ?? 'GUD';
+        } else {
+            $model->order_id_prefix = $model->order_id_prefix ?? 'WEB';
         }
 
         $model->token = Str::random(20);
@@ -44,13 +45,12 @@ class OrderObserver
      */
     public function created(Order $model)
     {
-        $orderPrefix = SystemSetting::where('setting_name', 'shop.orderIdPrefix')->first();
-        if ($model->order_id_prefix === $orderPrefix->setting_value) {
+        if ($model->order_id_prefix === 'WEB' || $model->order_id_prefix === 'GUD') {
             $model->order_id_prefix .= $model->id;
         }
         if ($model->reseller) {
             $model->reseller->resellerShopCart()->delete();
-            $model->reseller->notify(new OrderPlaced($model));
+            // $model->reseller->notify(new OrderPlaced($model));
         }
         if ($model->getDirty()) {
             $model->update();
@@ -90,6 +90,7 @@ class OrderObserver
     public function updating(Order $model)
     {
         $dirty = $model->getDirty();
+
         if (isset($dirty['order_status_id']) && $dirty['order_status_id'] == 3) {
             $model->reseller->notify(new OrderStatusUpdate($model));
         }
@@ -97,12 +98,14 @@ class OrderObserver
             return false;
         }
 
+
         if (isset($dirty['sent_to_courier_service']) && isset($dirty['order_status_id']) && $dirty['order_status_id'] == 6) {
             if ($model->quantity > $model->quantity_transferred) {
                 Log::info('Cloning order: ' . $model->order_id_prefix);
                 $this->cloneOrder($model);
             }
         }
+
 
         if (isset($dirty['order_status_id']) && $dirty['order_status_id'] == 5) {
             $model = $this->declineOrder($model);
@@ -117,6 +120,7 @@ class OrderObserver
      */
     public function updated(Order $model): void
     {
+        //
     }
 
     /**

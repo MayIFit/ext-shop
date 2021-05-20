@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Nuwave\Lighthouse\Schema\Context as GraphQLContext;
 use GraphQL\Type\Definition\ResolveInfo;
+use Illuminate\Support\Facades\DB;
 
 use MayIFit\Core\Permission\Traits\HasCreators;
 use MayIFit\Core\Permission\Traits\HasDocuments;
@@ -32,6 +33,10 @@ class ProductCategory extends Model
         'parent_id'
     ];
 
+    protected $with = [
+        'children',
+    ];
+
     public function parent(): BelongsTo
     {
         return $this->belongsTo(ProductCategory::class, 'parent_id', 'id');
@@ -50,6 +55,11 @@ class ProductCategory extends Model
     public function products(): HasMany
     {
         return $this->hasMany(Product::class, 'category_id')->where('orderable', 1);
+    }
+
+    public function getProductCountAttribute(): int
+    {
+        return $this->products()->count();
     }
 
     public function getDiscountForDate($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): ?ProductCategoryDiscount

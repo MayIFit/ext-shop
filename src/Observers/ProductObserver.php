@@ -55,12 +55,13 @@ class ProductObserver
             unset($model->source);
 
             if (intval($dirty['stock']) !== intval($original['stock'])) {
-                DB::insert('insert into stock_movements(product_id, original_quantity, incoming_quantity, difference, calculated_stock, source) values (?, ?, ?, ?, ?, ?)', [
+                DB::insert('insert into stock_movements(product_id, original_quantity, incoming_quantity, difference, calculated_stock, order_id, source) values (?, ?, ?, ?, ?, ?, ?)', [
                     $model->id,
                     intval($original['stock']),
                     intval($dirty['stock']),
                     intval($dirty['stock']) - intval($original['stock']),
                     $model->calculated_stock,
+                    $model->order->
                     $source
                 ]);
             }

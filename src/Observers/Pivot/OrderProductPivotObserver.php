@@ -46,7 +46,7 @@ class OrderProductPivotObserver
 
         $now = Carbon::now();
 
-        $pricing = $product->getCurrentPricing();
+        $pricing = $product->currentPricing;
         if (!$pricing) {
             return;
         }

@@ -4,6 +4,7 @@ namespace MayIFit\Extension\Shop\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 use MayIFit\Core\Permission\Traits\HasCreators;
 use MayIFit\Extension\Shop\Traits\HasReseller;
@@ -70,6 +71,12 @@ class ProductPricing extends Model
 
     public function getWholeSaleGrossPriceAttribute(): float
     {
-        return round($this->wholesale_price * (1 + ($this->vat / 100)), 2, PHP_ROUND_HALF_EVEN);
+        $user = Auth::user();
+        $resellerDiscount = 1;
+        if ($user && $user->reseller) {
+            $resellerDiscount = $user->reseller->resellerGroup->discount_value ?? 1;
+        }
+
+        return round(($this->wholesale_price * (1 - $resellerDiscount / 100)) * (1 + ($this->vat / 100)), 2, PHP_ROUND_HALF_EVEN);
     }
 }

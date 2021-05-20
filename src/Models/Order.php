@@ -5,7 +5,7 @@ namespace MayIFit\Extension\Shop\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use MayIFit\Extension\Shop\Traits\HasCustomers;
 use MayIFit\Extension\Shop\Traits\HasReseller;
 use MayIFit\Extension\Shop\Traits\HasOrderStatus;
@@ -23,6 +23,10 @@ class Order extends Model
     use HasCustomers;
     use HasReseller;
     use HasOrderStatus;
+
+    protected $with = [
+        'pivot',
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -90,6 +94,11 @@ class Order extends Model
         static::addGlobalScope(new DescendingIdOrderScope);
     }
 
+    public function pivot(): HasMany
+    {
+        return $this->hasMany(OrderProductPivot::class);
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
@@ -112,6 +121,11 @@ class Order extends Model
             ])->withTimestamps();
     }
 
+    public function setPaymentTypeAttribute($value)
+    {
+        $this->attributes['payment_type'] = $value == 1 ? 'cod_cash' : 'bank_transfer';
+    }
+
     public function recalculateValues(): void
     {
         $this->net_value = 0;
@@ -129,19 +143,6 @@ class Order extends Model
 
     public function getPreviousUnShippedOrder(): ?Order
     {
-        if ($this->order_id_prefix === 'test') {
-            $query = Order::where([
-                'shipping_address_id' => $this->shipping_address_id,
-                'reseller_id' => $this->reseller_id,
-                'order_status_id' => OrderStatus::where('name', '=', 'placed')->first()->id,
-                ['order_id_prefix', 'not like', '%EXT%'],
-
-            ])->when($this->id, function ($query) {
-                return $query->where('id', '!=', $this->id);
-            })
-                ->whereNull('sent_to_courier_service');
-        }
-
         return Order::where([
             'shipping_address_id' => $this->shipping_address_id,
             'reseller_id' => $this->reseller_id,

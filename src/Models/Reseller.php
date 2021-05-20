@@ -34,6 +34,11 @@ class Reseller extends Model
      */
     protected $guarded = [];
 
+    protected $with = [
+        'resellerGroup',
+        'resellerShopCart'
+    ];
+
     /**
      * The model's default values for attributes.
      *
